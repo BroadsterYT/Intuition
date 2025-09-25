@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="B7P4y6" name="Intuition" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" version="0.1.0"
+              pluginVST3Category="Synth" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
+  <MAINGROUP id="U9lpsg" name="Intuition">
+    <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
+              file="Source/OscillatorDisplay.cpp"/>
+        <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
+              file="Source/OscillatorDisplay.h"/>
+        <FILE id="k44DTm" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
+        <FILE id="Own5cu" name="ADSRComponent.cpp" compile="1" resource="0"
+              file="Source/ADSRComponent.cpp"/>
+        <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"
+              file="Source/WaveformDisplay.h"/>
+        <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
+              file="Source/WaveformDisplay.cpp"/>
+      </GROUP>
+      <FILE id="UVPiFe" name="UnisonWavetableVoice.cpp" compile="1" resource="0"
+            file="Source/UnisonWavetableVoice.cpp"/>
+      <FILE id="L1f5Rn" name="UnisonWavetableVoice.h" compile="0" resource="0"
+            file="Source/UnisonWavetableVoice.h"/>
+      <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
+            file="Source/WavetableOsc.cpp"/>
+      <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
+      <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+      <FILE id="Wh8cjT" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="feZLPy" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Intuition"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Intuition"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
