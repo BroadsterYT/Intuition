@@ -11,10 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 
-
+template<typename T>
 class InlineValueEntry : public juce::Component {
 public:
-    InlineValueEntry(double currentValue) {
+    InlineValueEntry(T currentValue) {
         addAndMakeVisible(editor);
 
         editor.setText(juce::String(currentValue));
@@ -28,15 +28,15 @@ public:
         setExitKeyLambdas();
     }
 
-    void setValueChangeCallback(std::function<void(double)> callback) {
+    void setValueChangeCallback(std::function<void(T)> callback) {
         valueChangeCallback = callback;
         setExitKeyLambdas();
     }
 
     template<typename ComponentType>
-    void linkToComponent(ComponentType* component, std::function<void(ComponentType*, double)> setter) {
+    void linkToComponent(ComponentType* component, std::function<void(ComponentType*, T)> setter) {
         if (component) {
-            setValueChangeCallback([component, setter](double value) {
+            setValueChangeCallback([component, setter](T value) {
                 setter(component, value);
             });
         }
@@ -48,7 +48,7 @@ public:
 
 private:
     juce::TextEditor editor;
-    std::function<void(double)> valueChangeCallback;
+    std::function<void(T)> valueChangeCallback;
 
     void setExitKeyLambdas() {
         editor.onReturnKey = [this] {

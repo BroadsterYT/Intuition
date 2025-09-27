@@ -15,7 +15,7 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     if (e.mods.isRightButtonDown()) {
         juce::PopupMenu menu;
         menu.addItem("Set Value Manually...", [this] {
-            auto entry = std::make_unique<InlineValueEntry>(getValue());
+            auto entry = std::make_unique<InlineValueEntry<double>>(getValue());
             entry->linkToComponent<ItnSlider>(this, [](ItnSlider* s, double val) {
                 s->setValue(val, juce::sendNotification);
             });
