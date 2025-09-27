@@ -18,41 +18,56 @@ LFOEditor::LFOEditor() {
 void LFOEditor::paint(juce::Graphics& g) {
     g.fillAll(juce::Colours::black);
 
-    g.setColour(juce::Colours::lightcyan);
     if (shape.getNumPoints() < 2) return;
     shape.sortPoints();
 
-    for (int i = 0; i < shape.getNumPoints() - 1; ++i) {
-        auto& p1 = shape.getPoint(i);
-        auto& p2 = shape.getPoint(i + 1);
+    g.setColour(juce::Colours::white);
 
+    juce::Path path;
+    auto& p0 = shape.getPoint(0);
+    float x0 = p0.time * getWidth();
+    float y0 = (1.0f - p0.value) * getHeight();
+    path.startNewSubPath(x0, y0);
+
+    for (int i = 1; i < shape.getNumPoints(); ++i) {
+        auto& p1 = shape.getPoint(i - 1);
+        auto& p2 = shape.getPoint(i);
+
+        x0 = p1.time * getWidth();
+        y0 = (1.0f - p1.value) * getHeight();
+
+        float x2 = p2.time * getWidth();
+        float y2 = (1.0f - p2.value) * getHeight();
+
+        float cx = x0 + (x2 - x0) / 2.0f;
+        float cy = y0 + (y2 - y0) / 2.0f - p1.curve * getHeight();
+
+        path.quadraticTo(cx, cy, x2, y2);
+    }
+
+    g.strokePath(path, juce::PathStrokeType(2.0f));
+
+    for (int i = 0; i < shape.getNumPoints(); ++i) {
+        LFOPoint& p1 = shape.getPoint(i);
         float x1 = p1.time * getWidth();
         float y1 = (1.0f - p1.value) * getHeight();
 
-        auto x2 = p2.time * getWidth();
-        auto y2 = (1.0f - p2.value) * getHeight();
-
-        // TODO: Display bezier curve
-        g.drawLine(x1, y1, x2, y2, 2.0f);
+        g.setColour(juce::Colours::cyan);
         g.drawEllipse(x1 - 15.0f / 2, y1 - 15.0f / 2, 15.0f, 15.0f, 2.0f);
     }
 }
 
 void LFOEditor::mouseDown(const juce::MouseEvent& e) {
-    if (e.mods.isRightButtonDown()) {
-        LFOPoint* p = getNearestPoint(e);
+    LFOPoint* p = getNearestPoint(e);
+
+    if (e.getNumberOfClicks() == 2) {
         if (!p) {  // Adding new point
             float t = (float)e.position.x / getWidth();
             float v = 1.0f - e.position.y / getHeight();
             shape.addPoint(t, v, 0.0f);
         }
-        else {  // Popup menu
-            juce::PopupMenu menu;
-            menu.addItem("Set Time...", [this, p] {/*NYI*/});
-            menu.addItem("Set Value...", [this, p] {/*NYI*/});
-            menu.addItem("Set Curve...", [this, p] {/*NYI*/});
-
-            menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
+        else {  // Deleting point
+            shape.removePoint(p);
         }
     }
     repaint();

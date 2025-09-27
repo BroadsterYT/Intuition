@@ -38,6 +38,7 @@ public:
 
     LFOPoint& getPoint(int index);
     void addPoint(float time, float value, float curve);
+    void removePoint(LFOPoint* point);
     int getNumPoints();
     void sortPoints();
     
