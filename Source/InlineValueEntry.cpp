@@ -22,43 +22,31 @@ InlineValueEntry::InlineValueEntry(double currentValue) {
     editor.setColour(juce::TextEditor::outlineColourId, juce::Colours::grey);
     editor.setColour(juce::TextEditor::textColourId, juce::Colours::white);
 
-    editor.onReturnKey = [this] {
-        if (slider) {
-            slider->setValue(editor.getText().getDoubleValue(), juce::sendNotification);
-        }
-        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-            cb->exitModalState(1);  // Close popup
-        };
-    };
-
-    editor.onEscapeKey = [this] {
-        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-            cb->exitModalState(0);  // Cancel
-        };
-    };
+    setExitKeyLambdas();
 }
 
-void InlineValueEntry::linkToSlider(juce::Slider* slider) {
-    this->slider = slider;
-}
-
-void InlineValueEntry::setExitKeyLambdas() {
-    editor.onReturnKey = [this] {
-        if (slider) {
-            slider->setValue(editor.getText().getDoubleValue(), juce::sendNotification);
-        }
-        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-            cb->exitModalState(1);  // Close popup
-        };
-    };
-
-    editor.onEscapeKey = [this] {
-        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-            cb->exitModalState(0);  // Cancel
-        };
-    };
+void InlineValueEntry::setValueChangeCallback(std::function<void(double)> callback) {
+    valueChangeCallback = callback;
+    setExitKeyLambdas();
 }
 
 void InlineValueEntry::resized() {
     editor.setBounds(getLocalBounds().reduced(4));
+}
+
+void InlineValueEntry::setExitKeyLambdas() {
+    editor.onReturnKey = [this] {
+        if (valueChangeCallback) {
+            valueChangeCallback(editor.getText().getDoubleValue());
+        }
+        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
+            cb->exitModalState(1);  // Close popup
+        };
+    };
+
+    editor.onEscapeKey = [this] {
+        if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
+            cb->exitModalState(0);  // Cancel
+        };
+    };
 }

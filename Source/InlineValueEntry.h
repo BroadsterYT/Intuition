@@ -15,12 +15,23 @@
 class InlineValueEntry : public juce::Component {
 public:
     InlineValueEntry(double currentValue);
-    juce::TextEditor editor;
 
-    void linkToSlider(juce::Slider* slider);
-    void setExitKeyLambdas();
+    void setValueChangeCallback(std::function<void(double)> callback);
+
+    template<typename ComponentType>
+    void linkToComponent(ComponentType* component, std::function<void(ComponentType*, double)> setter) {
+        if (component) {
+            setValueChangeCallback([component, setter](double value) {
+                setter(component, value);
+            });
+        }
+    }
+
     void resized() override;
 
 private:
-    juce::Slider* slider = nullptr;
+    juce::TextEditor editor;
+    std::function<void(double)> valueChangeCallback;
+
+    void setExitKeyLambdas();
 };

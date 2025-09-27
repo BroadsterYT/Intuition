@@ -16,7 +16,9 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
         juce::PopupMenu menu;
         menu.addItem("Set Value Manually...", [this] {
             auto entry = std::make_unique<InlineValueEntry>(getValue());
-            entry->linkToSlider(this);
+            entry->linkToComponent<ItnSlider>(this, [](ItnSlider* s, double val) {
+                s->setValue(val, juce::sendNotification);
+            });
             entry->setSize(50, 25);
 
             juce::CallOutBox::launchAsynchronously(
