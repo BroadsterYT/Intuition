@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
     <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
-    <ClCompile Include="..\..\Source\InlineValueEntry.cpp"/>
     <ClCompile Include="..\..\Source\ItnSlider.cpp"/>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp"/>
     <ClCompile Include="..\..\Source\ADSRComponent.cpp"/>

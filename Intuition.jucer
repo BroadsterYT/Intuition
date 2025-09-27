@@ -13,8 +13,6 @@
           <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
           <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
         </GROUP>
-        <FILE id="l6OmBC" name="InlineValueEntry.cpp" compile="1" resource="0"
-              file="Source/InlineValueEntry.cpp"/>
         <FILE id="r67dFC" name="InlineValueEntry.h" compile="0" resource="0"
               file="Source/InlineValueEntry.h"/>
         <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>

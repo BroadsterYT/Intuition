@@ -670,9 +670,6 @@
     <ClCompile Include="..\..\Source\LFOEditor.cpp">
       <Filter>Intuition\Source\GUI\LFO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\InlineValueEntry.cpp">
-      <Filter>Intuition\Source\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\ItnSlider.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
