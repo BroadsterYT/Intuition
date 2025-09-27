@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ItnSlider.h"
 
 
 class ADSRComponent : public juce::Component,
@@ -24,7 +25,7 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
 
-    juce::Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
+    ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
     juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
 

@@ -28,17 +28,24 @@ ADSRComponent::ADSRComponent(juce::AudioProcessorValueTreeState& vts) : paramete
     sustainSlider.setSliderStyle(juce::Slider::Rotary);
     releaseSlider.setSliderStyle(juce::Slider::Rotary);
 
+    attackSlider.setTooltip("Attack");
+    attackSlider.setPopupDisplayEnabled(true, false, this);
+    decaySlider.setTooltip("Decay");
+    decaySlider.setPopupDisplayEnabled(true, false, this);
+    sustainSlider.setTooltip("Sustain");
+    sustainSlider.setPopupDisplayEnabled(true, false, this);
+    releaseSlider.setTooltip("Release");
+    releaseSlider.setPopupDisplayEnabled(true, false, this);
+
     parameters.addParameterListener("ATTACK", this);
     parameters.addParameterListener("DECAY", this);
     parameters.addParameterListener("SUSTAIN", this);
     parameters.addParameterListener("RELEASE", this);
 
-    int numWidth = 40;
-    int numHeight = 15;
-    attackSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, numWidth, numHeight);
-    decaySlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, numWidth, numHeight);
-    sustainSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, numWidth, numHeight);
-    releaseSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, false, numWidth, numHeight);
+    attackSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
+    decaySlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
+    sustainSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
+    releaseSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 
     attackLabel.setText("A", juce::dontSendNotification);
     decayLabel.setText("D", juce::dontSendNotification);

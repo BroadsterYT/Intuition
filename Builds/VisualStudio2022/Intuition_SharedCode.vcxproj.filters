@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Intuition\Source\GUI\LFO">
+      <UniqueIdentifier>{209DD0DE-A193-04A6-462C-B35D50646AAA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Intuition\Source\GUI">
       <UniqueIdentifier>{37F22636-BDFA-40B9-1F11-D9EAFB71131A}</UniqueIdentifier>
     </Filter>
@@ -661,6 +664,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\LFOShape.cpp">
+      <Filter>Intuition\Source\GUI\LFO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LFOEditor.cpp">
+      <Filter>Intuition\Source\GUI\LFO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\InlineValueEntry.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ItnSlider.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
@@ -3549,6 +3564,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\LFOShape.h">
+      <Filter>Intuition\Source\GUI\LFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LFOEditor.h">
+      <Filter>Intuition\Source\GUI\LFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\InlineValueEntry.h">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ItnSlider.h">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h">
       <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
