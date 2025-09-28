@@ -64,12 +64,20 @@ void LFOShape::sortPoints() {
 }
 
 float LFOShape::getValue(float phase) {
-    // Can guarantee at least 3 points in LFO
-    if (points.size() < 3) {
+    if (points.size() < 2) {
         return 0.0f;
     }
 
+    for (size_t i = 0; i < points.size() - 1; ++i) {
+        const LFOPoint& p0 = points[i];
+        const LFOPoint& p1 = points[i + 1];
 
+        if (phase >= p0.time && phase <= p1.time) {
+            return interpolateBezier(p0, p1, phase, p0.curve);
+        }
+    }
+
+    return points.back().value;  // For unexpected fallback
 }
 
 float LFOShape::interpolateBezier(const LFOPoint& p0, const LFOPoint& p2, float phase, float curveAmount) {
@@ -78,7 +86,7 @@ float LFOShape::interpolateBezier(const LFOPoint& p0, const LFOPoint& p2, float 
 
     float B = (1 - localT) * (1 - localT) * p0.value
               + 2.0f * (1 - localT) * localT * yMid
-              + localT * localT * p2.value ;
+              + localT * localT * p2.value;
 
     return B;
 }

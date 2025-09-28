@@ -11,9 +11,7 @@
 #include "LFOEditor.h"
 
 
-LFOEditor::LFOEditor() {
-
-}
+LFOEditor::LFOEditor(LFOShape& shape) : shape(shape) {}
 
 void LFOEditor::paint(juce::Graphics& g) {
     g.fillAll(juce::Colours::black);
@@ -70,6 +68,82 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
             shape.removePoint(p);
         }
     }
+
+    if (e.mods.isRightButtonDown() && p) {
+        juce::PopupMenu menu;
+        menu.addItem("Set Time...", [this, p] {
+            auto entry = std::make_unique<InlineValueEntry<float>>(p->time);
+            entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
+                p->time = val;
+
+                if (val < 0.0f) {
+                    p->time = 0.0f;
+                }
+                if (val > 1.0f) {
+                    p->time = 1.0f;
+                }
+
+                shape.sortPoints();
+                repaint();
+            });
+            entry->setSize(50, 25);
+
+            juce::CallOutBox::launchAsynchronously(
+                std::move(entry),
+            getScreenBounds(),
+            nullptr
+            );
+        });
+        menu.addItem("Set Value...", [this, p] {
+            auto entry = std::make_unique<InlineValueEntry<float>>(p->value);
+            entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
+                p->value = val;
+
+                if (val < 0.0f) {
+                    p->value = 0.0f;
+                }
+                if (val > 1.0f) {
+                    p->value = 1.0f;
+                }
+
+                shape.sortPoints();
+                repaint();
+            });
+            entry->setSize(50, 25);
+
+            juce::CallOutBox::launchAsynchronously(
+                std::move(entry),
+                getScreenBounds(),
+                nullptr
+            );
+        });
+        menu.addItem("Set Curve...", [this, p] {
+            auto entry = std::make_unique<InlineValueEntry<float>>(p->curve);
+            entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
+                p->curve = val;
+
+                if (val < -0.5f) {
+                    p->curve = -0.5f;
+                }
+                if (val > 0.5f) {
+                    p->curve = 0.5f;
+                }
+
+                shape.sortPoints();
+                repaint();
+            });
+            entry->setSize(50, 25);
+
+            juce::CallOutBox::launchAsynchronously(
+                std::move(entry),
+                getScreenBounds(),
+                nullptr
+            );
+        });
+
+        menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
+    }
+
     repaint();
 }
 

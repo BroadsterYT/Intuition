@@ -13,7 +13,8 @@
 IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), tooltipWindow(this),
     adsrComponent(audioProcessor.parameters),
-    oscillatorDisplay(audioProcessor.parameters)
+    oscillatorDisplay(audioProcessor.parameters),
+    lfoEditor(audioProcessor.lfo1Shape)
 {
     masterVolKnob.setSliderStyle(juce::Slider::Rotary);
     masterVolKnob.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);

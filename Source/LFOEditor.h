@@ -11,11 +11,12 @@
 #pragma once
 #include <JuceHeader.h>
 #include "LFOShape.h"
+#include "InlineValueEntry.h"
 
 
 class LFOEditor : public juce::Component {
 public:
-    LFOEditor();
+    LFOEditor(LFOShape& shape);
 
     void paint(juce::Graphics& g) override;
 
@@ -24,5 +25,5 @@ public:
     LFOPoint* getNearestPoint(const juce::MouseEvent& e);
 
 private:
-    LFOShape shape;
+    LFOShape& shape;
 };

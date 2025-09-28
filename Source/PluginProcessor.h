@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SineWaveSound.h"
 #include "UnisonWavetableVoice.h"
+#include "LFOShape.h"
 
 
 //==============================================================================
@@ -27,6 +28,10 @@ public:
 
     juce::AudioBuffer<float> wavetableBuffer;
     juce::Synthesiser synth;
+
+    LFOShape lfo1Shape;
+    float lfo1Phase = 0.0f;
+    float lfoPhase2 = 0.0f;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

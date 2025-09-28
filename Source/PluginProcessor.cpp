@@ -33,6 +33,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("A_DETUNE", "A Detune", 0, 100, 0),
+
+        std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.0f, 30.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("LFO1_DEPTH", "LFO 1 Depth", 0.0f, 1.0f, 0.25f),
     })
 {
     parameters.state = juce::ValueTree("PARAMETERS");
@@ -193,17 +196,27 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         }
     }
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+    float lfoRate = *parameters.getRawParameterValue("LFO1_RATE");
+    float lfoDepth = *parameters.getRawParameterValue("LFO1_DEPTH");
+    float phaseIncrement = lfoRate / getSampleRate();
+    float lfo1Value = 0.0f;
+    
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        lfo1Phase += phaseIncrement;
+        while (lfo1Phase >= 1.0f) {
+            lfo1Phase -= 1.0f;
+        }
+
+        lfo1Value = lfo1Shape.getValue(lfo1Phase);
+        DBG("Phase: " + juce::String(lfo1Phase) + " | Value: " + juce::String(lfo1Value));
+    }
+
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     float masterVol = *parameters.getRawParameterValue("MASTER");
+    //float masterVol = lfo1Value;
     buffer.applyGain(masterVol);
 }
 
