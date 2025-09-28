@@ -11,8 +11,10 @@
 
 //==============================================================================
 IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), adsrComponent(audioProcessor.parameters),
-    oscillatorDisplay(audioProcessor.parameters)
+    : AudioProcessorEditor (&p), audioProcessor (p), tooltipWindow(this),
+    adsrComponent(audioProcessor.parameters),
+    oscillatorDisplay(audioProcessor.parameters),
+    lfoEditor(audioProcessor.lfo1Shape)
 {
     masterVolKnob.setSliderStyle(juce::Slider::Rotary);
     masterVolKnob.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);
@@ -30,6 +32,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProc
     waveDisplay.setWaveform(audioProcessor.wavetableBuffer);
 
     addAndMakeVisible(oscillatorDisplay);
+    addAndMakeVisible(lfoEditor);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -65,4 +68,5 @@ void IntuitionAudioProcessorEditor::resized()
     waveDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 150);
 
     oscillatorDisplay.setBounds(adsrComponent.getRight() + padding, waveDisplay.getBottom() + padding, 250, 100);
+    lfoEditor.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
 }

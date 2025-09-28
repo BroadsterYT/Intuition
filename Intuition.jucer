@@ -7,6 +7,16 @@
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <GROUP id="{05D722AB-84A8-6FBF-B9F1-B41ACD18930D}" name="LFO">
+          <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
+          <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
+          <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
+          <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
+        </GROUP>
+        <FILE id="r67dFC" name="InlineValueEntry.h" compile="0" resource="0"
+              file="Source/InlineValueEntry.h"/>
+        <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
+        <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
         <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
               file="Source/OscillatorDisplay.cpp"/>
         <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"

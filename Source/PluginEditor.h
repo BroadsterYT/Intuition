@@ -13,6 +13,7 @@
 #include "ADSRComponent.h"
 #include "WaveformDisplay.h"
 #include "OscillatorDisplay.h"
+#include "LFOEditor.h"
 
 //==============================================================================
 /**
@@ -31,6 +32,7 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     IntuitionAudioProcessor& audioProcessor;
+    juce::TooltipWindow tooltipWindow;
 
     juce::Slider masterVolKnob;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterVolAttachment;
@@ -38,6 +40,7 @@ private:
     ADSRComponent adsrComponent;
     WaveformDisplay waveDisplay;
     OscillatorDisplay oscillatorDisplay;
+    LFOEditor lfoEditor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IntuitionAudioProcessorEditor)
 };

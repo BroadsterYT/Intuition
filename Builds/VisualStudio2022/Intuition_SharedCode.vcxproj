@@ -144,6 +144,9 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\LFOShape.cpp"/>
+    <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
+    <ClCompile Include="..\..\Source\ItnSlider.cpp"/>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp"/>
     <ClCompile Include="..\..\Source\ADSRComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformDisplay.cpp"/>
@@ -2848,6 +2851,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\LFOShape.h"/>
+    <ClInclude Include="..\..\Source\LFOEditor.h"/>
+    <ClInclude Include="..\..\Source\InlineValueEntry.h"/>
+    <ClInclude Include="..\..\Source\ItnSlider.h"/>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h"/>
     <ClInclude Include="..\..\Source\ADSRComponent.h"/>
     <ClInclude Include="..\..\Source\WaveformDisplay.h"/>
