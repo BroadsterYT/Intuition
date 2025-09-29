@@ -175,6 +175,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+
     juce::ADSR::Parameters adsrParams;
     adsrParams.attack = *parameters.getRawParameterValue("ATTACK");
     adsrParams.decay = *parameters.getRawParameterValue("DECAY");
@@ -208,7 +210,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         }
 
         lfo1Value = lfo1Shape.getValue(lfo1Phase);
-        DBG("Phase: " + juce::String(lfo1Phase) + " | Value: " + juce::String(lfo1Value));
     }
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
@@ -216,7 +217,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     float masterVol = *parameters.getRawParameterValue("MASTER");
-    //float masterVol = lfo1Value;
     buffer.applyGain(masterVol);
 }
 

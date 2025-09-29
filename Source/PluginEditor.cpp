@@ -12,10 +12,14 @@
 //==============================================================================
 IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), tooltipWindow(this),
-    adsrComponent(audioProcessor.parameters),
-    oscillatorDisplay(audioProcessor.parameters),
-    lfoEditor(audioProcessor.lfo1Shape)
+    midiKeyboard(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
+    adsrComponent(p.parameters),
+    oscillatorDisplay(p.parameters),
+    lfoEditor(p.lfo1Shape)
 {
+    addAndMakeVisible(midiKeyboard);
+    midiKeyboard.setAvailableRange(21, 108);
+
     masterVolKnob.setSliderStyle(juce::Slider::Rotary);
     masterVolKnob.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);
     addAndMakeVisible(masterVolKnob);
@@ -48,10 +52,6 @@ void IntuitionAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    /*g.setColour (juce::Colours::black);
-    g.setFont (juce::FontOptions (15.0f));
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);*/
 }
 
 void IntuitionAudioProcessorEditor::resized()
@@ -59,6 +59,7 @@ void IntuitionAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     masterVolKnob.setBounds(700, 0, 100, 100);
+    midiKeyboard.setBounds(0, 550, 800, 50);
 
     int padding = 15;
     int adsrWidth = 250;
