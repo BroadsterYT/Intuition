@@ -11,6 +11,32 @@
 #include "ItnSlider.h"
 
 
+ItnSlider::ItnSlider() {
+    setLookAndFeel(&lookAndFeel);
+    setSliderStyle(juce::Slider::Rotary);
+    setTextBoxStyle(juce::Slider::TextBoxAbove, false, 40, 15);
+
+    addAndMakeVisible(label);
+    label.setJustificationType(juce::Justification::centredBottom);
+    updateLabel();
+}
+
+ItnSlider::~ItnSlider() {
+    setLookAndFeel(nullptr);
+}
+
+void ItnSlider::setLabelNames(juce::String newFullName, juce::String newNickname) {
+    fullName = newFullName;
+    nickname = newNickname;
+
+    updateLabel();
+}
+
+void ItnSlider::updateLabel() {
+    label.setText(nickname, juce::dontSendNotification);
+    setTooltip(fullName);
+}
+
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     if (e.mods.isRightButtonDown()) {
         juce::PopupMenu menu;
@@ -34,4 +60,11 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     else {
         juce::Slider::mouseDown(e);
     }
+}
+
+void ItnSlider::resized() {
+    juce::Slider::resized();
+    auto area = getLocalBounds().removeFromBottom(15);
+
+    label.setBounds(area);
 }

@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ItnSlider.h"
 
 
 class OscillatorDisplay : public juce::Component {
@@ -22,7 +23,6 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
 
-    juce::Slider unison, detune;
+    ItnSlider unison, detune;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> unisonAttachment, detuneAttachment;
-    juce::Label unisonLabel, detuneLabel;
 };
