@@ -11,7 +11,13 @@
 #include "LFOEditor.h"
 
 
-LFOEditor::LFOEditor(LFOShape& shape) : shape(shape) {}
+LFOEditor::LFOEditor(LFOShape& shape) : shape(shape) {
+    startTimerHz(60);
+}
+
+LFOEditor::~LFOEditor() {
+    stopTimer();
+}
 
 void LFOEditor::paint(juce::Graphics& g) {
     g.fillAll(juce::Colours::black);
@@ -143,8 +149,6 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
 
         menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
     }
-
-    repaint();
 }
 
 void LFOEditor::mouseDrag(const juce::MouseEvent& e) {
@@ -160,8 +164,20 @@ void LFOEditor::mouseDrag(const juce::MouseEvent& e) {
     else if (p == &shape.getPoint(shape.getNumPoints() - 1)) {
         p->time = 1.0f;
     }
+}
 
-    repaint();
+void LFOEditor::mouseWheelMove(const juce::MouseEvent& e, const juce::MouseWheelDetails& wheel) {
+    LFOPoint* p = getNearestPoint(e);
+    if (!p) return;
+
+    if (wheel.deltaY > 0.0f) {
+        p->curve += 0.1f;
+    }
+    else if (wheel.deltaY < 0.0f) {
+        p->curve -= 0.1f;
+    }
+
+    p->curve = juce::jlimit<float>(-0.5f, 0.5f, p->curve);
 }
 
 LFOPoint* LFOEditor::getNearestPoint(const juce::MouseEvent& e) {
@@ -189,4 +205,8 @@ LFOPoint* LFOEditor::getNearestPoint(const juce::MouseEvent& e) {
     }
 
     return nullptr;
+}
+
+void LFOEditor::timerCallback() {
+    repaint();
 }

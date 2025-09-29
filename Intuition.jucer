@@ -7,6 +7,10 @@
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="KSIxF6" name="ItnLookAndFeel.h" compile="0" resource="0"
+              file="Source/ItnLookAndFeel.h"/>
+        <FILE id="MbZ3O5" name="ItnLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/ItnLookAndFeel.cpp"/>
         <GROUP id="{05D722AB-84A8-6FBF-B9F1-B41ACD18930D}" name="LFO">
           <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
           <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>

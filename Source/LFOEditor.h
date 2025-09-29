@@ -14,16 +14,21 @@
 #include "InlineValueEntry.h"
 
 
-class LFOEditor : public juce::Component {
+class LFOEditor : public juce::Component, private juce::Timer {
 public:
     LFOEditor(LFOShape& shape);
+    ~LFOEditor();
 
     void paint(juce::Graphics& g) override;
 
     void mouseDown(const juce::MouseEvent& e) override;
     void mouseDrag(const juce::MouseEvent& e) override;
+    void mouseWheelMove(const juce::MouseEvent& e, const juce::MouseWheelDetails& wheel) override;
+
     LFOPoint* getNearestPoint(const juce::MouseEvent& e);
 
 private:
     LFOShape& shape;
+
+    void timerCallback() override;
 };

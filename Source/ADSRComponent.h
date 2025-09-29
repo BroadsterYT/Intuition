@@ -27,7 +27,6 @@ private:
 
     ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
-    juce::Label attackLabel, decayLabel, sustainLabel, releaseLabel;
 
     void drawEnvelopeGraph(juce::Graphics& g);
     void parameterChanged(const juce::String&, float) override;

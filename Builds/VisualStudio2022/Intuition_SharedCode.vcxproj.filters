@@ -664,6 +664,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LFOShape.cpp">
       <Filter>Intuition\Source\GUI\LFO</Filter>
     </ClCompile>
@@ -3561,6 +3564,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ItnLookAndFeel.h">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\LFOShape.h">
       <Filter>Intuition\Source\GUI\LFO</Filter>
     </ClInclude>

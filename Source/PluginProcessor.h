@@ -25,6 +25,7 @@ public:
     ~IntuitionAudioProcessor() override;
 
     juce::AudioProcessorValueTreeState parameters;
+    juce::MidiKeyboardState keyboardState;
 
     juce::AudioBuffer<float> wavetableBuffer;
     juce::Synthesiser synth;

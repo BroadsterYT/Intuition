@@ -34,6 +34,8 @@ private:
     IntuitionAudioProcessor& audioProcessor;
     juce::TooltipWindow tooltipWindow;
 
+    juce::MidiKeyboardComponent midiKeyboard;
+
     juce::Slider masterVolKnob;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterVolAttachment;
 
