@@ -20,8 +20,11 @@ OscillatorDisplay::OscillatorDisplay(juce::AudioProcessorValueTreeState& vts) : 
     unison.setRange(1, 8, 1);
     detune.setRange(0, 100);
 
-    unison.setLabelNames("Unison", "Unison");
-    detune.setLabelNames("Detune", "Detune");
+    unison.setLabelNames("Unison", "U");
+    detune.setLabelNames("Detune", "D");
+
+    unison.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
+    detune.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {

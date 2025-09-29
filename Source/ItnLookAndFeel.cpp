@@ -18,8 +18,8 @@ juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider)
     layout.sliderBounds = bounds;
 
     if (slider.getTextBoxPosition() == juce::Slider::TextBoxAbove) {
-        auto textArea = bounds.removeFromTop(15);
-        auto labelArea = bounds.removeFromBottom(15);
+        auto textArea = bounds.removeFromTop(slider.getTextBoxHeight());
+        auto labelArea = bounds.removeFromBottom(10);
         float textBoxPadding = bounds.getWidth() - slider.getTextBoxWidth();
         textArea.removeFromLeft(textBoxPadding / 2);
         textArea.removeFromRight(textBoxPadding / 2);
@@ -28,7 +28,10 @@ juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider)
         layout.textBoxBounds = textArea;
     }
     else if (slider.getTextBoxPosition() == juce::Slider::NoTextBox) {
-        auto labelArea = bounds.removeFromBottom(15);
+        auto labelArea = bounds.removeFromBottom(10);
+        slider.setPopupDisplayEnabled(true, false, slider.getParentComponent());
+
+        layout.sliderBounds = bounds;
     }
 
     return layout;

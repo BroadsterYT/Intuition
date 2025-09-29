@@ -28,7 +28,6 @@ ItnSlider::~ItnSlider() {
 void ItnSlider::setLabelNames(juce::String newFullName, juce::String newNickname) {
     fullName = newFullName;
     nickname = newNickname;
-
     updateLabel();
 }
 
