@@ -144,9 +144,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
+    <ClCompile Include="..\..\Source\LFOPoint.cpp"/>
     <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
+    <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\ItnSlider.cpp"/>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp"/>
     <ClCompile Include="..\..\Source\ADSRComponent.cpp"/>
@@ -2852,9 +2853,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ItnLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\LFOShape.h"/>
+    <ClInclude Include="..\..\Source\LFOPoint.h"/>
     <ClInclude Include="..\..\Source\LFOEditor.h"/>
+    <ClInclude Include="..\..\Source\ItnLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\InlineValueEntry.h"/>
     <ClInclude Include="..\..\Source\ItnSlider.h"/>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h"/>

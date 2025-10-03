@@ -10,26 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-
-
-struct LFOPoint {
-    float time = 0.0f;  // Normalized 0 - 1 in LFO cycle
-    float value = 0.0f;  // Normalized 0 - 1 for LFO amplitude
-    float curve = 1.0f;
-
-    bool operator==(const LFOPoint& other) {
-        bool output = true;
-
-        if (time != other.time) {
-            output = false;
-        }
-        if (value != other.value) {
-            output = false;
-        }
-
-        return output;
-    }
-};
+#include "LFOPoint.h"
 
 
 class LFOShape {

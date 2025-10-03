@@ -2,8 +2,8 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Intuition\Source\GUI\LFO">
-      <UniqueIdentifier>{209DD0DE-A193-04A6-462C-B35D50646AAA}</UniqueIdentifier>
+    <Filter Include="Intuition\Source\LFO">
+      <UniqueIdentifier>{5D55A7A6-C92B-D5FC-695D-383DF7C9013C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Intuition\Source\GUI">
       <UniqueIdentifier>{37F22636-BDFA-40B9-1F11-D9EAFB71131A}</UniqueIdentifier>
@@ -664,14 +664,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp">
-      <Filter>Intuition\Source\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\LFOShape.cpp">
-      <Filter>Intuition\Source\GUI\LFO</Filter>
+      <Filter>Intuition\Source\LFO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LFOPoint.cpp">
+      <Filter>Intuition\Source\LFO</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LFOEditor.cpp">
-      <Filter>Intuition\Source\GUI\LFO</Filter>
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ItnSlider.cpp">
       <Filter>Intuition\Source\GUI</Filter>
@@ -3564,14 +3567,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ItnLookAndFeel.h">
-      <Filter>Intuition\Source\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\LFOShape.h">
-      <Filter>Intuition\Source\GUI\LFO</Filter>
+      <Filter>Intuition\Source\LFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LFOPoint.h">
+      <Filter>Intuition\Source\LFO</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOEditor.h">
-      <Filter>Intuition\Source\GUI\LFO</Filter>
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ItnLookAndFeel.h">
+      <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\InlineValueEntry.h">
       <Filter>Intuition\Source\GUI</Filter>
