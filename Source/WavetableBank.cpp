@@ -31,10 +31,6 @@ juce::AudioBuffer<float>& WavetableBank::getWavetable(int index) {
     return wavetables[index];
 }
 
-void WavetableBank::clear() {
-    wavetables.clear();
-}
-
 size_t WavetableBank::size() {
     return wavetables.size();
 }

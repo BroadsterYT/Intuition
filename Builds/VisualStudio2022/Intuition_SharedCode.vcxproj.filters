@@ -5,6 +5,9 @@
     <Filter Include="Intuition\Source\LFO">
       <UniqueIdentifier>{5D55A7A6-C92B-D5FC-695D-383DF7C9013C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Intuition\Source\GUI\LFOTabs">
+      <UniqueIdentifier>{85D5D79F-0CF9-6973-C9D4-1822E4484715}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Intuition\Source\GUI\WaveBankEditor">
       <UniqueIdentifier>{FA0E84C1-4E2C-3DF0-43CF-64A733196597}</UniqueIdentifier>
     </Filter>
@@ -676,19 +679,25 @@
     <ClCompile Include="..\..\Source\LFOPoint.cpp">
       <Filter>Intuition\Source\LFO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\WaveBankComponent.cpp">
-      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
+    <ClCompile Include="..\..\Source\OscillatorDisplay.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LFOTabs.cpp">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LFOEditor.cpp">
-      <Filter>Intuition\Source\GUI</Filter>
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\WaveThumbnail.cpp">
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\WaveBankComponent.cpp">
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ItnSlider.cpp">
-      <Filter>Intuition\Source\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\OscillatorDisplay.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ADSRComponent.cpp">
@@ -3585,11 +3594,20 @@
     <ClInclude Include="..\..\Source\LFOPoint.h">
       <Filter>Intuition\Source\LFO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\WaveBankComponent.h">
-      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
+    <ClInclude Include="..\..\Source\OscillatorDisplay.h">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LFOTabs.h">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOEditor.h">
-      <Filter>Intuition\Source\GUI</Filter>
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WaveThumbnail.h">
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WaveBankComponent.h">
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ItnLookAndFeel.h">
       <Filter>Intuition\Source\GUI</Filter>
@@ -3598,9 +3616,6 @@
       <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ItnSlider.h">
-      <Filter>Intuition\Source\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\OscillatorDisplay.h">
       <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ADSRComponent.h">

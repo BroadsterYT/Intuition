@@ -31,10 +31,36 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
         
+        //=============== Oscillators ================//
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("A_DETUNE", "A Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("A_MORPH", "A Morph", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterInt>("A_OCTAVE", "A Octave", -4, 4, 0),
+        std::make_unique<juce::AudioParameterInt>("A_COARSE", "A Coarse Pitch", -12, 12, 0),
+        std::make_unique<juce::AudioParameterInt>("A_FINE", "A Fine Pitch", -100, 100, 0),
 
+        std::make_unique<juce::AudioParameterInt>("B_UNISON", "B Unison", 1, 8, 1),
+        std::make_unique<juce::AudioParameterFloat>("B_DETUNE", "B Detune", 0, 100, 0),
+        std::make_unique<juce::AudioParameterFloat>("B_MORPH", "B Morph", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterInt>("B_OCTAVE", "B Octave", -4, 4, 0),
+        std::make_unique<juce::AudioParameterInt>("B_COARSE", "B Coarse Pitch", -12, 12, 0),
+        std::make_unique<juce::AudioParameterInt>("B_FINE", "B Fine Pitch", -100, 100, 0),
+
+        std::make_unique<juce::AudioParameterInt>("C_UNISON", "C Unison", 1, 8, 1),
+        std::make_unique<juce::AudioParameterFloat>("C_DETUNE", "C Detune", 0, 100, 0),
+        std::make_unique<juce::AudioParameterFloat>("C_MORPH", "C Morph", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterInt>("C_OCTAVE", "C Octave", -4, 4, 0),
+        std::make_unique<juce::AudioParameterInt>("C_COARSE", "C Coarse Pitch", -12, 12, 0),
+        std::make_unique<juce::AudioParameterInt>("C_FINE", "C Fine Pitch", -100, 100, 0),
+
+        std::make_unique<juce::AudioParameterInt>("D_UNISON", "D Unison", 1, 8, 1),
+        std::make_unique<juce::AudioParameterFloat>("D_DETUNE", "D Detune", 0, 100, 0),
+        std::make_unique<juce::AudioParameterFloat>("D_MORPH", "D Morph", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterInt>("D_OCTAVE", "D Octave", -4, 4, 0),
+        std::make_unique<juce::AudioParameterInt>("D_COARSE", "D Coarse Pitch", -12, 12, 0),
+        std::make_unique<juce::AudioParameterInt>("D_FINE", "D Fine Pitch", -100, 100, 0),
+
+        //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.0f, 30.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("LFO1_DEPTH", "LFO 1 Depth", 0.0f, 1.0f, 0.25f),
     })
@@ -42,14 +68,20 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     parameters.state = juce::ValueTree("PARAMETERS");
 }
 
-IntuitionAudioProcessor::~IntuitionAudioProcessor()
-{
-}
+IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
 
 void IntuitionAudioProcessor::resetSynths() {
     synth.clearVoices();
     for (int i = 0; i < 8; ++i) {
-        synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
+        synth.addVoice(
+            new UnisonWavetableVoice(
+                parameters,
+                bank1,
+                "A_OCTAVE",
+                "A_COARSE",
+                "A_FINE"
+            )
+        );
     }
 }
 
@@ -247,15 +279,15 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     adsrParams.sustain = *parameters.getRawParameterValue("SUSTAIN");
     adsrParams.release = *parameters.getRawParameterValue("RELEASE");
 
-    int unison = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
-    float detune = *parameters.getRawParameterValue("A_DETUNE");
+    int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
+    float detuneA = *parameters.getRawParameterValue("A_DETUNE");
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonWavetableVoice*>(synth.getVoice(i))) {
             v->setEnvelopeParams(adsrParams);
 
-            v->setUnison(unison);
-            v->setDetuneRange(detune);
+            v->setUnison(unisonA);
+            v->setDetuneRange(detuneA);
         }
     }
 

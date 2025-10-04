@@ -11,10 +11,21 @@
 #include "UnisonWavetableVoice.h"
 
 
-UnisonWavetableVoice::UnisonWavetableVoice(juce::AudioProcessorValueTreeState& vts, WavetableBank& bankToUse) : parameters(vts) {
-    bank = bankToUse;
+UnisonWavetableVoice::UnisonWavetableVoice(
+    juce::AudioProcessorValueTreeState& vts,
+    WavetableBank& bankToUse,
+    const juce::String octaveParamName,
+    const juce::String coarseParamName,
+    const juce::String fineParamName
+) : parameters(vts),
+    bank(bankToUse),
+    octaveParamName(octaveParamName),
+    coarseParamName(coarseParamName),
+    fineParamName(fineParamName) {
+
     setUnison(unison);
     adsr.setSampleRate(getSampleRate());
+    updateOscDetunes();
 }
 
 void UnisonWavetableVoice::setWavetable(WavetableBank& bankToUse) {
@@ -67,8 +78,19 @@ void UnisonWavetableVoice::updateOscDetunes() {
     }
 
     if (currentFreq >= 0) {
+        int octave = static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
+        int semitone = static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
+        int fine = static_cast<int>(*parameters.getRawParameterValue(fineParamName));
+
+        // TODO: Make this a helper method
         for (int i = 0; i < unison; ++i) {
-            oscs[i].setFrequency(currentFreq, detuneOffsets[i]);
+            oscs[i].setFrequency(
+                currentFreq, 
+                octave,
+                semitone,
+                fine,
+                detuneOffsets[i]
+            );
         }
     }
 }
@@ -80,9 +102,19 @@ bool UnisonWavetableVoice::canPlaySound(juce::SynthesiserSound* sound) {
 void UnisonWavetableVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound*, int /*pitchWheel*/) {
     level = velocity;
 
+    int octave = static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
+    int semitones = static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
+    int fine = static_cast<int>(*parameters.getRawParameterValue(fineParamName));
+
     currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     for (int i = 0; i < unison; ++i) {
-        oscs[i].setFrequency(currentFreq, detuneOffsets[i]);
+        oscs[i].setFrequency(
+            currentFreq,
+            octave,
+            semitones,
+            fine,
+            detuneOffsets[i]
+        );
     }
     adsr.noteOn();
 }

@@ -16,7 +16,14 @@
 
 class UnisonWavetableVoice : public juce::SynthesiserVoice {
 public:
-    UnisonWavetableVoice(juce::AudioProcessorValueTreeState& vts, WavetableBank& bankToUse);
+    UnisonWavetableVoice(
+        juce::AudioProcessorValueTreeState& vts,
+        WavetableBank& bankToUse,
+
+        const juce::String octaveParamName,
+        const juce::String coarseParamName,
+        const juce::String fineParamName
+    );
 
     void setWavetable(WavetableBank& bankToUse);
 
@@ -44,10 +51,13 @@ private:
     int unison = 1;
     std::vector<WavetableOsc> oscs;
     WavetableBank bank;
-    //juce::AudioBuffer<float> wavetable;
 
     juce::ADSR adsr;
     float currentFreq = 440.0f;
+
+    juce::String octaveParamName = "A_OCTAVE";
+    juce::String coarseParamName = "A_COARSE";
+    juce::String fineParamName = "A_FINE";
 
     float level = 1.0f;
     float detuneRange = 100.0f;  // Measured in cents

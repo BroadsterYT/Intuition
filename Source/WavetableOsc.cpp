@@ -24,18 +24,22 @@ void WavetableOsc::setSampleRate(double newRate) {
     morphSmooth.reset(sampleRate, 0.01);
 }
 
-void WavetableOsc::setFrequency(float frequency, int detuneCents) {
-    //if (wavetable.getNumSamples() > 0) {
-    if (bank.getWavetable(0).getNumSamples() > 0) {
-        float detunedMult = std::pow(2.0f, (float)detuneCents / 1200.0f);
-        float detunedFreq = frequency * detunedMult;
+void WavetableOsc::setFrequency(
+    float frequency,
+    int octave,
+    int semitones,
+    int fineCents,
+    int detuneCents) {
+    if (bank.getWavetable(0).getNumSamples() == 0) return;
 
-        phaseIncrement = detunedFreq / (float)sampleRate;
-    }
+    float totalCents = (octave * 1200.0f) + (semitones * 100.0f) + fineCents + detuneCents;
+    float pitchMult = std::pow(2.0f, (float)totalCents / 1200.0f);
+
+    float finalFreq = frequency * pitchMult;
+    phaseIncrement = finalFreq / (float)sampleRate;
 }
 
 float WavetableOsc::getSample() {
-    //if (wavetable.getNumSamples() == 0) return 0.0f;
     if (bank.getWavetable(0).getNumSamples() <= 0) return 0.0f;
 
     float newAlpha = *parameters->getRawParameterValue("A_MORPH");
@@ -61,7 +65,7 @@ float WavetableOsc::getSample() {
     float sampleA = tableA[i1] + frac * (tableA[i2] - tableA[i1]);
     float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]);
 
-    // cosine crossfade for smooth morphing
+    // Cosine crossfade for smooth morphing
     float t = 0.5f - 0.5f * std::cos(wFrac * juce::MathConstants<float>::pi);
     float sample = (1.0f - t) * sampleA + t * sampleB;
 

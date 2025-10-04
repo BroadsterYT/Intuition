@@ -16,14 +16,25 @@
         <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
+              file="Source/OscillatorDisplay.h"/>
+        <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
+              file="Source/OscillatorDisplay.cpp"/>
+        <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFOTabs">
+          <FILE id="ZX0zdk" name="LFOTabs.cpp" compile="1" resource="0" file="Source/LFOTabs.cpp"/>
+          <FILE id="xOhCPD" name="LFOTabs.h" compile="0" resource="0" file="Source/LFOTabs.h"/>
+          <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
+          <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
+        </GROUP>
         <GROUP id="{7AF833AE-6AF3-6744-A10C-AC71BD084E2D}" name="WaveBankEditor">
+          <FILE id="Axl9DX" name="WaveThumbnail.cpp" compile="1" resource="0"
+                file="Source/WaveThumbnail.cpp"/>
+          <FILE id="VHGt2w" name="WaveThumbnail.h" compile="0" resource="0" file="Source/WaveThumbnail.h"/>
           <FILE id="t1rzXX" name="WaveBankComponent.h" compile="0" resource="0"
                 file="Source/WaveBankComponent.h"/>
           <FILE id="ODdX3E" name="WaveBankComponent.cpp" compile="1" resource="0"
                 file="Source/WaveBankComponent.cpp"/>
         </GROUP>
-        <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
-        <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
         <FILE id="KSIxF6" name="ItnLookAndFeel.h" compile="0" resource="0"
               file="Source/ItnLookAndFeel.h"/>
         <FILE id="MbZ3O5" name="ItnLookAndFeel.cpp" compile="1" resource="0"
@@ -32,10 +43,6 @@
               file="Source/InlineValueEntry.h"/>
         <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
         <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
-        <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
-              file="Source/OscillatorDisplay.cpp"/>
-        <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
-              file="Source/OscillatorDisplay.h"/>
         <FILE id="k44DTm" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
         <FILE id="Own5cu" name="ADSRComponent.cpp" compile="1" resource="0"
               file="Source/ADSRComponent.cpp"/>

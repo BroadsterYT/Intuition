@@ -19,7 +19,13 @@ public:
     void setBank(WavetableBank& newBank);
 
     void setSampleRate(double newRate);
-    void setFrequency(float frequency, int detuneCents);
+    void setFrequency(
+        float frequency,
+        int octave,
+        int semitone,
+        int fineCents,
+        int detuneCents
+    );
     float getSample();
 
 private:

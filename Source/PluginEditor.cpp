@@ -10,15 +10,32 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProcessor& p)
-    : AudioProcessorEditor(&p), audioProcessor(p), tooltipWindow(this),
+IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProcessor& p
+) : AudioProcessorEditor(&p),
+    audioProcessor(p),
+    tooltipWindow(this),
     midiKeyboard(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     adsrComponent(p.parameters),
-    oscillatorDisplay(p.parameters, p.bank1, &waveBankComp),
-    lfoEditor(p.lfo1Shape),
+    
+    oscDisplay1(
+        p.parameters, 
+        p.bank1, 
+        &waveBankComp1, 
+        "A_UNISON", 
+        "A_DETUNE", 
+        "A_MORPH",
+        "A_OCTAVE",
+        "A_COARSE",
+        "A_FINE"
+    ),
 
-    waveBankComp(&p, p.parameters, p.bank1)
-{
+    lfoTabs(p.lfo1Shape, p.lfo2Shape, p.lfo3Shape),
+
+    waveBankComp1(&p, p.parameters, p.bank1),
+    waveBankComp2(&p, p.parameters, p.bank2),
+    waveBankComp3(&p, p.parameters, p.bank3),
+    waveBankComp4(&p, p.parameters, p.bank4) {
+    // =================================================
     addAndMakeVisible(midiKeyboard);
     midiKeyboard.setAvailableRange(21, 108);
 
@@ -34,10 +51,11 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
 
     addAndMakeVisible(adsrComponent);
 
-    addAndMakeVisible(oscillatorDisplay);
-    addAndMakeVisible(lfoEditor);
+    addAndMakeVisible(oscDisplay1);
+    
+    addAndMakeVisible(lfoTabs);
 
-    addChildComponent(waveBankComp);
+    addChildComponent(waveBankComp1);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -69,8 +87,8 @@ void IntuitionAudioProcessorEditor::resized()
 
     //waveDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 150);
 
-    oscillatorDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 250);
-    lfoEditor.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
+    oscDisplay1.setBounds(adsrComponent.getRight() + padding, padding, 250, 250);
+    lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
 
-    waveBankComp.setBounds(0, 0, 800, 600);
+    waveBankComp1.setBounds(0, 0, 800, 600);
 }

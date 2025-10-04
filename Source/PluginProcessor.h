@@ -25,16 +25,19 @@ public:
     IntuitionAudioProcessor();
     ~IntuitionAudioProcessor() override;
 
+    juce::Synthesiser synth;
+
     juce::AudioProcessorValueTreeState parameters;
     juce::MidiKeyboardState keyboardState;
 
-    WavetableBank bank1;
-    
-    juce::Synthesiser synth;
+    WavetableBank bank1, bank2, bank3, bank4;
 
     LFOShape lfo1Shape;
+    LFOShape lfo2Shape;
+    LFOShape lfo3Shape;
     float lfo1Phase = 0.0f;
-    float lfoPhase2 = 0.0f;
+    float lfo2Phase = 0.0f;
+    float lfo3Phase = 0.0f;
 
     void resetSynths();
 

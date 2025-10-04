@@ -11,18 +11,24 @@
 #include "WaveBankComponent.h"
 
 
-WaveBankComponent::WaveBankComponent(juce::AudioProcessor* ap, juce::AudioProcessorValueTreeState& vts, WavetableBank& bank) : parameters(vts), bank(bank) {
+WaveBankComponent::WaveBankComponent(
+    juce::AudioProcessor* ap,
+    juce::AudioProcessorValueTreeState& vts,
+    WavetableBank& bank
+)   : parameters(vts),
+    bank(bank) {
+
     processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
     
     addAndMakeVisible(viewport);
-    viewport.setViewedComponent(&waves, false);
+    viewport.setViewedComponent(&waveThumbnailComp, false);
 
     addAndMakeVisible(closeButton);
     closeButton.onClick = [this] {
         setVisible(false);
     };
 
-    waves.addAndMakeVisible(addNewWaveButton);
+    waveThumbnailComp.addAndMakeVisible(addNewWaveButton);
     addNewWaveButton.setButtonText("Add New");
     addNewWaveButton.onClick = [this, &bank] () {
         auto chooser = std::make_shared<juce::FileChooser>(
@@ -43,7 +49,7 @@ WaveBankComponent::WaveBankComponent(juce::AudioProcessor* ap, juce::AudioProces
                 for (auto& file : files) {
                     processor->addWavetableToBank(bank, file);
                 }
-                buildWaveComponents();
+                buildWaveThumbnails();
             }
         );
     };
@@ -53,18 +59,18 @@ void WaveBankComponent::resetProcessorSynths() {
     processor->resetSynths();
 }
 
-void WaveBankComponent::buildWaveComponents() {
-    waveDiagrams.clear(true);
+void WaveBankComponent::buildWaveThumbnails() {
+    waveThumbnails.clear(true);
 
     int i = 0;
     for (i = 0; i < bank.size(); ++i) {
         auto* newWave = new WaveThumbnail(i, bank);
         newWave->setBounds(15 * (i + 1) + 80 * i, 15, 80, 80);
-        waves.addAndMakeVisible(newWave);
-        waveDiagrams.add(newWave);
+        waveThumbnailComp.addAndMakeVisible(newWave);
+        waveThumbnails.add(newWave);
     }
 
-    addNewWaveButton.setBounds(15 * (i + 1) + 80 * i, waves.getHeight() / 2 - 24, 80, 32);
+    addNewWaveButton.setBounds(15 * (i + 1) + 80 * i, waveThumbnailComp.getHeight() / 2 - 24, 80, 32);
 }
 
 void WaveBankComponent::paint(juce::Graphics& g) {
@@ -78,58 +84,8 @@ void WaveBankComponent::resized() {
     auto area = getLocalBounds();
 
     viewport.setBounds(area.removeFromBottom(128).reduced(10));
-    waves.setBounds(0, 0, 1600, 80 + 15);
+    waveThumbnailComp.setBounds(0, 0, 1600, 80 + 15);
     closeButton.setBounds(getWidth() - 32 - 16, 32, 32, 32);
 
-    buildWaveComponents();
-}
-
-
-WaveThumbnail::WaveThumbnail(int id, WavetableBank& bank) : bank(bank) {
-    waveID = id;
-}
-
-void WaveThumbnail::mouseDown(const juce::MouseEvent& e) {
-    if (e.mods.isRightButtonDown()) {
-        if (bank.size() > 1) {
-            bank.removeWavetable(waveID);
-        }
-
-        if (auto* parent = findParentComponentOfClass<WaveBankComponent>()) {
-            parent->buildWaveComponents();
-            parent->resetProcessorSynths();
-        }
-    }
-}
-
-void WaveThumbnail::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    int width = getWidth();
-    int height = getHeight();
-    
-    juce::Array<float> waveform;
-    int numSamples = bank.getWavetable(0).getNumSamples();
-    waveform.ensureStorageAllocated(numSamples);
-
-    auto* samples = bank.getWavetable(waveID).getReadPointer(0);
-    for (int i = 0; i < numSamples; ++i) {
-        waveform.add(samples[i]);
-    }
-    
-    juce::Path path;
-    path.startNewSubPath(0, (float)height / 2);
-
-    for (int i = 0; i < waveform.size(); ++i) {
-        float x = juce::jmap((float)i, 0.0f, (float)waveform.size(), 0.0f, (float)width);
-        float y = juce::jmap(waveform[i], -1.0f, 1.0f, (float)height, 0.0f);
-        path.lineTo(x, y);
-    }
-
-    g.setColour(juce::Colours::aquamarine);
-    g.strokePath(path, juce::PathStrokeType(2.0f));
-}
-
-void WaveThumbnail::resized() {
-
+    buildWaveThumbnails();
 }

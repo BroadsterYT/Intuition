@@ -12,28 +12,19 @@
 #include <JuceHeader.h>
 #include "WavetableBank.h"
 #include "PluginProcessor.h"
-
-
-class WaveThumbnail : public juce::Component {
-public:
-    WaveThumbnail(int id, WavetableBank& bank);
-
-    void mouseDown(const juce::MouseEvent& e) override;
-    void paint(juce::Graphics& g) override;
-    void resized() override;
-
-private:
-    WavetableBank& bank;
-    int waveID = 0; // ID of the wave for this component to draw
-};
+#include "WaveThumbnail.h"
 
 
 class WaveBankComponent : public juce::Component {
 public:
-    WaveBankComponent(juce::AudioProcessor* ap, juce::AudioProcessorValueTreeState& vts, WavetableBank& bank);
+    WaveBankComponent(
+        juce::AudioProcessor* ap,
+        juce::AudioProcessorValueTreeState& vts,
+        WavetableBank& bank
+    );
 
     void resetProcessorSynths();
-    void buildWaveComponents();
+    void buildWaveThumbnails();
 
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -44,7 +35,7 @@ private:
     WavetableBank& bank;
 
     juce::TextButton addNewWaveButton, closeButton;
-    juce::OwnedArray<WaveThumbnail> waveDiagrams;
-    juce::Component waves;
+    juce::OwnedArray<WaveThumbnail> waveThumbnails;
+    juce::Component waveThumbnailComp;
     juce::Viewport viewport;
 };
