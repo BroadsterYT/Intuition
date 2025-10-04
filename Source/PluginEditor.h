@@ -40,7 +40,6 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterVolAttachment;
 
     ADSRComponent adsrComponent;
-    WaveformDisplay waveDisplay;
     OscillatorDisplay oscillatorDisplay;
     LFOEditor lfoEditor;
 

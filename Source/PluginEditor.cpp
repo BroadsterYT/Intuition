@@ -14,7 +14,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProc
     : AudioProcessorEditor (&p), audioProcessor (p), tooltipWindow(this),
     midiKeyboard(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     adsrComponent(p.parameters),
-    oscillatorDisplay(p.parameters),
+    oscillatorDisplay(&p, p.parameters, p.bank1),
     lfoEditor(p.lfo1Shape)
 {
     addAndMakeVisible(midiKeyboard);
@@ -31,9 +31,6 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProc
     );
 
     addAndMakeVisible(adsrComponent);
-
-    addAndMakeVisible(waveDisplay);
-    waveDisplay.setWaveform(audioProcessor.wavetableBuffer);
 
     addAndMakeVisible(oscillatorDisplay);
     addAndMakeVisible(lfoEditor);
@@ -66,8 +63,8 @@ void IntuitionAudioProcessorEditor::resized()
     int adsrHeight = 150;
     adsrComponent.setBounds(padding, padding, adsrWidth, adsrHeight);
 
-    waveDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 150);
+    //waveDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 150);
 
-    oscillatorDisplay.setBounds(adsrComponent.getRight() + padding, waveDisplay.getBottom() + padding, 250, 100);
+    oscillatorDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 250);
     lfoEditor.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
 }

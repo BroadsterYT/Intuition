@@ -12,6 +12,7 @@
 #include "SineWaveSound.h"
 #include "UnisonWavetableVoice.h"
 #include "LFOShape.h"
+#include "WavetableBank.h"
 
 
 //==============================================================================
@@ -27,12 +28,16 @@ public:
     juce::AudioProcessorValueTreeState parameters;
     juce::MidiKeyboardState keyboardState;
 
-    juce::AudioBuffer<float> wavetableBuffer;
+    WavetableBank bank1;
+    juce::AudioBuffer<float> wavetableBuffer1;
+    
     juce::Synthesiser synth;
 
     LFOShape lfo1Shape;
     float lfo1Phase = 0.0f;
     float lfoPhase2 = 0.0f;
+
+    void addWavetableToBank1(juce::File& wavFile);
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

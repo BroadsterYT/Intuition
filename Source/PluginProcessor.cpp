@@ -33,6 +33,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("A_DETUNE", "A Detune", 0, 100, 0),
+        std::make_unique<juce::AudioParameterFloat>("A_MORPH", "A Morph", 0.0f, 1.0f, 0.0f),
 
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.0f, 30.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("LFO1_DEPTH", "LFO 1 Depth", 0.0f, 1.0f, 0.25f),
@@ -43,6 +44,30 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor()
 {
+}
+
+void IntuitionAudioProcessor::addWavetableToBank1(juce::File& wavFile) {
+    wavetableBuffer1.clear();
+    
+    juce::AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
+
+    jassert(wavFile.existsAsFile());
+    std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(wavFile));
+
+    if (reader != nullptr) {
+        juce::AudioBuffer<float> temp;
+        temp.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+        reader->read(&temp, 0, (int)reader->lengthInSamples, 0, true, true);
+        
+        bank1.addWavetable(temp);
+        DBG("Bank size: " << bank1.size());
+
+        synth.clearVoices();
+        for (int i = 0; i < 8; ++i) {
+            synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
+        }
+    }
 }
 
 //==============================================================================
@@ -114,24 +139,12 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     // initialisation that you need..
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
-    if (wavetableBuffer.getNumSamples() == 0) {
-        juce::AudioFormatManager formatManager;
-        formatManager.registerBasicFormats();
-
-        auto file = juce::File("C:/Users/BroDe/Downloads/AKWF/AKWF_bw_squ/AKWF_squ_0001.wav");
-        std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(file));
-
-        jassert(file.existsAsFile());
-
-        if (reader != nullptr) {
-            wavetableBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
-            reader->read(&wavetableBuffer, 0, (int)reader->lengthInSamples, 0, true, true);
-        }
-    }
+    juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
+    addWavetableToBank1(file);
 
     synth.clearVoices();
     for (int i = 0; i < 8; ++i) {
-        synth.addVoice(new UnisonWavetableVoice(wavetableBuffer));
+        synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
     }
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
@@ -192,9 +205,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
             v->setUnison(unison);
             v->setDetuneRange(detune);
-
-            std::cout << "Unison dial: " << unison << "Val: " << v->getUnison() << std::endl;
-            std::cout << "Detune dial: " << unison << "Val: " << v->getDetuneRange() << std::endl;
         }
     }
 

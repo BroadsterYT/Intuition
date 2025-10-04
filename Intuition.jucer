@@ -6,6 +6,9 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
+            file="Source/WavetableBank.cpp"/>
+      <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
       <GROUP id="{85E551C5-6659-167B-444B-C9F34F7A7269}" name="LFO">
         <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
         <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>

@@ -11,11 +11,14 @@
 #pragma once
 #include <JuceHeader.h>
 #include "WavetableOsc.h"
+#include "WavetableBank.h"
 
 
 class UnisonWavetableVoice : public juce::SynthesiserVoice {
 public:
-    UnisonWavetableVoice(const juce::AudioBuffer<float>& tableToUse);
+    UnisonWavetableVoice(juce::AudioProcessorValueTreeState& vts, WavetableBank& bankToUse);
+
+    void setWavetable(WavetableBank& bankToUse);
 
     int getUnison();
     void setUnison(int newUnison);
@@ -36,9 +39,12 @@ public:
     void setEnvelopeParams(const juce::ADSR::Parameters& params);
 
 private:
+    juce::AudioProcessorValueTreeState& parameters;
+
     int unison = 1;
     std::vector<WavetableOsc> oscs;
-    juce::AudioBuffer<float> wavetable;
+    WavetableBank bank;
+    //juce::AudioBuffer<float> wavetable;
 
     juce::ADSR adsr;
     float currentFreq = 440.0f;

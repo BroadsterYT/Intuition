@@ -11,22 +11,15 @@
 #include "WaveformDisplay.h"
 
 
-WaveformDisplay::WaveformDisplay() {}
+WaveformDisplay::WaveformDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank) : parameters(vts), bank(bank) {
+    startTimerHz(60);
+}
 
-void WaveformDisplay::setWaveform(const juce::AudioBuffer<float>& buffer) {
-    if (buffer.getNumSamples() == 0) return;
+void WaveformDisplay::setBank(WavetableBank& bank) {
+    if (bank.size() == 0) return;
+    this->bank = bank;
 
-    waveform.clear();
-    auto* samples = buffer.getReadPointer(0);
-
-    int numSamples = buffer.getNumSamples();
-    waveform.ensureStorageAllocated(numSamples);
-
-    for (int i = 0; i < numSamples; ++i) {
-        waveform.add(samples[i]);
-    }
-
-    repaint();
+    buildWaveform();
 }
 
 void WaveformDisplay::paint(juce::Graphics& g) {
@@ -38,6 +31,8 @@ void WaveformDisplay::paint(juce::Graphics& g) {
     int width = getWidth();
     int height = getHeight();
 
+    buildWaveform();
+
     juce::Path path;
     path.startNewSubPath(0, height / 2);
 
@@ -48,4 +43,23 @@ void WaveformDisplay::paint(juce::Graphics& g) {
     }
 
     g.strokePath(path, juce::PathStrokeType(2.0f));
+}
+
+void WaveformDisplay::buildWaveform() {
+    waveform.clear();
+    float alpha = *parameters.getRawParameterValue("A_MORPH");
+    auto* samplesA = bank.getWavetable(0).getReadPointer(0);
+    auto* samplesB = bank.getWavetable(bank.size() - 1).getReadPointer(0);
+
+    int numSamples = bank.getWavetable(0).getNumSamples();
+    waveform.ensureStorageAllocated(numSamples);
+
+    // TODO: Draw morphed wave
+    for (int i = 0; i < numSamples; ++i) {
+        waveform.add(((1 - alpha) * samplesA[i] + alpha * samplesB[i]));
+    }
+}
+
+void WaveformDisplay::timerCallback() {
+    repaint();
 }

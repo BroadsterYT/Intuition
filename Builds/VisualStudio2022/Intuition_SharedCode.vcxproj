@@ -144,6 +144,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\WavetableBank.cpp"/>
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
     <ClCompile Include="..\..\Source\LFOPoint.cpp"/>
     <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
@@ -2853,6 +2854,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\WavetableBank.h"/>
     <ClInclude Include="..\..\Source\LFOShape.h"/>
     <ClInclude Include="..\..\Source\LFOPoint.h"/>
     <ClInclude Include="..\..\Source\LFOEditor.h"/>

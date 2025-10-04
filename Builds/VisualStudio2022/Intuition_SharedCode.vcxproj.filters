@@ -664,6 +664,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\WavetableBank.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LFOShape.cpp">
       <Filter>Intuition\Source\LFO</Filter>
     </ClCompile>
@@ -3567,6 +3570,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\WavetableBank.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\LFOShape.h">
       <Filter>Intuition\Source\LFO</Filter>
     </ClInclude>

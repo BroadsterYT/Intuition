@@ -10,15 +10,21 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "WavetableBank.h"
 
 
-class WaveformDisplay : public juce::Component {
+class WaveformDisplay : public juce::Component, private juce::Timer {
 public:
-    WaveformDisplay();
+    WaveformDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank);
 
-    void setWaveform(const juce::AudioBuffer<float>& buffer);
+    void setBank(WavetableBank& bank);
     void paint(juce::Graphics& g) override;
 
 private:
+    WavetableBank& bank;
+    juce::AudioProcessorValueTreeState& parameters;
     juce::Array<float> waveform;
+
+    void buildWaveform();
+    void timerCallback() override;
 };

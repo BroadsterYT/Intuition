@@ -11,10 +11,14 @@
 #include "UnisonWavetableVoice.h"
 
 
-UnisonWavetableVoice::UnisonWavetableVoice(const juce::AudioBuffer<float>& tableToUse) {
-    wavetable = tableToUse;
+UnisonWavetableVoice::UnisonWavetableVoice(juce::AudioProcessorValueTreeState& vts, WavetableBank& bankToUse) : parameters(vts) {
+    bank = bankToUse;
     setUnison(unison);
     adsr.setSampleRate(getSampleRate());
+}
+
+void UnisonWavetableVoice::setWavetable(WavetableBank& bankToUse) {
+    bank = bankToUse;
 }
 
 int UnisonWavetableVoice::getUnison() {
@@ -25,7 +29,9 @@ void UnisonWavetableVoice::setUnison(int newUnison) {
     if (newUnison > oscs.size()) {
         for (int i = oscs.size(); i < newUnison; ++i) {
             WavetableOsc newOsc;
-            newOsc.setWavetable(wavetable);
+            newOsc.setParameters(&parameters);
+
+            newOsc.setBank(bank);
             newOsc.setSampleRate(getSampleRate());
             oscs.push_back(newOsc);
         }
