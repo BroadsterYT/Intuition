@@ -21,6 +21,7 @@ void WavetableOsc::setBank(WavetableBank& newBank) {
 
 void WavetableOsc::setSampleRate(double newRate) {
     sampleRate = newRate;
+    morphSmooth.reset(sampleRate, 0.01);
 }
 
 void WavetableOsc::setFrequency(float frequency, int detuneCents) {
@@ -37,6 +38,9 @@ float WavetableOsc::getSample() {
     //if (wavetable.getNumSamples() == 0) return 0.0f;
     if (bank.getWavetable(0).getNumSamples() <= 0) return 0.0f;
 
+    float newAlpha = *parameters->getRawParameterValue("A_MORPH");
+    morphSmooth.setTargetValue(newAlpha);
+
     //int tableSize = wavetable.getNumSamples();
     int tableSize = bank.getWavetable(0).getNumSamples();
 
@@ -46,18 +50,20 @@ float WavetableOsc::getSample() {
     int i2 = (i1 + 1) % tableSize;  // The next sample in the wavetable, if i1 is the last sample, it wraps back to beginning
 
     // Assuming all wavetables are the same size!
-    float alpha = *parameters->getRawParameterValue("A_MORPH");
-    float widx = alpha * (bank.size() - 1);
+    float alpha = morphSmooth.getNextValue();
+    float widx = juce::jlimit(0.0f, (float)(bank.size() - 1), alpha * (bank.size() - 1));
     int wi1 = (int)widx;
     float wFrac = widx - wi1;
-    int wi2 = (wi1 + 1) % bank.size();
 
     const float* tableA = bank.getWavetable(wi1).getReadPointer(0);
-    const float* tableB = bank.getWavetable(wi2).getReadPointer(0);
+    const float* tableB = bank.getWavetable((wi1 + 1) % bank.size()).getReadPointer(0);
 
-    float sampleA = tableA[i1] + frac * (tableA[i2] - tableA[i1]); // Proper sample taken from wavetable, if phase was not exact integer
-    float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]); 
-    float sample = (1 - wFrac) * sampleA + wFrac * sampleB;
+    float sampleA = tableA[i1] + frac * (tableA[i2] - tableA[i1]);
+    float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]);
+
+    // cosine crossfade for smooth morphing
+    float t = 0.5f - 0.5f * std::cos(wFrac * juce::MathConstants<float>::pi);
+    float sample = (1.0f - t) * sampleA + t * sampleB;
 
     phase += phaseIncrement;
     while (phase >= 1.0f) {

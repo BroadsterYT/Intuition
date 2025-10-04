@@ -19,14 +19,8 @@ void WavetableBank::addWavetable(const juce::AudioBuffer<float>& newTable) {
     wavetables.push_back(newTable);
 }
 
-void WavetableBank::removeWavetable(juce::AudioBuffer<float>* table) {
-    if (!table) return;
-    for (int i = 0; i < wavetables.size(); ++i) {
-        if (table == &wavetables[i]) {
-            wavetables.erase(wavetables.begin() + i);
-            return;
-        }
-    }
+void WavetableBank::removeWavetable(int index) {
+    wavetables.erase(wavetables.begin() + index);
 }
 
 void WavetableBank::updateWavetable(int index, const juce::AudioBuffer<float>& table) {

@@ -17,17 +17,16 @@ OscillatorDisplay::OscillatorDisplay(juce::AudioProcessorValueTreeState& vts, Wa
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
     
-    addAndMakeVisible(selectWaveButton);
-    selectWaveButton.setButtonText("Edit");
+    addAndMakeVisible(waveBankEditorToggle);
+    waveBankEditorToggle.setButtonText("Edit");
 
-    selectWaveButton.onClick = [this] {
+    waveBankEditorToggle.onClick = [this] {
         waveBankComp->setVisible(true);
     };
     
     addAndMakeVisible(unison);
     addAndMakeVisible(detune);
     addAndMakeVisible(morph);
-
     unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "A_UNISON", unison);
     detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "A_DETUNE", detune);
     morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "A_MORPH", morph);
@@ -62,6 +61,5 @@ void OscillatorDisplay::resized() {
     morph.setBounds(knobArea.removeFromLeft(knobWidth));
 
     waveDisplay.setBounds(area);
-
-    selectWaveButton.setBounds(area.getWidth() - 32, 0, 32, 32);
+    waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);
 }

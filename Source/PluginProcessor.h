@@ -29,7 +29,6 @@ public:
     juce::MidiKeyboardState keyboardState;
 
     WavetableBank bank1;
-    juce::AudioBuffer<float> wavetableBuffer1;
     
     juce::Synthesiser synth;
 
@@ -37,7 +36,11 @@ public:
     float lfo1Phase = 0.0f;
     float lfoPhase2 = 0.0f;
 
-    void addWavetableToBank1(juce::File& wavFile);
+    void resetSynths();
+
+    static void preprocessWavetable(juce::AudioBuffer<float>& wavetable);
+    static void phaseAlignWavetable(juce::AudioBuffer<float>& wavetable);
+    void addWavetableToBank(WavetableBank& bank, juce::File& wavFile);
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

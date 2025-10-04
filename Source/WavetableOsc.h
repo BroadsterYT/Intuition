@@ -26,6 +26,8 @@ private:
     juce::AudioProcessorValueTreeState* parameters;
     WavetableBank bank;
     double sampleRate = 44100.0;
+    juce::SmoothedValue<float> morphSmooth;
+    float lastAlpha = 0.0f;
 
     float phase = 0.0f;  // Phase goes from 0 to 1, 0 being the beginning of a single wave and 1 being the end
     float phaseIncrement = 0.0f;  // Cycles per sample

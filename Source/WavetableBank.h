@@ -17,7 +17,7 @@ public:
     WavetableBank();
 
     void addWavetable(const juce::AudioBuffer<float>& newTable);
-    void removeWavetable(juce::AudioBuffer<float>* table);
+    void removeWavetable(int index);
     void updateWavetable(int index, const juce::AudioBuffer<float>& table);
     
     juce::AudioBuffer<float>& getWavetable(int index);

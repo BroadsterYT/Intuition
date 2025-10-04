@@ -30,7 +30,7 @@ private:
     ItnSlider unison, detune, morph;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> unisonAttachment, detuneAttachment, morphAttachment;
 
-    juce::TextButton selectWaveButton;
+    juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;
     WaveformDisplay waveDisplay;
 };

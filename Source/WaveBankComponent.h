@@ -14,10 +14,11 @@
 #include "PluginProcessor.h"
 
 
-class WaveDiagram : public juce::Component {
+class WaveThumbnail : public juce::Component {
 public:
-    WaveDiagram(int id, WavetableBank& bank);
+    WaveThumbnail(int id, WavetableBank& bank);
 
+    void mouseDown(const juce::MouseEvent& e) override;
     void paint(juce::Graphics& g) override;
     void resized() override;
 
@@ -31,6 +32,7 @@ class WaveBankComponent : public juce::Component {
 public:
     WaveBankComponent(juce::AudioProcessor* ap, juce::AudioProcessorValueTreeState& vts, WavetableBank& bank);
 
+    void resetProcessorSynths();
     void buildWaveComponents();
 
     void paint(juce::Graphics& g) override;
@@ -42,7 +44,7 @@ private:
     WavetableBank& bank;
 
     juce::TextButton addNewWaveButton, closeButton;
-    juce::OwnedArray<WaveDiagram> waveDiagrams;
+    juce::OwnedArray<WaveThumbnail> waveDiagrams;
     juce::Component waves;
     juce::Viewport viewport;
 };

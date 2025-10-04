@@ -32,15 +32,25 @@ WaveBankComponent::WaveBankComponent(juce::AudioProcessor* ap, juce::AudioProces
         );
 
         chooser->launchAsync(
-            juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
+            juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectMultipleItems,
             [this, chooser, &bank] (const juce::FileChooser& fc) {
-                auto file = fc.getResult();
+                auto files = fc.getResults();
+                if (files.size() <= 0) {
+                    DBG("User cancelled file selection.");
+                    return;
+                }
 
-                processor->addWavetableToBank1(file);
+                for (auto& file : files) {
+                    processor->addWavetableToBank(bank, file);
+                }
                 buildWaveComponents();
             }
         );
     };
+}
+
+void WaveBankComponent::resetProcessorSynths() {
+    processor->resetSynths();
 }
 
 void WaveBankComponent::buildWaveComponents() {
@@ -48,7 +58,7 @@ void WaveBankComponent::buildWaveComponents() {
 
     int i = 0;
     for (i = 0; i < bank.size(); ++i) {
-        auto* newWave = new WaveDiagram(i, bank);
+        auto* newWave = new WaveThumbnail(i, bank);
         newWave->setBounds(15 * (i + 1) + 80 * i, 15, 80, 80);
         waves.addAndMakeVisible(newWave);
         waveDiagrams.add(newWave);
@@ -75,11 +85,24 @@ void WaveBankComponent::resized() {
 }
 
 
-WaveDiagram::WaveDiagram(int id, WavetableBank& bank) : bank(bank) {
+WaveThumbnail::WaveThumbnail(int id, WavetableBank& bank) : bank(bank) {
     waveID = id;
 }
 
-void WaveDiagram::paint(juce::Graphics& g) {
+void WaveThumbnail::mouseDown(const juce::MouseEvent& e) {
+    if (e.mods.isRightButtonDown()) {
+        if (bank.size() > 1) {
+            bank.removeWavetable(waveID);
+        }
+
+        if (auto* parent = findParentComponentOfClass<WaveBankComponent>()) {
+            parent->buildWaveComponents();
+            parent->resetProcessorSynths();
+        }
+    }
+}
+
+void WaveThumbnail::paint(juce::Graphics& g) {
     g.fillAll(juce::Colours::black);
 
     int width = getWidth();
@@ -95,7 +118,7 @@ void WaveDiagram::paint(juce::Graphics& g) {
     }
     
     juce::Path path;
-    path.startNewSubPath(0, height / 2);
+    path.startNewSubPath(0, (float)height / 2);
 
     for (int i = 0; i < waveform.size(); ++i) {
         float x = juce::jmap((float)i, 0.0f, (float)waveform.size(), 0.0f, (float)width);
@@ -107,6 +130,6 @@ void WaveDiagram::paint(juce::Graphics& g) {
     g.strokePath(path, juce::PathStrokeType(2.0f));
 }
 
-void WaveDiagram::resized() {
+void WaveThumbnail::resized() {
 
 }

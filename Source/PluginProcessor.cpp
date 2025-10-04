@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     This file contains the basic framework code for a JUCE plugin processor.
@@ -46,7 +46,63 @@ IntuitionAudioProcessor::~IntuitionAudioProcessor()
 {
 }
 
-void IntuitionAudioProcessor::addWavetableToBank1(juce::File& wavFile) {
+void IntuitionAudioProcessor::resetSynths() {
+    synth.clearVoices();
+    for (int i = 0; i < 8; ++i) {
+        synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
+    }
+}
+
+void IntuitionAudioProcessor::preprocessWavetable(juce::AudioBuffer<float>& wavetable) {
+    int numSamples = wavetable.getNumSamples();
+    int numChannels = wavetable.getNumChannels();
+
+    for (int ch = 0; ch < numChannels; ++ch)
+    {
+        float* samples = wavetable.getWritePointer(ch);
+
+        // Remove DC offset
+        float mean = 0.0f;
+        for (int i = 0; i < numSamples; ++i) mean += samples[i];
+        mean /= numSamples;
+
+        for (int i = 0; i < numSamples; ++i) samples[i] -= mean;
+
+        // Normalize peak amplitude to [-1, 1]
+        float maxAmp = 0.0f;
+        for (int i = 0; i < numSamples; ++i) maxAmp = std::max(maxAmp, std::abs(samples[i]));
+
+        if (maxAmp > 0.0f) {
+            for (int i = 0; i < numSamples; ++i) samples[i] /= maxAmp;
+        }
+    }
+}
+
+void IntuitionAudioProcessor::phaseAlignWavetable(juce::AudioBuffer<float>& wavetable) {
+    int numSamples = wavetable.getNumSamples();
+    int numChannels = wavetable.getNumChannels();
+
+    for (int ch = 0; ch < numChannels; ++ch) {
+        float* samples = wavetable.getWritePointer(ch);
+
+        // Find first positive-going zero-crossing
+        int zeroIndex = 0;
+        for (int i = 0; i < numSamples - 1; ++i) {
+            if (samples[i] <= 0.0f && samples[i + 1] > 0.0f) {
+                zeroIndex = i;
+                break;
+            }
+        }
+
+        // Rotate the buffer so it starts at that zero-crossing
+        juce::HeapBlock<float> temp(numSamples);
+        for (int i = 0; i < numSamples; ++i) temp[i] = samples[(i + zeroIndex) % numSamples];
+
+        memcpy(samples, temp, sizeof(float) * numSamples);
+    }
+}
+
+void IntuitionAudioProcessor::addWavetableToBank(WavetableBank& bank, juce::File& wavFile) {
     juce::AudioFormatManager formatManager;
     formatManager.registerBasicFormats();
 
@@ -58,13 +114,13 @@ void IntuitionAudioProcessor::addWavetableToBank1(juce::File& wavFile) {
         temp.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
         reader->read(&temp, 0, (int)reader->lengthInSamples, 0, true, true);
         
-        bank1.addWavetable(temp);
-        DBG("Bank size: " << bank1.size());
+        preprocessWavetable(temp);
+        phaseAlignWavetable(temp);
 
-        synth.clearVoices();
-        for (int i = 0; i < 8; ++i) {
-            synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
-        }
+        bank.addWavetable(temp);
+        DBG("Bank size: " << bank.size());
+
+        resetSynths();
     }
 }
 
@@ -138,12 +194,9 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
     juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
-    addWavetableToBank1(file);
+    addWavetableToBank(bank1, file);
 
-    synth.clearVoices();
-    for (int i = 0; i < 8; ++i) {
-        synth.addVoice(new UnisonWavetableVoice(parameters, bank1));
-    }
+    resetSynths();
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
 }

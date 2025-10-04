@@ -5,6 +5,9 @@
     <Filter Include="Intuition\Source\LFO">
       <UniqueIdentifier>{5D55A7A6-C92B-D5FC-695D-383DF7C9013C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Intuition\Source\GUI\WaveBankEditor">
+      <UniqueIdentifier>{FA0E84C1-4E2C-3DF0-43CF-64A733196597}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Intuition\Source\GUI">
       <UniqueIdentifier>{37F22636-BDFA-40B9-1F11-D9EAFB71131A}</UniqueIdentifier>
     </Filter>
@@ -674,7 +677,7 @@
       <Filter>Intuition\Source\LFO</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WaveBankComponent.cpp">
-      <Filter>Intuition\Source\GUI</Filter>
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LFOEditor.cpp">
       <Filter>Intuition\Source\GUI</Filter>
@@ -3583,7 +3586,7 @@
       <Filter>Intuition\Source\LFO</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WaveBankComponent.h">
-      <Filter>Intuition\Source\GUI</Filter>
+      <Filter>Intuition\Source\GUI\WaveBankEditor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOEditor.h">
       <Filter>Intuition\Source\GUI</Filter>

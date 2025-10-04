@@ -23,7 +23,7 @@ public:
 private:
     WavetableBank& bank;
     juce::AudioProcessorValueTreeState& parameters;
-    juce::Array<float> waveform;
+    juce::Array<float> waveform;  // The values used to construct the image of the waveform
 
     void buildWaveform();
     void timerCallback() override;

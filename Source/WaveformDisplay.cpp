@@ -26,13 +26,10 @@ void WaveformDisplay::paint(juce::Graphics& g) {
     g.fillAll(juce::Colours::black);
     g.setColour(juce::Colours::white);
 
-    if (waveform.size() == 0) return;
-
     int width = getWidth();
     int height = getHeight();
 
     buildWaveform();
-
     juce::Path path;
     path.startNewSubPath(0, height / 2);
 
