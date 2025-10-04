@@ -47,8 +47,6 @@ IntuitionAudioProcessor::~IntuitionAudioProcessor()
 }
 
 void IntuitionAudioProcessor::addWavetableToBank1(juce::File& wavFile) {
-    wavetableBuffer1.clear();
-    
     juce::AudioFormatManager formatManager;
     formatManager.registerBasicFormats();
 

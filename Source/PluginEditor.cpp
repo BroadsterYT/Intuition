@@ -10,12 +10,14 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), tooltipWindow(this),
+IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProcessor& p)
+    : AudioProcessorEditor(&p), audioProcessor(p), tooltipWindow(this),
     midiKeyboard(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     adsrComponent(p.parameters),
-    oscillatorDisplay(&p, p.parameters, p.bank1),
-    lfoEditor(p.lfo1Shape)
+    oscillatorDisplay(p.parameters, p.bank1, &waveBankComp),
+    lfoEditor(p.lfo1Shape),
+
+    waveBankComp(&p, p.parameters, p.bank1)
 {
     addAndMakeVisible(midiKeyboard);
     midiKeyboard.setAvailableRange(21, 108);
@@ -34,6 +36,8 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor (IntuitionAudioProc
 
     addAndMakeVisible(oscillatorDisplay);
     addAndMakeVisible(lfoEditor);
+
+    addChildComponent(waveBankComp);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -67,4 +71,6 @@ void IntuitionAudioProcessorEditor::resized()
 
     oscillatorDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 250);
     lfoEditor.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
+
+    waveBankComp.setBounds(0, 0, 800, 600);
 }

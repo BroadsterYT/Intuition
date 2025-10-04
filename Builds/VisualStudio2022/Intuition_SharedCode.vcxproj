@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\Source\WavetableBank.cpp"/>
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
     <ClCompile Include="..\..\Source\LFOPoint.cpp"/>
+    <ClCompile Include="..\..\Source\WaveBankComponent.cpp"/>
     <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
     <ClCompile Include="..\..\Source\ItnLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\ItnSlider.cpp"/>
@@ -2857,6 +2858,7 @@
     <ClInclude Include="..\..\Source\WavetableBank.h"/>
     <ClInclude Include="..\..\Source\LFOShape.h"/>
     <ClInclude Include="..\..\Source\LFOPoint.h"/>
+    <ClInclude Include="..\..\Source\WaveBankComponent.h"/>
     <ClInclude Include="..\..\Source\LFOEditor.h"/>
     <ClInclude Include="..\..\Source\ItnLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\InlineValueEntry.h"/>

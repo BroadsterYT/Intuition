@@ -15,9 +15,9 @@ WaveformDisplay::WaveformDisplay(juce::AudioProcessorValueTreeState& vts, Waveta
     startTimerHz(60);
 }
 
-void WaveformDisplay::setBank(WavetableBank& bank) {
+void WaveformDisplay::setBank(WavetableBank& newBank) {
     if (bank.size() == 0) return;
-    this->bank = bank;
+    bank = newBank;
 
     buildWaveform();
 }
@@ -41,22 +41,26 @@ void WaveformDisplay::paint(juce::Graphics& g) {
         float y = juce::jmap(waveform[i], -1.0f, 1.0f, (float)height, 0.0f);
         path.lineTo(x, y);
     }
-
     g.strokePath(path, juce::PathStrokeType(2.0f));
 }
 
 void WaveformDisplay::buildWaveform() {
     waveform.clear();
+
     float alpha = *parameters.getRawParameterValue("A_MORPH");
-    auto* samplesA = bank.getWavetable(0).getReadPointer(0);
-    auto* samplesB = bank.getWavetable(bank.size() - 1).getReadPointer(0);
+    float widx = alpha * (bank.size() - 1);
+    int wi1 = (int)widx;
+    float wFrac = widx - wi1;
+    int wi2 = (wi1 + 1) % bank.size();
+
+    auto* tableA = bank.getWavetable(wi1).getReadPointer(0);
+    auto* tableB = bank.getWavetable(wi2).getReadPointer(0);
 
     int numSamples = bank.getWavetable(0).getNumSamples();
     waveform.ensureStorageAllocated(numSamples);
 
-    // TODO: Draw morphed wave
     for (int i = 0; i < numSamples; ++i) {
-        waveform.add(((1 - alpha) * samplesA[i] + alpha * samplesB[i]));
+        waveform.add(((1 - wFrac) * tableA[i] + wFrac * tableB[i]));
     }
 }
 

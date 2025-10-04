@@ -673,6 +673,9 @@
     <ClCompile Include="..\..\Source\LFOPoint.cpp">
       <Filter>Intuition\Source\LFO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\WaveBankComponent.cpp">
+      <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LFOEditor.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
@@ -3578,6 +3581,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOPoint.h">
       <Filter>Intuition\Source\LFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WaveBankComponent.h">
+      <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOEditor.h">
       <Filter>Intuition\Source\GUI</Filter>

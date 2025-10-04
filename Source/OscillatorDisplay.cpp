@@ -11,31 +11,17 @@
 #include "OscillatorDisplay.h"
 #include "PluginProcessor.h"
 
-OscillatorDisplay::OscillatorDisplay(juce::AudioProcessor* p, juce::AudioProcessorValueTreeState& vts, WavetableBank& bank) : parameters(vts), processor(p), waveDisplay(vts, bank) {
+OscillatorDisplay::OscillatorDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank, WaveBankComponent* wbComp) : parameters(vts), waveDisplay(vts, bank) {
+    waveBankComp = wbComp;
+    
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
     
     addAndMakeVisible(selectWaveButton);
     selectWaveButton.setButtonText("Edit");
-    selectWaveButton.onClick = [this] () {
-        auto chooser = std::make_shared<juce::FileChooser>(
-            "Select a WAV file to open...",
-            juce::File{},
-            "*.wav"
-        );
 
-        chooser->launchAsync(
-            juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
-            [this, chooser] (const juce::FileChooser& fc) {
-                auto file = fc.getResult();
-
-                if (file.existsAsFile()) {
-                    auto p = dynamic_cast<IntuitionAudioProcessor*>(processor);
-                    p->addWavetableToBank1(file);
-                    waveDisplay.setBank(p->bank1);
-                }
-            }
-        );
+    selectWaveButton.onClick = [this] {
+        waveBankComp->setVisible(true);
     };
     
     addAndMakeVisible(unison);

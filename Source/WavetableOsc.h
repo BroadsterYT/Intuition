@@ -16,7 +16,7 @@
 class WavetableOsc {
 public:
     void setParameters(juce::AudioProcessorValueTreeState* vts);
-    void setBank(WavetableBank& bank);
+    void setBank(WavetableBank& newBank);
 
     void setSampleRate(double newRate);
     void setFrequency(float frequency, int detuneCents);

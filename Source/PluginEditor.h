@@ -14,6 +14,8 @@
 #include "WaveformDisplay.h"
 #include "OscillatorDisplay.h"
 #include "LFOEditor.h"
+#include "WaveBankComponent.h"
+
 
 //==============================================================================
 /**
@@ -42,6 +44,8 @@ private:
     ADSRComponent adsrComponent;
     OscillatorDisplay oscillatorDisplay;
     LFOEditor lfoEditor;
+
+    WaveBankComponent waveBankComp;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IntuitionAudioProcessorEditor)
 };

@@ -17,7 +17,7 @@ class WaveformDisplay : public juce::Component, private juce::Timer {
 public:
     WaveformDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank);
 
-    void setBank(WavetableBank& bank);
+    void setBank(WavetableBank& newBank);
     void paint(juce::Graphics& g) override;
 
 private:

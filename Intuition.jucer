@@ -16,6 +16,10 @@
         <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="ODdX3E" name="WaveBankComponent.cpp" compile="1" resource="0"
+              file="Source/WaveBankComponent.cpp"/>
+        <FILE id="t1rzXX" name="WaveBankComponent.h" compile="0" resource="0"
+              file="Source/WaveBankComponent.h"/>
         <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
         <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
         <FILE id="KSIxF6" name="ItnLookAndFeel.h" compile="0" resource="0"

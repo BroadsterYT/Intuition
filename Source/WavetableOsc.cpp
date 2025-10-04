@@ -15,8 +15,8 @@ void WavetableOsc::setParameters(juce::AudioProcessorValueTreeState* vts) {
     parameters = vts;
 }
 
-void WavetableOsc::setBank(WavetableBank& bank) {
-    this->bank = bank;
+void WavetableOsc::setBank(WavetableBank& newBank) {
+    bank = newBank;
 }
 
 void WavetableOsc::setSampleRate(double newRate) {
@@ -43,17 +43,21 @@ float WavetableOsc::getSample() {
     float idx = phase * tableSize;  // Unnormalized phase from 0-1 to 0-tableSize
     int i1 = (int)idx;              // Unnormalized phase (integer part)
     float frac = idx - i1;        // Unnormalized phase (fractional part)
-
     int i2 = (i1 + 1) % tableSize;  // The next sample in the wavetable, if i1 is the last sample, it wraps back to beginning
 
-    const float* tableA = bank.getWavetable(0).getReadPointer(0);
-    const float* tableB = bank.getWavetable(bank.size() - 1).getReadPointer(0);
-    
-    // Assuming both wavetables are the same size!
+    // Assuming all wavetables are the same size!
     float alpha = *parameters->getRawParameterValue("A_MORPH");
+    float widx = alpha * (bank.size() - 1);
+    int wi1 = (int)widx;
+    float wFrac = widx - wi1;
+    int wi2 = (wi1 + 1) % bank.size();
+
+    const float* tableA = bank.getWavetable(wi1).getReadPointer(0);
+    const float* tableB = bank.getWavetable(wi2).getReadPointer(0);
+
     float sampleA = tableA[i1] + frac * (tableA[i2] - tableA[i1]); // Proper sample taken from wavetable, if phase was not exact integer
-    float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]); // Proper sample taken from wavetable, if phase was not exact integer
-    float sample = (1 - alpha) * sampleA + alpha * sampleB;
+    float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]); 
+    float sample = (1 - wFrac) * sampleA + wFrac * sampleB;
 
     phase += phaseIncrement;
     while (phase >= 1.0f) {
