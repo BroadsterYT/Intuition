@@ -13,46 +13,48 @@
 
 UnisonWavetableVoice::UnisonWavetableVoice(
     juce::AudioProcessorValueTreeState& vts,
-    WavetableBank& bankToUse,
-    const juce::String octaveParamName,
-    const juce::String coarseParamName,
-    const juce::String fineParamName
+    WavetableBank* bankToUse1,
+    WavetableBank* bankToUse2,
+    WavetableBank* bankToUse3,
+    WavetableBank* bankToUse4
 ) : parameters(vts),
-    bank(bankToUse),
-    octaveParamName(octaveParamName),
-    coarseParamName(coarseParamName),
-    fineParamName(fineParamName) {
+    bank1(bankToUse1), 
+    bank2(bankToUse2), 
+    bank3(bankToUse3), 
+    bank4(bankToUse4)
+{
 
-    setUnison(unison);
+    setUnison();
+
+    oscs[0].setBank(bank1);
+    oscs[1].setBank(bank2);
+    oscs[2].setBank(bank3);
+    oscs[3].setBank(bank4);
+
     adsr.setSampleRate(getSampleRate());
-    updateOscDetunes();
-}
-
-void UnisonWavetableVoice::setWavetable(WavetableBank& bankToUse) {
-    bank = bankToUse;
+    //updateOscDetunes();
 }
 
 int UnisonWavetableVoice::getUnison() {
     return unison;
 }
 
-void UnisonWavetableVoice::setUnison(int newUnison) {
-    if (newUnison > oscs.size()) {
-        for (int i = oscs.size(); i < newUnison; ++i) {
-            WavetableOsc newOsc;
-            newOsc.setParameters(&parameters);
+UnisonOsc& UnisonWavetableVoice::getOsc(int index) {
+    DBG("Getting: " << index << " Size: " << unison);
+    return oscs[index];
+}
 
-            newOsc.setBank(bank);
-            newOsc.setSampleRate(getSampleRate());
-            oscs.push_back(newOsc);
-        }
-    }
-    else if (newUnison < oscs.size()) {
-        oscs.resize(newUnison);
+void UnisonWavetableVoice::setUnison() {
+    for (int i = oscs.size(); i < unison; ++i) {
+        UnisonOsc newOsc;
+        newOsc.setParameters(&parameters);
+
+        newOsc.setBank(banks[i]);
+        newOsc.setSampleRate(getSampleRate());
+        oscs.push_back(newOsc);
     }
 
-    unison = newUnison;
-    updateOscDetunes();
+    //updateOscDetunes();
 }
 
 float UnisonWavetableVoice::getDetuneRange() {
@@ -61,11 +63,11 @@ float UnisonWavetableVoice::getDetuneRange() {
 
 void UnisonWavetableVoice::setDetuneRange(float range) {
     detuneRange = range;
-    updateOscDetunes();
+    //updateOscDetunes();
 }
 
 void UnisonWavetableVoice::updateOscDetunes() {
-    detuneOffsets.resize(unison);
+    /*detuneOffsets.resize(unison);
     
     if (unison <= 1) {
         detuneOffsets[0] = 0.0f;
@@ -78,9 +80,9 @@ void UnisonWavetableVoice::updateOscDetunes() {
     }
 
     if (currentFreq >= 0) {
-        int octave = static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
-        int semitone = static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
-        int fine = static_cast<int>(*parameters.getRawParameterValue(fineParamName));
+        int octave = 0;//static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
+        int semitone = 0;//static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
+        int fine = 0;//static_cast<int>(*parameters.getRawParameterValue(fineParamName));
 
         // TODO: Make this a helper method
         for (int i = 0; i < unison; ++i) {
@@ -92,7 +94,7 @@ void UnisonWavetableVoice::updateOscDetunes() {
                 detuneOffsets[i]
             );
         }
-    }
+    }*/
 }
 
 bool UnisonWavetableVoice::canPlaySound(juce::SynthesiserSound* sound) {
@@ -102,18 +104,20 @@ bool UnisonWavetableVoice::canPlaySound(juce::SynthesiserSound* sound) {
 void UnisonWavetableVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound*, int /*pitchWheel*/) {
     level = velocity;
 
-    int octave = static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
-    int semitones = static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
-    int fine = static_cast<int>(*parameters.getRawParameterValue(fineParamName));
+    int octave = 0;//static_cast<int>(*parameters.getRawParameterValue(octaveParamName));
+    int semitones = 0;//static_cast<int>(*parameters.getRawParameterValue(coarseParamName));
+    int fine = 0;//static_cast<int>(*parameters.getRawParameterValue(fineParamName));
 
     currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     for (int i = 0; i < unison; ++i) {
+        oscs[i].resetPhase();
+        oscs[i].setCurrentFrequency(currentFreq);
         oscs[i].setFrequency(
             currentFreq,
             octave,
             semitones,
             fine,
-            detuneOffsets[i]
+            0.0f//detuneOffsets[i]
         );
     }
     adsr.noteOn();

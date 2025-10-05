@@ -670,6 +670,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\UnisonOsc.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ItnVoice.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\WavetableBank.cpp">
       <Filter>Intuition\Source</Filter>
     </ClCompile>
@@ -3585,6 +3591,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\UnisonOsc.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ItnVoice.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\WavetableBank.h">
       <Filter>Intuition\Source</Filter>
     </ClInclude>

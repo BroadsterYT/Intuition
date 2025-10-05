@@ -76,10 +76,10 @@ void IntuitionAudioProcessor::resetSynths() {
         synth.addVoice(
             new UnisonWavetableVoice(
                 parameters,
-                bank1,
-                "A_OCTAVE",
-                "A_COARSE",
-                "A_FINE"
+                &bank1,
+                &bank2,
+                &bank3,
+                &bank4
             )
         );
     }
@@ -227,6 +227,9 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
 
     juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
     addWavetableToBank(bank1, file);
+    addWavetableToBank(bank2, file);
+    addWavetableToBank(bank3, file);
+    addWavetableToBank(bank4, file);
 
     resetSynths();
     synth.clearSounds();
@@ -280,14 +283,40 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     adsrParams.release = *parameters.getRawParameterValue("RELEASE");
 
     int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
+    int unisonB = static_cast<int>(*parameters.getRawParameterValue("B_UNISON"));
+    int unisonC = static_cast<int>(*parameters.getRawParameterValue("C_UNISON"));
+    int unisonD = static_cast<int>(*parameters.getRawParameterValue("D_UNISON"));
+
     float detuneA = *parameters.getRawParameterValue("A_DETUNE");
+    float detuneB = *parameters.getRawParameterValue("B_DETUNE");
+    float detuneC = *parameters.getRawParameterValue("C_DETUNE");
+    float detuneD = *parameters.getRawParameterValue("D_DETUNE");
+
+    float morphA = *parameters.getRawParameterValue("A_MORPH");
+    float morphB = *parameters.getRawParameterValue("B_MORPH");
+    float morphC = *parameters.getRawParameterValue("C_MORPH");
+    float morphD = *parameters.getRawParameterValue("D_MORPH");
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
+        DBG("i: " << i);
         if (auto* v = dynamic_cast<UnisonWavetableVoice*>(synth.getVoice(i))) {
             v->setEnvelopeParams(adsrParams);
 
-            v->setUnison(unisonA);
-            v->setDetuneRange(detuneA);
+            v->getOsc(0).setUnison(unisonA);
+            v->getOsc(0).setDetuneRange(detuneA);
+            v->getOsc(0).setMorph(morphA);
+
+            v->getOsc(1).setUnison(unisonB);
+            v->getOsc(1).setDetuneRange(detuneB);
+            v->getOsc(1).setMorph(morphB);
+
+            v->getOsc(2).setUnison(unisonC);
+            v->getOsc(2).setDetuneRange(detuneC);
+            v->getOsc(2).setMorph(morphC);
+
+            v->getOsc(3).setUnison(unisonD);
+            v->getOsc(3).setDetuneRange(detuneD);
+            v->getOsc(3).setMorph(morphD);
         }
     }
 

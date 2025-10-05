@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "WavetableOsc.h"
+#include "UnisonOsc.h"
 #include "WavetableBank.h"
 
 
@@ -18,17 +19,16 @@ class UnisonWavetableVoice : public juce::SynthesiserVoice {
 public:
     UnisonWavetableVoice(
         juce::AudioProcessorValueTreeState& vts,
-        WavetableBank& bankToUse,
-
-        const juce::String octaveParamName,
-        const juce::String coarseParamName,
-        const juce::String fineParamName
+        WavetableBank* bankToUse1,
+        WavetableBank* bankToUse2,
+        WavetableBank* bankToUse3,
+        WavetableBank* bankToUse4
     );
 
-    void setWavetable(WavetableBank& bankToUse);
+    //void setWavetable(WavetableBank& bankToUse);
 
     int getUnison();
-    void setUnison(int newUnison);
+    UnisonOsc& getOsc(int index);
 
     float getDetuneRange();
     void setDetuneRange(float range);
@@ -48,16 +48,18 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
 
-    int unison = 1;
-    std::vector<WavetableOsc> oscs;
-    WavetableBank bank;
+    int unison = 4;
+    std::vector<UnisonOsc> oscs;
+    WavetableBank* bank1 = nullptr;
+    WavetableBank* bank2 = nullptr;
+    WavetableBank* bank3 = nullptr;
+    WavetableBank* bank4 = nullptr;
+    std::vector<WavetableBank*> banks = { bank1, bank2, bank3, bank4 };
+
+    void setUnison();
 
     juce::ADSR adsr;
     float currentFreq = 440.0f;
-
-    juce::String octaveParamName = "A_OCTAVE";
-    juce::String coarseParamName = "A_COARSE";
-    juce::String fineParamName = "A_FINE";
 
     float level = 1.0f;
     float detuneRange = 100.0f;  // Measured in cents

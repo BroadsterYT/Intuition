@@ -28,6 +28,39 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
         "A_COARSE",
         "A_FINE"
     ),
+    oscDisplay2(
+        p.parameters,
+        p.bank2,
+        &waveBankComp2,
+        "B_UNISON",
+        "B_DETUNE",
+        "B_MORPH",
+        "B_OCTAVE",
+        "B_COARSE",
+        "B_FINE"
+    ),
+    oscDisplay3(
+        p.parameters,
+        p.bank3,
+        &waveBankComp3,
+        "C_UNISON",
+        "C_DETUNE",
+        "C_MORPH",
+        "C_OCTAVE",
+        "C_COARSE",
+        "C_FINE"
+    ),
+    oscDisplay4(
+        p.parameters,
+        p.bank4,
+        &waveBankComp4,
+        "D_UNISON",
+        "D_DETUNE",
+        "D_MORPH",
+        "D_OCTAVE",
+        "D_COARSE",
+        "D_FINE"
+    ),
 
     lfoTabs(p.lfo1Shape, p.lfo2Shape, p.lfo3Shape),
 
@@ -52,10 +85,16 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     addAndMakeVisible(adsrComponent);
 
     addAndMakeVisible(oscDisplay1);
+    addAndMakeVisible(oscDisplay2);
+    addAndMakeVisible(oscDisplay3);
+    addAndMakeVisible(oscDisplay4);
     
     addAndMakeVisible(lfoTabs);
 
     addChildComponent(waveBankComp1);
+    addChildComponent(waveBankComp2);
+    addChildComponent(waveBankComp3);
+    addChildComponent(waveBankComp4);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -87,8 +126,14 @@ void IntuitionAudioProcessorEditor::resized()
 
     //waveDisplay.setBounds(adsrComponent.getRight() + padding, padding, 250, 150);
 
-    oscDisplay1.setBounds(adsrComponent.getRight() + padding, padding, 250, 250);
+    oscDisplay1.setBounds(adsrComponent.getRight() + padding, padding, 200, 250);
+    oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);
+    oscDisplay3.setBounds(adsrComponent.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
+    oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
     lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
 
     waveBankComp1.setBounds(0, 0, 800, 600);
+    waveBankComp2.setBounds(0, 0, 800, 600);
+    waveBankComp3.setBounds(0, 0, 800, 600);
+    waveBankComp4.setBounds(0, 0, 800, 600);
 }
