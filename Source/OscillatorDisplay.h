@@ -23,6 +23,7 @@ public:
         WavetableBank& bank,
         WaveBankComponent* wbComp,
         
+        const juce::String toggleParamName,
         const juce::String unisonParamName,
         const juce::String detuneParamName,
         const juce::String morphParamName,
@@ -37,12 +38,16 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
 
+    juce::String toggleParamName;
     juce::String unisonParamName;
     juce::String detuneParamName;
     juce::String morphParamName;
     juce::String octaveParamName;
     juce::String coarseParamName;
     juce::String fineParamName;
+
+    juce::ToggleButton toggle;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
     ItnSlider unison, detune, morph;
     ItnSlider octave, coarse, fine;

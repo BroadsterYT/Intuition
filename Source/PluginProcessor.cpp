@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "WavetableHelper.h"
 
 //==============================================================================
 IntuitionAudioProcessor::IntuitionAudioProcessor()
@@ -32,6 +33,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
         
         //=============== Oscillators ================//
+        std::make_unique<juce::AudioParameterBool>("A_TOGGLE", "A Toggle", true),
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("A_DETUNE", "A Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("A_MORPH", "A Morph", 0.0f, 1.0f, 0.0f),
@@ -39,6 +41,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("A_COARSE", "A Coarse Pitch", -12, 12, 0),
         std::make_unique<juce::AudioParameterInt>("A_FINE", "A Fine Pitch", -100, 100, 0),
 
+        std::make_unique<juce::AudioParameterBool>("B_TOGGLE", "B Toggle", false),
         std::make_unique<juce::AudioParameterInt>("B_UNISON", "B Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("B_DETUNE", "B Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("B_MORPH", "B Morph", 0.0f, 1.0f, 0.0f),
@@ -46,6 +49,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("B_COARSE", "B Coarse Pitch", -12, 12, 0),
         std::make_unique<juce::AudioParameterInt>("B_FINE", "B Fine Pitch", -100, 100, 0),
 
+        std::make_unique<juce::AudioParameterBool>("C_TOGGLE", "C Toggle", false),
         std::make_unique<juce::AudioParameterInt>("C_UNISON", "C Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("C_DETUNE", "C Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("C_MORPH", "C Morph", 0.0f, 1.0f, 0.0f),
@@ -53,6 +57,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("C_COARSE", "C Coarse Pitch", -12, 12, 0),
         std::make_unique<juce::AudioParameterInt>("C_FINE", "C Fine Pitch", -100, 100, 0),
 
+        std::make_unique<juce::AudioParameterBool>("D_TOGGLE", "D Toggle", false),
         std::make_unique<juce::AudioParameterInt>("D_UNISON", "D Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("D_DETUNE", "D Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("D_MORPH", "D Morph", 0.0f, 1.0f, 0.0f),
@@ -62,10 +67,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.0f, 30.0f, 1.0f),
-        std::make_unique<juce::AudioParameterFloat>("LFO1_DEPTH", "LFO 1 Depth", 0.0f, 1.0f, 0.25f),
     })
 {
     parameters.state = juce::ValueTree("PARAMETERS");
+
+    juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
+    addWavetableToBank(bank1, file);
+    addWavetableToBank(bank2, file);
+    addWavetableToBank(bank3, file);
+    addWavetableToBank(bank4, file);
+
+    resetSynths();
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -74,7 +86,7 @@ void IntuitionAudioProcessor::resetSynths() {
     synth.clearVoices();
     for (int i = 0; i < 8; ++i) {
         synth.addVoice(
-            new UnisonWavetableVoice(
+            new UnisonVoice(
                 parameters,
                 &bank1,
                 &bank2,
@@ -82,55 +94,6 @@ void IntuitionAudioProcessor::resetSynths() {
                 &bank4
             )
         );
-    }
-}
-
-void IntuitionAudioProcessor::preprocessWavetable(juce::AudioBuffer<float>& wavetable) {
-    int numSamples = wavetable.getNumSamples();
-    int numChannels = wavetable.getNumChannels();
-
-    for (int ch = 0; ch < numChannels; ++ch)
-    {
-        float* samples = wavetable.getWritePointer(ch);
-
-        // Remove DC offset
-        float mean = 0.0f;
-        for (int i = 0; i < numSamples; ++i) mean += samples[i];
-        mean /= numSamples;
-
-        for (int i = 0; i < numSamples; ++i) samples[i] -= mean;
-
-        // Normalize peak amplitude to [-1, 1]
-        float maxAmp = 0.0f;
-        for (int i = 0; i < numSamples; ++i) maxAmp = std::max(maxAmp, std::abs(samples[i]));
-
-        if (maxAmp > 0.0f) {
-            for (int i = 0; i < numSamples; ++i) samples[i] /= maxAmp;
-        }
-    }
-}
-
-void IntuitionAudioProcessor::phaseAlignWavetable(juce::AudioBuffer<float>& wavetable) {
-    int numSamples = wavetable.getNumSamples();
-    int numChannels = wavetable.getNumChannels();
-
-    for (int ch = 0; ch < numChannels; ++ch) {
-        float* samples = wavetable.getWritePointer(ch);
-
-        // Find first positive-going zero-crossing
-        int zeroIndex = 0;
-        for (int i = 0; i < numSamples - 1; ++i) {
-            if (samples[i] <= 0.0f && samples[i + 1] > 0.0f) {
-                zeroIndex = i;
-                break;
-            }
-        }
-
-        // Rotate the buffer so it starts at that zero-crossing
-        juce::HeapBlock<float> temp(numSamples);
-        for (int i = 0; i < numSamples; ++i) temp[i] = samples[(i + zeroIndex) % numSamples];
-
-        memcpy(samples, temp, sizeof(float) * numSamples);
     }
 }
 
@@ -146,8 +109,8 @@ void IntuitionAudioProcessor::addWavetableToBank(WavetableBank& bank, juce::File
         temp.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
         reader->read(&temp, 0, (int)reader->lengthInSamples, 0, true, true);
         
-        preprocessWavetable(temp);
-        phaseAlignWavetable(temp);
+        WavetableHelper::preprocessWavetable(temp);
+        WavetableHelper::phaseAlignWavetable(temp);
 
         bank.addWavetable(temp);
         DBG("Bank size: " << bank.size());
@@ -225,12 +188,6 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     // initialisation that you need..
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
-    juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
-    addWavetableToBank(bank1, file);
-    addWavetableToBank(bank2, file);
-    addWavetableToBank(bank3, file);
-    addWavetableToBank(bank4, file);
-
     resetSynths();
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
@@ -299,29 +256,28 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         DBG("i: " << i);
-        if (auto* v = dynamic_cast<UnisonWavetableVoice*>(synth.getVoice(i))) {
+        if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
             v->setEnvelopeParams(adsrParams);
 
-            v->getOsc(0).setUnison(unisonA);
-            v->getOsc(0).setDetuneRange(detuneA);
-            v->getOsc(0).setMorph(morphA);
+            v->getOscA().setUnison(unisonA);
+            v->getOscA().setDetuneRange(detuneA);
+            v->getOscA().setMorph(morphA);
 
-            v->getOsc(1).setUnison(unisonB);
-            v->getOsc(1).setDetuneRange(detuneB);
-            v->getOsc(1).setMorph(morphB);
+            v->getOscB().setUnison(unisonB);
+            v->getOscB().setDetuneRange(detuneB);
+            v->getOscB().setMorph(morphB);
 
-            v->getOsc(2).setUnison(unisonC);
-            v->getOsc(2).setDetuneRange(detuneC);
-            v->getOsc(2).setMorph(morphC);
+            v->getOscC().setUnison(unisonC);
+            v->getOscC().setDetuneRange(detuneC);
+            v->getOscC().setMorph(morphC);
 
-            v->getOsc(3).setUnison(unisonD);
-            v->getOsc(3).setDetuneRange(detuneD);
-            v->getOsc(3).setMorph(morphD);
+            v->getOscD().setUnison(unisonD);
+            v->getOscD().setDetuneRange(detuneD);
+            v->getOscD().setMorph(morphD);
         }
     }
 
     float lfoRate = *parameters.getRawParameterValue("LFO1_RATE");
-    float lfoDepth = *parameters.getRawParameterValue("LFO1_DEPTH");
     float phaseIncrement = lfoRate / getSampleRate();
     float lfo1Value = 0.0f;
     
@@ -335,7 +291,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     }
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+        buffer.clear(i, 0, buffer.getNumSamples());
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     float masterVol = *parameters.getRawParameterValue("MASTER");

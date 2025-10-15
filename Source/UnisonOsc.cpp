@@ -11,9 +11,7 @@
 #include "UnisonOsc.h"
 
 
-UnisonOsc::UnisonOsc() {
-    //setUnison(unison);
-}
+UnisonOsc::UnisonOsc() {}
 
 void UnisonOsc::setParameters(juce::AudioProcessorValueTreeState* vts) {
     parameters = vts;
@@ -89,7 +87,7 @@ void UnisonOsc::setDetuneRange(float range) {
 void UnisonOsc::updateOscDetunes() {
     detuneOffsets.resize(unison);
 
-    if (unison <= 1) {
+    if (unison == 1) {
         detuneOffsets[0] = 0.0f;
     }
     else {

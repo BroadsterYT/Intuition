@@ -16,6 +16,7 @@ OscillatorDisplay::OscillatorDisplay(
     WavetableBank& bank,
     WaveBankComponent* wbComp,
     
+    const juce::String toggleParamName,
     const juce::String unisonParamName,
     const juce::String detuneParamName,
     const juce::String morphParamName,
@@ -26,6 +27,7 @@ OscillatorDisplay::OscillatorDisplay(
     waveDisplay(vts, bank, morphParamName),
     waveBankComp(wbComp),
     
+    toggleParamName(toggleParamName),
     unisonParamName(unisonParamName),
     detuneParamName(detuneParamName),
     morphParamName(morphParamName),
@@ -43,6 +45,7 @@ OscillatorDisplay::OscillatorDisplay(
         waveBankComp->setVisible(true);
     };
     
+    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
     unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
     detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, detuneParamName, detune);
     morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, morphParamName, morph);
@@ -59,6 +62,7 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setRange(-12, 12, 1);
     fine.setRange(-100, 100, 1);
 
+    toggle.setButtonText("");
     unison.setLabelNames("Unison", "U");
     detune.setLabelNames("Detune", "D");
     morph.setLabelNames("Morph", "WTM");
@@ -73,6 +77,7 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 
+    addAndMakeVisible(toggle);
     addAndMakeVisible(unison);
     addAndMakeVisible(detune);
     addAndMakeVisible(morph);
@@ -102,6 +107,8 @@ void OscillatorDisplay::resized() {
     octave.setBounds(pitchArea.removeFromLeft(pitchWidth));
     coarse.setBounds(pitchArea.removeFromLeft(pitchWidth));
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
+
+    toggle.setBounds(10, 10, 25, 25);
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

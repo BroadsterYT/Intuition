@@ -11,7 +11,9 @@
 #pragma once
 #include <JuceHeader.h>
 
-
+/// <summary>
+/// A class with functions for formatting/manipulating wavetables
+/// </summary>
 class WavetableBank {
 public:
     WavetableBank();
