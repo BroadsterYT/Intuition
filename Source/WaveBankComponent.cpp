@@ -47,8 +47,9 @@ WaveBankComponent::WaveBankComponent(
                 }
 
                 for (auto& file : files) {
-                    processor->addWavetableToBank(bank, file);
+                    bank.addWavetable(file);
                 }
+                processor->resetSynths();
                 buildWaveThumbnails();
             }
         );

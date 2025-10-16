@@ -10,7 +10,7 @@
 
 #include <JuceHeader.h>
 #include "SineWaveSound.h"
-#include "UnisonWavetableVoice.h"
+#include "UnisonVoice.h"
 #include "LFOShape.h"
 #include "WavetableBank.h"
 
@@ -40,10 +40,6 @@ public:
     float lfo3Phase = 0.0f;
 
     void resetSynths();
-
-    static void preprocessWavetable(juce::AudioBuffer<float>& wavetable);
-    static void phaseAlignWavetable(juce::AudioBuffer<float>& wavetable);
-    void addWavetableToBank(WavetableBank& bank, juce::File& wavFile);
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

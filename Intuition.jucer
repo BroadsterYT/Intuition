@@ -6,6 +6,14 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
+            file="Source/WavetableHelper.cpp"/>
+      <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
+            file="Source/WavetableHelper.h"/>
+      <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
+      <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
+      <FILE id="nd2hyr" name="ItnVoice.cpp" compile="1" resource="0" file="Source/ItnVoice.cpp"/>
+      <FILE id="hIOVSc" name="ItnVoice.h" compile="0" resource="0" file="Source/ItnVoice.h"/>
       <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
             file="Source/WavetableBank.cpp"/>
       <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
@@ -51,12 +59,10 @@
         <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
               file="Source/WaveformDisplay.cpp"/>
       </GROUP>
-      <FILE id="UVPiFe" name="UnisonWavetableVoice.cpp" compile="1" resource="0"
-            file="Source/UnisonWavetableVoice.cpp"/>
-      <FILE id="L1f5Rn" name="UnisonWavetableVoice.h" compile="0" resource="0"
-            file="Source/UnisonWavetableVoice.h"/>
+      <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
+      <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
       <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
-            file="Source/WavetableOsc.cpp"/>
+            file="Source/WavetableOsc.cpp" skipPCH="1"/>
       <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
       <FILE id="Wh8cjT" name="PluginProcessor.cpp" compile="1" resource="0"

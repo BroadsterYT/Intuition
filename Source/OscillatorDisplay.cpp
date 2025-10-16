@@ -16,6 +16,7 @@ OscillatorDisplay::OscillatorDisplay(
     WavetableBank& bank,
     WaveBankComponent* wbComp,
     
+    const juce::String toggleParamName,
     const juce::String unisonParamName,
     const juce::String detuneParamName,
     const juce::String morphParamName,
@@ -23,9 +24,10 @@ OscillatorDisplay::OscillatorDisplay(
     const juce::String coarseParamName,
     const juce::String fineParamName
 ) : parameters(vts),
-    waveDisplay(vts, bank),
+    waveDisplay(vts, bank, morphParamName),
     waveBankComp(wbComp),
     
+    toggleParamName(toggleParamName),
     unisonParamName(unisonParamName),
     detuneParamName(detuneParamName),
     morphParamName(morphParamName),
@@ -43,12 +45,15 @@ OscillatorDisplay::OscillatorDisplay(
         waveBankComp->setVisible(true);
     };
     
+    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
     unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
     detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, detuneParamName, detune);
     morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, morphParamName, morph);
     octaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, octaveParamName, octave);
     coarseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, coarseParamName, coarse);
     fineAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, fineParamName, fine);
+
+    //DBG("Dials" << morphParamName);
 
     unison.setRange(1, 8, 1);
     detune.setRange(0, 100);
@@ -57,6 +62,7 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setRange(-12, 12, 1);
     fine.setRange(-100, 100, 1);
 
+    toggle.setButtonText("");
     unison.setLabelNames("Unison", "U");
     detune.setLabelNames("Detune", "D");
     morph.setLabelNames("Morph", "WTM");
@@ -71,6 +77,7 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 
+    addAndMakeVisible(toggle);
     addAndMakeVisible(unison);
     addAndMakeVisible(detune);
     addAndMakeVisible(morph);
@@ -100,6 +107,8 @@ void OscillatorDisplay::resized() {
     octave.setBounds(pitchArea.removeFromLeft(pitchWidth));
     coarse.setBounds(pitchArea.removeFromLeft(pitchWidth));
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
+
+    toggle.setBounds(10, 10, 25, 25);
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

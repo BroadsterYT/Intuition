@@ -15,7 +15,7 @@ void WavetableOsc::setParameters(juce::AudioProcessorValueTreeState* vts) {
     parameters = vts;
 }
 
-void WavetableOsc::setBank(WavetableBank& newBank) {
+void WavetableOsc::setBank(WavetableBank* newBank) {
     bank = newBank;
 }
 
@@ -30,7 +30,7 @@ void WavetableOsc::setFrequency(
     int semitones,
     int fineCents,
     int detuneCents) {
-    if (bank.getWavetable(0).getNumSamples() == 0) return;
+    if (bank->size() == 0 || bank->getWavetable(0).getNumSamples() == 0) return;
 
     float totalCents = (octave * 1200.0f) + (semitones * 100.0f) + fineCents + detuneCents;
     float pitchMult = std::pow(2.0f, (float)totalCents / 1200.0f);
@@ -39,14 +39,19 @@ void WavetableOsc::setFrequency(
     phaseIncrement = finalFreq / (float)sampleRate;
 }
 
-float WavetableOsc::getSample() {
-    if (bank.getWavetable(0).getNumSamples() <= 0) return 0.0f;
+void WavetableOsc::setMorph(float alpha) {
+    morphSmooth.setTargetValue(alpha);
+}
 
-    float newAlpha = *parameters->getRawParameterValue("A_MORPH");
-    morphSmooth.setTargetValue(newAlpha);
+void WavetableOsc::resetPhase() {
+    phase = 0.0f;
+}
+
+float WavetableOsc::getSample() {
+    if (!bank || bank->getWavetable(0).getNumSamples() <= 0) return 0.0f;
 
     //int tableSize = wavetable.getNumSamples();
-    int tableSize = bank.getWavetable(0).getNumSamples();
+    int tableSize = bank->getWavetable(0).getNumSamples();
 
     float idx = phase * tableSize;  // Unnormalized phase from 0-1 to 0-tableSize
     int i1 = (int)idx;              // Unnormalized phase (integer part)
@@ -55,12 +60,12 @@ float WavetableOsc::getSample() {
 
     // Assuming all wavetables are the same size!
     float alpha = morphSmooth.getNextValue();
-    float widx = juce::jlimit(0.0f, (float)(bank.size() - 1), alpha * (bank.size() - 1));
+    float widx = juce::jlimit(0.0f, (float)(bank->size() - 1), alpha * (bank->size() - 1));
     int wi1 = (int)widx;
     float wFrac = widx - wi1;
 
-    const float* tableA = bank.getWavetable(wi1).getReadPointer(0);
-    const float* tableB = bank.getWavetable((wi1 + 1) % bank.size()).getReadPointer(0);
+    const float* tableA = bank->getWavetable(wi1).getReadPointer(0);
+    const float* tableB = bank->getWavetable((wi1 + 1) % bank->size()).getReadPointer(0);
 
     float sampleA = tableA[i1] + frac * (tableA[i2] - tableA[i1]);
     float sampleB = tableB[i1] + frac * (tableB[i2] - tableB[i1]);

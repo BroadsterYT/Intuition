@@ -16,7 +16,7 @@
 class WavetableOsc {
 public:
     void setParameters(juce::AudioProcessorValueTreeState* vts);
-    void setBank(WavetableBank& newBank);
+    void setBank(WavetableBank* newBank);
 
     void setSampleRate(double newRate);
     void setFrequency(
@@ -26,11 +26,14 @@ public:
         int fineCents,
         int detuneCents
     );
+    void setMorph(float alpha);
+
+    void resetPhase();
     float getSample();
 
 private:
     juce::AudioProcessorValueTreeState* parameters;
-    WavetableBank bank;
+    WavetableBank* bank = nullptr;
     double sampleRate = 44100.0;
     juce::SmoothedValue<float> morphSmooth;
     float lastAlpha = 0.0f;

@@ -144,6 +144,9 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\WavetableHelper.cpp"/>
+    <ClCompile Include="..\..\Source\UnisonOsc.cpp"/>
+    <ClCompile Include="..\..\Source\ItnVoice.cpp"/>
     <ClCompile Include="..\..\Source\WavetableBank.cpp"/>
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
     <ClCompile Include="..\..\Source\LFOPoint.cpp"/>
@@ -156,7 +159,7 @@
     <ClCompile Include="..\..\Source\ItnSlider.cpp"/>
     <ClCompile Include="..\..\Source\ADSRComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformDisplay.cpp"/>
-    <ClCompile Include="..\..\Source\UnisonWavetableVoice.cpp"/>
+    <ClCompile Include="..\..\Source\UnisonVoice.cpp"/>
     <ClCompile Include="..\..\Source\WavetableOsc.cpp"/>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
@@ -2857,6 +2860,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\WavetableHelper.h"/>
+    <ClInclude Include="..\..\Source\UnisonOsc.h"/>
+    <ClInclude Include="..\..\Source\ItnVoice.h"/>
     <ClInclude Include="..\..\Source\WavetableBank.h"/>
     <ClInclude Include="..\..\Source\LFOShape.h"/>
     <ClInclude Include="..\..\Source\LFOPoint.h"/>
@@ -2870,7 +2876,7 @@
     <ClInclude Include="..\..\Source\ItnSlider.h"/>
     <ClInclude Include="..\..\Source\ADSRComponent.h"/>
     <ClInclude Include="..\..\Source\WaveformDisplay.h"/>
-    <ClInclude Include="..\..\Source\UnisonWavetableVoice.h"/>
+    <ClInclude Include="..\..\Source\UnisonVoice.h"/>
     <ClInclude Include="..\..\Source\WavetableOsc.h"/>
     <ClInclude Include="..\..\Source\SineWaveSound.h"/>
     <ClInclude Include="..\..\Source\PluginProcessor.h"/>

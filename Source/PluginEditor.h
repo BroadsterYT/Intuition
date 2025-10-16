@@ -41,6 +41,9 @@ private:
     ADSRComponent adsrComponent;
     
     OscillatorDisplay oscDisplay1;
+    OscillatorDisplay oscDisplay2;
+    OscillatorDisplay oscDisplay3;
+    OscillatorDisplay oscDisplay4;
     
     LFOTabs lfoTabs;
 

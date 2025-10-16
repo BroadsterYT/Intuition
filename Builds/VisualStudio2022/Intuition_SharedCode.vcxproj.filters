@@ -670,6 +670,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\WavetableHelper.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnisonOsc.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ItnVoice.cpp">
+      <Filter>Intuition\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\WavetableBank.cpp">
       <Filter>Intuition\Source</Filter>
     </ClCompile>
@@ -706,7 +715,7 @@
     <ClCompile Include="..\..\Source\WaveformDisplay.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UnisonWavetableVoice.cpp">
+    <ClCompile Include="..\..\Source\UnisonVoice.cpp">
       <Filter>Intuition\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WavetableOsc.cpp">
@@ -3585,6 +3594,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\WavetableHelper.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UnisonOsc.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ItnVoice.h">
+      <Filter>Intuition\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\WavetableBank.h">
       <Filter>Intuition\Source</Filter>
     </ClInclude>
@@ -3624,7 +3642,7 @@
     <ClInclude Include="..\..\Source\WaveformDisplay.h">
       <Filter>Intuition\Source\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\UnisonWavetableVoice.h">
+    <ClInclude Include="..\..\Source\UnisonVoice.h">
       <Filter>Intuition\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WavetableOsc.h">

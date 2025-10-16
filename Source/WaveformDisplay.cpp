@@ -11,7 +11,7 @@
 #include "WaveformDisplay.h"
 
 
-WaveformDisplay::WaveformDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank) : parameters(vts), bank(bank) {
+WaveformDisplay::WaveformDisplay(juce::AudioProcessorValueTreeState& vts, WavetableBank& bank, juce::String morphParamName) : parameters(vts), bank(bank), morphParamName(morphParamName) {
     startTimerHz(60);
 }
 
@@ -44,7 +44,7 @@ void WaveformDisplay::paint(juce::Graphics& g) {
 void WaveformDisplay::buildWaveform() {
     waveform.clear();
 
-    float alpha = *parameters.getRawParameterValue("A_MORPH");
+    float alpha = *parameters.getRawParameterValue(morphParamName);
     float widx = alpha * (bank.size() - 1);
     int wi1 = (int)widx;
     float wFrac = widx - wi1;
