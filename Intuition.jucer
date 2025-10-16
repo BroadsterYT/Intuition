@@ -62,7 +62,7 @@
       <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
       <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
       <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
-            file="Source/WavetableOsc.cpp"/>
+            file="Source/WavetableOsc.cpp" skipPCH="1"/>
       <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
       <FILE id="Wh8cjT" name="PluginProcessor.cpp" compile="1" resource="0"

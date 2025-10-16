@@ -19,10 +19,10 @@ public:
     WavetableBank();
 
     /// <summary>
-    /// Adds a new wavetable to the wavebank
+    /// Adds a wavetable from a .wav file to the wavebank
     /// </summary>
-    /// <param name="newTable">The wavetable to add</param>
-    void addWavetable(const juce::AudioBuffer<float>& newTable);
+    /// <param name="wavFile">The wavtable .wav</param>
+    void addWavetable(juce::File& wavFile);
     /// <summary>
     /// Removes a wavetable from the wavebank. If there is only 1 wavetable in the
     /// bank, it will not be removed.

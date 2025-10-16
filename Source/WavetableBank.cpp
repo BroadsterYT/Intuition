@@ -9,14 +9,30 @@
 */
 
 #include "WavetableBank.h"
+#include "WavetableHelper.h"
 
 
 WavetableBank::WavetableBank() {
 
 }
 
-void WavetableBank::addWavetable(const juce::AudioBuffer<float>& newTable) {
-    wavetables.push_back(newTable);
+void WavetableBank::addWavetable(juce::File& wavFile) {
+    juce::AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
+
+    jassert(wavFile.existsAsFile());
+    std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(wavFile));
+
+    if (reader != nullptr) {
+        juce::AudioBuffer<float> temp;
+        temp.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+        reader->read(&temp, 0, (int)reader->lengthInSamples, 0, true, true);
+
+        WavetableHelper::preprocessWavetable(temp);
+        WavetableHelper::phaseAlignWavetable(temp);
+
+        wavetables.push_back(temp);
+    }
 }
 
 void WavetableBank::removeWavetable(int index) {

@@ -40,13 +40,6 @@ public:
     float lfo3Phase = 0.0f;
 
     void resetSynths();
-    /// <summary>
-    /// Adds a wavetable to one of the processor's banks and resets the synth voices.
-    /// The wavetable is formatted for morphing before inserting.
-    /// </summary>
-    /// <param name="bank">The bank to add the wavetable to</param>
-    /// <param name="wavFile">The file containing the wavetable to add</param>
-    void addWavetableToBank(WavetableBank& bank, juce::File& wavFile);
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

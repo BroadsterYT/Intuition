@@ -72,10 +72,10 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     parameters.state = juce::ValueTree("PARAMETERS");
 
     juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
-    addWavetableToBank(bank1, file);
-    addWavetableToBank(bank2, file);
-    addWavetableToBank(bank3, file);
-    addWavetableToBank(bank4, file);
+    bank1.addWavetable(file);
+    bank2.addWavetable(file);
+    bank3.addWavetable(file);
+    bank4.addWavetable(file);
 
     resetSynths();
 }
@@ -94,28 +94,6 @@ void IntuitionAudioProcessor::resetSynths() {
                 &bank4
             )
         );
-    }
-}
-
-void IntuitionAudioProcessor::addWavetableToBank(WavetableBank& bank, juce::File& wavFile) {
-    juce::AudioFormatManager formatManager;
-    formatManager.registerBasicFormats();
-
-    jassert(wavFile.existsAsFile());
-    std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(wavFile));
-
-    if (reader != nullptr) {
-        juce::AudioBuffer<float> temp;
-        temp.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
-        reader->read(&temp, 0, (int)reader->lengthInSamples, 0, true, true);
-        
-        WavetableHelper::preprocessWavetable(temp);
-        WavetableHelper::phaseAlignWavetable(temp);
-
-        bank.addWavetable(temp);
-        DBG("Bank size: " << bank.size());
-
-        resetSynths();
     }
 }
 
