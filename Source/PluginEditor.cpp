@@ -66,7 +66,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
         "D_FINE"
     ),
 
-    lfoTabs(p.lfo1Shape, p.lfo2Shape, p.lfo3Shape),
+    lfoTabs(p.lfoShape1, p.lfoShape2, p.lfoShape3),
 
     waveBankComp1(&p, p.parameters, p.bank1),
     waveBankComp2(&p, p.parameters, p.bank2),

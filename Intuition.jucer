@@ -6,6 +6,19 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">
+        <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
+        <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
+        <FILE id="yob1b7" name="ModDestination.h" compile="0" resource="0"
+              file="Source/ModDestination.h"/>
+        <FILE id="adDt3s" name="ModDestination.cpp" compile="1" resource="0"
+              file="Source/ModDestination.cpp"/>
+        <FILE id="vU0OON" name="ModConnection.h" compile="0" resource="0" file="Source/ModConnection.h"/>
+        <FILE id="o125Of" name="ModConnection.cpp" compile="1" resource="0"
+              file="Source/ModConnection.cpp"/>
+        <FILE id="i8ofm1" name="ModMatrix.h" compile="0" resource="0" file="Source/ModMatrix.h"/>
+        <FILE id="yxogXf" name="ModMatrix.cpp" compile="1" resource="0" file="Source/ModMatrix.cpp"/>
+      </GROUP>
       <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
             file="Source/WavetableHelper.cpp"/>
       <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"

@@ -144,6 +144,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ModSource.cpp"/>
+    <ClCompile Include="..\..\Source\ModDestination.cpp"/>
+    <ClCompile Include="..\..\Source\ModConnection.cpp"/>
+    <ClCompile Include="..\..\Source\ModMatrix.cpp"/>
     <ClCompile Include="..\..\Source\WavetableHelper.cpp"/>
     <ClCompile Include="..\..\Source\UnisonOsc.cpp"/>
     <ClCompile Include="..\..\Source\ItnVoice.cpp"/>
@@ -2860,6 +2864,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ModSource.h"/>
+    <ClInclude Include="..\..\Source\ModDestination.h"/>
+    <ClInclude Include="..\..\Source\ModConnection.h"/>
+    <ClInclude Include="..\..\Source\ModMatrix.h"/>
     <ClInclude Include="..\..\Source\WavetableHelper.h"/>
     <ClInclude Include="..\..\Source\UnisonOsc.h"/>
     <ClInclude Include="..\..\Source\ItnVoice.h"/>

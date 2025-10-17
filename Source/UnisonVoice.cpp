@@ -13,11 +13,13 @@
 
 UnisonVoice::UnisonVoice(
     juce::AudioProcessorValueTreeState& vts,
+    ModMatrix& matrix,
     WavetableBank* bankToUse1,
     WavetableBank* bankToUse2,
     WavetableBank* bankToUse3,
     WavetableBank* bankToUse4
 ) : parameters(vts),
+    modMatrix(matrix),
     bank1(bankToUse1), 
     bank2(bankToUse2), 
     bank3(bankToUse3), 
@@ -58,16 +60,10 @@ UnisonOsc& UnisonVoice::getOscD() {
     return oscD;
 }
 
-bool UnisonVoice::canPlaySound(juce::SynthesiserSound* sound) {
-    return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
-}
-
-void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound*, int /*pitchWheel*/) {
-    level = velocity;
-
-    int octA = static_cast<int>(*parameters.getRawParameterValue("A_OCTAVE"));
-    int semA = static_cast<int>(*parameters.getRawParameterValue("A_COARSE"));
-    int finA = static_cast<int>(*parameters.getRawParameterValue("A_FINE"));
+void UnisonVoice::updatePitch() {
+    int octA = static_cast<int>(modMatrix.getModdedDest("A_OCTAVE"));
+    int semA = static_cast<int>(modMatrix.getModdedDest("A_COARSE"));
+    int finA = static_cast<int>(modMatrix.getModdedDest("A_FINE"));
 
     int octB = static_cast<int>(*parameters.getRawParameterValue("B_OCTAVE"));
     int semB = static_cast<int>(*parameters.getRawParameterValue("B_COARSE"));
@@ -81,7 +77,55 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
     int semD = static_cast<int>(*parameters.getRawParameterValue("D_COARSE"));
     int finD = static_cast<int>(*parameters.getRawParameterValue("D_FINE"));
 
-    currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    currentFreq = baseFreq * std::pow(2.0f, (octA * 12 + semA + finA) / 12.0f);
+
+    oscA.setFrequency(
+        currentFreq,
+        0,
+        0,
+        0,
+        0.0f
+    );
+    oscB.setFrequency(
+        currentFreq,
+        0,
+        0,
+        0,
+        0.0f
+    );
+    oscC.setFrequency(
+        currentFreq,
+        0,
+        0,
+        0,
+        0.0f
+    );
+    oscD.setFrequency(
+        currentFreq,
+        0,
+        0,
+        0,
+        0.0f
+    );
+}
+
+bool UnisonVoice::canPlaySound(juce::SynthesiserSound* sound) {
+    return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
+}
+
+void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound*, int /*pitchWheel*/) {
+    level = velocity;
+
+    const double sr = getSampleRate();
+    if (sr > 0.0) {
+        oscA.setSampleRate(sr);
+        oscB.setSampleRate(sr);
+        oscC.setSampleRate(sr);
+        oscD.setSampleRate(sr);
+    }
+
+    baseFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    currentFreq = baseFreq;
 
     oscA.resetPhase();
     oscB.resetPhase();
@@ -93,41 +137,12 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
     oscC.setCurrentFrequency(currentFreq);
     oscD.setCurrentFrequency(currentFreq);
 
-    oscA.setFrequency(
-        currentFreq,
-        octA,
-        semA,
-        finA,
-        0.0f
-    );
-    oscB.setFrequency(
-        currentFreq,
-        octB,
-        semB,
-        finB,
-        0.0f
-    );
-    oscC.setFrequency(
-        currentFreq,
-        octC,
-        semC,
-        finC,
-        0.0f
-    );
-    oscD.setFrequency(
-        currentFreq,
-        octD,
-        semD,
-        finD,
-        0.0f
-    );
-
     adsr.noteOn();
 }
 
 void UnisonVoice::stopNote(float /*velocity*/, bool allowTailOff) {
     adsr.noteOff();
-    currentFreq = -1.0f;
+    //currentFreq = -1.0f;
 
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
@@ -143,6 +158,8 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
         clearCurrentNote();
         return;
     }
+
+    updatePitch();
 
     bool toggleA = *parameters.getRawParameterValue("A_TOGGLE");
     bool toggleB = *parameters.getRawParameterValue("B_TOGGLE");

@@ -78,6 +78,39 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     bank4.addWavetable(file);
 
     resetSynths();
+
+    //========== ModMatrix Setup ==========//
+    //===== Sources
+    ModSource* lfoSource1 = modMatrix.addSource("LFO1");
+
+    //===== Destinations
+    ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
+    ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
+    ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
+    aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
+    aCoarseDest->setBasePtr(parameters.getRawParameterValue("A_COARSE"));
+    aFineDest->setBasePtr(parameters.getRawParameterValue("A_FINE"));
+
+    /*ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
+    ModDestination* bCourseDest = modMatrix.addDestination("B_COARSE");
+    ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
+
+    ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
+    ModDestination* cCourseDest = modMatrix.addDestination("C_COARSE");
+    ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
+
+    ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
+    ModDestination* dCourseDest = modMatrix.addDestination("D_COARSE");
+    ModDestination* dFineDest = modMatrix.addDestination("D_FINE");*/
+
+    /*modMatrix.addConnection("LFO1", "A_COARSE");
+    
+    ModConnection* test = modMatrix.getConnection("LFO1", "A_COARSE");
+    test->getDestination()->setMinRange(-12.0f);
+    test->getDestination()->setMaxRange(12.0f);
+
+    test->getSource()->setValuePtr(&lfoValue1);
+    test->getDestination()->setBasePtr(parameters.getRawParameterValue("A_COARSE"));*/
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -88,6 +121,7 @@ void IntuitionAudioProcessor::resetSynths() {
         synth.addVoice(
             new UnisonVoice(
                 parameters,
+                modMatrix,
                 &bank1,
                 &bank2,
                 &bank3,
@@ -211,6 +245,20 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    //========== LFO Modulation ==========//
+    float lfoRate = *parameters.getRawParameterValue("LFO1_RATE");
+    float phaseIncrement = lfoRate / getSampleRate();
+
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        lfoPhase1 += phaseIncrement;
+        while (lfoPhase1 > 1.0f) {
+            lfoPhase1 -= 1.0f;
+        }
+
+        lfoValue1 = lfoShape1.getValue(lfoPhase1);
+    }
+    modMatrix.applyMods();
+
     juce::ADSR::Parameters adsrParams;
     adsrParams.attack = *parameters.getRawParameterValue("ATTACK");
     adsrParams.decay = *parameters.getRawParameterValue("DECAY");
@@ -233,7 +281,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     float morphD = *parameters.getRawParameterValue("D_MORPH");
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
-        DBG("i: " << i);
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
             v->setEnvelopeParams(adsrParams);
 
@@ -253,19 +300,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             v->getOscD().setDetuneRange(detuneD);
             v->getOscD().setMorph(morphD);
         }
-    }
-
-    float lfoRate = *parameters.getRawParameterValue("LFO1_RATE");
-    float phaseIncrement = lfoRate / getSampleRate();
-    float lfo1Value = 0.0f;
-    
-    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-        lfo1Phase += phaseIncrement;
-        while (lfo1Phase >= 1.0f) {
-            lfo1Phase -= 1.0f;
-        }
-
-        lfo1Value = lfo1Shape.getValue(lfo1Phase);
     }
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
