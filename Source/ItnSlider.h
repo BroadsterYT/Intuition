@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "InlineValueEntry.h"
 #include "ItnLookAndFeel.h"
+#include "ModMatrix.h"
 
 
 class ItnSlider : public juce::Slider {
@@ -25,10 +26,17 @@ public:
     void mouseDown(const juce::MouseEvent& e) override;
     void resized() override;
 
+    void setModMatrix(ModMatrix* matrix);
+
 private:
+    ModMatrix* modMatrix = nullptr;
+
     ItnLookAndFeel lookAndFeel;
     juce::String fullName;
     juce::String nickname;
 
     juce::Label label;
+
+    bool canBeModded = false;
+    void addModLinkSubmenu(juce::PopupMenu& menu);
 };

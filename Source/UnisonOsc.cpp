@@ -38,9 +38,9 @@ void UnisonOsc::setFrequency(
     for (auto& osc : oscillators) {
         osc.setFrequency(
             frequency,
-            oct,
-            semitones,
-            cents,
+            0,
+            0,
+            0,
             detuneCents
         );
     }

@@ -52,7 +52,7 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
                 nullptr
             );
         });
-        menu.addItem("Reset to Default", [this] {/*NYI*/});
+        if (canBeModded) addModLinkSubmenu(menu);
 
         menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
     }
@@ -66,4 +66,17 @@ void ItnSlider::resized() {
     auto area = getLocalBounds().removeFromBottom(15);
 
     label.setBounds(area);
+}
+
+void ItnSlider::setModMatrix(ModMatrix* matrix) {
+    modMatrix = matrix;
+}
+
+void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
+    menu.addSeparator();
+    menu.addSubMenu("Link to Mod Source...", [] {
+        juce::PopupMenu sub;
+        sub.addItem("LFO 1", [] {/*NYI*/});
+        return sub;
+    }());
 }

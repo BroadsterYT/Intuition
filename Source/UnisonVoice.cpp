@@ -61,52 +61,40 @@ UnisonOsc& UnisonVoice::getOscD() {
 }
 
 void UnisonVoice::updatePitch() {
-    int octA = static_cast<int>(modMatrix.getModdedDest("A_OCTAVE"));
-    int semA = static_cast<int>(modMatrix.getModdedDest("A_COARSE"));
-    int finA = static_cast<int>(modMatrix.getModdedDest("A_FINE"));
+    if (currentMidiNote >= 0) {
+        float baseFreq = juce::MidiMessage::getMidiNoteInHertz(currentMidiNote);
 
-    int octB = static_cast<int>(*parameters.getRawParameterValue("B_OCTAVE"));
-    int semB = static_cast<int>(*parameters.getRawParameterValue("B_COARSE"));
-    int finB = static_cast<int>(*parameters.getRawParameterValue("B_FINE"));
+        int octA = (int)modMatrix.getModdedDest("A_OCTAVE");
+        int semA = (int)modMatrix.getModdedDest("A_COARSE");
+        int finA = (int)modMatrix.getModdedDest("A_FINE");
 
-    int octC = static_cast<int>(*parameters.getRawParameterValue("C_OCTAVE"));
-    int semC = static_cast<int>(*parameters.getRawParameterValue("C_COARSE"));
-    int finC = static_cast<int>(*parameters.getRawParameterValue("C_FINE"));
+        int octB = static_cast<int>(*parameters.getRawParameterValue("B_OCTAVE"));
+        int semB = static_cast<int>(*parameters.getRawParameterValue("B_COARSE"));
+        int finB = static_cast<int>(*parameters.getRawParameterValue("B_FINE"));
 
-    int octD = static_cast<int>(*parameters.getRawParameterValue("D_OCTAVE"));
-    int semD = static_cast<int>(*parameters.getRawParameterValue("D_COARSE"));
-    int finD = static_cast<int>(*parameters.getRawParameterValue("D_FINE"));
+        int octC = static_cast<int>(*parameters.getRawParameterValue("C_OCTAVE"));
+        int semC = static_cast<int>(*parameters.getRawParameterValue("C_COARSE"));
+        int finC = static_cast<int>(*parameters.getRawParameterValue("C_FINE"));
 
-    currentFreq = baseFreq * std::pow(2.0f, (octA * 12 + semA + finA) / 12.0f);
+        int octD = static_cast<int>(*parameters.getRawParameterValue("D_OCTAVE"));
+        int semD = static_cast<int>(*parameters.getRawParameterValue("D_COARSE"));
+        int finD = static_cast<int>(*parameters.getRawParameterValue("D_FINE"));
 
-    oscA.setFrequency(
-        currentFreq,
-        0,
-        0,
-        0,
-        0.0f
-    );
-    oscB.setFrequency(
-        currentFreq,
-        0,
-        0,
-        0,
-        0.0f
-    );
-    oscC.setFrequency(
-        currentFreq,
-        0,
-        0,
-        0,
-        0.0f
-    );
-    oscD.setFrequency(
-        currentFreq,
-        0,
-        0,
-        0,
-        0.0f
-    );
+        oscA.setCurrentFrequency(baseFreq);
+        oscB.setCurrentFrequency(baseFreq);
+        oscC.setCurrentFrequency(baseFreq);
+        oscD.setCurrentFrequency(baseFreq);
+
+        oscA.setFrequency(baseFreq, octA, semA, finA, 0.0f);
+        oscB.setFrequency(baseFreq, octB, semB, finB, 0.0f);
+        oscC.setFrequency(baseFreq, octC, semC, finC, 0.0f);
+        oscD.setFrequency(baseFreq, octD, semD, finD, 0.0f);
+
+        oscA.updateOscDetunes();
+        oscB.updateOscDetunes();
+        oscC.updateOscDetunes();
+        oscD.updateOscDetunes();
+    }
 }
 
 bool UnisonVoice::canPlaySound(juce::SynthesiserSound* sound) {
@@ -124,8 +112,8 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
         oscD.setSampleRate(sr);
     }
 
-    baseFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    currentFreq = baseFreq;
+    currentMidiNote = midiNoteNumber;
+    currentFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 
     oscA.resetPhase();
     oscB.resetPhase();
@@ -146,6 +134,7 @@ void UnisonVoice::stopNote(float /*velocity*/, bool allowTailOff) {
 
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
+        currentMidiNote = -1;
     }
 }
 

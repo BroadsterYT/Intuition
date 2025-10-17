@@ -57,8 +57,8 @@ private:
     UnisonOsc oscA, oscB, oscC, oscD;
 
     juce::ADSR adsr;
+    int currentMidiNote = -1;
     float currentFreq = 440.0f;
-    float baseFreq = 0.0f;
 
     float level = 1.0f;
 };
