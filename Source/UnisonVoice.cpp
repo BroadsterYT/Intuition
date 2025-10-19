@@ -147,6 +147,18 @@ void UnisonVoice::pitchWheelMoved(int) {}
 
 void UnisonVoice::controllerMoved(int, int) {}
 
+void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 2;
+
+    filter.reset();
+
+    filter.prepare(spec);
+
+    filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
+}
+
 void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
     if (!adsr.isActive()) {
         clearCurrentNote();
@@ -160,38 +172,120 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     bool toggleC = *parameters.getRawParameterValue("C_TOGGLE");
     bool toggleD = *parameters.getRawParameterValue("D_TOGGLE");
 
+    bool sendA = *parameters.getRawParameterValue("A_FILTER_SEND");
+    bool sendB = *parameters.getRawParameterValue("B_FILTER_SEND");
+    bool sendC = *parameters.getRawParameterValue("C_FILTER_SEND");
+    bool sendD = *parameters.getRawParameterValue("D_FILTER_SEND");
+
+    juce::AudioBuffer<float> filteredBuffer;
+    filteredBuffer.setSize(2, numSamples);
+    filteredBuffer.clear();
+
+    std::vector<float> dryL(numSamples, 0.0f);
+    std::vector<float> dryR(numSamples, 0.0f);
+
+    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered) {
+        if (!active) return;
+
+        for (int s = 0; s < numSamples; ++s) {
+            auto [l, r] = osc.getSample();
+            float env = adsr.getNextSample() * level;
+
+            if (filtered) {
+                filteredBuffer.addSample(0, s, l * env);
+                filteredBuffer.addSample(1, s, r * env);
+            }
+            else {
+                dryL[s] += l * env;
+                dryR[s] += r * env;
+            }
+        }
+    };
+
+    processOscBlock(oscA, toggleA, sendA);
+    processOscBlock(oscB, toggleB, sendB);
+    processOscBlock(oscC, toggleC, sendC);
+    processOscBlock(oscD, toggleD, sendD);
+
+    // Filter block
+    juce::dsp::AudioBlock<float> block(filteredBuffer);
+    juce::dsp::ProcessContextReplacing<float> context(block);
+    filter.process(context);
+
     for (int s = 0; s < numSamples; ++s) {
-        float L = 0.0f;
-        float R = 0.0f;
-
-        if (toggleA) {
-            auto [l, r] = oscA.getSample();
-            L += l;
-            R += r;
-        }
-        if (toggleB) {
-            auto [l, r] = oscB.getSample();
-            L += l;
-            R += r;
-        }
-        if (toggleC) {
-            auto [l, r] = oscC.getSample();
-            L += l;
-            R += r;
-        }
-        if (toggleD) {
-            auto [l, r] = oscD.getSample();
-            L += l;
-            R += r;
-        }
-
-        float adsrValue = adsr.getNextSample();
-        L *= level * adsrValue;
-        R *= level * adsrValue;
+        float L = filteredBuffer.getSample(0, s) + dryL[s];
+        float R = filteredBuffer.getSample(1, s) + dryR[s];
 
         outputBuffer.addSample(0, startSample + s, L);
         outputBuffer.addSample(1, startSample + s, R);
     }
+
+    /*for (int s = 0; s < numSamples; ++s) {
+        float L = 0.0f;
+        float R = 0.0f;
+        float filteredL = 0.0f;
+        float filteredR = 0.0f;
+        float dryL = 0.0f;
+        float dryR = 0.0f;
+
+        auto processOsc = [&](UnisonOsc& osc, bool active, bool filtered) {
+            if (!active) return;
+            auto [l, r] = osc.getSample();
+            if (filtered) {
+                filteredL += l;
+                filteredR += r;
+            }
+            else {
+                dryL += l;
+                dryR += r;
+            }
+        };
+
+        processOsc(oscA, toggleA, sendA);
+        processOsc(oscB, toggleB, sendB);
+        processOsc(oscC, toggleC, sendC);
+        processOsc(oscD, toggleD, sendD);
+
+        float env = adsr.getNextSample();
+        filteredL *= env * level;
+        filteredR *= env * level;
+        dryL *= env * level;
+        dryR *= env * level;
+
+        float Lf = filter.processSample(0, filteredL);
+        float Rf = filter.processSample(1, filteredR);
+
+        L = Lf + dryL;
+        R = Rf + dryR;
+
+        outputBuffer.addSample(0, startSample + s, L);
+        outputBuffer.addSample(1, startSample + s, R);
+    }*/
+}
+
+void UnisonVoice::setFilterCutoff(float cutoff) {
+    filter.setCutoffFrequency(cutoff);
+}
+
+void UnisonVoice::setFilterResonance(float res) {
+    filter.setResonance(res);
+}
+
+void UnisonVoice::setFilterType(int type) {
+    juce::dsp::StateVariableTPTFilterType filterType = juce::dsp::StateVariableTPTFilterType::lowpass;
+    switch (type) {
+    case 0:
+        filterType = juce::dsp::StateVariableTPTFilterType::lowpass;
+        break;
+    case 1:
+        filterType = juce::dsp::StateVariableTPTFilterType::highpass;
+        break;
+    case 2:
+        filterType = juce::dsp::StateVariableTPTFilterType::bandpass;
+        break;
+    }
+
+    filter.setType(filterType);
 }
 
 void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {

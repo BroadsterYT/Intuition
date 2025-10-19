@@ -26,12 +26,12 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     // Setting parameters
     parameters(*this, nullptr, "PARAMETERS", {
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
-        
+
         std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
-        
+
         //=============== Oscillators ================//
         std::make_unique<juce::AudioParameterBool>("A_TOGGLE", "A Toggle", true),
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
@@ -76,7 +76,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
         std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
-        std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f)
+        std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
+
+        //============== Filter ==============//
+        std::make_unique<juce::AudioParameterBool>("A_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "A Filter Send", false),
+
+        std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
+        std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
+        std::make_unique<juce::AudioParameterChoice>("FILTER_TYPE", "Filter Type", juce::StringArray{"Low", "High", "Band"}, 0),
     })
 {
     parameters.state = juce::ValueTree("PARAMETERS");
@@ -158,6 +168,16 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dFineDest->setMinRange(-100);
     dFineDest->setMaxRange(100);
     dMorphDest->setBasePtr(parameters.getRawParameterValue("D_MORPH"));
+
+    ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
+    ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
+
+    filterCutoffDest->setBasePtr(parameters.getRawParameterValue("FILTER_CUTOFF"));
+    filterCutoffDest->setMinRange(20.0f);
+    filterCutoffDest->setMaxRange(20000.0f);
+    filterResonanceDest->setBasePtr(parameters.getRawParameterValue("FILTER_RESONANCE"));
+    filterResonanceDest->setMinRange(0.01f);
+    filterResonanceDest->setMaxRange(1.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -250,6 +270,12 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     resetSynths();
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
+
+    for (int i = 0; i < synth.getNumVoices(); ++i) {
+        if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
+            v->prepareToPlay(sampleRate, samplesPerBlock);
+        }
+    }
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -332,6 +358,10 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     float morphC = modMatrix.getModdedDest("C_MORPH");
     float morphD = modMatrix.getModdedDest("D_MORPH");
 
+    float filterCutoff = modMatrix.getModdedDest("FILTER_CUTOFF");
+    float filterResonance = modMatrix.getModdedDest("FILTER_RESONANCE");
+    int filterType = (int)*parameters.getRawParameterValue("FILTER_TYPE");
+
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
             v->setEnvelopeParams(adsrParams);
@@ -351,6 +381,11 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             v->getOscD().setUnison(unisonD);
             v->getOscD().setDetuneRange(detuneD);
             v->getOscD().setMorph(morphD);
+
+            //===== Filter =====//
+            v->setFilterCutoff(filterCutoff);
+            v->setFilterResonance(filterResonance);
+            v->setFilterType(filterType);
         }
     }
 
