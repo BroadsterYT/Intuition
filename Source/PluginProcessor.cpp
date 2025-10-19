@@ -446,26 +446,25 @@ void IntuitionAudioProcessor::calculateLFOPhase(
         juce::AudioPlayHead::CurrentPositionInfo posInfo;
         auto* playHead = getPlayHead();
         if (playHead && playHead->getCurrentPosition(posInfo) && posInfo.isPlaying) {
+            double ppq = posInfo.ppqPosition;
             float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
-            
-            if (posInfo.isPlaying) {
-                double ppq = posInfo.ppqPosition;
-                phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
-                lfoValue = shape.getValue(phase);
-                return;
-            }
-            else {
-                double bpm = posInfo.bpm > 0.0 ? posInfo.bpm : 120.0;
-                float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
-                for (int sample = 0; sample < numSamples; ++sample) {
-                    phase += phaseInc;
-                    while (phase > 1.0f) {
-                        phase -= 1.0f;
-                    }
-                    lfoValue = shape.getValue(phase);
+            phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
+            lfoValue = shape.getValue(phase);
+            return;
+        }
+        else if (playHead && playHead->getCurrentPosition(posInfo) && !posInfo.isPlaying) {
+            double bpm = posInfo.bpm > 0.0 ? posInfo.bpm : 120.0;
+            float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
+            float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
+            for (int sample = 0; sample < numSamples; ++sample) {
+                phase += phaseInc;
+                while (phase > 1.0f) {
+                    phase -= 1.0f;
                 }
-                return;
+
+                lfoValue = shape.getValue(phase);
             }
+            return;
         }
         DBG("Error retrieving PlayHead info");
     }

@@ -120,6 +120,11 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
     oscC.resetPhase();
     oscD.resetPhase();
 
+    oscA.setRandomPhaseOffsets();
+    oscB.setRandomPhaseOffsets();
+    oscC.setRandomPhaseOffsets();
+    oscD.setRandomPhaseOffsets();
+
     oscA.setCurrentFrequency(currentFreq);
     oscB.setCurrentFrequency(currentFreq);
     oscC.setCurrentFrequency(currentFreq);
@@ -159,26 +164,25 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
         float L = 0.0f;
         float R = 0.0f;
 
-        // TODO: Implement panning
         if (toggleA) {
-            float sampleA = oscA.getSample();
-            L += sampleA;
-            R += sampleA;
+            auto [l, r] = oscA.getSample();
+            L += l;
+            R += r;
         }
         if (toggleB) {
-            float sampleB = oscB.getSample();
-            L += sampleB;
-            R += sampleB;
+            auto [l, r] = oscB.getSample();
+            L += l;
+            R += r;
         }
         if (toggleC) {
-            float sampleC = oscC.getSample();
-            L += sampleC;
-            R += sampleC;
+            auto [l, r] = oscC.getSample();
+            L += l;
+            R += r;
         }
         if (toggleD) {
-            float sampleD = oscD.getSample();
-            L += sampleD;
-            R += sampleD;
+            auto [l, r] = oscD.getSample();
+            L += l;
+            R += r;
         }
 
         float adsrValue = adsr.getNextSample();

@@ -79,6 +79,13 @@ void UnisonOsc::setMorph(float alpha) {
     }
 }
 
+void UnisonOsc::setRandomPhaseOffsets() {
+    for (auto& osc : oscillators) {
+        float randomPhase = juce::Random::getSystemRandom().nextFloat();
+        osc.setPhaseOffset(randomPhase);
+    }
+}
+
 void UnisonOsc::setDetuneRange(float range) {
     detuneRange = range;
     updateOscDetunes();
@@ -116,16 +123,43 @@ void UnisonOsc::resetPhase() {
     }
 }
 
-float UnisonOsc::getSample() {
+std::pair<float, float> UnisonOsc::getSample() {
     if (oscillators.size() == 0) {
         DBG("No oscillators in UnisonOsc!");
-        return 0.0f;
+        return { 0.0f, 0.0f };
     }
 
-    float sum = 0.0f;
+    float left = 0.0f;
+    float right = 0.0f;
+
+    for (int i = 0; i < unison; ++i) {
+        float sample = oscillators[i].getSample();
+
+        float pan = (unison > 1)
+            ? juce::jmap<float>(i, 0, unison - 1, -1.0f, 1.0f)
+            : 0.0f;
+
+        pan *= stereoWidth;
+
+        // Equal-power panning law
+        float angle = (pan + 1.0f) * juce::MathConstants<float>::pi / 4.0f;
+        float panL = std::cos(angle);
+        float panR = std::sin(angle);
+
+        left += sample * panL;
+        right += sample * panR;
+    }
+
+    float norm = 1.0f / std::sqrt(static_cast<float>(unison));
+    left *= norm;
+    right *= norm;
+
+    return { left, right };
+
+    /*float sum = 0.0f;
     for (int i = 0; i < unison; ++i) {
         sum += oscillators[i].getSample();
     }
 
-    return sum /= unison;
+    return sum /= unison;*/
 }

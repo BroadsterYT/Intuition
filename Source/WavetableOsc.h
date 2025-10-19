@@ -28,6 +28,7 @@ public:
     );
     void setMorph(float alpha);
 
+    void setPhaseOffset(float newOffset);
     void resetPhase();
     float getSample();
 
@@ -39,5 +40,6 @@ private:
     float lastAlpha = 0.0f;
 
     float phase = 0.0f;  // Phase goes from 0 to 1, 0 being the beginning of a single wave and 1 being the end
+    float phaseOffset = 0.0f;
     float phaseIncrement = 0.0f;  // Cycles per sample
 };
