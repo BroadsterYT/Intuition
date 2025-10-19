@@ -706,6 +706,9 @@
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp">
       <Filter>Intuition\Source\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\LFODisplay.cpp">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LFOTabs.cpp">
       <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClCompile>
@@ -3641,6 +3644,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h">
       <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LFODisplay.h">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOTabs.h">
       <Filter>Intuition\Source\GUI\LFOTabs</Filter>

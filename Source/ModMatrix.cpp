@@ -27,11 +27,15 @@ void ModMatrix::applyMods() {
         float destMin = dest->getMinRange();
         float destMax = dest->getMaxRange();
         
+        // TODO: Account for polar/bipolar setting
         float centered = (c->getSource()->getValue() - 0.5f) * 2.0f;
         float modAmount = centered * c->getDepth() * (destMax - destMin) * 0.5f;
         
         float currentDestVal = dest->getModdedValue();
         float unclamped = currentDestVal + modAmount;
+        
+        // TODO: Optimize 
+        if (!c->getActive()) unclamped = 0.0f;
         dest->setModdedValue(juce::jlimit(destMin, destMax, currentDestVal + unclamped));
     }
 }
@@ -39,6 +43,12 @@ void ModMatrix::applyMods() {
 float ModMatrix::getModdedDest(const juce::String destName) {
     float value = destinations[destName]->getModdedValue();
     return value;
+}
+
+void ModMatrix::getAllSourceNames(std::vector<juce::String>& output) {
+    for (auto& [name, source] : sources) {
+        output.push_back(name);
+    }
 }
 
 ModSource* ModMatrix::getSource(const juce::String sourceName) {
@@ -88,4 +98,21 @@ void ModMatrix::addConnection(const juce::String sourceName, const juce::String 
     ModSource* source = sources[sourceName].get();
     ModDestination* dest = destinations[destName].get();
     connections.emplace_back(std::make_unique<ModConnection>(source, dest));
+    DBG("ModConnection successfully established between " << sourceName << " and " << destName);
+}
+
+void ModMatrix::removeConnection(const juce::String sourceName, const juce::String destName) {
+    auto it = std::find_if(connections.begin(), connections.end(),
+        [&](std::unique_ptr<ModConnection>& c) {
+            return c->getSource()->getName() == sourceName && c->getDestination()->getName() == destName;
+        }
+    );
+
+    if (it != connections.end()) {
+        connections.erase(it);
+        DBG("Connection successfully removed.");
+    }
+    else {
+        DBG("ModMatrix error: ModConnection not found within ModMatrix");
+    }
 }

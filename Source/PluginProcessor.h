@@ -37,9 +37,6 @@ public:
     LFOShape lfoShape1;
     LFOShape lfoShape2;
     LFOShape lfoShape3;
-    float lfoPhase1 = 0.0f;
-    float lfoPhase2 = 0.0f;
-    float lfoPhase3 = 0.0f;
 
     void resetSynths();
 
@@ -77,9 +74,39 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    float currentBPM = 60.0;
+
+    float lfoRate1 = 1.0f;
+    float lfoRate2 = 1.0f;
+    float lfoRate3 = 1.0f;
+
+    float lfoPhase1 = 0.0f;
+    float lfoPhase2 = 0.0f;
+    float lfoPhase3 = 0.0f;
+
     float lfoValue1 = 0.0f;
     float lfoValue2 = 0.0f;
     float lfoValue3 = 0.0f;
+
+    float getDivisionFloat(int syncDiv);
+    void calculateLFOFrequency(
+        const juce::String modeName,
+        const juce::String rateName,
+        const juce::String syncDivName,
+        float& rateVal
+    );
+    void calculateLFOPhase(
+        LFOShape& shape,
+        float& phase,
+        const juce::String modeName,
+        const juce::String syncDivName,
+        const juce::String rateName,
+        float& lfoValue,
+        float sampleRate,
+        int numSamples
+    );
+
+    void setCurrentBPM();
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IntuitionAudioProcessor)

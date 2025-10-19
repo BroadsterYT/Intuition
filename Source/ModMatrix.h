@@ -29,6 +29,16 @@ public:
     /// <returns>The modified value of the destination's parameter</returns>
     float getModdedDest(const juce::String destName);
 
+    /// <summary>
+    /// Retrieves the names of all available mod sources and places them into a vector
+    /// </summary>
+    /// <param name="output">The vector to place all source names into</param>
+    void getAllSourceNames(std::vector<juce::String>& output);
+    /// <summary>
+    /// Returns a pointer to a ModSource given its name
+    /// </summary>
+    /// <param name="sourceName">The name of the ModSource</param>
+    /// <returns>A pointer to the ModSource object</returns>
     ModSource* getSource(const juce::String sourceName);
     /// <summary>
     /// Adds a new mod source to the matrix and retuns it
@@ -44,7 +54,9 @@ public:
     /// <returns>The newly added ModDestination, nullptr if ModDestination could not be added</returns>
     ModDestination* addDestination(const juce::String destName);
     ModConnection* getConnection(const juce::String sourceName, const juce::String destName);
+    
     void addConnection(const juce::String sourceName, const juce::String destName);
+    void removeConnection(const juce::String sourceName, const juce::String destName);
 
 private:
     std::unordered_map<juce::String, std::unique_ptr<ModSource>> sources;

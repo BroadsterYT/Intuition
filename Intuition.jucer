@@ -42,6 +42,8 @@
         <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
               file="Source/OscillatorDisplay.cpp"/>
         <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFOTabs">
+          <FILE id="vNnHaR" name="LFODisplay.cpp" compile="1" resource="0" file="Source/LFODisplay.cpp"/>
+          <FILE id="eIK3NE" name="LFODisplay.h" compile="0" resource="0" file="Source/LFODisplay.h"/>
           <FILE id="ZX0zdk" name="LFOTabs.cpp" compile="1" resource="0" file="Source/LFOTabs.cpp"/>
           <FILE id="xOhCPD" name="LFOTabs.h" compile="0" resource="0" file="Source/LFOTabs.h"/>
           <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>

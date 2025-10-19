@@ -68,17 +68,17 @@ void UnisonVoice::updatePitch() {
         int semA = (int)modMatrix.getModdedDest("A_COARSE");
         int finA = (int)modMatrix.getModdedDest("A_FINE");
 
-        int octB = static_cast<int>(*parameters.getRawParameterValue("B_OCTAVE"));
-        int semB = static_cast<int>(*parameters.getRawParameterValue("B_COARSE"));
-        int finB = static_cast<int>(*parameters.getRawParameterValue("B_FINE"));
+        int octB = (int)modMatrix.getModdedDest("B_OCTAVE");
+        int semB = (int)modMatrix.getModdedDest("B_COARSE");
+        int finB = (int)modMatrix.getModdedDest("B_FINE");
 
-        int octC = static_cast<int>(*parameters.getRawParameterValue("C_OCTAVE"));
-        int semC = static_cast<int>(*parameters.getRawParameterValue("C_COARSE"));
-        int finC = static_cast<int>(*parameters.getRawParameterValue("C_FINE"));
+        int octC = (int)modMatrix.getModdedDest("C_OCTAVE");
+        int semC = (int)modMatrix.getModdedDest("C_COARSE");
+        int finC = (int)modMatrix.getModdedDest("C_FINE");
 
-        int octD = static_cast<int>(*parameters.getRawParameterValue("D_OCTAVE"));
-        int semD = static_cast<int>(*parameters.getRawParameterValue("D_COARSE"));
-        int finD = static_cast<int>(*parameters.getRawParameterValue("D_FINE"));
+        int octD = (int)modMatrix.getModdedDest("D_OCTAVE");
+        int semD = (int)modMatrix.getModdedDest("D_COARSE");
+        int finD = (int)modMatrix.getModdedDest("D_FINE");
 
         oscA.setCurrentFrequency(baseFreq);
         oscB.setCurrentFrequency(baseFreq);

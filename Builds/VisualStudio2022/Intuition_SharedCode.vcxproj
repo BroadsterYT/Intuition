@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\Source\LFOShape.cpp"/>
     <ClCompile Include="..\..\Source\LFOPoint.cpp"/>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp"/>
+    <ClCompile Include="..\..\Source\LFODisplay.cpp"/>
     <ClCompile Include="..\..\Source\LFOTabs.cpp"/>
     <ClCompile Include="..\..\Source\LFOEditor.cpp"/>
     <ClCompile Include="..\..\Source\WaveThumbnail.cpp"/>
@@ -2875,6 +2876,7 @@
     <ClInclude Include="..\..\Source\LFOShape.h"/>
     <ClInclude Include="..\..\Source\LFOPoint.h"/>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h"/>
+    <ClInclude Include="..\..\Source\LFODisplay.h"/>
     <ClInclude Include="..\..\Source\LFOTabs.h"/>
     <ClInclude Include="..\..\Source\LFOEditor.h"/>
     <ClInclude Include="..\..\Source\WaveThumbnail.h"/>
