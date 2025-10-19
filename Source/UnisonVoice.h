@@ -13,12 +13,14 @@
 #include "WavetableOsc.h"
 #include "UnisonOsc.h"
 #include "WavetableBank.h"
+#include "ModMatrix.h"
 
 
 class UnisonVoice : public juce::SynthesiserVoice {
 public:
     UnisonVoice(
         juce::AudioProcessorValueTreeState& vts,
+        ModMatrix& matrix,
         WavetableBank* bankToUse1,
         WavetableBank* bankToUse2,
         WavetableBank* bankToUse3,
@@ -29,6 +31,8 @@ public:
     UnisonOsc& getOscB();
     UnisonOsc& getOscC();
     UnisonOsc& getOscD();
+
+    void updatePitch();
 
     bool canPlaySound(juce::SynthesiserSound* sound) override;
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound*, int /*pitchWheel*/) override;
@@ -43,6 +47,7 @@ public:
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
+    ModMatrix& modMatrix;
 
     WavetableBank* bank1 = nullptr;
     WavetableBank* bank2 = nullptr;
@@ -52,6 +57,7 @@ private:
     UnisonOsc oscA, oscB, oscC, oscD;
 
     juce::ADSR adsr;
+    int currentMidiNote = -1;
     float currentFreq = 440.0f;
 
     float level = 1.0f;

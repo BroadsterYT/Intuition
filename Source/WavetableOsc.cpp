@@ -43,6 +43,10 @@ void WavetableOsc::setMorph(float alpha) {
     morphSmooth.setTargetValue(alpha);
 }
 
+void WavetableOsc::setPhaseOffset(float newOffset) {
+    phaseOffset = newOffset;
+}
+
 void WavetableOsc::resetPhase() {
     phase = 0.0f;
 }
@@ -53,7 +57,12 @@ float WavetableOsc::getSample() {
     //int tableSize = wavetable.getNumSamples();
     int tableSize = bank->getWavetable(0).getNumSamples();
 
-    float idx = phase * tableSize;  // Unnormalized phase from 0-1 to 0-tableSize
+    float phaseWithOffset = std::fmod(phase + phaseOffset, 1.0f);
+    if (phaseWithOffset < 0.0f) {
+        phaseWithOffset += 1.0f;
+    }
+
+    float idx = phaseWithOffset * tableSize;  // Unnormalized phase from 0-1 to 0-tableSize
     int i1 = (int)idx;              // Unnormalized phase (integer part)
     float frac = idx - i1;        // Unnormalized phase (fractional part)
     int i2 = (i1 + 1) % tableSize;  // The next sample in the wavetable, if i1 is the last sample, it wraps back to beginning

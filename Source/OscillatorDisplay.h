@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnSlider.h"
+#include "ModMatrix.h"
 #include "WaveformDisplay.h"
 #include "WavetableBank.h"
 #include "WaveBankComponent.h"
@@ -20,6 +21,7 @@ class OscillatorDisplay : public juce::Component {
 public:
     OscillatorDisplay(
         juce::AudioProcessorValueTreeState& vts,
+        ModMatrix* modMatrix,
         WavetableBank& bank,
         WaveBankComponent* wbComp,
         
@@ -37,6 +39,7 @@ public:
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
+    ModMatrix* modMatrix = nullptr;
 
     juce::String toggleParamName;
     juce::String unisonParamName;

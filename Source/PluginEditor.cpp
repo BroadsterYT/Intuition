@@ -18,7 +18,8 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     adsrComponent(p.parameters),
     
     oscDisplay1(
-        p.parameters, 
+        p.parameters,
+        &p.modMatrix,
         p.bank1, 
         &waveBankComp1, 
         "A_TOGGLE",
@@ -31,6 +32,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     ),
     oscDisplay2(
         p.parameters,
+        &p.modMatrix,
         p.bank2,
         &waveBankComp2,
         "B_TOGGLE",
@@ -43,6 +45,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     ),
     oscDisplay3(
         p.parameters,
+        &p.modMatrix,
         p.bank3,
         &waveBankComp3,
         "C_TOGGLE",
@@ -55,6 +58,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     ),
     oscDisplay4(
         p.parameters,
+        &p.modMatrix,
         p.bank4,
         &waveBankComp4,
         "D_TOGGLE",
@@ -66,7 +70,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
         "D_FINE"
     ),
 
-    lfoTabs(p.lfo1Shape, p.lfo2Shape, p.lfo3Shape),
+    lfoTabs(p.parameters, p.lfoShape1, p.lfoShape2, p.lfoShape3),
 
     waveBankComp1(&p, p.parameters, p.bank1),
     waveBankComp2(&p, p.parameters, p.bank2),
@@ -134,7 +138,7 @@ void IntuitionAudioProcessorEditor::resized()
     oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);
     oscDisplay3.setBounds(adsrComponent.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
     oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
-    lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 150);
+    lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 250);
 
     waveBankComp1.setBounds(0, 0, 800, 600);
     waveBankComp2.setBounds(0, 0, 800, 600);

@@ -25,15 +25,10 @@ ItnSlider::~ItnSlider() {
     setLookAndFeel(nullptr);
 }
 
-void ItnSlider::setLabelNames(juce::String newFullName, juce::String newNickname) {
+void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
     fullName = newFullName;
     nickname = newNickname;
     updateLabel();
-}
-
-void ItnSlider::updateLabel() {
-    label.setText(nickname, juce::dontSendNotification);
-    setTooltip(fullName);
 }
 
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
@@ -52,7 +47,7 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
                 nullptr
             );
         });
-        menu.addItem("Reset to Default", [this] {/*NYI*/});
+        addModLinkSubmenu(menu);
 
         menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
     }
@@ -66,4 +61,59 @@ void ItnSlider::resized() {
     auto area = getLocalBounds().removeFromBottom(15);
 
     label.setBounds(area);
+}
+
+void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
+    modMatrix = matrix;
+    paramName = pName;
+}
+
+void ItnSlider::updateLabel() {
+    label.setText(nickname, juce::dontSendNotification);
+    setTooltip(fullName);
+}
+
+void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
+    if (!modMatrix || paramName == "") return;
+    menu.addSeparator();
+
+    juce::PopupMenu sub;
+
+    std::vector<juce::String> sourceNames;
+    modMatrix->getAllSourceNames(sourceNames);
+    for (auto& source : sourceNames) {
+        if (modMatrix->getConnection(source, paramName)) {
+            addModLinkPropertiesSubmenu(sub, source);
+        }
+        else {
+            sub.addItem(source, [this, source] {
+                modMatrix->addConnection(source, paramName);
+            });
+        }
+    }
+
+    menu.addSubMenu("Link to Mod Source...", sub);
+}
+
+void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::String sourceName) {
+    auto* conn = modMatrix->getConnection(sourceName, paramName);
+    if (!conn) return;
+
+    juce::PopupMenu sub;
+
+    sub.addItem("Unlink mod source", [this, sourceName] {
+        modMatrix->removeConnection(sourceName, paramName);
+    });
+    sub.addItem("Active", true, conn->getActive(), [conn] {
+        if (conn->getActive()) conn->setActive(false);
+        else conn->setActive(true);
+    });
+    sub.addItem("Bipolar", true, conn->getBipolar(), [conn] {
+        if (conn->getBipolar()) conn->setBipolar(false);
+        else conn->setBipolar(true);
+    });
+    sub.addItem("Set mod opacity...", [] {/*NYI*/});
+    sub.addItem("Set mod depth...", [] {/*NYI*/});
+
+    menu.addSubMenu(sourceName, sub);
 }

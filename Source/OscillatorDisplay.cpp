@@ -13,6 +13,7 @@
 
 OscillatorDisplay::OscillatorDisplay(
     juce::AudioProcessorValueTreeState& vts,
+    ModMatrix* modMatrix,
     WavetableBank& bank,
     WaveBankComponent* wbComp,
     
@@ -24,6 +25,7 @@ OscillatorDisplay::OscillatorDisplay(
     const juce::String coarseParamName,
     const juce::String fineParamName
 ) : parameters(vts),
+    modMatrix(modMatrix),
     waveDisplay(vts, bank, morphParamName),
     waveBankComp(wbComp),
     
@@ -53,7 +55,12 @@ OscillatorDisplay::OscillatorDisplay(
     coarseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, coarseParamName, coarse);
     fineAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, fineParamName, fine);
 
-    //DBG("Dials" << morphParamName);
+    //unison.setModMatrix(modMatrix, unisonParamName);
+    detune.setModMatrix(modMatrix, detuneParamName);
+    morph.setModMatrix(modMatrix, morphParamName);
+    octave.setModMatrix(modMatrix, octaveParamName);
+    coarse.setModMatrix(modMatrix, coarseParamName);
+    fine.setModMatrix(modMatrix, fineParamName);
 
     unison.setRange(1, 8, 1);
     detune.setRange(0, 100);

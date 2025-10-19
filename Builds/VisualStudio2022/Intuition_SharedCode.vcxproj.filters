@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Intuition\Source\Modulation">
+      <UniqueIdentifier>{943F74B8-DD5A-2580-DA20-4288E82E2A75}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Intuition\Source\LFO">
       <UniqueIdentifier>{5D55A7A6-C92B-D5FC-695D-383DF7C9013C}</UniqueIdentifier>
     </Filter>
@@ -670,6 +673,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ModSource.cpp">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ModDestination.cpp">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ModConnection.cpp">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ModMatrix.cpp">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\WavetableHelper.cpp">
       <Filter>Intuition\Source</Filter>
     </ClCompile>
@@ -690,6 +705,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\OscillatorDisplay.cpp">
       <Filter>Intuition\Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LFODisplay.cpp">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LFOTabs.cpp">
       <Filter>Intuition\Source\GUI\LFOTabs</Filter>
@@ -3594,6 +3612,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ModSource.h">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ModDestination.h">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ModConnection.h">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ModMatrix.h">
+      <Filter>Intuition\Source\Modulation</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\WavetableHelper.h">
       <Filter>Intuition\Source</Filter>
     </ClInclude>
@@ -3614,6 +3644,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\OscillatorDisplay.h">
       <Filter>Intuition\Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LFODisplay.h">
+      <Filter>Intuition\Source\GUI\LFOTabs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LFOTabs.h">
       <Filter>Intuition\Source\GUI\LFOTabs</Filter>

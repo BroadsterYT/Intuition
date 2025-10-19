@@ -34,12 +34,13 @@ public:
     
     void setUnison(int newUnison);
     void setMorph(float alpha);
+    void setRandomPhaseOffsets();
 
     void setDetuneRange(float range);
     void updateOscDetunes();
 
     void resetPhase();
-    float getSample();
+    std::pair<float, float> getSample();
 
 private:
     std::vector<WavetableOsc> oscillators;
@@ -48,6 +49,7 @@ private:
 
     double sampleRate = 44100.0;
     int unison = 1;
+    float stereoWidth = 0.5f;
 
     int octave = 0;
     int coarse = 0;
