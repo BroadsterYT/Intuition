@@ -41,7 +41,7 @@ public:
     void pitchWheelMoved(int) override;
     void controllerMoved(int, int) override;
 
-    void prepareToPlay(double sampleRate, int samplesPerBlock);
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels);
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
     /// <summary>
@@ -67,12 +67,14 @@ private:
 
     UnisonOsc oscA, oscB, oscC, oscD;
 
-    juce::dsp::ProcessSpec spec;
     juce::dsp::StateVariableTPTFilter<float> filter;
+    int filterPreparedChannels = 0;
 
     juce::ADSR adsr;
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 
     float level = 1.0f;
+
+    void prepareFilter(double sampleRate, int samplesPerBlock, int numChannels);
 };

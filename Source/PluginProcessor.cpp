@@ -109,6 +109,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
     ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
     ModDestination* aMorphDest = modMatrix.addDestination("A_MORPH");
+    ModDestination* aDetuneDest = modMatrix.addDestination("A_DETUNE");
     
     aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
     aOctDest->setMinRange(-4);
@@ -120,11 +121,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     aFineDest->setMinRange(-100);
     aFineDest->setMaxRange(100);
     aMorphDest->setBasePtr(parameters.getRawParameterValue("A_MORPH"));
+    aDetuneDest->setBasePtr(parameters.getRawParameterValue("A_DETUNE"));
+    aDetuneDest->setMinRange(0.0f);
+    aDetuneDest->setMaxRange(100.0f);
 
     ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
     ModDestination* bCoarseDest = modMatrix.addDestination("B_COARSE");
     ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
     ModDestination* bMorphDest = modMatrix.addDestination("B_MORPH");
+    ModDestination* bDetuneDest = modMatrix.addDestination("B_DETUNE");
 
     bOctDest->setBasePtr(parameters.getRawParameterValue("B_OCTAVE"));
     bOctDest->setMinRange(-4);
@@ -136,11 +141,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     bFineDest->setMinRange(-100);
     bFineDest->setMaxRange(100);
     bMorphDest->setBasePtr(parameters.getRawParameterValue("B_MORPH"));
+    bDetuneDest->setBasePtr(parameters.getRawParameterValue("B_DETUNE"));
+    bDetuneDest->setMinRange(0.0f);
+    bDetuneDest->setMaxRange(100.0f);
 
     ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
     ModDestination* cCoarseDest = modMatrix.addDestination("C_COARSE");
     ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
     ModDestination* cMorphDest = modMatrix.addDestination("C_MORPH");
+    ModDestination* cDetuneDest = modMatrix.addDestination("C_DETUNE");
 
     cOctDest->setBasePtr(parameters.getRawParameterValue("C_OCTAVE"));
     cOctDest->setMinRange(-4);
@@ -152,11 +161,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     cFineDest->setMinRange(-100);
     cFineDest->setMaxRange(100);
     cMorphDest->setBasePtr(parameters.getRawParameterValue("C_MORPH"));
+    cDetuneDest->setBasePtr(parameters.getRawParameterValue("C_DETUNE"));
+    cDetuneDest->setMinRange(0.0f);
+    cDetuneDest->setMaxRange(100.0f);
 
     ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
     ModDestination* dCoarseDest = modMatrix.addDestination("D_COARSE");
     ModDestination* dFineDest = modMatrix.addDestination("D_FINE");
     ModDestination* dMorphDest = modMatrix.addDestination("D_MORPH");
+    ModDestination* dDetuneDest = modMatrix.addDestination("D_DETUNE");
 
     dOctDest->setBasePtr(parameters.getRawParameterValue("D_OCTAVE"));
     dOctDest->setMinRange(-4);
@@ -168,6 +181,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dFineDest->setMinRange(-100);
     dFineDest->setMaxRange(100);
     dMorphDest->setBasePtr(parameters.getRawParameterValue("D_MORPH"));
+    dDetuneDest->setBasePtr(parameters.getRawParameterValue("D_DETUNE"));
+    dDetuneDest->setMinRange(0.0f);
+    dDetuneDest->setMaxRange(100.0f);
 
     ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
     ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
@@ -273,7 +289,7 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
-            v->prepareToPlay(sampleRate, samplesPerBlock);
+            v->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
 }

@@ -147,14 +147,8 @@ void UnisonVoice::pitchWheelMoved(int) {}
 
 void UnisonVoice::controllerMoved(int, int) {}
 
-void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock) {
-    spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.numChannels = 2;
-
-    filter.reset();
-
-    filter.prepare(spec);
+void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels) {
+    prepareFilter(sampleRate, samplesPerBlock, numChannels);
 
     filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
 }
@@ -177,6 +171,10 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     bool sendC = *parameters.getRawParameterValue("C_FILTER_SEND");
     bool sendD = *parameters.getRawParameterValue("D_FILTER_SEND");
 
+    prepareFilter(getSampleRate(), outputBuffer.getNumSamples(), outputBuffer.getNumChannels());
+
+    /*DBG("Num Channels: " << outputBuffer.getNumChannels());*/
+
     juce::AudioBuffer<float> filteredBuffer;
     filteredBuffer.setSize(2, numSamples);
     filteredBuffer.clear();
@@ -192,6 +190,9 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
             float env = adsr.getNextSample() * level;
 
             if (filtered) {
+                /*int numChB = filteredBuffer.getNumChannels();
+                int numChF = filter,
+                DBG("Num channels: " << numChB);*/
                 filteredBuffer.addSample(0, s, l * env);
                 filteredBuffer.addSample(1, s, r * env);
             }
@@ -290,4 +291,17 @@ void UnisonVoice::setFilterType(int type) {
 
 void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
     adsr.setParameters(params);
+}
+
+void UnisonVoice::prepareFilter(double sampleRate, int samplesPerBlock, int numChannels){
+    if (filterPreparedChannels != numChannels) {
+        juce::dsp::ProcessSpec pspec;
+        pspec.sampleRate = getSampleRate();
+        pspec.maximumBlockSize = 1280; // or whatever
+        pspec.numChannels = numChannels;
+        filter.prepare(pspec);
+
+        filterPreparedChannels = numChannels;
+        DBG("Filter prepared.");
+    }
 }

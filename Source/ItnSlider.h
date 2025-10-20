@@ -15,7 +15,7 @@
 #include "ModMatrix.h"
 
 
-class ItnSlider : public juce::Slider {
+class ItnSlider : public juce::Slider, private juce::Timer {
 public:
     ItnSlider();
     ~ItnSlider();
@@ -28,6 +28,7 @@ public:
     void setLabelNames(const juce::String newFullName, const juce::String newNickname);
 
     void mouseDown(const juce::MouseEvent& e) override;
+    void paint(juce::Graphics& g) override;
     void resized() override;
 
     void setModMatrix(ModMatrix* matrix, juce::String pName);
@@ -41,6 +42,8 @@ private:
 
     ModMatrix* modMatrix = nullptr;
     juce::String paramName = "";
+
+    void timerCallback() override;
 
     void updateLabel();
     /// <summary>

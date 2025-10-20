@@ -17,6 +17,10 @@ ModMatrix::ModMatrix() {
 void ModMatrix::applyMods() {
     // Clear existing mods
     for (auto& [name, d] : destinations) {
+        if (!d) {
+            DBG("Unreferenced destination (" << name << ") found when applying mods. Skipping...");
+            continue;
+        }
         float baseVal = d->getBaseValue();
         d->setModdedValue(baseVal);
     }
@@ -28,8 +32,8 @@ void ModMatrix::applyMods() {
         float destMax = dest->getMaxRange();
         
         // TODO: Account for polar/bipolar setting
-        float centered = (c->getSource()->getValue() - 0.5f) * 2.0f;
-        float modAmount = centered * c->getDepth() * (destMax - destMin) * 0.5f;
+        float centered = (c->getSource()->getValue() - 0.5f);
+        float modAmount = centered * c->getDepth() * (destMax - destMin);
         
         float currentDestVal = dest->getModdedValue();
         float unclamped = currentDestVal + modAmount;

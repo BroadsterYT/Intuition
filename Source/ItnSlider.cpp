@@ -12,6 +12,7 @@
 
 
 ItnSlider::ItnSlider() {
+    startTimerHz(30);
     setLookAndFeel(&lookAndFeel);
     setSliderStyle(juce::Slider::Rotary);
     setTextBoxStyle(juce::Slider::TextBoxAbove, false, 40, 15);
@@ -56,6 +57,40 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     }
 }
 
+void ItnSlider::paint(juce::Graphics& g) {
+    juce::Slider::paint(g);
+
+    if (!modMatrix || paramName.isEmpty()) return;
+
+    // Now overlay the modulation indicator
+    auto bounds = getLocalBounds().toFloat();
+    float size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6.0f;
+    auto center = bounds.getCentre();
+    float radius = size / 2.0f;
+
+    // Get values
+    float baseVal = modMatrix->getDestination(paramName)->getBaseValue();
+    float modVal = modMatrix->getModdedDest(paramName);
+    float startAngle = juce::MathConstants<float>::pi * 1.25f;
+    float endAngle = juce::MathConstants<float>::pi * 2.75f;
+
+    // Map to angles
+    float baseAngle = startAngle + baseVal * (endAngle - startAngle);
+    float modAngle = startAngle + modVal * (endAngle - startAngle);
+
+    // Draw the overlay arc
+    g.setColour(juce::Colours::skyblue.withAlpha(0.6f));
+
+    float minAngle = juce::jmin(baseAngle, modAngle);
+    float delta = std::abs(modAngle - baseAngle);
+
+    juce::Path modArc;
+    modArc.addCentredArc(center.x, center.y, radius + 2.0f, radius + 2.0f,
+        0.0f, minAngle, minAngle + delta, true);
+
+    g.strokePath(modArc, juce::PathStrokeType(3.0f));
+}
+
 void ItnSlider::resized() {
     juce::Slider::resized();
     auto area = getLocalBounds().removeFromBottom(15);
@@ -66,6 +101,10 @@ void ItnSlider::resized() {
 void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
     modMatrix = matrix;
     paramName = pName;
+}
+
+void ItnSlider::timerCallback() {
+    repaint();
 }
 
 void ItnSlider::updateLabel() {
