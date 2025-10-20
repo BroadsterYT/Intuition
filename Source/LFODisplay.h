@@ -19,6 +19,7 @@ public:
     LFODisplay(
         juce::AudioProcessorValueTreeState& vts,
         LFOShape& shape,
+        float* phase,
         const juce::String modeName,
         const juce::String rateName,
         const juce::String syncDivName

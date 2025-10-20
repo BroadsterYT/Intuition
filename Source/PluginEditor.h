@@ -15,6 +15,7 @@
 #include "OscillatorDisplay.h"
 #include "LFOTabs.h"
 #include "WaveBankComponent.h"
+#include "FilterDisplay.h"
 
 
 //==============================================================================
@@ -46,6 +47,7 @@ private:
     OscillatorDisplay oscDisplay4;
     
     LFOTabs lfoTabs;
+    FilterDisplay filterDisplay;
 
     WaveBankComponent waveBankComp1;
     WaveBankComponent waveBankComp2;

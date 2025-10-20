@@ -26,12 +26,12 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     // Setting parameters
     parameters(*this, nullptr, "PARAMETERS", {
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
-        
+
         std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
-        
+
         //=============== Oscillators ================//
         std::make_unique<juce::AudioParameterBool>("A_TOGGLE", "A Toggle", true),
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
@@ -76,7 +76,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
         std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
-        std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f)
+        std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
+
+        //============== Filter ==============//
+        std::make_unique<juce::AudioParameterBool>("A_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "A Filter Send", false),
+
+        std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
+        std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
+        std::make_unique<juce::AudioParameterChoice>("FILTER_TYPE", "Filter Type", juce::StringArray{"Low", "High", "Band"}, 0),
     })
 {
     parameters.state = juce::ValueTree("PARAMETERS");
@@ -99,6 +109,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
     ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
     ModDestination* aMorphDest = modMatrix.addDestination("A_MORPH");
+    ModDestination* aDetuneDest = modMatrix.addDestination("A_DETUNE");
     
     aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
     aOctDest->setMinRange(-4);
@@ -110,11 +121,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     aFineDest->setMinRange(-100);
     aFineDest->setMaxRange(100);
     aMorphDest->setBasePtr(parameters.getRawParameterValue("A_MORPH"));
+    aDetuneDest->setBasePtr(parameters.getRawParameterValue("A_DETUNE"));
+    aDetuneDest->setMinRange(0.0f);
+    aDetuneDest->setMaxRange(100.0f);
 
     ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
     ModDestination* bCoarseDest = modMatrix.addDestination("B_COARSE");
     ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
     ModDestination* bMorphDest = modMatrix.addDestination("B_MORPH");
+    ModDestination* bDetuneDest = modMatrix.addDestination("B_DETUNE");
 
     bOctDest->setBasePtr(parameters.getRawParameterValue("B_OCTAVE"));
     bOctDest->setMinRange(-4);
@@ -126,11 +141,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     bFineDest->setMinRange(-100);
     bFineDest->setMaxRange(100);
     bMorphDest->setBasePtr(parameters.getRawParameterValue("B_MORPH"));
+    bDetuneDest->setBasePtr(parameters.getRawParameterValue("B_DETUNE"));
+    bDetuneDest->setMinRange(0.0f);
+    bDetuneDest->setMaxRange(100.0f);
 
     ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
     ModDestination* cCoarseDest = modMatrix.addDestination("C_COARSE");
     ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
     ModDestination* cMorphDest = modMatrix.addDestination("C_MORPH");
+    ModDestination* cDetuneDest = modMatrix.addDestination("C_DETUNE");
 
     cOctDest->setBasePtr(parameters.getRawParameterValue("C_OCTAVE"));
     cOctDest->setMinRange(-4);
@@ -142,11 +161,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     cFineDest->setMinRange(-100);
     cFineDest->setMaxRange(100);
     cMorphDest->setBasePtr(parameters.getRawParameterValue("C_MORPH"));
+    cDetuneDest->setBasePtr(parameters.getRawParameterValue("C_DETUNE"));
+    cDetuneDest->setMinRange(0.0f);
+    cDetuneDest->setMaxRange(100.0f);
 
     ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
     ModDestination* dCoarseDest = modMatrix.addDestination("D_COARSE");
     ModDestination* dFineDest = modMatrix.addDestination("D_FINE");
     ModDestination* dMorphDest = modMatrix.addDestination("D_MORPH");
+    ModDestination* dDetuneDest = modMatrix.addDestination("D_DETUNE");
 
     dOctDest->setBasePtr(parameters.getRawParameterValue("D_OCTAVE"));
     dOctDest->setMinRange(-4);
@@ -158,9 +181,36 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dFineDest->setMinRange(-100);
     dFineDest->setMaxRange(100);
     dMorphDest->setBasePtr(parameters.getRawParameterValue("D_MORPH"));
+    dDetuneDest->setBasePtr(parameters.getRawParameterValue("D_DETUNE"));
+    dDetuneDest->setMinRange(0.0f);
+    dDetuneDest->setMaxRange(100.0f);
+
+    ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
+    ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
+
+    filterCutoffDest->setBasePtr(parameters.getRawParameterValue("FILTER_CUTOFF"));
+    filterCutoffDest->setMinRange(20.0f);
+    filterCutoffDest->setMaxRange(20000.0f);
+    filterResonanceDest->setBasePtr(parameters.getRawParameterValue("FILTER_RESONANCE"));
+    filterResonanceDest->setMinRange(0.01f);
+    filterResonanceDest->setMaxRange(1.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
+
+float* IntuitionAudioProcessor::getLFOPhase(int lfoNum)
+{
+    switch (lfoNum) {
+    case 1:
+        return &lfoPhase1;
+    case 2:
+        return &lfoPhase2;
+    case 3:
+        return &lfoPhase3;
+    default:
+        return nullptr;
+    }
+}
 
 void IntuitionAudioProcessor::resetSynths() {
     synth.clearVoices();
@@ -250,6 +300,12 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     resetSynths();
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
+
+    for (int i = 0; i < synth.getNumVoices(); ++i) {
+        if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
+            v->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
+        }
+    }
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -322,15 +378,19 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     int unisonC = static_cast<int>(*parameters.getRawParameterValue("C_UNISON"));
     int unisonD = static_cast<int>(*parameters.getRawParameterValue("D_UNISON"));
 
-    float detuneA = *parameters.getRawParameterValue("A_DETUNE");
-    float detuneB = *parameters.getRawParameterValue("B_DETUNE");
-    float detuneC = *parameters.getRawParameterValue("C_DETUNE");
-    float detuneD = *parameters.getRawParameterValue("D_DETUNE");
+    float detuneA = modMatrix.getModdedDest("A_DETUNE");
+    float detuneB = modMatrix.getModdedDest("B_DETUNE");
+    float detuneC = modMatrix.getModdedDest("C_DETUNE");
+    float detuneD = modMatrix.getModdedDest("D_DETUNE");
 
     float morphA = modMatrix.getModdedDest("A_MORPH");
     float morphB = modMatrix.getModdedDest("B_MORPH");
     float morphC = modMatrix.getModdedDest("C_MORPH");
     float morphD = modMatrix.getModdedDest("D_MORPH");
+
+    float filterCutoff = modMatrix.getModdedDest("FILTER_CUTOFF");
+    float filterResonance = modMatrix.getModdedDest("FILTER_RESONANCE");
+    int filterType = (int)*parameters.getRawParameterValue("FILTER_TYPE");
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
@@ -351,6 +411,11 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             v->getOscD().setUnison(unisonD);
             v->getOscD().setDetuneRange(detuneD);
             v->getOscD().setMorph(morphD);
+
+            //===== Filter =====//
+            v->setFilterCutoff(filterCutoff);
+            v->setFilterResonance(filterResonance);
+            v->setFilterType(filterType);
         }
     }
 

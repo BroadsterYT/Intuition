@@ -12,6 +12,7 @@
 
 
 ItnSlider::ItnSlider() {
+    startTimerHz(30);
     setLookAndFeel(&lookAndFeel);
     setSliderStyle(juce::Slider::Rotary);
     setTextBoxStyle(juce::Slider::TextBoxAbove, false, 40, 15);
@@ -23,6 +24,7 @@ ItnSlider::ItnSlider() {
 
 ItnSlider::~ItnSlider() {
     setLookAndFeel(nullptr);
+    stopTimer();
 }
 
 void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
@@ -56,6 +58,56 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     }
 }
 
+void ItnSlider::paint(juce::Graphics& g) {
+    if (!modMatrix || paramName.isEmpty()) {
+        juce::Slider::paint(g);
+        return;
+    }
+    if (std::abs(modMatrix->getModdedDest(paramName) - modMatrix->getDestination(paramName)->getBaseValue()) < 0.01f) {
+        juce::Slider::paint(g);
+        return;
+    }
+
+    // Now overlay the modulation indicator
+    auto bounds = getLocalBounds().toFloat();
+    float size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6.0f;
+    auto center = bounds.getCentre();
+    float radius = size / 2.0f;
+
+    // Get values
+    auto* dest = modMatrix->getDestination(paramName);
+    float baseRaw = dest->getBaseValue();
+    float modRaw = modMatrix->getModdedDest(paramName);
+
+    //DBG("Modded: " << modRaw);
+
+    float baseMin = dest->getMinRange();
+    float baseMax = dest->getMaxRange();
+    float baseVal = (baseRaw - baseMin) / (baseMax - baseMin);
+    float modVal = (modRaw - baseMin) / (baseMax - baseMin);
+
+    float startAngle = juce::MathConstants<float>::pi * 1.25f;
+    float endAngle = juce::MathConstants<float>::pi * 2.75f;
+
+    // Map to angles
+    float baseAngle = startAngle + baseVal * (endAngle - startAngle);
+    float modAngle = startAngle + modVal * (endAngle - startAngle);
+
+    // Draw the overlay arc
+    g.setColour(juce::Colours::skyblue.withAlpha(0.6f));
+
+    float minAngle = juce::jmin(baseAngle, modAngle);
+    float delta = std::abs(modAngle - baseAngle);
+
+    juce::Path modArc;
+    modArc.addCentredArc(center.x, center.y, radius + 2.0f, radius + 2.0f,
+        0.0f, minAngle, minAngle + delta, true);
+
+    g.strokePath(modArc, juce::PathStrokeType(3.0f));
+
+    juce::Slider::paint(g);
+}
+
 void ItnSlider::resized() {
     juce::Slider::resized();
     auto area = getLocalBounds().removeFromBottom(15);
@@ -66,6 +118,10 @@ void ItnSlider::resized() {
 void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
     modMatrix = matrix;
     paramName = pName;
+}
+
+void ItnSlider::timerCallback() {
+    repaint();
 }
 
 void ItnSlider::updateLabel() {
@@ -112,8 +168,32 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
         if (conn->getBipolar()) conn->setBipolar(false);
         else conn->setBipolar(true);
     });
-    sub.addItem("Set mod opacity...", [] {/*NYI*/});
-    sub.addItem("Set mod depth...", [] {/*NYI*/});
+    sub.addItem("Set mod opacity...", [this, conn] {
+        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getOpacity());
+        entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
+            conn->setOpacity(val);
+        });
+        entry->setSize(50, 25);
+
+        juce::CallOutBox::launchAsynchronously(
+            std::move(entry),
+            getScreenBounds(),
+            nullptr
+        );
+    });
+    sub.addItem("Set mod depth...", [this, conn] {
+        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getDepth());
+        entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
+            conn->setDepth(val);
+        });
+        entry->setSize(50, 25);
+
+        juce::CallOutBox::launchAsynchronously(
+            std::move(entry),
+            getScreenBounds(),
+            nullptr
+        );
+    });
 
     menu.addSubMenu(sourceName, sub);
 }

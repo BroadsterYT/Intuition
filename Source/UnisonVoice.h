@@ -41,7 +41,18 @@ public:
     void pitchWheelMoved(int) override;
     void controllerMoved(int, int) override;
 
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels);
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
+
+    /// <summary>
+    /// Sets the filter cutoff frequency. Currently reads FILTER_CUTOFF parameter
+    /// </summary>
+    void setFilterCutoff(float cutoff);
+    /// <summary>
+    /// Sets the resonance of the filter. Currently uses FILTER_RESONANCE parameter.
+    /// </summary>
+    void setFilterResonance(float res);
+    void setFilterType(int type);
 
     void setEnvelopeParams(const juce::ADSR::Parameters& params);
 
@@ -56,9 +67,14 @@ private:
 
     UnisonOsc oscA, oscB, oscC, oscD;
 
+    juce::dsp::StateVariableTPTFilter<float> filter;
+    int filterPreparedChannels = 0;
+
     juce::ADSR adsr;
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 
     float level = 1.0f;
+
+    void prepareFilter(double sampleRate, int samplesPerBlock, int numChannels);
 };

@@ -17,6 +17,10 @@ ModMatrix::ModMatrix() {
 void ModMatrix::applyMods() {
     // Clear existing mods
     for (auto& [name, d] : destinations) {
+        if (!d) {
+            DBG("Unreferenced destination (" << name << ") found when applying mods. Skipping...");
+            continue;
+        }
         float baseVal = d->getBaseValue();
         d->setModdedValue(baseVal);
     }
@@ -27,16 +31,31 @@ void ModMatrix::applyMods() {
         float destMin = dest->getMinRange();
         float destMax = dest->getMaxRange();
         
-        // TODO: Account for polar/bipolar setting
-        float centered = (c->getSource()->getValue() - 0.5f) * 2.0f;
-        float modAmount = centered * c->getDepth() * (destMax - destMin) * 0.5f;
+        float src = c->getSource()->getValue();
+        float modAmount = 0.0f;
+
+        if (c->getBipolar()) {
+            /*float mod = src * c->getDepth() - 0.5f;
+            modAmount = juce::jmap(mod, destMin, destMax);*/
+            float bipolar = (src - 0.5f) * 2.0f;
+            float mod = bipolar * c->getDepth();
+            float range = destMax - destMin;
+
+            modAmount = mod * (range * 0.5f);
+        }
+        else {
+            float mod = src * c->getDepth();
+            modAmount = juce::jmap(mod, 0.0f, 1.0f, destMin, destMax) - destMin;
+        }
         
         float currentDestVal = dest->getModdedValue();
         float unclamped = currentDestVal + modAmount;
+
+        DBG("Current: " << currentDestVal << "\nMod: " << modAmount);
         
         // TODO: Optimize 
         if (!c->getActive()) unclamped = 0.0f;
-        dest->setModdedValue(juce::jlimit(destMin, destMax, currentDestVal + unclamped));
+        dest->setModdedValue(juce::jlimit(destMin, destMax, unclamped));
     }
 }
 

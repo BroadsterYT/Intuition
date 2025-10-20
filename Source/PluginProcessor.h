@@ -38,6 +38,8 @@ public:
     LFOShape lfoShape2;
     LFOShape lfoShape3;
 
+    float* getLFOPhase(int lfoNum);
+
     void resetSynths();
 
     //==============================================================================
