@@ -61,6 +61,9 @@ void ItnSlider::paint(juce::Graphics& g) {
     juce::Slider::paint(g);
 
     if (!modMatrix || paramName.isEmpty()) return;
+    if (std::abs(modMatrix->getModdedDest(paramName) - modMatrix->getDestination(paramName)->getBaseValue()) < 0.01f) {
+        return;
+    }
 
     // Now overlay the modulation indicator
     auto bounds = getLocalBounds().toFloat();
@@ -69,8 +72,17 @@ void ItnSlider::paint(juce::Graphics& g) {
     float radius = size / 2.0f;
 
     // Get values
-    float baseVal = modMatrix->getDestination(paramName)->getBaseValue();
-    float modVal = modMatrix->getModdedDest(paramName);
+    auto* dest = modMatrix->getDestination(paramName);
+    float baseRaw = dest->getBaseValue();
+    float modRaw = modMatrix->getModdedDest(paramName);
+
+    //DBG("Modded: " << modRaw);
+
+    float baseMin = dest->getMinRange();
+    float baseMax = dest->getMaxRange();
+    float baseVal = (baseRaw - baseMin) / (baseMax - baseMin);
+    float modVal = (modRaw - baseMin) / (baseMax - baseMin);
+
     float startAngle = juce::MathConstants<float>::pi * 1.25f;
     float endAngle = juce::MathConstants<float>::pi * 2.75f;
 

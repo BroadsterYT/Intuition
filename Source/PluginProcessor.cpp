@@ -364,10 +364,10 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     int unisonC = static_cast<int>(*parameters.getRawParameterValue("C_UNISON"));
     int unisonD = static_cast<int>(*parameters.getRawParameterValue("D_UNISON"));
 
-    float detuneA = *parameters.getRawParameterValue("A_DETUNE");
-    float detuneB = *parameters.getRawParameterValue("B_DETUNE");
-    float detuneC = *parameters.getRawParameterValue("C_DETUNE");
-    float detuneD = *parameters.getRawParameterValue("D_DETUNE");
+    float detuneA = modMatrix.getModdedDest("A_DETUNE");
+    float detuneB = modMatrix.getModdedDest("B_DETUNE");
+    float detuneC = modMatrix.getModdedDest("C_DETUNE");
+    float detuneD = modMatrix.getModdedDest("D_DETUNE");
 
     float morphA = modMatrix.getModdedDest("A_MORPH");
     float morphB = modMatrix.getModdedDest("B_MORPH");

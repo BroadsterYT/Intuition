@@ -31,16 +31,27 @@ void ModMatrix::applyMods() {
         float destMin = dest->getMinRange();
         float destMax = dest->getMaxRange();
         
-        // TODO: Account for polar/bipolar setting
-        float centered = (c->getSource()->getValue() - 0.5f);
-        float modAmount = centered * c->getDepth() * (destMax - destMin);
+        float src = c->getSource()->getValue();
+        float modAmount = 0.0f;
+
+        if (c->getBipolar()) {
+            float mod = src * c->getDepth() - 0.5f;
+            modAmount = juce::jmap(mod, destMin, destMax);
+        }
+        else {
+            float mod = src * c->getDepth();
+            modAmount = juce::jmap(mod, destMin, destMax);
+            modAmount -= destMin;
+        }
         
         float currentDestVal = dest->getModdedValue();
         float unclamped = currentDestVal + modAmount;
+
+        DBG("Current: " << currentDestVal << "\nMod: " << modAmount);
         
         // TODO: Optimize 
         if (!c->getActive()) unclamped = 0.0f;
-        dest->setModdedValue(juce::jlimit(destMin, destMax, currentDestVal + unclamped));
+        dest->setModdedValue(juce::jlimit(destMin, destMax, unclamped));
     }
 }
 
