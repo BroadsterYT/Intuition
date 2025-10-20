@@ -16,7 +16,7 @@
 
 class LFOEditor : public juce::Component, private juce::Timer {
 public:
-    LFOEditor(LFOShape& shape);
+    LFOEditor(LFOShape& shape, float* phase);
     ~LFOEditor();
 
     void paint(juce::Graphics& g) override;
@@ -29,6 +29,7 @@ public:
 
 private:
     LFOShape& shape;
+    float* phase = nullptr;
 
     void timerCallback() override;
 };

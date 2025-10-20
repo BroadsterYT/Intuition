@@ -19,9 +19,11 @@ public:
     LFOTabs(
         juce::AudioProcessorValueTreeState& vts,
         LFOShape& shape1,
-
+        float* phase1,
         LFOShape& shape2,
-        LFOShape& shape3
+        float* phase2,
+        LFOShape& shape3,
+        float* phase3
     );
 
     void resized() override;

@@ -13,11 +13,12 @@
 LFODisplay::LFODisplay(
     juce::AudioProcessorValueTreeState& vts,
     LFOShape& shape,
+    float* phase,
     const juce::String modeName,
     const juce::String rateName,
     const juce::String syncDivName
 ) : parameters(vts),
-    editor(shape), 
+    editor(shape, phase), 
     modeName(modeName),
     rateName(rateName),
     syncDivName(syncDivName) {

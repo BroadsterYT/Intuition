@@ -35,13 +35,17 @@ void ModMatrix::applyMods() {
         float modAmount = 0.0f;
 
         if (c->getBipolar()) {
-            float mod = src * c->getDepth() - 0.5f;
-            modAmount = juce::jmap(mod, destMin, destMax);
+            /*float mod = src * c->getDepth() - 0.5f;
+            modAmount = juce::jmap(mod, destMin, destMax);*/
+            float bipolar = (src - 0.5f) * 2.0f;
+            float mod = bipolar * c->getDepth();
+            float range = destMax - destMin;
+
+            modAmount = mod * (range * 0.5f);
         }
         else {
             float mod = src * c->getDepth();
-            modAmount = juce::jmap(mod, destMin, destMax);
-            modAmount -= destMin;
+            modAmount = juce::jmap(mod, 0.0f, 1.0f, destMin, destMax) - destMin;
         }
         
         float currentDestVal = dest->getModdedValue();

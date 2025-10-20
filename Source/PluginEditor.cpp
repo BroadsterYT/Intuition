@@ -70,7 +70,12 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
         "D_FINE"
     ),
 
-    lfoTabs(p.parameters, p.lfoShape1, p.lfoShape2, p.lfoShape3),
+    lfoTabs(
+        p.parameters,
+        p.lfoShape1, p.getLFOPhase(1),
+        p.lfoShape2, p.getLFOPhase(2),
+        p.lfoShape3, p.getLFOPhase(3)
+    ),
     filterDisplay(p.parameters, &p.modMatrix),
 
     waveBankComp1(&p, p.parameters, p.bank1),

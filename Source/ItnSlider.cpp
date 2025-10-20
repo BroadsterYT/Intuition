@@ -24,6 +24,7 @@ ItnSlider::ItnSlider() {
 
 ItnSlider::~ItnSlider() {
     setLookAndFeel(nullptr);
+    stopTimer();
 }
 
 void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
@@ -58,10 +59,12 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
 }
 
 void ItnSlider::paint(juce::Graphics& g) {
-    juce::Slider::paint(g);
-
-    if (!modMatrix || paramName.isEmpty()) return;
+    if (!modMatrix || paramName.isEmpty()) {
+        juce::Slider::paint(g);
+        return;
+    }
     if (std::abs(modMatrix->getModdedDest(paramName) - modMatrix->getDestination(paramName)->getBaseValue()) < 0.01f) {
+        juce::Slider::paint(g);
         return;
     }
 
@@ -101,6 +104,8 @@ void ItnSlider::paint(juce::Graphics& g) {
         0.0f, minAngle, minAngle + delta, true);
 
     g.strokePath(modArc, juce::PathStrokeType(3.0f));
+
+    juce::Slider::paint(g);
 }
 
 void ItnSlider::resized() {
@@ -163,8 +168,32 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
         if (conn->getBipolar()) conn->setBipolar(false);
         else conn->setBipolar(true);
     });
-    sub.addItem("Set mod opacity...", [] {/*NYI*/});
-    sub.addItem("Set mod depth...", [] {/*NYI*/});
+    sub.addItem("Set mod opacity...", [this, conn] {
+        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getOpacity());
+        entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
+            conn->setOpacity(val);
+        });
+        entry->setSize(50, 25);
+
+        juce::CallOutBox::launchAsynchronously(
+            std::move(entry),
+            getScreenBounds(),
+            nullptr
+        );
+    });
+    sub.addItem("Set mod depth...", [this, conn] {
+        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getDepth());
+        entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
+            conn->setDepth(val);
+        });
+        entry->setSize(50, 25);
+
+        juce::CallOutBox::launchAsynchronously(
+            std::move(entry),
+            getScreenBounds(),
+            nullptr
+        );
+    });
 
     menu.addSubMenu(sourceName, sub);
 }

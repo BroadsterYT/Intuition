@@ -198,6 +198,20 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
 
+float* IntuitionAudioProcessor::getLFOPhase(int lfoNum)
+{
+    switch (lfoNum) {
+    case 1:
+        return &lfoPhase1;
+    case 2:
+        return &lfoPhase2;
+    case 3:
+        return &lfoPhase3;
+    default:
+        return nullptr;
+    }
+}
+
 void IntuitionAudioProcessor::resetSynths() {
     synth.clearVoices();
     for (int i = 0; i < 8; ++i) {

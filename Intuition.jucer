@@ -25,8 +25,6 @@
             file="Source/WavetableHelper.h"/>
       <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
       <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
-      <FILE id="nd2hyr" name="ItnVoice.cpp" compile="1" resource="0" file="Source/ItnVoice.cpp"/>
-      <FILE id="hIOVSc" name="ItnVoice.h" compile="0" resource="0" file="Source/ItnVoice.h"/>
       <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
             file="Source/WavetableBank.cpp"/>
       <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>

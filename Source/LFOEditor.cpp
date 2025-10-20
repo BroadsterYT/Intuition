@@ -11,7 +11,7 @@
 #include "LFOEditor.h"
 
 
-LFOEditor::LFOEditor(LFOShape& shape) : shape(shape) {
+LFOEditor::LFOEditor(LFOShape& shape, float* phase) : shape(shape), phase(phase) {
     startTimerHz(60);
 }
 
@@ -59,6 +59,13 @@ void LFOEditor::paint(juce::Graphics& g) {
         g.setColour(juce::Colours::cyan);
         g.drawEllipse(x1 - 15.0f / 2, y1 - 15.0f / 2, 15.0f, 15.0f, 2.0f);
     }
+
+    // Drawing phase
+    if (!phase) return;
+    
+    g.setColour(juce::Colours::lime);
+    g.setOpacity(0.5f);
+    g.drawLine(*phase * getWidth(), 0.0f, *phase * getWidth(), (float)getHeight(), 2.0f);
 }
 
 void LFOEditor::mouseDown(const juce::MouseEvent& e) {
