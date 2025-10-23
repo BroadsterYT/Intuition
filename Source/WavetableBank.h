@@ -23,6 +23,7 @@ public:
     /// </summary>
     /// <param name="wavFile">The wavtable .wav</param>
     void addWavetable(juce::File& wavFile);
+    void addWavetable(const void* binaryWav, int binarySize);
     /// <summary>
     /// Removes a wavetable from the wavebank. If there is only 1 wavetable in the
     /// bank, it will not be removed.

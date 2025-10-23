@@ -91,11 +91,18 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 
-    juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
+    /*juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
     bank1.addWavetable(file);
     bank2.addWavetable(file);
     bank3.addWavetable(file);
-    bank4.addWavetable(file);
+    bank4.addWavetable(file);*/
+
+    const void* wav = BinaryData::AKWF_saw_wav;
+    int wavSize = BinaryData::AKWF_saw_wavSize;
+    bank1.addWavetable(wav, wavSize);
+    bank2.addWavetable(wav, wavSize);
+    bank3.addWavetable(wav, wavSize);
+    bank4.addWavetable(wav, wavSize);
 
     resetSynths();
 
