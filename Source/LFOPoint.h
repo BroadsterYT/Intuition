@@ -13,7 +13,7 @@
 
 class LFOPoint {
 public:
-    LFOPoint(float time, float value, float curve);
+    LFOPoint(float time = 0.0f, float value = 0.0f, float curve = 0.0f);
 
     void setTime(float newTime);
     float getTime() const;

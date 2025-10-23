@@ -35,6 +35,31 @@ void WavetableBank::addWavetable(juce::File& wavFile) {
     }
 }
 
+void WavetableBank::addWavetable(const void* binaryWav, int binarySize) {
+    juce::AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
+
+    auto inputStream = std::make_unique<juce::MemoryInputStream>(binaryWav, binarySize, false);
+
+    std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(std::move(inputStream)));
+
+    if (reader.get()) {
+        juce::AudioBuffer<float> buffer;
+        buffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+        reader->read(&buffer,
+            0,
+            (int)reader->lengthInSamples,
+            0,
+            true, true
+        );
+
+        WavetableHelper::preprocessWavetable(buffer);
+        WavetableHelper::phaseAlignWavetable(buffer);
+
+        wavetables.push_back(buffer);
+    }
+}
+
 void WavetableBank::removeWavetable(int index) {
     wavetables.erase(wavetables.begin() + index);
 }

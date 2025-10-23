@@ -11,7 +11,7 @@
 #include "LFOPoint.h"
 
 
-LFOPoint::LFOPoint(float time = 0.0f, float value = 0.0f, float curve = 0.0f) {
+LFOPoint::LFOPoint(float time, float value, float curve) {
     setTime(time);
     setValue(value);
     setCurve(curve);
