@@ -7007,6 +7007,9 @@
                 file="Source/EnvelopeDisplay.cpp"/>
           <FILE id="k44DTm" name="EnvelopeDisplay.h" compile="0" resource="0"
                 file="Source/EnvelopeDisplay.h"/>
+          <FILE id="Vj6sc0" name="EnvelopeGraph.cpp" compile="1" resource="0"
+                file="Source/EnvelopeGraph.cpp"/>
+          <FILE id="bWK92q" name="EnvelopeGraph.h" compile="0" resource="0" file="Source/EnvelopeGraph.h"/>
         </GROUP>
         <GROUP id="{4CB7E476-19B4-BB58-CBFE-A771BC8AE1AA}" name="MainTabsGUI">
           <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"

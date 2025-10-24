@@ -41,8 +41,6 @@ public:
 
     ItnContext context;
 
-    float* getLFOPhase(int lfoNum);
-
     void resetSynths();
 
     //==============================================================================
