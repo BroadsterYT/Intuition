@@ -183,31 +183,33 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     std::vector<float> dryL(numSamples, 0.0f);
     std::vector<float> dryR(numSamples, 0.0f);
 
-    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered) {
+    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered, float vol) {
         if (!active) return;
 
         for (int s = 0; s < numSamples; ++s) {
             auto [l, r] = osc.getSample();
-            float env = level;
+            float outputVol = level * vol;
 
             if (filtered) {
-                /*int numChB = filteredBuffer.getNumChannels();
-                int numChF = filter,
-                DBG("Num channels: " << numChB);*/
-                filteredBuffer.addSample(0, s, l * env);
-                filteredBuffer.addSample(1, s, r * env);
+                filteredBuffer.addSample(0, s, l * outputVol);
+                filteredBuffer.addSample(1, s, r * outputVol);
             }
             else {
-                dryL[s] += l * env;
-                dryR[s] += r * env;
+                dryL[s] += l * outputVol;
+                dryR[s] += r * outputVol;
             }
         }
     };
 
-    processOscBlock(oscA, toggleA, sendA);
-    processOscBlock(oscB, toggleB, sendB);
-    processOscBlock(oscC, toggleC, sendC);
-    processOscBlock(oscD, toggleD, sendD);
+    float volumeA = modMatrix.getModdedDest("A_VOLUME");
+    float volumeB = modMatrix.getModdedDest("B_VOLUME");
+    float volumeC = modMatrix.getModdedDest("C_VOLUME");
+    float volumeD = modMatrix.getModdedDest("D_VOLUME");
+
+    processOscBlock(oscA, toggleA, sendA, volumeA);
+    processOscBlock(oscB, toggleB, sendB, volumeB);
+    processOscBlock(oscC, toggleC, sendC, volumeC);
+    processOscBlock(oscD, toggleD, sendD, volumeD);
 
     // Filter block
     juce::dsp::AudioBlock<float> block(filteredBuffer);
