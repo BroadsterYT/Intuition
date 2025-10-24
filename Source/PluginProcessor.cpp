@@ -87,7 +87,24 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
         std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterChoice>("FILTER_TYPE", "Filter Type", juce::StringArray{"Low", "High", "Band"}, 0),
-    })
+    }),
+    context(
+        this,
+        parameters,
+        &modMatrix,
+
+        bank1,
+        bank2,
+        bank3,
+        bank4,
+
+        lfoShape1,
+        lfoShape2,
+        lfoShape3,
+        &lfoPhase1,
+        &lfoPhase2,
+        &lfoPhase3
+    )
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 

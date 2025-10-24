@@ -14,6 +14,7 @@
 #include "LFOShape.h"
 #include "WavetableBank.h"
 #include "ModMatrix.h"
+#include "ItnContext.h"
 
 
 //==============================================================================
@@ -37,6 +38,8 @@ public:
     LFOShape lfoShape1;
     LFOShape lfoShape2;
     LFOShape lfoShape3;
+
+    ItnContext context;
 
     float* getLFOPhase(int lfoNum);
 
