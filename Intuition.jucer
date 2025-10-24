@@ -7000,6 +7000,8 @@
         <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
+        <FILE id="w7NoC7" name="MainTabs.h" compile="0" resource="0" file="Source/MainTabs.h"/>
         <GROUP id="{ADB09F31-2B26-3262-7DCF-97284C9B799A}" name="Filter">
           <FILE id="vQ6RPg" name="FilterDisplay.cpp" compile="1" resource="0"
                 file="Source/FilterDisplay.cpp"/>

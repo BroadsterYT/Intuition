@@ -51,7 +51,7 @@ void ModMatrix::applyMods() {
         float currentDestVal = dest->getModdedValue();
         float unclamped = currentDestVal + modAmount;
 
-        DBG("Current: " << currentDestVal << "\nMod: " << modAmount);
+        // DBG("Current: " << currentDestVal << "\nMod: " << modAmount);
         
         // TODO: Optimize 
         if (!c->getActive()) unclamped = 0.0f;

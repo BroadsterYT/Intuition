@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ModMatrix.h"
 #include "WavetableBank.h"
 
 
@@ -17,6 +18,7 @@ class WaveformDisplay : public juce::Component, private juce::Timer {
 public:
     WaveformDisplay(
         juce::AudioProcessorValueTreeState& vts,
+        ModMatrix* modMatrix,
         WavetableBank& bank,
         juce::String morphParamName
     );
@@ -25,8 +27,10 @@ public:
     void paint(juce::Graphics& g) override;
 
 private:
-    WavetableBank& bank;
     juce::AudioProcessorValueTreeState& parameters;
+    ModMatrix* modMatrix = nullptr;
+
+    WavetableBank& bank;
     juce::Array<float> waveform;  // The values used to construct the image of the waveform
 
     juce::String morphParamName;

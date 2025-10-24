@@ -17,7 +17,7 @@
 #include "WaveBankComponent.h"
 
 
-class OscillatorDisplay : public juce::Component {
+class OscillatorDisplay : public juce::Component, private juce::Timer {
 public:
     OscillatorDisplay(
         juce::AudioProcessorValueTreeState& vts,
@@ -60,4 +60,6 @@ private:
     juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;
     WaveformDisplay waveDisplay;
+
+    void timerCallback() override;
 };

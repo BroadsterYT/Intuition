@@ -26,7 +26,7 @@ OscillatorDisplay::OscillatorDisplay(
     const juce::String fineParamName
 ) : parameters(vts),
     modMatrix(modMatrix),
-    waveDisplay(vts, bank, morphParamName),
+    waveDisplay(vts, modMatrix, bank, morphParamName),
     waveBankComp(wbComp),
     
     toggleParamName(toggleParamName),
@@ -36,6 +36,7 @@ OscillatorDisplay::OscillatorDisplay(
     octaveParamName(octaveParamName),
     coarseParamName(coarseParamName),
     fineParamName(fineParamName) {
+    startTimerHz(60);
 
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
@@ -119,4 +120,8 @@ void OscillatorDisplay::resized() {
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);
+}
+
+void OscillatorDisplay::timerCallback() {
+    repaint();
 }

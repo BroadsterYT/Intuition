@@ -149,8 +149,8 @@ void IntuitionAudioProcessorEditor::resized()
     lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 250);
     filterDisplay.setBounds(oscDisplay4.getRight() + padding, padding, 250, 250);
 
-    waveBankComp1.setBounds(0, 0, 800, 600);
-    waveBankComp2.setBounds(0, 0, 800, 600);
-    waveBankComp3.setBounds(0, 0, 800, 600);
-    waveBankComp4.setBounds(0, 0, 800, 600);
+    waveBankComp1.setBounds(getLocalBounds());
+    waveBankComp2.setBounds(getLocalBounds());
+    waveBankComp3.setBounds(getLocalBounds());
+    waveBankComp4.setBounds(getLocalBounds());
 }
