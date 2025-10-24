@@ -133,9 +133,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     //===== Sources
     ModSource* lfoSource1 = modMatrix.addSource("LFO1");
     lfoSource1->setValuePtr(&lfoValue1);
+    ModSource* lfoSource2 = modMatrix.addSource("LFO2");
+    lfoSource2->setValuePtr(&lfoValue2);
+    ModSource* lfoSource3 = modMatrix.addSource("LFO3");
+    lfoSource3->setValuePtr(&lfoValue3);
 
     ModSource* envSource1 = modMatrix.addSource("ENV1");
     envSource1->setValuePtr(&envValue1);
+    ModSource* envSource2 = modMatrix.addSource("ENV2");
+    envSource2->setValuePtr(&envValue2);
+    ModSource* envSource3 = modMatrix.addSource("ENV3");
+    envSource3->setValuePtr(&envValue3);
 
     //===== Destinations
     ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");

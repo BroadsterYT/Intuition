@@ -7013,6 +7013,9 @@
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
         <GROUP id="{5818B172-2BCE-FD08-9516-7832C04C6434}" name="EnvelopeGUI">
+          <FILE id="z25pg2" name="EnvelopeTabs.h" compile="0" resource="0" file="Source/EnvelopeTabs.h"/>
+          <FILE id="EAtqlW" name="EnvelopeTabs.cpp" compile="1" resource="0"
+                file="Source/EnvelopeTabs.cpp"/>
           <FILE id="Own5cu" name="EnvelopeDisplay.cpp" compile="1" resource="0"
                 file="Source/EnvelopeDisplay.cpp"/>
           <FILE id="k44DTm" name="EnvelopeDisplay.h" compile="0" resource="0"

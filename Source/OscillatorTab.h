@@ -9,7 +9,7 @@
 */
 
 #pragma once
-#include "EnvelopeDisplay.h"
+#include "EnvelopeTabs.h"
 #include "ItnContext.h"
 #include "OscillatorDisplay.h"
 #include "LFOTabs.h"
@@ -40,7 +40,7 @@ private:
     OscillatorDisplay oscDisplay3;
     OscillatorDisplay oscDisplay4;
 
-    EnvelopeDisplay adsrComponent;
+    EnvelopeTabs envTabs;
     LFOTabs lfoTabs;
 
     FilterDisplay filterDisplay;

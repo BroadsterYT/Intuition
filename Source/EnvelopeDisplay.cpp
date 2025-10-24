@@ -12,33 +12,43 @@
 #include <algorithm>
 
 
-EnvelopeDisplay::EnvelopeDisplay(juce::AudioProcessorValueTreeState& vts) : parameters(vts) {
+EnvelopeDisplay::EnvelopeDisplay(
+    juce::AudioProcessorValueTreeState& vts,
+    const juce::String attackParamName,
+    const juce::String decayParamName,
+    const juce::String sustainParamName,
+    const juce::String releaseParamName
+) : parameters(vts),
+    attackParamName(attackParamName),
+    decayParamName(decayParamName),
+    sustainParamName(sustainParamName),
+    releaseParamName(releaseParamName) {
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
 
-    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_ATTACK", attackSlider);
-    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_DECAY", decaySlider);
-    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_SUSTAIN", sustainSlider);
-    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_RELEASE", releaseSlider);
+    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, attackParamName, attackSlider);
+    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, decayParamName, decaySlider);
+    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, sustainParamName, sustainSlider);
+    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);
 
     attackSlider.setLabelNames("Attack", "A");
     decaySlider.setLabelNames("Decay", "D");
     sustainSlider.setLabelNames("Sustain", "S");
     releaseSlider.setLabelNames("Release", "R");
 
-    parameters.addParameterListener("ATTACK", this);
-    parameters.addParameterListener("DECAY", this);
-    parameters.addParameterListener("SUSTAIN", this);
-    parameters.addParameterListener("RELEASE", this);
+    parameters.addParameterListener(attackParamName, this);
+    parameters.addParameterListener(decayParamName, this);
+    parameters.addParameterListener(sustainParamName, this);
+    parameters.addParameterListener(releaseParamName, this);
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {
-    parameters.removeParameterListener("ATTACK", this);
-    parameters.removeParameterListener("DECAY", this);
-    parameters.removeParameterListener("SUSTAIN", this);
-    parameters.removeParameterListener("RELEASE", this);
+    parameters.removeParameterListener(attackParamName, this);
+    parameters.removeParameterListener(decayParamName, this);
+    parameters.removeParameterListener(sustainParamName, this);
+    parameters.removeParameterListener(releaseParamName, this);
 }
 
 void EnvelopeDisplay::paint(juce::Graphics& g) {
@@ -63,10 +73,10 @@ void EnvelopeDisplay::resized() {
 }
 
 void EnvelopeDisplay::drawEnvelopeGraph(juce::Graphics& g) {
-    float attack = *parameters.getRawParameterValue("ENV1_ATTACK");
-    float decay = *parameters.getRawParameterValue("ENV1_DECAY");
-    float sustain = *parameters.getRawParameterValue("ENV1_SUSTAIN");
-    float release = *parameters.getRawParameterValue("ENV1_RELEASE");
+    float attack = *parameters.getRawParameterValue(attackParamName);
+    float decay = *parameters.getRawParameterValue(decayParamName);
+    float sustain = *parameters.getRawParameterValue(sustainParamName);
+    float release = *parameters.getRawParameterValue(releaseParamName);
 
     auto bounds = getLocalBounds().toFloat().reduced(5);
 

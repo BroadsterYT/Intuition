@@ -86,7 +86,7 @@ OscillatorTab::OscillatorTab(ItnContext& context
         "D_FINE"
     ),
 
-    adsrComponent(context.parameters),
+    envTabs(context.parameters),
     lfoTabs(
         context.parameters,
         context.shape1,
@@ -106,7 +106,7 @@ OscillatorTab::OscillatorTab(ItnContext& context
     addAndMakeVisible(oscDisplay3);
     addAndMakeVisible(oscDisplay4);
     
-    addAndMakeVisible(adsrComponent);
+    addAndMakeVisible(envTabs);
     addAndMakeVisible(lfoTabs);
     addAndMakeVisible(filterDisplay);
 
@@ -124,13 +124,13 @@ void OscillatorTab::resized() {
     int padding = 15;
     int adsrWidth = 250;
     int adsrHeight = 150;
-    adsrComponent.setBounds(padding, padding, adsrWidth, adsrHeight);
+    envTabs.setBounds(padding, padding, adsrWidth, adsrHeight);
 
-    oscDisplay1.setBounds(adsrComponent.getRight() + padding, padding, 200, 250);
+    oscDisplay1.setBounds(envTabs.getRight() + padding, padding, 200, 250);
     oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);
-    oscDisplay3.setBounds(adsrComponent.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
+    oscDisplay3.setBounds(envTabs.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
     oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
-    lfoTabs.setBounds(padding, adsrComponent.getBottom() + padding, 250, 250);
+    lfoTabs.setBounds(padding, envTabs.getBottom() + padding, 250, 250);
     filterDisplay.setBounds(oscDisplay4.getRight() + padding, padding, 250, 250);
 
     waveBankComp1.setBounds(getLocalBounds());

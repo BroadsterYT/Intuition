@@ -16,7 +16,13 @@
 class EnvelopeDisplay : public juce::Component,
     private juce::AudioProcessorValueTreeState::Listener{
 public:
-    EnvelopeDisplay(juce::AudioProcessorValueTreeState& vts);
+    EnvelopeDisplay(
+        juce::AudioProcessorValueTreeState& vts,
+        const juce::String attackParamName,
+        const juce::String decayParamName,
+        const juce::String sustainParamName,
+        const juce::String releaseParamName
+    );
     ~EnvelopeDisplay() override;
 
     void paint(juce::Graphics& g) override;
@@ -24,6 +30,10 @@ public:
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
+    juce::String attackParamName;
+    juce::String decayParamName;
+    juce::String sustainParamName;
+    juce::String releaseParamName;
 
     ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
