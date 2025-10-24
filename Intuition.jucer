@@ -6971,6 +6971,18 @@
       </GROUP>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{5916C2C8-F668-3723-F198-FB24A81F89CA}" name="Envelope">
+        <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"
+              file="Source/GlobalEnvelope.cpp"/>
+        <FILE id="o9bGcE" name="GlobalEnvelope.h" compile="0" resource="0"
+              file="Source/GlobalEnvelope.h"/>
+        <FILE id="waBNZI" name="EnvelopeManager.h" compile="0" resource="0"
+              file="Source/EnvelopeManager.h"/>
+        <FILE id="cISkP5" name="EnvelopeManager.cpp" compile="1" resource="0"
+              file="Source/EnvelopeManager.cpp"/>
+      </GROUP>
+      <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
+      <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
       <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">
         <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
         <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
@@ -7000,9 +7012,26 @@
         <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
-        <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
-        <FILE id="w7NoC7" name="MainTabs.h" compile="0" resource="0" file="Source/MainTabs.h"/>
-        <GROUP id="{ADB09F31-2B26-3262-7DCF-97284C9B799A}" name="Filter">
+        <GROUP id="{5818B172-2BCE-FD08-9516-7832C04C6434}" name="EnvelopeGUI">
+          <FILE id="z25pg2" name="EnvelopeTabs.h" compile="0" resource="0" file="Source/EnvelopeTabs.h"/>
+          <FILE id="EAtqlW" name="EnvelopeTabs.cpp" compile="1" resource="0"
+                file="Source/EnvelopeTabs.cpp"/>
+          <FILE id="Own5cu" name="EnvelopeDisplay.cpp" compile="1" resource="0"
+                file="Source/EnvelopeDisplay.cpp"/>
+          <FILE id="k44DTm" name="EnvelopeDisplay.h" compile="0" resource="0"
+                file="Source/EnvelopeDisplay.h"/>
+          <FILE id="Vj6sc0" name="EnvelopeGraph.cpp" compile="1" resource="0"
+                file="Source/EnvelopeGraph.cpp"/>
+          <FILE id="bWK92q" name="EnvelopeGraph.h" compile="0" resource="0" file="Source/EnvelopeGraph.h"/>
+        </GROUP>
+        <GROUP id="{4CB7E476-19B4-BB58-CBFE-A771BC8AE1AA}" name="MainTabsGUI">
+          <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"
+                file="Source/OscillatorTab.cpp"/>
+          <FILE id="SVgjzo" name="OscillatorTab.h" compile="0" resource="0" file="Source/OscillatorTab.h"/>
+          <FILE id="w7NoC7" name="MainTabs.h" compile="0" resource="0" file="Source/MainTabs.h"/>
+          <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
+        </GROUP>
+        <GROUP id="{ADB09F31-2B26-3262-7DCF-97284C9B799A}" name="FilterGUI">
           <FILE id="vQ6RPg" name="FilterDisplay.cpp" compile="1" resource="0"
                 file="Source/FilterDisplay.cpp"/>
           <FILE id="fKbsTI" name="FilterDisplay.h" compile="0" resource="0" file="Source/FilterDisplay.h"/>
@@ -7013,7 +7042,7 @@
               file="Source/OscillatorDisplay.h"/>
         <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
               file="Source/OscillatorDisplay.cpp"/>
-        <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFOTabs">
+        <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFO_GUI">
           <FILE id="vNnHaR" name="LFODisplay.cpp" compile="1" resource="0" file="Source/LFODisplay.cpp"/>
           <FILE id="eIK3NE" name="LFODisplay.h" compile="0" resource="0" file="Source/LFODisplay.h"/>
           <FILE id="ZX0zdk" name="LFOTabs.cpp" compile="1" resource="0" file="Source/LFOTabs.cpp"/>
@@ -7021,7 +7050,7 @@
           <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
           <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
         </GROUP>
-        <GROUP id="{7AF833AE-6AF3-6744-A10C-AC71BD084E2D}" name="WaveBankEditor">
+        <GROUP id="{7AF833AE-6AF3-6744-A10C-AC71BD084E2D}" name="WaveBankGUI">
           <FILE id="Axl9DX" name="WaveThumbnail.cpp" compile="1" resource="0"
                 file="Source/WaveThumbnail.cpp"/>
           <FILE id="VHGt2w" name="WaveThumbnail.h" compile="0" resource="0" file="Source/WaveThumbnail.h"/>
@@ -7038,9 +7067,6 @@
               file="Source/InlineValueEntry.h"/>
         <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
         <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
-        <FILE id="k44DTm" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
-        <FILE id="Own5cu" name="ADSRComponent.cpp" compile="1" resource="0"
-              file="Source/ADSRComponent.cpp"/>
         <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"
               file="Source/WaveformDisplay.h"/>
         <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"

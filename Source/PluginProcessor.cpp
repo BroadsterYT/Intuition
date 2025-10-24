@@ -27,13 +27,25 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     parameters(*this, nullptr, "PARAMETERS", {
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
 
-        std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 1.0f, 0.0f),
-        std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 1.0f, 0.0f),
-        std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
-        std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
+        //================ Envelopes =================//
+        std::make_unique<juce::AudioParameterFloat>("ENV1_ATTACK", "Envelope 1 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_DECAY", "Envelope 1 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_SUSTAIN", "Envelope 1 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_RELEASE", "Envelope 1 Release", 0.0f, 1.0f, 0.0f),
+
+        std::make_unique<juce::AudioParameterFloat>("ENV2_ATTACK", "Envelope 2 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_DECAY", "Envelope 2 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_SUSTAIN", "Envelope 2 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_RELEASE", "Envelope 2 Release", 0.0f, 1.0f, 0.0f),
+
+        std::make_unique<juce::AudioParameterFloat>("ENV3_ATTACK", "Envelope 3 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_DECAY", "Envelope 3 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_SUSTAIN", "Envelope 3 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_RELEASE", "Envelope 3 Release", 0.0f, 1.0f, 0.0f),
 
         //=============== Oscillators ================//
         std::make_unique<juce::AudioParameterBool>("A_TOGGLE", "A Toggle", true),
+        std::make_unique<juce::AudioParameterFloat>("A_VOLUME", "A Volume", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterInt>("A_UNISON", "A Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("A_DETUNE", "A Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("A_MORPH", "A Morph", 0.0f, 1.0f, 0.0f),
@@ -42,6 +54,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("A_FINE", "A Fine Pitch", -100, 100, 0),
 
         std::make_unique<juce::AudioParameterBool>("B_TOGGLE", "B Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("B_VOLUME", "B Volume", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterInt>("B_UNISON", "B Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("B_DETUNE", "B Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("B_MORPH", "B Morph", 0.0f, 1.0f, 0.0f),
@@ -50,6 +63,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("B_FINE", "B Fine Pitch", -100, 100, 0),
 
         std::make_unique<juce::AudioParameterBool>("C_TOGGLE", "C Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("C_VOLUME", "C Volume", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterInt>("C_UNISON", "C Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("C_DETUNE", "C Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("C_MORPH", "C Morph", 0.0f, 1.0f, 0.0f),
@@ -58,6 +72,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterInt>("C_FINE", "C Fine Pitch", -100, 100, 0),
 
         std::make_unique<juce::AudioParameterBool>("D_TOGGLE", "D Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("D_VOLUME", "D Volume", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterInt>("D_UNISON", "D Unison", 1, 8, 1),
         std::make_unique<juce::AudioParameterFloat>("D_DETUNE", "D Detune", 0, 100, 0),
         std::make_unique<juce::AudioParameterFloat>("D_MORPH", "D Morph", 0.0f, 1.0f, 0.0f),
@@ -80,22 +95,34 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //============== Filter ==============//
         std::make_unique<juce::AudioParameterBool>("A_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "B Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "C Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "D Filter Send", false),
 
         std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
         std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterChoice>("FILTER_TYPE", "Filter Type", juce::StringArray{"Low", "High", "Band"}, 0),
-    })
+    }),
+    context(
+        this,
+        parameters,
+        &modMatrix,
+
+        bank1,
+        bank2,
+        bank3,
+        bank4,
+
+        lfoShape1,
+        lfoShape2,
+        lfoShape3,
+        &lfoPhase1,
+        &lfoPhase2,
+        &lfoPhase3
+    ),
+    envManager(parameters)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
-
-    /*juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
-    bank1.addWavetable(file);
-    bank2.addWavetable(file);
-    bank3.addWavetable(file);
-    bank4.addWavetable(file);*/
 
     const void* wav = BinaryData::AKWF_saw_wav;
     int wavSize = BinaryData::AKWF_saw_wavSize;
@@ -110,6 +137,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     //===== Sources
     ModSource* lfoSource1 = modMatrix.addSource("LFO1");
     lfoSource1->setValuePtr(&lfoValue1);
+    ModSource* lfoSource2 = modMatrix.addSource("LFO2");
+    lfoSource2->setValuePtr(&lfoValue2);
+    ModSource* lfoSource3 = modMatrix.addSource("LFO3");
+    lfoSource3->setValuePtr(&lfoValue3);
+
+    ModSource* envSource1 = modMatrix.addSource("ENV1");
+    envSource1->setValuePtr(&envValue1);
+    ModSource* envSource2 = modMatrix.addSource("ENV2");
+    envSource2->setValuePtr(&envValue2);
+    ModSource* envSource3 = modMatrix.addSource("ENV3");
+    envSource3->setValuePtr(&envValue3);
 
     //===== Destinations
     ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
@@ -117,6 +155,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
     ModDestination* aMorphDest = modMatrix.addDestination("A_MORPH");
     ModDestination* aDetuneDest = modMatrix.addDestination("A_DETUNE");
+    ModDestination* aVolumeDest = modMatrix.addDestination("A_VOLUME");
     
     aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
     aOctDest->setMinRange(-4);
@@ -131,12 +170,14 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     aDetuneDest->setBasePtr(parameters.getRawParameterValue("A_DETUNE"));
     aDetuneDest->setMinRange(0.0f);
     aDetuneDest->setMaxRange(100.0f);
+    aVolumeDest->setBasePtr(parameters.getRawParameterValue("A_VOLUME"));
 
     ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
     ModDestination* bCoarseDest = modMatrix.addDestination("B_COARSE");
     ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
     ModDestination* bMorphDest = modMatrix.addDestination("B_MORPH");
     ModDestination* bDetuneDest = modMatrix.addDestination("B_DETUNE");
+    ModDestination* bVolumeDest = modMatrix.addDestination("B_VOLUME");
 
     bOctDest->setBasePtr(parameters.getRawParameterValue("B_OCTAVE"));
     bOctDest->setMinRange(-4);
@@ -151,12 +192,14 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     bDetuneDest->setBasePtr(parameters.getRawParameterValue("B_DETUNE"));
     bDetuneDest->setMinRange(0.0f);
     bDetuneDest->setMaxRange(100.0f);
+    bVolumeDest->setBasePtr(parameters.getRawParameterValue("B_VOLUME"));
 
     ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
     ModDestination* cCoarseDest = modMatrix.addDestination("C_COARSE");
     ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
     ModDestination* cMorphDest = modMatrix.addDestination("C_MORPH");
     ModDestination* cDetuneDest = modMatrix.addDestination("C_DETUNE");
+    ModDestination* cVolumeDest = modMatrix.addDestination("C_VOLUME");
 
     cOctDest->setBasePtr(parameters.getRawParameterValue("C_OCTAVE"));
     cOctDest->setMinRange(-4);
@@ -171,12 +214,14 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     cDetuneDest->setBasePtr(parameters.getRawParameterValue("C_DETUNE"));
     cDetuneDest->setMinRange(0.0f);
     cDetuneDest->setMaxRange(100.0f);
+    cVolumeDest->setBasePtr(parameters.getRawParameterValue("C_VOLUME"));
 
     ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
     ModDestination* dCoarseDest = modMatrix.addDestination("D_COARSE");
     ModDestination* dFineDest = modMatrix.addDestination("D_FINE");
     ModDestination* dMorphDest = modMatrix.addDestination("D_MORPH");
     ModDestination* dDetuneDest = modMatrix.addDestination("D_DETUNE");
+    ModDestination* dVolumeDest = modMatrix.addDestination("D_VOLUME");
 
     dOctDest->setBasePtr(parameters.getRawParameterValue("D_OCTAVE"));
     dOctDest->setMinRange(-4);
@@ -191,6 +236,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dDetuneDest->setBasePtr(parameters.getRawParameterValue("D_DETUNE"));
     dDetuneDest->setMinRange(0.0f);
     dDetuneDest->setMaxRange(100.0f);
+    dVolumeDest->setBasePtr(parameters.getRawParameterValue("D_VOLUME"));
 
     ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
     ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
@@ -204,20 +250,6 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
-
-float* IntuitionAudioProcessor::getLFOPhase(int lfoNum)
-{
-    switch (lfoNum) {
-    case 1:
-        return &lfoPhase1;
-    case 2:
-        return &lfoPhase2;
-    case 3:
-        return &lfoPhase3;
-    default:
-        return nullptr;
-    }
-}
 
 void IntuitionAudioProcessor::resetSynths() {
     synth.clearVoices();
@@ -313,6 +345,8 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
             v->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
+
+    envManager.prepare(sampleRate);
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -355,6 +389,22 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    juce::MidiBuffer processMidi;
+    for (const auto metadata : midiMessages) {
+        auto msg = metadata.getMessage();
+
+        if (msg.isNoteOn()) {
+            envManager.noteOn(msg.getNoteNumber());
+            //DBG("Note pressed: " << msg.getNoteNumber());
+        }
+        else if (msg.isNoteOff()) {
+            envManager.noteOff(msg.getNoteNumber());
+            //DBG("Note released: " << msg.getNoteNumber());
+        }
+
+        processMidi.addEvent(msg, metadata.samplePosition);
+    }
+
     //========== LFO Modulation ==========//
     setCurrentBPM();
     float sampleRate = getSampleRate();
@@ -372,13 +422,41 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         buffer.getNumSamples()
     );
 
-    modMatrix.applyMods();
+    calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate2);
+    float phaseInc2 = lfoRate2 / sampleRate;
+    calculateLFOPhase(
+        lfoShape2,
+        lfoPhase2,
+        "LFO2_MODE",
+        "LFO2_SYNC_DIV",
+        "LFO2_RATE",
+        lfoValue2,
+        sampleRate,
+        buffer.getNumSamples()
+    );
 
-    juce::ADSR::Parameters adsrParams;
-    adsrParams.attack = *parameters.getRawParameterValue("ATTACK");
-    adsrParams.decay = *parameters.getRawParameterValue("DECAY");
-    adsrParams.sustain = *parameters.getRawParameterValue("SUSTAIN");
-    adsrParams.release = *parameters.getRawParameterValue("RELEASE");
+    calculateLFOFrequency("LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV", lfoRate3);
+    float phaseInc3 = lfoRate3 / sampleRate;
+    calculateLFOPhase(
+        lfoShape3,
+        lfoPhase3,
+        "LFO3_MODE",
+        "LFO3_SYNC_DIV",
+        "LFO3_RATE",
+        lfoValue3,
+        sampleRate,
+        buffer.getNumSamples()
+    );
+
+    //======= Envelope Modulation ========//
+    envManager.process(buffer.getNumSamples());
+    envValue1 = envManager.getEnvValue(0);
+    envValue2 = envManager.getEnvValue(1);
+    envValue3 = envManager.getEnvValue(2);
+
+    //DBG("ENV1 val: " << envValue1);
+
+    modMatrix.applyMods();
 
     int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
     int unisonB = static_cast<int>(*parameters.getRawParameterValue("B_UNISON"));
@@ -401,7 +479,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
-            v->setEnvelopeParams(adsrParams);
+            //v->setEnvelopeParams(adsrParams);
+            envManager.setParameters();
 
             v->getOscA().setUnison(unisonA);
             v->getOscA().setDetuneRange(detuneA);
@@ -500,7 +579,6 @@ void IntuitionAudioProcessor::calculateLFOFrequency(
         rateVal = (currentBPM / 60.0f) * division;
     }
 }
-
 
 void IntuitionAudioProcessor::calculateLFOPhase(
     LFOShape& shape,

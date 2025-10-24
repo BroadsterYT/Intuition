@@ -24,6 +24,7 @@ WaveBankComponent::WaveBankComponent(
     viewport.setViewedComponent(&waveThumbnailComp, false);
 
     addAndMakeVisible(closeButton);
+    closeButton.setButtonText("X");
     closeButton.onClick = [this] {
         setVisible(false);
     };
@@ -86,7 +87,7 @@ void WaveBankComponent::resized() {
 
     viewport.setBounds(area.removeFromBottom(128).reduced(10));
     waveThumbnailComp.setBounds(0, 0, 1600, 80 + 15);
-    closeButton.setBounds(getWidth() - 32 - 16, 32, 32, 32);
+    closeButton.setBounds(getWidth() - 32 - 16, 64, 32, 32);
 
     buildWaveThumbnails();
 }

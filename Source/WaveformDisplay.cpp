@@ -58,9 +58,7 @@ void WaveformDisplay::paint(juce::Graphics& g) {
 void WaveformDisplay::buildWaveform() {
     waveform.clear();
 
-    DBG("WAVE BUILDING");
     float alpha = modMatrix->getModdedDest(morphParamName);
-    DBG("Modded " << alpha);
     float widx = alpha * (bank.size() - 1);
     int wi1 = (int)widx;
     float wFrac = widx - wi1;

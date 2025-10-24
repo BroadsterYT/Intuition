@@ -42,6 +42,8 @@ UnisonVoice::UnisonVoice(
     oscD.setSampleRate(getSampleRate());
 
     adsr.setSampleRate(getSampleRate());
+    juce::ADSR::Parameters p(0.0f, 0.0f, 1.0f, 0.0f);
+    adsr.setParameters(p);
 }
 
 UnisonOsc& UnisonVoice::getOscA() {
@@ -135,7 +137,6 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
 
 void UnisonVoice::stopNote(float /*velocity*/, bool allowTailOff) {
     adsr.noteOff();
-    //currentFreq = -1.0f;
 
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
@@ -182,31 +183,33 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     std::vector<float> dryL(numSamples, 0.0f);
     std::vector<float> dryR(numSamples, 0.0f);
 
-    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered) {
+    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered, float vol) {
         if (!active) return;
 
         for (int s = 0; s < numSamples; ++s) {
             auto [l, r] = osc.getSample();
-            float env = adsr.getNextSample() * level;
+            float outputVol = level * vol;
 
             if (filtered) {
-                /*int numChB = filteredBuffer.getNumChannels();
-                int numChF = filter,
-                DBG("Num channels: " << numChB);*/
-                filteredBuffer.addSample(0, s, l * env);
-                filteredBuffer.addSample(1, s, r * env);
+                filteredBuffer.addSample(0, s, l * outputVol);
+                filteredBuffer.addSample(1, s, r * outputVol);
             }
             else {
-                dryL[s] += l * env;
-                dryR[s] += r * env;
+                dryL[s] += l * outputVol;
+                dryR[s] += r * outputVol;
             }
         }
     };
 
-    processOscBlock(oscA, toggleA, sendA);
-    processOscBlock(oscB, toggleB, sendB);
-    processOscBlock(oscC, toggleC, sendC);
-    processOscBlock(oscD, toggleD, sendD);
+    float volumeA = modMatrix.getModdedDest("A_VOLUME");
+    float volumeB = modMatrix.getModdedDest("B_VOLUME");
+    float volumeC = modMatrix.getModdedDest("C_VOLUME");
+    float volumeD = modMatrix.getModdedDest("D_VOLUME");
+
+    processOscBlock(oscA, toggleA, sendA, volumeA);
+    processOscBlock(oscB, toggleB, sendB, volumeB);
+    processOscBlock(oscC, toggleC, sendC, volumeC);
+    processOscBlock(oscD, toggleD, sendD, volumeD);
 
     // Filter block
     juce::dsp::AudioBlock<float> block(filteredBuffer);
@@ -214,54 +217,13 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     filter.process(context);
 
     for (int s = 0; s < numSamples; ++s) {
+        float envDummy = adsr.getNextSample();
         float L = filteredBuffer.getSample(0, s) + dryL[s];
         float R = filteredBuffer.getSample(1, s) + dryR[s];
 
         outputBuffer.addSample(0, startSample + s, L);
         outputBuffer.addSample(1, startSample + s, R);
     }
-
-    /*for (int s = 0; s < numSamples; ++s) {
-        float L = 0.0f;
-        float R = 0.0f;
-        float filteredL = 0.0f;
-        float filteredR = 0.0f;
-        float dryL = 0.0f;
-        float dryR = 0.0f;
-
-        auto processOsc = [&](UnisonOsc& osc, bool active, bool filtered) {
-            if (!active) return;
-            auto [l, r] = osc.getSample();
-            if (filtered) {
-                filteredL += l;
-                filteredR += r;
-            }
-            else {
-                dryL += l;
-                dryR += r;
-            }
-        };
-
-        processOsc(oscA, toggleA, sendA);
-        processOsc(oscB, toggleB, sendB);
-        processOsc(oscC, toggleC, sendC);
-        processOsc(oscD, toggleD, sendD);
-
-        float env = adsr.getNextSample();
-        filteredL *= env * level;
-        filteredR *= env * level;
-        dryL *= env * level;
-        dryR *= env * level;
-
-        float Lf = filter.processSample(0, filteredL);
-        float Rf = filter.processSample(1, filteredR);
-
-        L = Lf + dryL;
-        R = Rf + dryR;
-
-        outputBuffer.addSample(0, startSample + s, L);
-        outputBuffer.addSample(1, startSample + s, R);
-    }*/
 }
 
 void UnisonVoice::setFilterCutoff(float cutoff) {
@@ -289,15 +251,15 @@ void UnisonVoice::setFilterType(int type) {
     filter.setType(filterType);
 }
 
-void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
-    adsr.setParameters(params);
-}
+//void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
+//    adsr.setParameters(params);
+//}
 
 void UnisonVoice::prepareFilter(double sampleRate, int samplesPerBlock, int numChannels){
     if (filterPreparedChannels != numChannels) {
         juce::dsp::ProcessSpec pspec;
-        pspec.sampleRate = getSampleRate();
-        pspec.maximumBlockSize = 1280; // or whatever
+        pspec.sampleRate = sampleRate;
+        pspec.maximumBlockSize = samplesPerBlock;
         pspec.numChannels = numChannels;
         filter.prepare(pspec);
 

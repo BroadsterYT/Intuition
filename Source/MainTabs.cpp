@@ -9,3 +9,26 @@
 */
 
 #include "MainTabs.h"
+
+
+MainTabs::MainTabs(ItnContext& context
+) : tabs(juce::TabbedButtonBar::TabsAtTop),
+    context(context),
+    oscTab(context) {
+    startTimerHz(60);
+
+    addAndMakeVisible(tabs);
+    tabs.addTab("Osc", juce::Colours::darkgrey, &oscTab, false);
+}
+
+void MainTabs::paint(juce::Graphics& g) {
+    g.fillAll(juce::Colours::black);
+}
+
+void MainTabs::resized() {
+    tabs.setBounds(getLocalBounds());
+}
+
+void MainTabs::timerCallback() {
+    repaint();
+}
