@@ -10,7 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "ADSRComponent.h"
+#include "EnvelopeDisplay.h"
 #include "WaveformDisplay.h"
 #include "OscillatorDisplay.h"
 #include "LFOTabs.h"
