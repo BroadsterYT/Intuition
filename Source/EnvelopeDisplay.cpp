@@ -18,10 +18,10 @@ EnvelopeDisplay::EnvelopeDisplay(juce::AudioProcessorValueTreeState& vts) : para
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
 
-    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ATTACK", attackSlider);
-    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DECAY", decaySlider);
-    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "SUSTAIN", sustainSlider);
-    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "RELEASE", releaseSlider);
+    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_ATTACK", attackSlider);
+    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_DECAY", decaySlider);
+    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_SUSTAIN", sustainSlider);
+    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "ENV1_RELEASE", releaseSlider);
 
     attackSlider.setLabelNames("Attack", "A");
     decaySlider.setLabelNames("Decay", "D");
@@ -63,10 +63,10 @@ void EnvelopeDisplay::resized() {
 }
 
 void EnvelopeDisplay::drawEnvelopeGraph(juce::Graphics& g) {
-    float attack = *parameters.getRawParameterValue("ATTACK");
-    float decay = *parameters.getRawParameterValue("DECAY");
-    float sustain = *parameters.getRawParameterValue("SUSTAIN");
-    float release = *parameters.getRawParameterValue("RELEASE");
+    float attack = *parameters.getRawParameterValue("ENV1_ATTACK");
+    float decay = *parameters.getRawParameterValue("ENV1_DECAY");
+    float sustain = *parameters.getRawParameterValue("ENV1_SUSTAIN");
+    float release = *parameters.getRawParameterValue("ENV1_RELEASE");
 
     auto bounds = getLocalBounds().toFloat().reduced(5);
 

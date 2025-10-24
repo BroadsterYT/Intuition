@@ -15,6 +15,7 @@
 #include "WavetableBank.h"
 #include "ModMatrix.h"
 #include "ItnContext.h"
+#include "EnvelopeManager.h"
 
 
 //==============================================================================
@@ -38,6 +39,8 @@ public:
     LFOShape lfoShape1;
     LFOShape lfoShape2;
     LFOShape lfoShape3;
+
+    EnvelopeManager envManager;
 
     ItnContext context;
 
@@ -82,14 +85,16 @@ private:
     float lfoRate1 = 1.0f;
     float lfoRate2 = 1.0f;
     float lfoRate3 = 1.0f;
-
     float lfoPhase1 = 0.0f;
     float lfoPhase2 = 0.0f;
     float lfoPhase3 = 0.0f;
-
     float lfoValue1 = 0.0f;
     float lfoValue2 = 0.0f;
     float lfoValue3 = 0.0f;
+
+    float envValue1 = 0.0f;
+    float envValue2 = 0.0f;
+    float envValue3 = 0.0f;
 
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(

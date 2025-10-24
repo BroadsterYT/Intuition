@@ -54,7 +54,7 @@ public:
     void setFilterResonance(float res);
     void setFilterType(int type);
 
-    void setEnvelopeParams(const juce::ADSR::Parameters& params);
+    //void setEnvelopeParams(const juce::ADSR::Parameters& params);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
@@ -70,7 +70,7 @@ private:
     juce::dsp::StateVariableTPTFilter<float> filter;
     int filterPreparedChannels = 0;
 
-    juce::ADSR adsr;
+    juce::ADSR adsr;  // Only used to control voice on/off
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 

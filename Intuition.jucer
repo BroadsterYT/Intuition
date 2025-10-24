@@ -6971,6 +6971,16 @@
       </GROUP>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{5916C2C8-F668-3723-F198-FB24A81F89CA}" name="Envelope">
+        <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"
+              file="Source/GlobalEnvelope.cpp"/>
+        <FILE id="o9bGcE" name="GlobalEnvelope.h" compile="0" resource="0"
+              file="Source/GlobalEnvelope.h"/>
+        <FILE id="waBNZI" name="EnvelopeManager.h" compile="0" resource="0"
+              file="Source/EnvelopeManager.h"/>
+        <FILE id="cISkP5" name="EnvelopeManager.cpp" compile="1" resource="0"
+              file="Source/EnvelopeManager.cpp"/>
+      </GROUP>
       <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
       <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
       <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">

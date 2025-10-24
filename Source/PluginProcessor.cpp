@@ -27,10 +27,21 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     parameters(*this, nullptr, "PARAMETERS", {
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
 
-        std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 1.0f, 0.0f),
-        std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 1.0f, 0.0f),
-        std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
-        std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 1.0f, 0.0f),
+        //================ Envelopes =================//
+        std::make_unique<juce::AudioParameterFloat>("ENV1_ATTACK", "Envelope 1 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_DECAY", "Envelope 1 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_SUSTAIN", "Envelope 1 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV1_RELEASE", "Envelope 1 Release", 0.0f, 1.0f, 0.0f),
+
+        std::make_unique<juce::AudioParameterFloat>("ENV2_ATTACK", "Envelope 2 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_DECAY", "Envelope 2 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_SUSTAIN", "Envelope 2 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV2_RELEASE", "Envelope 2 Release", 0.0f, 1.0f, 0.0f),
+
+        std::make_unique<juce::AudioParameterFloat>("ENV3_ATTACK", "Envelope 3 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_DECAY", "Envelope 3 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_SUSTAIN", "Envelope 3 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV3_RELEASE", "Envelope 3 Release", 0.0f, 1.0f, 0.0f),
 
         //=============== Oscillators ================//
         std::make_unique<juce::AudioParameterBool>("A_TOGGLE", "A Toggle", true),
@@ -80,9 +91,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //============== Filter ==============//
         std::make_unique<juce::AudioParameterBool>("A_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "A Filter Send", false),
-        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "A Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("B_FILTER_SEND", "B Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("C_FILTER_SEND", "C Filter Send", false),
+        std::make_unique<juce::AudioParameterBool>("D_FILTER_SEND", "D Filter Send", false),
 
         std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
         std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
@@ -104,15 +115,10 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         &lfoPhase1,
         &lfoPhase2,
         &lfoPhase3
-    )
+    ),
+    envManager(parameters)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
-
-    /*juce::File file("C:/Users/BroDe/Downloads/AKWF/AKWF_cello/AKWF_cello_0001.wav");
-    bank1.addWavetable(file);
-    bank2.addWavetable(file);
-    bank3.addWavetable(file);
-    bank4.addWavetable(file);*/
 
     const void* wav = BinaryData::AKWF_saw_wav;
     int wavSize = BinaryData::AKWF_saw_wavSize;
@@ -127,6 +133,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     //===== Sources
     ModSource* lfoSource1 = modMatrix.addSource("LFO1");
     lfoSource1->setValuePtr(&lfoValue1);
+
+    ModSource* envSource1 = modMatrix.addSource("ENV1");
+    envSource1->setValuePtr(&envValue1);
 
     //===== Destinations
     ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
@@ -316,6 +325,8 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
             v->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
+
+    envManager.prepare(sampleRate);
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -358,6 +369,22 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    juce::MidiBuffer processMidi;
+    for (const auto metadata : midiMessages) {
+        auto msg = metadata.getMessage();
+
+        if (msg.isNoteOn()) {
+            envManager.noteOn(msg.getNoteNumber());
+            //DBG("Note pressed: " << msg.getNoteNumber());
+        }
+        else if (msg.isNoteOff()) {
+            envManager.noteOff(msg.getNoteNumber());
+            //DBG("Note released: " << msg.getNoteNumber());
+        }
+
+        processMidi.addEvent(msg, metadata.samplePosition);
+    }
+
     //========== LFO Modulation ==========//
     setCurrentBPM();
     float sampleRate = getSampleRate();
@@ -375,13 +402,41 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         buffer.getNumSamples()
     );
 
-    modMatrix.applyMods();
+    calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate2);
+    float phaseInc2 = lfoRate2 / sampleRate;
+    calculateLFOPhase(
+        lfoShape2,
+        lfoPhase2,
+        "LFO2_MODE",
+        "LFO2_SYNC_DIV",
+        "LFO2_RATE",
+        lfoValue2,
+        sampleRate,
+        buffer.getNumSamples()
+    );
 
-    juce::ADSR::Parameters adsrParams;
-    adsrParams.attack = *parameters.getRawParameterValue("ATTACK");
-    adsrParams.decay = *parameters.getRawParameterValue("DECAY");
-    adsrParams.sustain = *parameters.getRawParameterValue("SUSTAIN");
-    adsrParams.release = *parameters.getRawParameterValue("RELEASE");
+    calculateLFOFrequency("LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV", lfoRate3);
+    float phaseInc3 = lfoRate3 / sampleRate;
+    calculateLFOPhase(
+        lfoShape3,
+        lfoPhase3,
+        "LFO3_MODE",
+        "LFO3_SYNC_DIV",
+        "LFO3_RATE",
+        lfoValue3,
+        sampleRate,
+        buffer.getNumSamples()
+    );
+
+    //======= Envelope Modulation ========//
+    envManager.process(buffer.getNumSamples());
+    envValue1 = envManager.getEnvValue(0);
+    envValue2 = envManager.getEnvValue(1);
+    envValue3 = envManager.getEnvValue(2);
+
+    //DBG("ENV1 val: " << envValue1);
+
+    modMatrix.applyMods();
 
     int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
     int unisonB = static_cast<int>(*parameters.getRawParameterValue("B_UNISON"));
@@ -404,7 +459,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
-            v->setEnvelopeParams(adsrParams);
+            //v->setEnvelopeParams(adsrParams);
+            envManager.setParameters();
 
             v->getOscA().setUnison(unisonA);
             v->getOscA().setDetuneRange(detuneA);
@@ -503,7 +559,6 @@ void IntuitionAudioProcessor::calculateLFOFrequency(
         rateVal = (currentBPM / 60.0f) * division;
     }
 }
-
 
 void IntuitionAudioProcessor::calculateLFOPhase(
     LFOShape& shape,
