@@ -131,16 +131,13 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
     oscC.setCurrentFrequency(currentFreq);
     oscD.setCurrentFrequency(currentFreq);
 
-    //adsr.noteOn();
-    //envManager.getEnv(0).
-    envManager.noteOn(midiNoteNumber);
+    adsr.noteOn();
 }
 
 void UnisonVoice::stopNote(float /*velocity*/, bool allowTailOff) {
-    //adsr.noteOff();
-    envManager.noteOff(-1);
+    adsr.noteOff();
 
-    if (!allowTailOff || !envManager.getEnv(0).isActive()) {
+    if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
         currentMidiNote = -1;
     }
@@ -157,8 +154,7 @@ void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numC
 }
 
 void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
-    bool envActive = envManager.getEnv(0).isActive();
-    if (!envActive) {
+    if (!adsr.isActive()) {
         clearCurrentNote();
         return;
     }
@@ -220,15 +216,13 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     filter.process(context);
 
     for (int s = 0; s < numSamples; ++s) {
-        adsr.getNextSample();  // Drains samples, allows note to be stopped
-        float env = envManager.getEnvValue(0);
+        float env = adsr.getNextSample();
         float L = (filteredBuffer.getSample(0, s) + dryL[s]) * env;
         float R = (filteredBuffer.getSample(1, s) + dryR[s]) * env;
 
         outputBuffer.addSample(0, startSample + s, L);
         outputBuffer.addSample(1, startSample + s, R);
     }
-    //adsr.applyEnvelopeToBuffer(outputBuffer, 0, numSamples);
 }
 
 void UnisonVoice::setFilterCutoff(float cutoff) {

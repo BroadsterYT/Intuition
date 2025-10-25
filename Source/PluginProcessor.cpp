@@ -398,21 +398,20 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
-    //juce::MidiBuffer processMidi;
-    //for (const auto metadata : midiMessages) {
-    //    auto msg = metadata.getMessage();
+    juce::MidiBuffer processMidi;
+    for (const auto metadata : midiMessages) {
+        auto msg = metadata.getMessage();
+        if (msg.isNoteOn()) {
+            envManager.noteOn(msg.getNoteNumber());
+            //DBG("Note pressed: " << msg.getNoteNumber());
+        }
+        else if (msg.isNoteOff()) {
+            envManager.noteOff(msg.getNoteNumber());
+            //DBG("Note released: " << msg.getNoteNumber());
+        }
 
-    //    if (msg.isNoteOn()) {
-    //        envManager.noteOn(msg.getNoteNumber());
-    //        //DBG("Note pressed: " << msg.getNoteNumber());
-    //    }
-    //    else if (msg.isNoteOff()) {
-    //        envManager.noteOff(msg.getNoteNumber());
-    //        //DBG("Note released: " << msg.getNoteNumber());
-    //    }
-
-    //    processMidi.addEvent(msg, metadata.samplePosition);
-    //}
+        processMidi.addEvent(msg, metadata.samplePosition);
+    }
 
     //========== LFO Modulation ==========//
     setCurrentBPM();
