@@ -14,18 +14,19 @@
 UnisonVoice::UnisonVoice(
     juce::AudioProcessorValueTreeState& vts,
     ModMatrix& matrix,
+    EnvelopeManager& envManager,
     WavetableBank* bankToUse1,
     WavetableBank* bankToUse2,
     WavetableBank* bankToUse3,
     WavetableBank* bankToUse4
 ) : parameters(vts),
     modMatrix(matrix),
+    envManager(envManager),
     bank1(bankToUse1), 
     bank2(bankToUse2), 
     bank3(bankToUse3), 
     bank4(bankToUse4)
 {
-
     oscA.setParameters(&parameters);
     oscB.setParameters(&parameters);
     oscC.setParameters(&parameters);
@@ -42,8 +43,6 @@ UnisonVoice::UnisonVoice(
     oscD.setSampleRate(getSampleRate());
 
     adsr.setSampleRate(getSampleRate());
-    juce::ADSR::Parameters p(0.0f, 0.0f, 1.0f, 0.0f);
-    adsr.setParameters(p);
 }
 
 UnisonOsc& UnisonVoice::getOscA() {
@@ -217,9 +216,9 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     filter.process(context);
 
     for (int s = 0; s < numSamples; ++s) {
-        float envDummy = adsr.getNextSample();
-        float L = filteredBuffer.getSample(0, s) + dryL[s];
-        float R = filteredBuffer.getSample(1, s) + dryR[s];
+        float env = adsr.getNextSample();
+        float L = (filteredBuffer.getSample(0, s) + dryL[s]) * env;
+        float R = (filteredBuffer.getSample(1, s) + dryR[s]) * env;
 
         outputBuffer.addSample(0, startSample + s, L);
         outputBuffer.addSample(1, startSample + s, R);
@@ -251,9 +250,9 @@ void UnisonVoice::setFilterType(int type) {
     filter.setType(filterType);
 }
 
-//void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
-//    adsr.setParameters(params);
-//}
+void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
+    adsr.setParameters(params);
+}
 
 void UnisonVoice::prepareFilter(double sampleRate, int samplesPerBlock, int numChannels){
     if (filterPreparedChannels != numChannels) {

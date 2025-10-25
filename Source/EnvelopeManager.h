@@ -23,13 +23,14 @@ public:
     void noteOff(int noteNumber);
 
     void process(int numSamples);
-    float getEnvValue(size_t index);
+    float getEnvValue(size_t index) const;
+    GlobalEnvelope& getEnv(size_t index);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
-    std::array<GlobalEnvelope, 3> envs;
+    std::array<GlobalEnvelope, 4> envs;
 
-    std::array<float, 3> lastValues;
+    std::array<float, 4> lastValues = { 0.0f, 0.0f, 0.0f, 0.0f };
 
     std::unordered_set<int> activeNotes;
 };

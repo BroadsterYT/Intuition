@@ -28,6 +28,11 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
 
         //================ Envelopes =================//
+        std::make_unique<juce::AudioParameterFloat>("ENV_OSC_ATTACK", "Envelope 1 Attack", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV_OSC_DECAY", "Envelope 1 Decay", 0.0f, 1.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV_OSC_SUSTAIN", "Envelope 1 Sustain", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("ENV_OSC_RELEASE", "Envelope 1 Release", 0.0f, 1.0f, 0.0f),
+
         std::make_unique<juce::AudioParameterFloat>("ENV1_ATTACK", "Envelope 1 Attack", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("ENV1_DECAY", "Envelope 1 Decay", 0.0f, 1.0f, 0.0f),
         std::make_unique<juce::AudioParameterFloat>("ENV1_SUSTAIN", "Envelope 1 Sustain", 0.0f, 1.0f, 1.0f),
@@ -141,6 +146,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     lfoSource2->setValuePtr(&lfoValue2);
     ModSource* lfoSource3 = modMatrix.addSource("LFO3");
     lfoSource3->setValuePtr(&lfoValue3);
+
+    ModSource* envSourceA = modMatrix.addSource("ENV_Osc");
+    envSourceA->setValuePtr(&envValueOsc);
 
     ModSource* envSource1 = modMatrix.addSource("ENV1");
     envSource1->setValuePtr(&envValue1);
@@ -258,6 +266,7 @@ void IntuitionAudioProcessor::resetSynths() {
             new UnisonVoice(
                 parameters,
                 modMatrix,
+                envManager,
                 &bank1,
                 &bank2,
                 &bank3,
@@ -392,7 +401,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     juce::MidiBuffer processMidi;
     for (const auto metadata : midiMessages) {
         auto msg = metadata.getMessage();
-
         if (msg.isNoteOn()) {
             envManager.noteOn(msg.getNoteNumber());
             //DBG("Note pressed: " << msg.getNoteNumber());
@@ -449,14 +457,24 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     );
 
     //======= Envelope Modulation ========//
-    envManager.process(buffer.getNumSamples());
-    envValue1 = envManager.getEnvValue(0);
-    envValue2 = envManager.getEnvValue(1);
-    envValue3 = envManager.getEnvValue(2);
 
     //DBG("ENV1 val: " << envValue1);
 
     modMatrix.applyMods();
+
+    juce::ADSR::Parameters adsrParams;
+    adsrParams.attack = *parameters.getRawParameterValue("ENV_OSC_ATTACK");
+    adsrParams.decay = *parameters.getRawParameterValue("ENV_OSC_DECAY");
+    adsrParams.sustain = *parameters.getRawParameterValue("ENV_OSC_SUSTAIN");
+    adsrParams.release = *parameters.getRawParameterValue("ENV_OSC_RELEASE");
+
+    envManager.setParameters();
+    envManager.process(buffer.getNumSamples());
+
+    envValueOsc = envManager.getEnvValue(0);
+    envValue1 = envManager.getEnvValue(1);
+    envValue2 = envManager.getEnvValue(2);
+    envValue3 = envManager.getEnvValue(3);
 
     int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
     int unisonB = static_cast<int>(*parameters.getRawParameterValue("B_UNISON"));
@@ -479,8 +497,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
-            //v->setEnvelopeParams(adsrParams);
-            envManager.setParameters();
+            v->setEnvelopeParams(adsrParams);
 
             v->getOscA().setUnison(unisonA);
             v->getOscA().setDetuneRange(detuneA);

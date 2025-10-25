@@ -22,5 +22,6 @@ private:
     juce::AudioProcessorValueTreeState& parameters;
     juce::TabbedComponent tabs;
 
+    EnvelopeDisplay envOsc;
     EnvelopeDisplay env1, env2, env3;
 };
