@@ -24,7 +24,7 @@ public:
 
     void process(int numSamples);
     float getEnvValue(size_t index) const;
-    const GlobalEnvelope& getEnv(size_t index) const;
+    GlobalEnvelope& getEnv(size_t index);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;

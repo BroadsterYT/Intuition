@@ -24,6 +24,8 @@ public:
     float getNextSample();
     bool isActive() const;
 
+    void applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, int sampleStart, int numSamples);
+
 private:
     juce::ADSR env;
     juce::ADSR::Parameters envParams;

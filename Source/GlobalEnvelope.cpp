@@ -42,3 +42,7 @@ float GlobalEnvelope::getNextSample() {
 bool GlobalEnvelope::isActive() const {
     return env.isActive();
 }
+
+void GlobalEnvelope::applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, int sampleStart, int numSamples) {
+    env.applyEnvelopeToBuffer(buffer, sampleStart, numSamples);
+}

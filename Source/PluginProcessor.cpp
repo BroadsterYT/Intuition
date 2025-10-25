@@ -398,6 +398,21 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    //juce::MidiBuffer processMidi;
+    //for (const auto metadata : midiMessages) {
+    //    auto msg = metadata.getMessage();
+
+    //    if (msg.isNoteOn()) {
+    //        envManager.noteOn(msg.getNoteNumber());
+    //        //DBG("Note pressed: " << msg.getNoteNumber());
+    //    }
+    //    else if (msg.isNoteOff()) {
+    //        envManager.noteOff(msg.getNoteNumber());
+    //        //DBG("Note released: " << msg.getNoteNumber());
+    //    }
+
+    //    processMidi.addEvent(msg, metadata.samplePosition);
+    //}
 
     //========== LFO Modulation ==========//
     setCurrentBPM();
@@ -443,21 +458,24 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     );
 
     //======= Envelope Modulation ========//
-    envManager.process(buffer.getNumSamples());
-    envValueOsc = envManager.getEnvValue(0);
-    envValue1 = envManager.getEnvValue(1);
-    envValue2 = envManager.getEnvValue(2);
-    envValue3 = envManager.getEnvValue(3);
 
     //DBG("ENV1 val: " << envValue1);
 
     modMatrix.applyMods();
 
-    float attack = *parameters.getRawParameterValue("ENV_OSC_ATTACK");
-    float decay = *parameters.getRawParameterValue("ENV_OSC_DECAY");
-    float sustain = *parameters.getRawParameterValue("ENV_OSC_SUSTAIN");
-    float release = *parameters.getRawParameterValue("ENV_OSC_RELEASE");
-    juce::ADSR::Parameters params(attack, decay, sustain, release);
+    juce::ADSR::Parameters adsrParams;
+    adsrParams.attack = *parameters.getRawParameterValue("ENV_OSC_ATTACK");
+    adsrParams.decay = *parameters.getRawParameterValue("ENV_OSC_DECAY");
+    adsrParams.sustain = *parameters.getRawParameterValue("ENV_OSC_SUSTAIN");
+    adsrParams.release = *parameters.getRawParameterValue("ENV_OSC_RELEASE");
+
+    envManager.setParameters();
+    envManager.process(buffer.getNumSamples());
+
+    envValueOsc = envManager.getEnvValue(0);
+    envValue1 = envManager.getEnvValue(1);
+    envValue2 = envManager.getEnvValue(2);
+    envValue3 = envManager.getEnvValue(3);
 
     int unisonA = static_cast<int>(*parameters.getRawParameterValue("A_UNISON"));
     int unisonB = static_cast<int>(*parameters.getRawParameterValue("B_UNISON"));
@@ -480,8 +498,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto* v = dynamic_cast<UnisonVoice*>(synth.getVoice(i))) {
-            v->setEnvelopeParams(params);
-            envManager.setParameters();
+            v->setEnvelopeParams(adsrParams);
 
             v->getOscA().setUnison(unisonA);
             v->getOscA().setDetuneRange(detuneA);

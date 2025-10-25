@@ -82,7 +82,7 @@ float EnvelopeManager::getEnvValue(size_t index) const {
     return lastValues[index];
 }
 
-const GlobalEnvelope& EnvelopeManager::getEnv(size_t index) const {
+GlobalEnvelope& EnvelopeManager::getEnv(size_t index) {
     jassert(index < envs.size());
     return envs[index];
 }
