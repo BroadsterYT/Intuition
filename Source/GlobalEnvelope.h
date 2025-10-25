@@ -15,13 +15,14 @@
 class GlobalEnvelope {
 public:
     void setSampleRate(double newSampleRate);
+    const juce::ADSR::Parameters& getParameters() const;
     void setParameters(float attack, float decay, float sustain, float release);
     
     void noteOn();
     void noteOff();
 
     float getNextSample();
-    bool isActive();
+    bool isActive() const;
 
 private:
     juce::ADSR env;

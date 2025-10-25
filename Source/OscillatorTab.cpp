@@ -126,9 +126,8 @@ void OscillatorTab::paint(juce::Graphics& g) {
 
 void OscillatorTab::resized() {
     int padding = 15;
-    int adsrWidth = 250;
-    int adsrHeight = 150;
-    envTabs.setBounds(padding, padding, adsrWidth, adsrHeight);
+
+    envTabs.setBounds(padding, padding, 300, 200);
 
     oscDisplay1.setBounds(envTabs.getRight() + padding, padding, 200, 250);
     oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);

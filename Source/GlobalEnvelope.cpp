@@ -15,6 +15,10 @@ void GlobalEnvelope::setSampleRate(double newSampleRate) {
     sampleRate = newSampleRate;
 }
 
+const juce::ADSR::Parameters& GlobalEnvelope::getParameters() const {
+    return env.getParameters();
+}
+
 void GlobalEnvelope::setParameters(float attack, float decay, float sustain, float release) {
     envParams.attack = attack;
     envParams.decay = decay;
@@ -35,6 +39,6 @@ float GlobalEnvelope::getNextSample() {
     return env.getNextSample();
 }
 
-bool GlobalEnvelope::isActive() {
+bool GlobalEnvelope::isActive() const {
     return env.isActive();
 }

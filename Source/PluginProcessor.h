@@ -92,6 +92,7 @@ private:
     float lfoValue2 = 0.0f;
     float lfoValue3 = 0.0f;
 
+    float envValueOsc = 0.0f;
     float envValue1 = 0.0f;
     float envValue2 = 0.0f;
     float envValue3 = 0.0f;

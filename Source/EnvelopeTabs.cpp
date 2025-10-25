@@ -13,6 +13,13 @@
 EnvelopeTabs::EnvelopeTabs(juce::AudioProcessorValueTreeState& vts
 ) : parameters(vts),
     tabs(juce::TabbedButtonBar::TabsAtTop),
+    envOsc(
+        vts,
+        "ENV_OSC_ATTACK",
+        "ENV_OSC_DECAY",
+        "ENV_OSC_SUSTAIN",
+        "ENV_OSC_RELEASE"
+    ),
     env1(
         vts,
         "ENV1_ATTACK",
@@ -36,6 +43,7 @@ EnvelopeTabs::EnvelopeTabs(juce::AudioProcessorValueTreeState& vts
     ) {
     addAndMakeVisible(tabs);
 
+    tabs.addTab("Env Osc", juce::Colours::burlywood, &envOsc, false);
     tabs.addTab("Env 1", juce::Colours::darkgrey, &env1, false);
     tabs.addTab("Env 2", juce::Colours::darkgrey, &env2, false);
     tabs.addTab("Env 3", juce::Colours::darkgrey, &env3, false);

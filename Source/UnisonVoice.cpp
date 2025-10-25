@@ -14,18 +14,19 @@
 UnisonVoice::UnisonVoice(
     juce::AudioProcessorValueTreeState& vts,
     ModMatrix& matrix,
+    EnvelopeManager& envManager,
     WavetableBank* bankToUse1,
     WavetableBank* bankToUse2,
     WavetableBank* bankToUse3,
     WavetableBank* bankToUse4
 ) : parameters(vts),
     modMatrix(matrix),
+    envManager(envManager),
     bank1(bankToUse1), 
     bank2(bankToUse2), 
     bank3(bankToUse3), 
     bank4(bankToUse4)
 {
-
     oscA.setParameters(&parameters);
     oscB.setParameters(&parameters);
     oscC.setParameters(&parameters);
@@ -42,8 +43,6 @@ UnisonVoice::UnisonVoice(
     oscD.setSampleRate(getSampleRate());
 
     adsr.setSampleRate(getSampleRate());
-    juce::ADSR::Parameters p(0.0f, 0.0f, 1.0f, 0.0f);
-    adsr.setParameters(p);
 }
 
 UnisonOsc& UnisonVoice::getOscA() {
@@ -138,6 +137,7 @@ void UnisonVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesise
 void UnisonVoice::stopNote(float /*velocity*/, bool allowTailOff) {
     adsr.noteOff();
 
+    //envManager.noteOff(currentMidiNote);
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
         currentMidiNote = -1;
@@ -155,6 +155,8 @@ void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numC
 }
 
 void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
+    //adsr.setParameters(envManager.getEnv(0).getParameters());
+
     if (!adsr.isActive()) {
         clearCurrentNote();
         return;
@@ -217,13 +219,13 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
     filter.process(context);
 
     for (int s = 0; s < numSamples; ++s) {
-        float envDummy = adsr.getNextSample();
         float L = filteredBuffer.getSample(0, s) + dryL[s];
         float R = filteredBuffer.getSample(1, s) + dryR[s];
 
         outputBuffer.addSample(0, startSample + s, L);
         outputBuffer.addSample(1, startSample + s, R);
     }
+    adsr.applyEnvelopeToBuffer(outputBuffer, 0, numSamples);
 }
 
 void UnisonVoice::setFilterCutoff(float cutoff) {
@@ -251,9 +253,9 @@ void UnisonVoice::setFilterType(int type) {
     filter.setType(filterType);
 }
 
-//void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
-//    adsr.setParameters(params);
-//}
+void UnisonVoice::setEnvelopeParams(const juce::ADSR::Parameters & params) {
+    adsr.setParameters(params);
+}
 
 void UnisonVoice::prepareFilter(double sampleRate, int samplesPerBlock, int numChannels){
     if (filterPreparedChannels != numChannels) {

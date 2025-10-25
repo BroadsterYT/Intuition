@@ -14,6 +14,7 @@
 #include "UnisonOsc.h"
 #include "WavetableBank.h"
 #include "ModMatrix.h"
+#include "EnvelopeManager.h"
 
 
 class UnisonVoice : public juce::SynthesiserVoice {
@@ -21,6 +22,7 @@ public:
     UnisonVoice(
         juce::AudioProcessorValueTreeState& vts,
         ModMatrix& matrix,
+        EnvelopeManager& envManager,
         WavetableBank* bankToUse1,
         WavetableBank* bankToUse2,
         WavetableBank* bankToUse3,
@@ -54,11 +56,12 @@ public:
     void setFilterResonance(float res);
     void setFilterType(int type);
 
-    //void setEnvelopeParams(const juce::ADSR::Parameters& params);
+    void setEnvelopeParams(const juce::ADSR::Parameters& params);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix& modMatrix;
+    EnvelopeManager& envManager;
 
     WavetableBank* bank1 = nullptr;
     WavetableBank* bank2 = nullptr;
@@ -75,6 +78,5 @@ private:
     float currentFreq = 440.0f;
 
     float level = 1.0f;
-
     void prepareFilter(double sampleRate, int samplesPerBlock, int numChannels);
 };
