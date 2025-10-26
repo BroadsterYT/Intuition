@@ -12,30 +12,23 @@
 
 
 LFOEditor::LFOEditor(LFOShape& shape, float* phase) : shape(shape), phase(phase) {
-
+    setLookAndFeel(&lookAndFeel);
 }
 
 LFOEditor::~LFOEditor() {
+    setLookAndFeel(nullptr);
     stopTimer();
 }
 
 void LFOEditor::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
+    g.fillAll(GlowStyle::roomDark);
 
     if (shape.getNumPoints() < 2) return;
     shape.sortPoints();
 
-    g.setColour(juce::Colours::white);
-    juce::Path path = drawLFOPath();
-    g.strokePath(path, juce::PathStrokeType(2.0f));
-    drawLFOPoints(g);
-
-    // Drawing phase
     if (!phase) return;
-    
-    g.setColour(juce::Colours::lime);
-    g.setOpacity(0.5f);
-    g.drawLine(*phase * getWidth(), 0.0f, *phase * getWidth(), (float)getHeight(), 2.0f);
+    juce::Path path = drawLFOPath();
+    lookAndFeel.drawLFO(g, getBounds().toFloat(), shape, *phase);
 }
 
 void LFOEditor::mouseDown(const juce::MouseEvent& e) {

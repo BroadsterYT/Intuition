@@ -18,6 +18,7 @@ public:
     LFOShape();
 
     LFOPoint& getPoint(int index);
+    const LFOPoint& getPoint(int index) const;
     void addPoint(float time, float value, float curve);
     void removePoint(LFOPoint* point);
     int getNumPoints();

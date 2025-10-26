@@ -23,12 +23,23 @@ EnvelopeGraph::EnvelopeGraph(
     decayParamName(decayParamName),
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName) {
+    setLookAndFeel(&lookAndFeel);
+}
+
+EnvelopeGraph::~EnvelopeGraph() {
+    setLookAndFeel(nullptr);
 }
 
 void EnvelopeGraph::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
+    g.fillAll(GlowStyle::roomDark);
 
-    drawEnvelopePath(g);
+    float attack = *parameters.getRawParameterValue(attackParamName);
+    float decay = *parameters.getRawParameterValue(decayParamName);
+    float sustain = *parameters.getRawParameterValue(sustainParamName);
+    float release = *parameters.getRawParameterValue(releaseParamName);
+    float time = env.getNormalizedTime();
+
+    lookAndFeel.drawEnvelope(g, getBounds().toFloat(), attack, decay, sustain, release, time);
 }
 
 void EnvelopeGraph::drawSecondMarkTicks(juce::Graphics& g) {

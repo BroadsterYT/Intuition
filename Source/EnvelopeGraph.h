@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnContext.h"
+#include "ItnLookAndFeel.h"
 
 
 /// <summary>
@@ -26,10 +27,13 @@ public:
         const juce::String sustainParamName,
         const juce::String releaseParamName
     );
+    ~EnvelopeGraph() override;
 
     void paint(juce::Graphics& g) override;
 
 private:
+    ItnLookAndFeel lookAndFeel;
+
     juce::AudioProcessorValueTreeState& parameters;
     const GlobalEnvelope& env;
 

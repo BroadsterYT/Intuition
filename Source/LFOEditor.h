@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "LFOShape.h"
 #include "InlineValueEntry.h"
+#include "ItnLookAndFeel.h"
 
 
 class LFOEditor : public juce::Component, private juce::Timer {
@@ -30,6 +31,8 @@ public:
     void visibilityChanged() override;
 
 private:
+    ItnLookAndFeel lookAndFeel;
+
     LFOShape& shape;
     float* phase = nullptr;
 

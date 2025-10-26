@@ -20,7 +20,12 @@ WaveformDisplay::WaveformDisplay(
     modMatrix(modMatrix),
     bank(bank),
     morphParamName(morphParamName) {
+    setLookAndFeel(&lookAndFeel);
     startTimerHz(30);
+}
+
+WaveformDisplay::~WaveformDisplay() {
+    setLookAndFeel(nullptr);
 }
 
 void WaveformDisplay::setBank(WavetableBank& newBank) {
@@ -30,29 +35,9 @@ void WaveformDisplay::setBank(WavetableBank& newBank) {
 }
 
 void WaveformDisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-    g.setColour(juce::Colours::white);
-
-    int width = getWidth();
-    int height = getHeight();
-
+    g.fillAll(GlowStyle::roomDark);
     buildWaveform();
-    juce::Path path;
-    path.startNewSubPath(0, height / 2);
-
-    for (int i = 0; i < waveform.size(); ++i) {
-        float x = juce::jmap((float)i, 0.0f, (float)waveform.size(), 0.0f, (float)width);
-        float y = juce::jmap(waveform[i], -1.0f, 1.0f, (float)height, 0.0f);
-        path.lineTo(x, y);
-    }
-    juce::ColourGradient grad = juce::ColourGradient::vertical(
-        juce::Colours::lightgoldenrodyellow,
-        0.0f,
-        juce::Colours::darkgoldenrod,
-        getHeight()
-    );
-    g.setGradientFill(grad);
-    g.strokePath(path, juce::PathStrokeType(2.0f));
+    lookAndFeel.drawWaveform(g, getBounds().toFloat(), waveform);
 }
 
 bool WaveformDisplay::needsRedraw() {
@@ -62,7 +47,6 @@ bool WaveformDisplay::needsRedraw() {
     if (std::abs(alpha - lastAlpha) >= 0.001f) {
         result = true;
     }
-
     lastAlpha = alpha;
 
     return result;

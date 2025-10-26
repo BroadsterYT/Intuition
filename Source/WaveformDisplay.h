@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "ModMatrix.h"
 #include "WavetableBank.h"
+#include "ItnLookAndFeel.h"
 
 
 class WaveformDisplay : public juce::Component, private juce::Timer {
@@ -22,11 +23,14 @@ public:
         WavetableBank& bank,
         juce::String morphParamName
     );
+    ~WaveformDisplay() override;
 
     void setBank(WavetableBank& newBank);
     void paint(juce::Graphics& g) override;
 
 private:
+    ItnLookAndFeel lookAndFeel;
+
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
 

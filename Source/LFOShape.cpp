@@ -28,6 +28,17 @@ LFOPoint& LFOShape::getPoint(int index) {
     return points[index];
 }
 
+const LFOPoint& LFOShape::getPoint(int index) const {
+    if (index < 0) {
+        return points[0];
+    }
+    if (index >= points.size()) {
+        return points[points.size() - 1];
+    }
+
+    return points[index];
+}
+
 void LFOShape::addPoint(float time, float value, float curve) {
     sortPoints();
 

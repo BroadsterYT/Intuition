@@ -10,9 +10,33 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ItnLookAndFeelHelpers.h"
 
 
 class ItnLookAndFeel : public juce::LookAndFeel_V4 {
 public:
     juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
+
+    void drawWaveform(
+        juce::Graphics& g,
+        juce::Rectangle<float> bounds,
+        const juce::Array<float> waveform
+    );
+    void drawEnvelope(
+        juce::Graphics& g,
+        juce::Rectangle<float> bounds,
+        float attack, float decay, float sustain, float release,
+        float envTime
+    );
+    void drawLFO(
+        juce::Graphics& g,
+        juce::Rectangle<float> bounds,
+        LFOShape& shape,
+        float phase
+    );
+    void drawFilter(
+        juce::Graphics& g,
+        juce::Rectangle<float> bounds,
+        float cutoff, float resonance, int filterType
+    );
 };
