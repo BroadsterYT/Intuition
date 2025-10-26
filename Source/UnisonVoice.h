@@ -22,7 +22,6 @@ public:
     UnisonVoice(
         juce::AudioProcessorValueTreeState& vts,
         ModMatrix& matrix,
-        EnvelopeManager& envManager,
         WavetableBank* bankToUse1,
         WavetableBank* bankToUse2,
         WavetableBank* bankToUse3,
@@ -61,7 +60,6 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix& modMatrix;
-    EnvelopeManager& envManager;
 
     WavetableBank* bank1 = nullptr;
     WavetableBank* bank2 = nullptr;

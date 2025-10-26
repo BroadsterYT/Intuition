@@ -35,6 +35,9 @@ private:
 
     juce::String morphParamName;
 
+    float lastAlpha = 0.0f;
+    bool needsRedraw();
+
     void buildWaveform();
     void timerCallback() override;
 };

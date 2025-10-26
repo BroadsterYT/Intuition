@@ -49,10 +49,23 @@ void WaveformDisplay::paint(juce::Graphics& g) {
         juce::Colours::lightgoldenrodyellow,
         0.0f,
         juce::Colours::darkgoldenrod,
-        getWidth()
+        getHeight()
     );
     g.setGradientFill(grad);
     g.strokePath(path, juce::PathStrokeType(2.0f));
+}
+
+bool WaveformDisplay::needsRedraw() {
+    float alpha = modMatrix->getModdedDest(morphParamName);
+
+    bool result = false;
+    if (std::abs(alpha - lastAlpha) >= 0.001f) {
+        result = true;
+    }
+
+    lastAlpha = alpha;
+
+    return result;
 }
 
 void WaveformDisplay::buildWaveform() {
@@ -76,5 +89,7 @@ void WaveformDisplay::buildWaveform() {
 }
 
 void WaveformDisplay::timerCallback() {
-    repaint();
+    if (needsRedraw()) {
+        repaint();
+    }
 }

@@ -14,12 +14,12 @@
 
 class EnvelopeTabs : public juce::Component {
 public:
-    EnvelopeTabs(juce::AudioProcessorValueTreeState& vts);
+    EnvelopeTabs(ItnContext& context);
 
     void resized() override;
 
 private:
-    juce::AudioProcessorValueTreeState& parameters;
+    ItnContext& context;
     juce::TabbedComponent tabs;
 
     EnvelopeDisplay envOsc;

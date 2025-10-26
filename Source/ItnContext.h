@@ -12,6 +12,7 @@
 #include "LFOShape.h"
 #include "ModMatrix.h"
 #include "WavetableBank.h"
+#include "EnvelopeManager.h"
 
 
 /// <summary>
@@ -24,6 +25,7 @@ public:
         juce::AudioProcessor* ap,
         juce::AudioProcessorValueTreeState& vts,
         ModMatrix* modMatrix,
+        EnvelopeManager& envManager,
 
         WavetableBank& bank1,
         WavetableBank& bank2,
@@ -41,6 +43,7 @@ public:
     juce::AudioProcessor* ap;
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix;
+    EnvelopeManager& envManager;
 
     WavetableBank& bank1;
     WavetableBank& bank2;

@@ -112,6 +112,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         this,
         parameters,
         &modMatrix,
+        envManager,
 
         bank1,
         bank2,
@@ -266,7 +267,6 @@ void IntuitionAudioProcessor::resetSynths() {
             new UnisonVoice(
                 parameters,
                 modMatrix,
-                envManager,
                 &bank1,
                 &bank2,
                 &bank3,

@@ -10,32 +10,36 @@
 
 #include "EnvelopeTabs.h"
 
-EnvelopeTabs::EnvelopeTabs(juce::AudioProcessorValueTreeState& vts
-) : parameters(vts),
-    tabs(juce::TabbedButtonBar::TabsAtTop),
-    envOsc(
-        vts,
+EnvelopeTabs::EnvelopeTabs(ItnContext& context
+) : context(context),
+tabs(juce::TabbedButtonBar::TabsAtTop),
+envOsc(
+        context.parameters,
+        context.envManager.getEnv(0),
         "ENV_OSC_ATTACK",
         "ENV_OSC_DECAY",
         "ENV_OSC_SUSTAIN",
         "ENV_OSC_RELEASE"
     ),
     env1(
-        vts,
+        context.parameters,
+        context.envManager.getEnv(1),
         "ENV1_ATTACK",
         "ENV1_DECAY",
         "ENV1_SUSTAIN",
         "ENV1_RELEASE"
     ),
     env2(
-        vts,
+        context.parameters,
+        context.envManager.getEnv(2),
         "ENV2_ATTACK",
         "ENV2_DECAY",
         "ENV2_SUSTAIN",
         "ENV2_RELEASE"
     ), 
     env3(
-        vts,
+        context.parameters,
+        context.envManager.getEnv(3),
         "ENV3_ATTACK",
         "ENV3_DECAY",
         "ENV3_SUSTAIN",

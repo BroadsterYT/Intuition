@@ -47,6 +47,10 @@ void EnvelopeManager::setParameters() {
     envs[3].setParameters(attack3, decay3, sustain3, release3);
 }
 
+double EnvelopeManager::getSampleRate() const {
+    return sampleRate;
+}
+
 void EnvelopeManager::noteOn(int noteNumber) {
     bool wasEmpty = activeNotes.empty();
     activeNotes.insert(noteNumber);
@@ -82,7 +86,7 @@ float EnvelopeManager::getEnvValue(size_t index) const {
     return lastValues[index];
 }
 
-GlobalEnvelope& EnvelopeManager::getEnv(size_t index) {
+const GlobalEnvelope& EnvelopeManager::getEnv(size_t index) {
     jassert(index < envs.size());
     return envs[index];
 }

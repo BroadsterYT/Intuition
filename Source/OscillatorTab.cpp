@@ -90,7 +90,7 @@ OscillatorTab::OscillatorTab(ItnContext& context
         "D_FINE"
     ),
 
-    envTabs(context.parameters),
+    envTabs(context),
     lfoTabs(
         context.parameters,
         context.shape1,
@@ -127,7 +127,7 @@ void OscillatorTab::paint(juce::Graphics& g) {
 void OscillatorTab::resized() {
     int padding = 15;
 
-    envTabs.setBounds(padding, padding, 300, 200);
+    envTabs.setBounds(padding, padding, 300, 250);
 
     oscDisplay1.setBounds(envTabs.getRight() + padding, padding, 200, 250);
     oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);

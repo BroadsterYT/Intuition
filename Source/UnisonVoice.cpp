@@ -14,14 +14,12 @@
 UnisonVoice::UnisonVoice(
     juce::AudioProcessorValueTreeState& vts,
     ModMatrix& matrix,
-    EnvelopeManager& envManager,
     WavetableBank* bankToUse1,
     WavetableBank* bankToUse2,
     WavetableBank* bankToUse3,
     WavetableBank* bankToUse4
 ) : parameters(vts),
     modMatrix(matrix),
-    envManager(envManager),
     bank1(bankToUse1), 
     bank2(bankToUse2), 
     bank3(bankToUse3), 

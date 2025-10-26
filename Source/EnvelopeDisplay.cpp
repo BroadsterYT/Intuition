@@ -14,19 +14,24 @@
 
 EnvelopeDisplay::EnvelopeDisplay(
     juce::AudioProcessorValueTreeState& vts,
+    const GlobalEnvelope& env,
     const juce::String attackParamName,
     const juce::String decayParamName,
     const juce::String sustainParamName,
     const juce::String releaseParamName
 ) : parameters(vts),
+    env(env),
     attackParamName(attackParamName),
     decayParamName(decayParamName),
     sustainParamName(sustainParamName),
-    releaseParamName(releaseParamName) {
+    releaseParamName(releaseParamName),
+    graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
+
+    addAndMakeVisible(graph);
 
     attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, attackParamName, attackSlider);
     decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, decayParamName, decaySlider);
@@ -37,18 +42,19 @@ EnvelopeDisplay::EnvelopeDisplay(
     decaySlider.setLabelNames("Decay", "D");
     sustainSlider.setLabelNames("Sustain", "S");
     releaseSlider.setLabelNames("Release", "R");
-
-    parameters.addParameterListener(attackParamName, this);
-    parameters.addParameterListener(decayParamName, this);
-    parameters.addParameterListener(sustainParamName, this);
-    parameters.addParameterListener(releaseParamName, this);
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {
-    parameters.removeParameterListener(attackParamName, this);
-    parameters.removeParameterListener(decayParamName, this);
-    parameters.removeParameterListener(sustainParamName, this);
-    parameters.removeParameterListener(releaseParamName, this);
+    stopTimer();
+}
+
+void EnvelopeDisplay::visibilityChanged() {
+    if (isShowing()) {
+        startTimerHz(30);
+    }
+    else {
+        stopTimer();
+    }
 }
 
 void EnvelopeDisplay::paint(juce::Graphics& g) {
@@ -58,7 +64,7 @@ void EnvelopeDisplay::paint(juce::Graphics& g) {
     g.fillRect(getLocalBounds());
     
     g.setColour(juce::Colours::white);
-    drawEnvelopeGraph(g);
+    //drawEnvelopeGraph(g);
 }
 
 void EnvelopeDisplay::resized() {
@@ -70,6 +76,9 @@ void EnvelopeDisplay::resized() {
     decaySlider.setBounds(knobArea.removeFromLeft(sliderWidth));
     sustainSlider.setBounds(knobArea.removeFromLeft(sliderWidth));
     releaseSlider.setBounds(knobArea.removeFromLeft(sliderWidth));
+
+    area.removeFromBottom(10);
+    graph.setBounds(area);
 }
 
 void EnvelopeDisplay::drawEnvelopeGraph(juce::Graphics& g) {
@@ -100,6 +109,6 @@ void EnvelopeDisplay::drawEnvelopeGraph(juce::Graphics& g) {
     g.strokePath(env, juce::PathStrokeType(2.0f));
 }
 
-void EnvelopeDisplay::parameterChanged(const juce::String&, float) {
+void EnvelopeDisplay::timerCallback() {
     repaint();
 }

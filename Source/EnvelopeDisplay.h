@@ -11,13 +11,15 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnSlider.h"
+#include "EnvelopeGraph.h"
+#include "EnvelopeManager.h"
 
 
-class EnvelopeDisplay : public juce::Component,
-    private juce::AudioProcessorValueTreeState::Listener{
+class EnvelopeDisplay : public juce::Component, private juce::Timer {
 public:
     EnvelopeDisplay(
         juce::AudioProcessorValueTreeState& vts,
+        const GlobalEnvelope& env,
         const juce::String attackParamName,
         const juce::String decayParamName,
         const juce::String sustainParamName,
@@ -25,11 +27,14 @@ public:
     );
     ~EnvelopeDisplay() override;
 
+    void visibilityChanged() override;
     void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
+    const GlobalEnvelope& env;
+
     juce::String attackParamName;
     juce::String decayParamName;
     juce::String sustainParamName;
@@ -38,6 +43,9 @@ private:
     ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
 
+    EnvelopeGraph graph;
+
     void drawEnvelopeGraph(juce::Graphics& g);
-    void parameterChanged(const juce::String&, float) override;
+
+    void timerCallback() override;
 };

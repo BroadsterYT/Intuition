@@ -22,6 +22,9 @@ public:
     void noteOff();
 
     float getNextSample();
+    int getSampleIndex() const;
+    float getNormalizedTime() const;
+
     bool isActive() const;
 
     void applyEnvelopeToBuffer(juce::AudioBuffer<float>& buffer, int sampleStart, int numSamples);
@@ -29,5 +32,11 @@ public:
 private:
     juce::ADSR env;
     juce::ADSR::Parameters envParams;
+    
     double sampleRate = 44100.0;
+    int sampleIndex = 0;
+
+    bool isNoteHeld = false;
+
+    bool isSustain() const;
 };
