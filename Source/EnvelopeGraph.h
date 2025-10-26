@@ -41,7 +41,4 @@ private:
     juce::String decayParamName;
     juce::String sustainParamName;
     juce::String releaseParamName;
-
-    void drawSecondMarkTicks(juce::Graphics& g);
-    void drawEnvelopePath(juce::Graphics& g);
 };

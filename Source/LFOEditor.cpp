@@ -24,21 +24,29 @@ void LFOEditor::paint(juce::Graphics& g) {
     g.fillAll(GlowStyle::roomDark);
 
     if (shape.getNumPoints() < 2) return;
-    shape.sortPoints();
 
     if (!phase) return;
     juce::Path path = drawLFOPath();
     lookAndFeel.drawLFO(g, getBounds().toFloat(), shape, *phase);
+    
+    for (int i = 0; i < shape.getNumPoints(); ++i) {
+        const LFOPoint& point = shape.getPoint(i);
+        lookAndFeel.drawLFOPoint(g, getBounds().toFloat(), point);
+    }
 }
 
 void LFOEditor::mouseDown(const juce::MouseEvent& e) {
     LFOPoint* p = getNearestPoint(e);
 
-    if (e.getNumberOfClicks() == 2) {
+    if (e.getNumberOfClicks() == 1 && p) {
+        currentDraggedPoint = p;
+    }
+    else if (e.getNumberOfClicks() == 2) {
         if (!p) {  // Adding new point
             float t = (float)e.position.x / getWidth();
             float v = 1.0f - e.position.y / getHeight();
             shape.addPoint(t, v, 0.0f);
+            //currentDraggedPoint = getNearestPoint(e);
         }
         else {  // Deleting point
             shape.removePoint(p);
@@ -51,8 +59,6 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
             auto entry = std::make_unique<InlineValueEntry<float>>(p->getTime());
             entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
                 p->setTime(val);
-
-                shape.sortPoints();
                 repaint();
             });
             entry->setSize(50, 25);
@@ -67,9 +73,7 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
             auto entry = std::make_unique<InlineValueEntry<float>>(p->getValue());
             entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
                 p->setValue(val);
-
                 shape.sortPoints();
-                repaint();
             });
             entry->setSize(50, 25);
 
@@ -100,8 +104,13 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
     }
 }
 
+void LFOEditor::mouseUp(const juce::MouseEvent& e) {
+    currentDraggedPoint = nullptr;
+    shape.sortPoints();
+}
+
 void LFOEditor::mouseDrag(const juce::MouseEvent& e) {
-    LFOPoint* p = getNearestPoint(e);
+    auto* p = currentDraggedPoint;
     if (!p) return;
 
     p->setTime(e.position.x / getWidth());
@@ -149,7 +158,7 @@ LFOPoint* LFOEditor::getNearestPoint(const juce::MouseEvent& e) {
         }
     }
 
-    if (nearest && minDist < 15.0f) {
+    if (nearest && minDist < 10.0f) {
         return nearest;
     }
 

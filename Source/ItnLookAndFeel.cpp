@@ -104,27 +104,32 @@ void ItnLookAndFeel::drawEnvelope(
 }
 
 void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, LFOShape& shape, float phase) {
+    float width = bounds.getWidth();
+    float height = bounds.getHeight();
+    
     juce::Path path;
     auto& p0 = shape.getPoint(0);
-    float x0 = p0.getTime() * bounds.getWidth();
-    float y0 = (1.0f - p0.getValue()) * bounds.getHeight();
+    float x0 = p0.getTime() * width;
+    float y0 = (1.0f - p0.getValue()) * height;
     path.startNewSubPath(x0, y0);
 
     for (int i = 1; i < shape.getNumPoints(); ++i) {
         auto& p1 = shape.getPoint(i - 1);
         auto& p2 = shape.getPoint(i);
 
-        x0 = p1.getTime() * bounds.getWidth();
-        y0 = (1.0f - p1.getValue()) * bounds.getHeight();
+        x0 = p1.getTime() * width;
+        y0 = (1.0f - p1.getValue()) * height;
 
-        float x2 = p2.getTime() * bounds.getWidth();
-        float y2 = (1.0f - p2.getValue()) * bounds.getHeight();
+        float x2 = p2.getTime() * width;
+        float y2 = (1.0f - p2.getValue()) * height;
 
         float cx = x0 + (x2 - x0) / 2.0f;
-        float cy = y0 + (y2 - y0) / 2.0f - p1.getCurve() * bounds.getHeight();
+        float cy = y0 + (y2 - y0) / 2.0f - p1.getCurve() * height;
 
         path.quadraticTo(cx, cy, x2, y2);
     }
+    path.lineTo(width, height);
+    path.lineTo(0.0f, height);
 
     GlowStyle::drawRadiantWaveform(g, path, bounds);
 
@@ -133,6 +138,14 @@ void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, L
     phaseInd.startNewSubPath(xPos, 0.0f);
     phaseInd.lineTo(xPos, bounds.getHeight());
     GlowStyle::drawRadiantIndicator(g, phaseInd, xPos, bounds.getHeight());
+}
+
+void ItnLookAndFeel::drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const LFOPoint& point) {
+    float posX = point.getTime() * bounds.getWidth();
+    float posY = point.getValue() * bounds.getHeight();
+
+    float brightness = (posY) / bounds.getHeight();
+    GlowStyle::drawRadiantPoint(g, posX, bounds.getHeight() - posY, 16.0f, brightness);
 }
 
 void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType) {

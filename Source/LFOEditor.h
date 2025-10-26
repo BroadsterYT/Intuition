@@ -23,6 +23,7 @@ public:
     void paint(juce::Graphics& g) override;
 
     void mouseDown(const juce::MouseEvent& e) override;
+    void mouseUp(const juce::MouseEvent& e) override;
     void mouseDrag(const juce::MouseEvent& e) override;
     void mouseWheelMove(const juce::MouseEvent& e, const juce::MouseWheelDetails& wheel) override;
 
@@ -35,6 +36,8 @@ private:
 
     LFOShape& shape;
     float* phase = nullptr;
+
+    LFOPoint* currentDraggedPoint = nullptr;
 
     /// <summary>
     /// Draw the LFO shape and returns it as a path

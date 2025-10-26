@@ -48,7 +48,6 @@ bool WaveformDisplay::needsRedraw() {
         result = true;
     }
     lastAlpha = alpha;
-
     return result;
 }
 

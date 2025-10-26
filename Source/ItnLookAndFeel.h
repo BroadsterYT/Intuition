@@ -34,6 +34,11 @@ public:
         LFOShape& shape,
         float phase
     );
+    void drawLFOPoint(
+        juce::Graphics& g,
+        juce::Rectangle<float> bounds,
+        const LFOPoint& point
+    );
     void drawFilter(
         juce::Graphics& g,
         juce::Rectangle<float> bounds,

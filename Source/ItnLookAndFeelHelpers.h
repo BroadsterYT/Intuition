@@ -19,6 +19,13 @@ namespace GlowStyle {
     const auto bulbGlow = juce::Colour::fromRGB(255, 248, 225);
     const auto shadow = juce::Colour::fromRGB(43, 29, 20);
 
+    /// <summary>
+    /// Draws a waveform that looks like light casted from a lightbulb in a dark room
+    /// </summary>
+    /// <param name="g">The JUCE graphics context</param>
+    /// <param name="waveformPath">The waveform path to draw</param>
+    /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
+    /// <param name="radial">If true, will draw the light source at the center of the component instead of the top</param>
     inline void drawRadiantWaveform(
         juce::Graphics& g,
         juce::Path& waveformPath,
@@ -56,6 +63,12 @@ namespace GlowStyle {
         g.fillPath(waveformPath);
     }
 
+    /// <summary>
+    /// Draws a waveform shape that looks like a lightbulb filament
+    /// </summary>
+    /// <param name="g">The JUCE graphics context</param>
+    /// <param name="waveformPath">The path to draw</param>
+    /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
     inline void drawFilamentWaveform(
         juce::Graphics& g,
         juce::Path& waveformPath,
@@ -72,6 +85,13 @@ namespace GlowStyle {
         g.strokePath(waveformPath, juce::PathStrokeType(2.0f));
     }
 
+    /// <summary>
+    /// Draws an indicator bar, like an LFO phase or an envelope position
+    /// </summary>
+    /// <param name="g">The JUCE graphics context</param>
+    /// <param name="indicatorPath">The path of the indicator (the line to draw)</param>
+    /// <param name="xPos">The x-axis psoition to draw the indicator</param>
+    /// <param name="height">The hieght of the component the indicator is being drawn in</param>
     inline void drawRadiantIndicator(
         juce::Graphics& g,
         juce::Path& indicatorPath,
@@ -88,5 +108,26 @@ namespace GlowStyle {
         gradient.addColour(0.65f, GlowStyle::bulbGlow.withAlpha(0.25f));
         g.setGradientFill(gradient);
         g.strokePath(indicatorPath, juce::PathStrokeType(12.0f));
+    }
+
+    inline void drawRadiantPoint(
+        juce::Graphics& g,
+        float posX, float posY,
+        float radius, float brightness) {
+        juce::ColourGradient gradient(
+            GlowStyle::bulbGlow.withAlpha(1.0f),
+            posX,
+            posY,
+            GlowStyle::roomDark.withAlpha(0.2f),
+            posX + radius,
+            posY,
+            true
+        );
+        gradient.addColour(0.4f, GlowStyle::warmHighlight.withAlpha(0.3f + 0.7f * brightness));
+        gradient.addColour(1.0f, GlowStyle::roomDark);
+
+        juce::Rectangle<float> bounds = { posX - radius / 2.0f, posY - radius / 2.0f, radius, radius };
+        g.setGradientFill(gradient);
+        g.fillEllipse(bounds);
     }
 }
