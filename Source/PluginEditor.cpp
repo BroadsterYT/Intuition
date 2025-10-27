@@ -58,7 +58,8 @@ void IntuitionAudioProcessorEditor::resized() {
     int kbPad = 120;
     int kbHeight = 80;
     int kbWidth = width - 2 * kbPad;
+    int bottomPadding = 10;
     midiKeyboard.setKeyWidth(kbWidth / 36.0f);
     midiKeyboard.setBlackNoteWidthProportion(0.75);
-    midiKeyboard.setBounds(kbPad, height - kbHeight, kbWidth, kbHeight);
+    midiKeyboard.setBounds(kbPad, height - kbHeight - bottomPadding, kbWidth, kbHeight);
 }

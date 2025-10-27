@@ -14,6 +14,7 @@
 #include "OscillatorDisplay.h"
 #include "LFOTabs.h"
 #include "FilterDisplay.h"
+#include "ItnLookAndFeel.h"
 
 
 /// <summary>
@@ -23,11 +24,13 @@
 class OscillatorTab : public juce::Component {
 public:
     OscillatorTab(ItnContext& context);
+    ~OscillatorTab() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
+    ItnLookAndFeel lookAndFeel;
     ItnContext& context;
 
     WaveBankComponent waveBankComp1;

@@ -17,7 +17,8 @@ namespace GlowStyle {
     const auto roomDark = juce::Colour::fromRGB(18, 14, 10);
     const auto warmHighlight = juce::Colour::fromRGB(255, 204, 102);
     const auto bulbGlow = juce::Colour::fromRGB(255, 248, 225);
-    const auto shadow = juce::Colour::fromRGB(43, 29, 20);
+    const auto shadow = juce::Colour::fromRGB(28, 24, 22);
+    const auto charcoal = juce::Colour::fromRGB(32, 26, 22);
 
     /// <summary>
     /// Draws a waveform that looks like light casted from a lightbulb in a dark room
@@ -91,11 +92,10 @@ namespace GlowStyle {
     /// <param name="g">The JUCE graphics context</param>
     /// <param name="indicatorPath">The path of the indicator (the line to draw)</param>
     /// <param name="xPos">The x-axis psoition to draw the indicator</param>
-    /// <param name="height">The hieght of the component the indicator is being drawn in</param>
     inline void drawRadiantIndicator(
         juce::Graphics& g,
         juce::Path& indicatorPath,
-        float xPos, float height) {
+        float xPos) {
 
         juce::ColourGradient gradient = juce::ColourGradient::horizontal(
             GlowStyle::bulbGlow.withAlpha(0.0f),

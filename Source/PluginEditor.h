@@ -17,6 +17,7 @@
 #include "WaveBankComponent.h"
 #include "FilterDisplay.h"
 #include "MainTabs.h"
+#include "ItnMidiKeyboard.h"
 
 
 //==============================================================================
@@ -35,7 +36,7 @@ public:
 private:
     IntuitionAudioProcessor& audioProcessor;
     juce::TooltipWindow tooltipWindow;
-    juce::MidiKeyboardComponent midiKeyboard;
+    ItnMidiKeyboard midiKeyboard;
 
     juce::Slider masterVolKnob;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterVolAttachment;

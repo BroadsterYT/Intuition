@@ -100,7 +100,7 @@ void ItnLookAndFeel::drawEnvelope(
     juce::Path timePath;
     timePath.startNewSubPath(finalX, 0.0f);
     timePath.lineTo(finalX, bounds.getBottom());
-    GlowStyle::drawRadiantIndicator(g, timePath, finalX, height);
+    GlowStyle::drawRadiantIndicator(g, timePath, finalX);
 }
 
 void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, LFOShape& shape, float phase) {
@@ -137,7 +137,7 @@ void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, L
     float xPos = phase * bounds.getWidth();
     phaseInd.startNewSubPath(xPos, 0.0f);
     phaseInd.lineTo(xPos, bounds.getHeight());
-    GlowStyle::drawRadiantIndicator(g, phaseInd, xPos, bounds.getHeight());
+    GlowStyle::drawRadiantIndicator(g, phaseInd, xPos);
 }
 
 void ItnLookAndFeel::drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const LFOPoint& point) {

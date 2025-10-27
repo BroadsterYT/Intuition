@@ -105,6 +105,8 @@ OscillatorTab::OscillatorTab(ItnContext& context
         context.parameters,
         context.modMatrix
     ) {
+    setLookAndFeel(&lookAndFeel);
+
     addAndMakeVisible(oscDisplay1);
     addAndMakeVisible(oscDisplay2);
     addAndMakeVisible(oscDisplay3);
@@ -120,8 +122,12 @@ OscillatorTab::OscillatorTab(ItnContext& context
     addChildComponent(waveBankComp4);
 }
 
+OscillatorTab::~OscillatorTab() {
+    setLookAndFeel(nullptr);
+}
+
 void OscillatorTab::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::dimgrey);
+    g.fillAll(GlowStyle::shadow);
 }
 
 void OscillatorTab::resized() {
@@ -133,7 +139,7 @@ void OscillatorTab::resized() {
     oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);
     oscDisplay3.setBounds(envTabs.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
     oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
-    lfoTabs.setBounds(padding, envTabs.getBottom() + padding, 250, 250);
+    lfoTabs.setBounds(padding, envTabs.getBottom() + padding, 300, 250);
     filterDisplay.setBounds(oscDisplay4.getRight() + padding, padding, 250, 250);
 
     waveBankComp1.setBounds(getLocalBounds());
