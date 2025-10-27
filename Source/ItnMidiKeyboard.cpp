@@ -35,15 +35,16 @@ void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce:
         getHeight()
     );
 
-    auto downColor = juce::ColourGradient::vertical(
+    /*auto downColor = juce::ColourGradient::vertical(
         GlowStyle::bulbGlow,
         0.0f,
         GlowStyle::warmHighlight,
         getHeight()
-    );
+    );*/
+    auto downColor = GlowStyle::bulbGlow;
     
     if (isDown) {
-        g.setGradientFill(downColor);
+        g.setColour(downColor);
     }
     else if (isOver) {
         g.setGradientFill(hoverColor);
@@ -56,6 +57,8 @@ void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce:
 
 void ItnMidiKeyboard::timerCallback() {
     phase += 0.12f;
-    //if (phase >= 1.0f) phase = 0.0f;
+    if (phase > juce::MathConstants<float>::twoPi) {
+        phase -= juce::MathConstants<float>::twoPi;
+    }
     repaint();
 }

@@ -22,10 +22,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     addAndMakeVisible(midiKeyboard);
     midiKeyboard.setAvailableRange(48, 108);
     midiKeyboard.setScrollButtonsVisible(false);
-
-    #if !JUCE_STANDALONE_APPLICATION
     midiKeyboard.clearKeyMappings();
-    #endif
 
     masterVolKnob.setSliderStyle(juce::Slider::Rotary);
     masterVolKnob.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);
