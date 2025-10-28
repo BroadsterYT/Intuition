@@ -25,6 +25,13 @@ public:
         bool isOver,
         juce::Colour lineColour,
         juce::Colour textColour) override;
+    void drawBlackNote(
+        int midiNoteNumber,
+        juce::Graphics& g,
+        juce::Rectangle<float> area, 
+        bool isDown,
+        bool isOver,
+        juce::Colour noteFillColour) override;
 
 private:
     float phase = 0.0f;

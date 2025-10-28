@@ -55,6 +55,29 @@ void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce:
     g.fillRect(area);
 }
 
+void ItnMidiKeyboard::drawBlackNote(int midiNoteNumber, juce::Graphics& g, juce::Rectangle<float> area, bool isDown, bool isOver, juce::Colour noteFillColour) {
+    auto baseColor = GlowStyle::roomDark;
+    auto hoverColor = juce::ColourGradient::vertical(
+        GlowStyle::warmHighlight,
+        0.0f,
+        GlowStyle::bulbGlow,
+        getHeight()
+    );
+    auto downColor = GlowStyle::bulbGlow;
+
+    if (isDown) {
+        g.setColour(downColor);
+    }
+    else if (isOver) {
+        g.setGradientFill(hoverColor);
+    }
+    else {
+        g.setColour(baseColor);
+    }
+
+    g.fillRect(area);
+}
+
 void ItnMidiKeyboard::timerCallback() {
     phase += 0.12f;
     if (phase > juce::MathConstants<float>::twoPi) {
