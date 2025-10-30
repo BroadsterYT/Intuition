@@ -16,6 +16,7 @@
 #include "ModMatrix.h"
 #include "ItnContext.h"
 #include "EnvelopeManager.h"
+#include "ReverbModule.h"
 
 
 //==============================================================================
@@ -96,6 +97,8 @@ private:
     float envValue1 = 0.0f;
     float envValue2 = 0.0f;
     float envValue3 = 0.0f;
+
+    ReverbModule reverbModule;
 
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(

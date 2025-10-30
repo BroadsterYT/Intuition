@@ -107,6 +107,14 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("FILTER_CUTOFF", "Filter Cutoff Frequency", 20.0f, 20000.0f, 1000.0f),
         std::make_unique<juce::AudioParameterFloat>("FILTER_RESONANCE", "Filter Cutoff Frequency", 0.01f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterChoice>("FILTER_TYPE", "Filter Type", juce::StringArray{"Low", "High", "Band"}, 0),
+
+        //============== Reverb ==============//
+        std::make_unique<juce::AudioParameterBool>("REVERB_TOGGLE", "Reverb Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_DAMPING", "Damping", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_ROOM_SIZE", "Room Size", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_WIDTH", "Width", 0.0f, 1.0f, 1.0f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_DRY_LEVEL", "Dry Level", 0.0f, 1.0f, 0.7f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_WET_LEVEL", "Wet Level", 0.0f, 1.0f, 0.3f),
     }),
     context(
         this,
@@ -126,7 +134,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         &lfoPhase2,
         &lfoPhase3
     ),
-    envManager(parameters)
+    envManager(parameters),
+    reverbModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 
@@ -256,6 +265,19 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     filterResonanceDest->setBasePtr(parameters.getRawParameterValue("FILTER_RESONANCE"));
     filterResonanceDest->setMinRange(0.01f);
     filterResonanceDest->setMaxRange(1.0f);
+
+    //=== Reverb
+    ModDestination* rvbDampingDest = modMatrix.addDestination("REVERB_DAMPING");
+    ModDestination* rvbRoomSizeDest = modMatrix.addDestination("REVERB_ROOM_SIZE");
+    ModDestination* rvbWidthDest = modMatrix.addDestination("REVERB_WIDTH");
+    ModDestination* rvbDryLevelDest = modMatrix.addDestination("REVERB_DRY_LEVEL");
+    ModDestination* rvbWetLevelDest = modMatrix.addDestination("REVERB_WET_LEVEL");
+
+    rvbDampingDest->setBasePtr(parameters.getRawParameterValue("REVERB_DAMPING"));
+    rvbRoomSizeDest->setBasePtr(parameters.getRawParameterValue("REVERB_ROOM_SIZE"));
+    rvbWidthDest->setBasePtr(parameters.getRawParameterValue("REVERB_WIDTH"));
+    rvbDryLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_DRY_LEVEL"));
+    rvbWetLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_WET_LEVEL"));
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -339,10 +361,7 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 }
 
 //==============================================================================
-void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
-{
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
     resetSynths();
@@ -420,8 +439,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate1);
     float phaseInc1 = lfoRate1 / sampleRate;
     calculateLFOPhase(
-        lfoShape1,
-        lfoPhase1,
+        lfoShape1,lfoPhase1,
         "LFO1_MODE",
         "LFO1_SYNC_DIV",
         "LFO1_RATE",
@@ -433,8 +451,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate2);
     float phaseInc2 = lfoRate2 / sampleRate;
     calculateLFOPhase(
-        lfoShape2,
-        lfoPhase2,
+        lfoShape2, lfoPhase2,
         "LFO2_MODE",
         "LFO2_SYNC_DIV",
         "LFO2_RATE",
@@ -446,8 +463,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     calculateLFOFrequency("LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV", lfoRate3);
     float phaseInc3 = lfoRate3 / sampleRate;
     calculateLFOPhase(
-        lfoShape3,
-        lfoPhase3,
+        lfoShape3, lfoPhase3,
         "LFO3_MODE",
         "LFO3_SYNC_DIV",
         "LFO3_RATE",
@@ -526,6 +542,11 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         buffer.clear(i, 0, buffer.getNumSamples());
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    
+    reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+    reverbModule.updateParameters();
+    reverbModule.process(buffer);
+    
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);
 }

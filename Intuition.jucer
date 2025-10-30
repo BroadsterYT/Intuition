@@ -6971,6 +6971,11 @@
       </GROUP>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
+        <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
+              file="Source/ReverbModule.cpp"/>
+        <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
+      </GROUP>
       <GROUP id="{5916C2C8-F668-3723-F198-FB24A81F89CA}" name="Envelope">
         <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"
               file="Source/GlobalEnvelope.cpp"/>
@@ -7012,6 +7017,11 @@
         <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
+          <FILE id="WKEZi6" name="ReverbDisplay.cpp" compile="1" resource="0"
+                file="Source/ReverbDisplay.cpp"/>
+          <FILE id="TcNlYv" name="ReverbDisplay.h" compile="0" resource="0" file="Source/ReverbDisplay.h"/>
+        </GROUP>
         <FILE id="RPytXF" name="ItnMidiKeyboard.cpp" compile="1" resource="0"
               file="Source/ItnMidiKeyboard.cpp"/>
         <FILE id="U8FiqK" name="ItnMidiKeyboard.h" compile="0" resource="0"
@@ -7031,6 +7041,8 @@
           <FILE id="bWK92q" name="EnvelopeGraph.h" compile="0" resource="0" file="Source/EnvelopeGraph.h"/>
         </GROUP>
         <GROUP id="{4CB7E476-19B4-BB58-CBFE-A771BC8AE1AA}" name="MainTabsGUI">
+          <FILE id="mDGKA7" name="EffectsTab.cpp" compile="1" resource="0" file="Source/EffectsTab.cpp"/>
+          <FILE id="eaazcD" name="EffectsTab.h" compile="0" resource="0" file="Source/EffectsTab.h"/>
           <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"
                 file="Source/OscillatorTab.cpp"/>
           <FILE id="SVgjzo" name="OscillatorTab.h" compile="0" resource="0" file="Source/OscillatorTab.h"/>
