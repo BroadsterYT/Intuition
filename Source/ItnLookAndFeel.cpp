@@ -37,6 +37,31 @@ juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider)
     return layout;
 }
 
+void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) {
+    auto radius = juce::jmin(width / 2.0f, height / 2.0f) - 8.0f;
+    auto centerX = x + width * 0.5f;
+    auto centerY = y + height * 0.5f;
+
+    // --- Draw background path (unfilled arc) ---
+    g.setColour(GlowStyle::shadow);  // background arc color
+    juce::Path baseArc;
+
+    baseArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, rotaryEndAngle, true);
+    g.strokePath(baseArc, juce::PathStrokeType(8.0f));
+
+    /*juce::Path fillArc;
+    fillArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, juce::jmap(sliderPosProportional, rotaryStartAngle, rotaryEndAngle), true);
+    g.setColour(GlowStyle::warmHighlight);
+    g.strokePath(fillArc, juce::PathStrokeType(8.0f));*/
+    float angle = 3.0f * juce::MathConstants<float>::pi / 2.0f + rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+    float knobRadius = 6.0f;
+    float knobX = centerX + std::cos(angle) * radius - knobRadius;
+    float knobY = centerY + std::sin(angle) * radius - knobRadius;
+
+    g.setColour(GlowStyle::warmHighlight);
+    g.fillEllipse(knobX, knobY, knobRadius * 2.0f, knobRadius * 2.0f);
+}
+
 void ItnLookAndFeel::drawWaveform(
     juce::Graphics& g,
     juce::Rectangle<float> bounds,
