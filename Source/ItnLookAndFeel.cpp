@@ -42,17 +42,29 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     auto centerX = x + width * 0.5f;
     auto centerY = y + height * 0.5f;
 
-    g.setColour(GlowStyle::shadow);
     juce::Path baseArc;
-
     baseArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, rotaryEndAngle, true);
+    g.setColour(GlowStyle::shadow);
     g.strokePath(baseArc, juce::PathStrokeType(8.0f));
+
+    float fillAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+    juce::Path filledArc;
+    filledArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, fillAngle, true);
+    
+    juce::ColourGradient gradient = juce::ColourGradient::horizontal(
+        GlowStyle::shadow,
+        (float)x,
+        GlowStyle::warmHighlight,
+        (float)(x + width)
+    );
+    gradient.addColour(0.35f, GlowStyle::shadow);
+    g.setGradientFill(gradient);
+    g.strokePath(filledArc, juce::PathStrokeType(8.0f));
 
     float angle = 3.0f * juce::MathConstants<float>::pi / 2.0f + rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
     float knobRadius = 6.0f;
     float knobX = centerX + std::cos(angle) * radius;
     float knobY = centerY + std::sin(angle) * radius;
-
     GlowStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
 }
 

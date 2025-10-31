@@ -69,7 +69,9 @@ void ItnSlider::paint(juce::Graphics& g) {
     }
 
     // Now overlay the modulation indicator
-    auto bounds = getLocalBounds().toFloat();
+    auto layout = getLookAndFeel().getSliderLayout(*this);
+    auto bounds = layout.sliderBounds.toFloat();
+
     float size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6.0f;
     auto center = bounds.getCentre();
     float radius = size / 2.0f;
@@ -94,7 +96,7 @@ void ItnSlider::paint(juce::Graphics& g) {
     float modAngle = startAngle + modVal * (endAngle - startAngle);
 
     // Draw the overlay arc
-    g.setColour(juce::Colours::skyblue.withAlpha(0.6f));
+    g.setColour(GlowStyle::warmHighlight.withAlpha(0.5f));
 
     float minAngle = juce::jmin(baseAngle, modAngle);
     float delta = std::abs(modAngle - baseAngle);
