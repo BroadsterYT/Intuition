@@ -24,6 +24,10 @@ void WavetableOsc::setSampleRate(double newRate) {
     morphSmooth.reset(sampleRate, 0.01);
 }
 
+void WavetableOsc::setOversampleFactor(float factor) {
+    oversampleFactor = factor;
+}
+
 void WavetableOsc::setFrequency(
     float frequency,
     int octave,
@@ -36,7 +40,7 @@ void WavetableOsc::setFrequency(
     float pitchMult = std::pow(2.0f, (float)totalCents / 1200.0f);
 
     float finalFreq = frequency * pitchMult;
-    phaseIncrement = finalFreq / (float)sampleRate;
+    phaseIncrement = finalFreq / (sampleRate * oversampleFactor);
 }
 
 void WavetableOsc::setMorph(float alpha) {

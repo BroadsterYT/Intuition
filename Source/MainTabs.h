@@ -13,6 +13,7 @@
 #include "ItnContext.h"
 #include "ModMatrix.h"
 #include "OscillatorTab.h"
+#include "EffectsTab.h"
 
 
 /// <summary>
@@ -30,6 +31,7 @@ private:
     juce::TabbedComponent tabs;
 
     OscillatorTab oscTab;
+    EffectsTab fxTab;
 
     void timerCallback() override;
 };

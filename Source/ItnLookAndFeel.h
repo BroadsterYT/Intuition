@@ -17,6 +17,13 @@ class ItnLookAndFeel : public juce::LookAndFeel_V4 {
 public:
     juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
 
+    void drawRotarySlider(juce::Graphics& g,
+        int x, int y, int width, int height,
+        float sliderPosProportional,
+        float rotaryStartAngle,
+        float rotaryEndAngle,
+        juce::Slider& slider) override;
+
     void drawWaveform(juce::Graphics& g,
         juce::Rectangle<float> bounds,
         const juce::Array<float> waveform
