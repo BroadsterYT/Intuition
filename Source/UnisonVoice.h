@@ -76,9 +76,6 @@ private:
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 
-    juce::dsp::Oversampling<float> oversampler;
-
     void prepareFilter(double sampleRate, int samplesPerBlock, int numChannels);
-    void setOversampleFactor();
-    void processAtHighRate(juce::dsp::AudioBlock<float>& block);
+    void processAtHighRate(juce::AudioBuffer<float>& block, int startSample, int numSamples);
 };

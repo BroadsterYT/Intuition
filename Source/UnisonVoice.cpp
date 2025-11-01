@@ -23,8 +23,7 @@ UnisonVoice::UnisonVoice(
     bank1(bankToUse1), 
     bank2(bankToUse2), 
     bank3(bankToUse3), 
-    bank4(bankToUse4),
-    oversampler(2, 2, juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple)
+    bank4(bankToUse4)
 {
     oscA.setParameters(&parameters);
     oscB.setParameters(&parameters);
@@ -149,16 +148,6 @@ void UnisonVoice::controllerMoved(int, int) {}
 void UnisonVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels) {
     prepareFilter(sampleRate, samplesPerBlock, numChannels);
     filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
-
-    juce::dsp::ProcessSpec spec;
-    spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.numChannels = numChannels;
-
-    oversampler.reset();
-    oversampler.initProcessing(samplesPerBlock);
-
-    setOversampleFactor();
 }
 
 void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
@@ -167,17 +156,8 @@ void UnisonVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int st
         return;
     }
     updatePitch();
-    //setOversampleFactor();
 
-    const int numChannels = outputBuffer.getNumChannels();
-
-    juce::dsp::AudioBlock<float> block(outputBuffer);
-    auto blockToProcess = block.getSubBlock((size_t)startSample, (size_t)numSamples);
-    auto upsampledBlock = oversampler.processSamplesUp(blockToProcess);
-
-    processAtHighRate(upsampledBlock);
-
-    oversampler.processSamplesDown(blockToProcess);
+    processAtHighRate(outputBuffer, startSample, numSamples);
 }
 
 void UnisonVoice::setFilterCutoff(float cutoff) {
@@ -222,24 +202,17 @@ void UnisonVoice::prepareFilter(double sampleRate, int samplesPerBlock, int numC
     }
 }
 
-void UnisonVoice::setOversampleFactor() {
-    float factor = oversampler.getOversamplingFactor();
-    oscA.setOversampleFactor(factor);
-    oscB.setOversampleFactor(factor);
-    oscC.setOversampleFactor(factor);
-    oscD.setOversampleFactor(factor);
-}
-
-void UnisonVoice::processAtHighRate(juce::dsp::AudioBlock<float>& block) {
-    auto numSamples = block.getNumSamples();
-    auto numChannels = block.getNumChannels();
-
+void UnisonVoice::processAtHighRate(juce::AudioBuffer<float>& block, int startSample, int numSamples) {
     std::vector<float> dryL(numSamples, 0.0f);
     std::vector<float> dryR(numSamples, 0.0f);
     juce::AudioBuffer<float> filteredBuffer;
+
+    prepareFilter(getSampleRate(), block.getNumSamples(), block.getNumChannels());
     filteredBuffer.setSize(2, numSamples);
     filteredBuffer.clear();
-    prepareFilter(getSampleRate(), numSamples, numChannels);
+
+    DBG("block samples: " << block.getNumSamples());
+    DBG("arg samples: " << numSamples);
 
     bool toggleA = *parameters.getRawParameterValue("A_TOGGLE");
     bool toggleB = *parameters.getRawParameterValue("B_TOGGLE");
@@ -284,15 +257,15 @@ void UnisonVoice::processAtHighRate(juce::dsp::AudioBlock<float>& block) {
     juce::dsp::ProcessContextReplacing<float> filterContext(filterBlock);
     filter.process(filterContext);
 
-    auto left = block.getChannelPointer(0);
-    auto right = block.getNumChannels() > 1 ? block.getChannelPointer(1) : nullptr;
+    /*auto left = block.getChannelPointer(0);
+    auto right = block.getNumChannels() > 1 ? block.getChannelPointer(1) : nullptr;*/
 
     for (int s = 0; s < (int)numSamples; ++s) {
         float env = adsr.getNextSample();
         float L = (filteredBuffer.getSample(0, s) + dryL[s]) * env;
         float R = (filteredBuffer.getSample(1, s) + dryR[s]) * env;
 
-        left[s] = L;
-        if (right) right[s] = R;
+        block.addSample(0, startSample + s, L);
+        block.addSample(1, startSample + s, R);
     }
 }

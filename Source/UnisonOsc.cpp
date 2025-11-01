@@ -26,12 +26,6 @@ void UnisonOsc::setSampleRate(double newRate) {
     sampleRate = newRate;
 }
 
-void UnisonOsc::setOversampleFactor(float factor) {
-    for (auto& osc : oscillators) {
-        osc.setOversampleFactor(factor);
-    }
-}
-
 void UnisonOsc::setFrequency(
     float frequency,
     int oct,

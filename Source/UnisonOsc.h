@@ -23,7 +23,6 @@ public:
     void setBank(WavetableBank* newBank);
     
     void setSampleRate(double newRate);
-    void setOversampleFactor(float factor);
     void setFrequency(
         float frequency,
         int octave,
