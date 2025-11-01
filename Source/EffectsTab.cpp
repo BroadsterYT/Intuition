@@ -27,7 +27,8 @@ void EffectsTab::paint(juce::Graphics& g) {
 }
 
 void EffectsTab::resized() {
-    int padding = 15;
+    int padding = 120;
+    int width = getWidth() - 2 * padding;
 
-    reverb.setBounds(padding, padding, 600, 200);
+    reverb.setBounds(padding, 15, width, 100);
 }

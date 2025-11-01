@@ -131,6 +131,7 @@ void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
 
     std::vector<juce::String> sourceNames;
     modMatrix->getAllSourceNames(sourceNames);
+    std::sort(sourceNames.begin(), sourceNames.end());
     for (auto& source : sourceNames) {
         if (modMatrix->getConnection(source, paramName)) {
             addModLinkPropertiesSubmenu(sub, source);

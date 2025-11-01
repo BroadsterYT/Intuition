@@ -19,6 +19,7 @@ public:
     void setBank(WavetableBank* newBank);
 
     void setSampleRate(double newRate);
+    void setOversampleFactor(float factor);
     void setFrequency(
         float frequency,
         int octave,
@@ -36,6 +37,7 @@ private:
     juce::AudioProcessorValueTreeState* parameters;
     WavetableBank* bank = nullptr;
     double sampleRate = 44100.0;
+    float oversampleFactor = 1.0f;
     juce::SmoothedValue<float> morphSmooth;
     float lastAlpha = 0.0f;
 

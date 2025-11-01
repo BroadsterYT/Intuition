@@ -24,7 +24,12 @@ void UnisonOsc::setBank(WavetableBank* newBank) {
 
 void UnisonOsc::setSampleRate(double newRate) {
     sampleRate = newRate;
+}
 
+void UnisonOsc::setOversampleFactor(float factor) {
+    for (auto& osc : oscillators) {
+        osc.setOversampleFactor(factor);
+    }
 }
 
 void UnisonOsc::setFrequency(

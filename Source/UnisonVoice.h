@@ -71,10 +71,14 @@ private:
     juce::dsp::StateVariableTPTFilter<float> filter;
     int filterPreparedChannels = 0;
 
+    float level = 1.0f;
     juce::ADSR adsr;  // Only used to control voice on/off
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 
-    float level = 1.0f;
+    juce::dsp::Oversampling<float> oversampler;
+
     void prepareFilter(double sampleRate, int samplesPerBlock, int numChannels);
+    void setOversampleFactor();
+    void processAtHighRate(juce::dsp::AudioBlock<float>& block);
 };
