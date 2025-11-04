@@ -106,33 +106,31 @@ void GeminiAPIClient::run()
     // Make the HTTP POST request
     juce::URL url(endpoint);
 
-    // Add POST data to URL (older JUCE API method)
-    url = url.withPOSTData(jsonRequest);
-
     juce::String responseBody;
     int statusCode = 0;
 
+    // Build POST data as MemoryBlock
+    juce::MemoryBlock postData(jsonRequest.toRawUTF8(), jsonRequest.getNumBytesAsUTF8());
+
     try
     {
-        // Create POST request with older JUCE API (9 parameters)
-        juce::StringPairArray headers;
-        headers.set("Content-Type", "application/json");
+        // Use WebInputStream for better macOS compatibility
+        juce::WebInputStream webStream(url, true); // true = use POST
 
-        std::unique_ptr<juce::InputStream> stream(url.createInputStream(
-            false,              // usePostCommand (use POST via httpRequestCmd)
-            nullptr,            // progressCallback
-            nullptr,            // progressCallbackContext
-            "Content-Type: application/json\r\n",  // extraHeaders
-            30000,              // timeOutMs
-            &headers,           // responseHeaders
-            &statusCode,        // statusCode pointer
-            0,                  // numRedirectsToFollow
-            "POST"              // httpRequestCmd
-        ));
+        // Add headers
+        webStream.withExtraHeaders("Content-Type: application/json");
 
-        if (stream != nullptr)
+        // Set POST data
+        webStream.withData(postData);
+
+        // Set timeout
+        webStream.withConnectionTimeout(30000);
+
+        // Connect and send request
+        if (webStream.connect(nullptr))
         {
-            responseBody = stream->readEntireStreamAsString();
+            statusCode = webStream.getStatusCode();
+            responseBody = webStream.readEntireStreamAsString();
         }
         else
         {
