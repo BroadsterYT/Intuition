@@ -109,19 +109,14 @@ void GeminiAPIClient::run()
     juce::String responseBody;
     int statusCode = 0;
 
-    // Build POST data as MemoryBlock
-    juce::MemoryBlock postData(jsonRequest.toRawUTF8(), jsonRequest.getNumBytesAsUTF8());
-
     try
     {
         // Use WebInputStream for better macOS compatibility
         juce::WebInputStream webStream(url, true); // true = use POST
 
-        // Add headers
+        // Add headers and POST data
         webStream.withExtraHeaders("Content-Type: application/json");
-
-        // Set POST data
-        webStream.withData(postData);
+        webStream.withPOSTData(jsonRequest);
 
         // Set timeout
         webStream.withConnectionTimeout(30000);
