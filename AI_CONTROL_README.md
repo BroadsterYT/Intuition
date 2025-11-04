@@ -64,14 +64,16 @@ Type natural language commands in the text box and press Enter or click "Apply A
 
 ### Architecture
 ```
-User Command → AI (Gemini) → JSON Response → Parameter Mapper → Synth Parameters
+User Command → AI (Gemini 2.5) → JSON Response → Parameter Mapper → Synth Parameters
 ```
 
 1. **User Input**: You type a natural language command
-2. **AI Processing**: The command is sent to Google's Gemini AI model with context about the synth's parameters
+2. **AI Processing**: The command is sent to Google's Gemini 2.5 Flash model with context about the synth's parameters
 3. **JSON Translation**: The AI returns a JSON object with specific parameter changes
 4. **Parameter Mapping**: The system validates and applies the parameter changes
 5. **Audio Update**: The synth immediately reflects the new parameter values
+
+**Note**: This plugin uses **Gemini 2.5 Flash**, the latest model available as of 2025. If you have an older API key, make sure it's still valid at [Google AI Studio](https://aistudio.google.com/apikey).
 
 ### Technical Components
 - **GeminiAPIClient**: Handles HTTP communication with Google AI Studio API
@@ -133,8 +135,13 @@ The AI can control the following parameters:
 
 ### "Request failed" Error
 - Check your internet connection
-- Verify your API key is valid
+- Verify your API key is valid at [Google AI Studio](https://aistudio.google.com/apikey)
 - Ensure you haven't exceeded your API quota
+
+### "models/gemini-1.5-flash is not found" Error
+- This error occurred in earlier versions that used retired models
+- **Solution**: Update to the latest version which uses Gemini 2.5 Flash
+- If you still see this, your build may be outdated
 
 ### Changes Not Applied
 - Check the status message for specific parameter errors

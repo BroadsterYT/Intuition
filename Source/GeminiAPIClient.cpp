@@ -64,8 +64,8 @@ void GeminiAPIClient::cancelRequest()
 
 void GeminiAPIClient::run()
 {
-    // Build the API endpoint
-    juce::String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + currentApiKey;
+    // Build the API endpoint - Using Gemini 2.5 Flash (current model as of 2025)
+    juce::String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + currentApiKey;
 
     // Build the JSON request body
     juce::DynamicObject::Ptr requestBody = new juce::DynamicObject();
