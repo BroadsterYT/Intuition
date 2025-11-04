@@ -565,15 +565,36 @@ juce::AudioProcessorEditor* IntuitionAudioProcessor::createEditor()
 //==============================================================================
 void IntuitionAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    // Save parameters
+    auto state = parameters.copyState();
+
+    // Add AI API key to the state
+    state.setProperty("aiApiKey", aiApiKey, nullptr);
+
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    // Load parameters
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+
+    if (xmlState.get() != nullptr)
+    {
+        if (xmlState->hasTagName(parameters.state.getType()))
+        {
+            juce::ValueTree loadedState = juce::ValueTree::fromXml(*xmlState);
+
+            // Load AI API key if present
+            if (loadedState.hasProperty("aiApiKey"))
+            {
+                aiApiKey = loadedState.getProperty("aiApiKey").toString();
+            }
+
+            parameters.replaceState(loadedState);
+        }
+    }
 }
 
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {

@@ -80,7 +80,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    // AI Control API Key
+    void setAIApiKey(const juce::String& key) { aiApiKey = key; }
+    juce::String getAIApiKey() const { return aiApiKey; }
+
 private:
+    juce::String aiApiKey;
     float currentBPM = 60.0;
 
     float lfoRate1 = 1.0f;

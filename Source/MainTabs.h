@@ -14,6 +14,7 @@
 #include "ModMatrix.h"
 #include "OscillatorTab.h"
 #include "EffectsTab.h"
+#include "AIControlPanel.h"
 
 
 /// <summary>
@@ -22,9 +23,11 @@
 class MainTabs : public juce::Component, private juce::Timer {
 public:
     MainTabs(ItnContext& context);
-    
+
     void paint(juce::Graphics& g) override;
     void resized() override;
+
+    AIControlPanel& getAIControlPanel() { return aiTab; }
 
 private:
     ItnContext& context;
@@ -32,6 +35,7 @@ private:
 
     OscillatorTab oscTab;
     EffectsTab fxTab;
+    AIControlPanel aiTab;
 
     void timerCallback() override;
 };

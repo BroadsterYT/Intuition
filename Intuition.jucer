@@ -7096,6 +7096,18 @@
             file="Source/WavetableOsc.cpp" skipPCH="1"/>
       <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+      <FILE id="AI0001" name="GeminiAPIClient.cpp" compile="1" resource="0"
+            file="Source/GeminiAPIClient.cpp"/>
+      <FILE id="AI0002" name="GeminiAPIClient.h" compile="0" resource="0"
+            file="Source/GeminiAPIClient.h"/>
+      <FILE id="AI0003" name="AIParameterMapper.cpp" compile="1" resource="0"
+            file="Source/AIParameterMapper.cpp"/>
+      <FILE id="AI0004" name="AIParameterMapper.h" compile="0" resource="0"
+            file="Source/AIParameterMapper.h"/>
+      <FILE id="AI0005" name="AIControlPanel.cpp" compile="1" resource="0"
+            file="Source/AIControlPanel.cpp"/>
+      <FILE id="AI0006" name="AIControlPanel.h" compile="0" resource="0"
+            file="Source/AIControlPanel.h"/>
       <FILE id="Wh8cjT" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="feZLPy" name="PluginProcessor.h" compile="0" resource="0"

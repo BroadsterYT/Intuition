@@ -34,10 +34,16 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
         masterVolKnob
     );
 
+    // Load saved API key into AI panel
+    mainTabs.getAIControlPanel().setApiKey(audioProcessor.getAIApiKey());
+
     setSize(1200, 800);
 }
 
-IntuitionAudioProcessorEditor::~IntuitionAudioProcessorEditor() {}
+IntuitionAudioProcessorEditor::~IntuitionAudioProcessorEditor() {
+    // Save API key when editor closes
+    audioProcessor.setAIApiKey(mainTabs.getAIControlPanel().getApiKey());
+}
 
 //==============================================================================
 void IntuitionAudioProcessorEditor::paint (juce::Graphics& g) {
