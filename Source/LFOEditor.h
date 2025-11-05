@@ -39,15 +39,5 @@ private:
 
     LFOPoint* currentDraggedPoint = nullptr;
 
-    /// <summary>
-    /// Draw the LFO shape and returns it as a path
-    /// </summary>
-    /// <returns>The path object to draw onto the component</returns>
-    juce::Path drawLFOPath();
-    /// <summary>
-    /// Draws the LFO points directly onto the component
-    /// </summary>
-    /// <param name="g">The JUCE graphics object</param>
-    void drawLFOPoints(juce::Graphics& g);
     void timerCallback() override;
 };

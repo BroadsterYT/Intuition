@@ -22,7 +22,8 @@ public:
         float sliderPosProportional,
         float rotaryStartAngle,
         float rotaryEndAngle,
-        juce::Slider& slider) override;
+        juce::Slider& slider
+    ) override;
 
     void drawWaveform(juce::Graphics& g,
         juce::Rectangle<float> bounds,
