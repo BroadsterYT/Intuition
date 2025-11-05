@@ -24,11 +24,9 @@ void LFOEditor::paint(juce::Graphics& g) {
     g.fillAll(GlowStyle::roomDark);
 
     if (shape.getNumPoints() < 2) return;
-
     if (!phase) return;
-    juce::Path path = drawLFOPath();
+
     lookAndFeel.drawLFO(g, getBounds().toFloat(), shape, *phase);
-    
     for (int i = 0; i < shape.getNumPoints(); ++i) {
         const LFOPoint& point = shape.getPoint(i);
         lookAndFeel.drawLFOPoint(g, getBounds().toFloat(), point);
@@ -171,44 +169,6 @@ void LFOEditor::visibilityChanged() {
     }
     else {
         stopTimer();
-    }
-}
-
-juce::Path LFOEditor::drawLFOPath() {
-    juce::Path path;
-    auto& p0 = shape.getPoint(0);
-    float x0 = p0.getTime() * getWidth();
-    float y0 = (1.0f - p0.getValue()) * getHeight();
-    path.startNewSubPath(x0, y0);
-
-    for (int i = 1; i < shape.getNumPoints(); ++i) {
-        auto& p1 = shape.getPoint(i - 1);
-        auto& p2 = shape.getPoint(i);
-
-        x0 = p1.getTime() * getWidth();
-        y0 = (1.0f - p1.getValue()) * getHeight();
-
-        float x2 = p2.getTime() * getWidth();
-        float y2 = (1.0f - p2.getValue()) * getHeight();
-
-        float cx = x0 + (x2 - x0) / 2.0f;
-        float cy = y0 + (y2 - y0) / 2.0f - p1.getCurve() * getHeight();
-
-        path.quadraticTo(cx, cy, x2, y2);
-    }
-
-    return path;
-}
-
-void LFOEditor::drawLFOPoints(juce::Graphics& g) {
-    g.setColour(juce::Colours::cyan);
-
-    for (int i = 0; i < shape.getNumPoints(); ++i) {
-        LFOPoint& p1 = shape.getPoint(i);
-        float x1 = p1.getTime() * getWidth();
-        float y1 = (1.0f - p1.getValue()) * getHeight();
-
-        g.drawEllipse(x1 - 15.0f / 2, y1 - 15.0f / 2, 15.0f, 15.0f, 2.0f);
     }
 }
 

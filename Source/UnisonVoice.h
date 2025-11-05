@@ -72,7 +72,7 @@ private:
     int filterPreparedChannels = 0;
 
     float level = 1.0f;
-    juce::ADSR adsr;  // Only used to control voice on/off
+    juce::ADSR adsr;
     int currentMidiNote = -1;
     float currentFreq = 440.0f;
 

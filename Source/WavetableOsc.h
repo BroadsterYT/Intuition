@@ -43,4 +43,8 @@ private:
     float phase = 0.0f;  // Phase goes from 0 to 1, 0 being the beginning of a single wave and 1 being the end
     float phaseOffset = 0.0f;
     float phaseIncrement = 0.0f;  // Cycles per sample
+
+    // Oversampling
+    int osFactor = 4;
+    float osPhaseIncrement = 0.0f;
 };
