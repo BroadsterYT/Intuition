@@ -101,8 +101,6 @@ private:
 
     ReverbModule reverbModule;
 
-    juce::ChildProcess flaskServer;
-
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(
         const juce::String modeName,
