@@ -1,4 +1,4 @@
-﻿/*
+/*
   ==============================================================================
 
     This file contains the basic framework code for a JUCE plugin processor.
@@ -22,7 +22,6 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 #endif
     ),
 #endif
-
     // Setting parameters
     parameters(*this, nullptr, "PARAMETERS", {
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),

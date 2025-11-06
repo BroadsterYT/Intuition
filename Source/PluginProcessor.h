@@ -17,6 +17,7 @@
 #include "ItnContext.h"
 #include "EnvelopeManager.h"
 #include "ReverbModule.h"
+#include "AIManager.h"
 
 
 //==============================================================================
@@ -99,6 +100,8 @@ private:
     float envValue3 = 0.0f;
 
     ReverbModule reverbModule;
+
+    juce::ChildProcess flaskServer;
 
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(

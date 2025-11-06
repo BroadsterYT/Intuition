@@ -6971,6 +6971,8 @@
       </GROUP>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
+      <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
         <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
               file="Source/ReverbModule.cpp"/>
@@ -7104,6 +7106,7 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="ITukpF" name="ai_micro.exe" compile="0" resource="1" file="AIMicro/dist/ai_micro.exe"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

@@ -4,3 +4,7 @@
 
 /Builds
 /.vs
+/AIMicro/.venv
+/AIMicro/build
+/AIMicro/dist
+/AIMicro/ai_micro.spec
