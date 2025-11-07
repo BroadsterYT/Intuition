@@ -13277,8 +13277,8 @@ namespace BinaryData
     extern const char*   AKWF_violin_0014_wav;
     const int            AKWF_violin_0014_wavSize = 1344;
 
-    extern const char*   ai_micro_exe;
-    const int            ai_micro_exeSize = 12082105;
+    extern const char*   intumi_exe;
+    const int            intumi_exeSize = 12080704;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 4424;

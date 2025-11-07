@@ -19,21 +19,21 @@ void AIManager::setKey(const juce::String newKey) {
 }
 
 juce::String AIManager::queryAI(const juce::String apiKey, const juce::String prompt) {
-    auto exeData = BinaryData::ai_micro_exe;
-    auto exeSize = BinaryData::ai_micro_exeSize;
+    auto exeData = BinaryData::intumi_exe;
+    auto exeSize = BinaryData::intumi_exeSize;
 
-    juce::File tempExe = juce::File::getSpecialLocation(juce::File::tempDirectory).getChildFile("ai_comms.exe");
+    juce::File tempExe = juce::File::getSpecialLocation(juce::File::tempDirectory).getChildFile("intumi.exe");
 
     tempExe.replaceWithData(exeData, exeSize);
     tempExe.setExecutePermission(true);
 
     DBG(tempExe.getFullPathName());
 
-    juce::ChildProcess groq;
-    groq.start(tempExe.getFullPathName() + " --api-key " + apiKey + " --prompt \"" + prompt + "\"");
+    juce::ChildProcess intumi;
+    intumi.start(tempExe.getFullPathName() + " --api-key " + apiKey + " --prompt \"" + prompt + "\"");
 
-    groq.waitForProcessToFinish(-1);
-    juce::String output = groq.readAllProcessOutput();
+    intumi.waitForProcessToFinish(-1);
+    juce::String output = intumi.readAllProcessOutput();
 
     DBG("Intumi says: " << output);
     return output;

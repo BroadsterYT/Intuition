@@ -138,6 +138,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 
+    AIManager::queryAI("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", "Hello.");
+
     const void* wav = BinaryData::AKWF_saw_wav;
     int wavSize = BinaryData::AKWF_saw_wavSize;
     bank1.addWavetable(wav, wavSize);
