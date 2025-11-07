@@ -7043,6 +7043,8 @@
           <FILE id="bWK92q" name="EnvelopeGraph.h" compile="0" resource="0" file="Source/EnvelopeGraph.h"/>
         </GROUP>
         <GROUP id="{4CB7E476-19B4-BB58-CBFE-A771BC8AE1AA}" name="MainTabsGUI">
+          <FILE id="dEZWQ2" name="IntumiTab.cpp" compile="1" resource="0" file="Source/IntumiTab.cpp"/>
+          <FILE id="UYrUQG" name="IntumiTab.h" compile="0" resource="0" file="Source/IntumiTab.h"/>
           <FILE id="mDGKA7" name="EffectsTab.cpp" compile="1" resource="0" file="Source/EffectsTab.cpp"/>
           <FILE id="eaazcD" name="EffectsTab.h" compile="0" resource="0" file="Source/EffectsTab.h"/>
           <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"
@@ -7106,7 +7108,7 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
-    <FILE id="ITukpF" name="ai_micro.exe" compile="0" resource="1" file="AIMicro/dist/ai_micro.exe"/>
+    <FILE id="w41HN6" name="intumi.exe" compile="0" resource="1" file="Intumi/dist/intumi.exe"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
