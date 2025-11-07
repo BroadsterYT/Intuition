@@ -4,7 +4,7 @@
 
 /Builds
 /.vs
-/Intumi/.venv
-/Intumi/build
-/Intumi/dist
-/Intumi/intumi.spec
+/AIMicro/.venv
+/AIMicro/build
+/AIMicro/dist
+/AIMicro/ai_micro.spec
