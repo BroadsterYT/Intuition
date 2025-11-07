@@ -35,6 +35,6 @@ juce::String AIManager::queryAI(const juce::String apiKey, const juce::String pr
     groq.waitForProcessToFinish(-1);
     juce::String output = groq.readAllProcessOutput();
 
-    DBG("Groq says: " << output);
+    DBG("Intumi says: " << output);
     return output;
 }
