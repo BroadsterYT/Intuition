@@ -17,7 +17,7 @@ JUCE and the Projucer are required to build Intuition's project files for Window
 > [!NOTE]
 > This step can be skipped if no changes have been made to the `intumi.py` file.
 
-We know, it's a very scary step name, but it is actually very straightforward. Intuition uses Python 3.12.2 to build an executable from the included Groq AI microservice (without using the Groq API). The official Python 3.12.2 release can be downloaded [here](https://www.python.org/downloads/release/python-3122). If you are using a newer version of Python 
+We know, it's a very scary step name, but it is actually very straightforward. Intuition uses Python 3.12.2 to build an executable from the included Groq AI microservice (without using the Groq API). The official Python 3.12.2 release can be downloaded [here](https://www.python.org/downloads/release/python-3122).
 
 Depending on the operating system the project is being built in, the executable generation process will vary.
 
