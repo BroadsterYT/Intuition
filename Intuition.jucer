@@ -6970,6 +6970,10 @@
         </GROUP>
       </GROUP>
     </GROUP>
+    <GROUP id="{13A50E93-AAC6-03D3-12F4-A6683D5B6C92}" name="IntumiExes">
+      <FILE id="w7JRjy" name="intumi" compile="0" resource="1" file="IntumiExes/intumi"/>
+      <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
+    </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
       <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
       <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
@@ -7108,7 +7112,6 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
-    <FILE id="w41HN6" name="intumi.exe" compile="0" resource="1" file="Intumi/dist/intumi.exe"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

@@ -19,8 +19,16 @@ void AIManager::setKey(const juce::String newKey) {
 }
 
 juce::String AIManager::queryAI(const juce::String apiKey, const juce::String prompt) {
-    auto exeData = BinaryData::intumi_exe;
-    auto exeSize = BinaryData::intumi_exeSize;
+    const char* exeData;
+    int exeSize;
+
+#if defined(JUCE_WINDOWS) && JUCE_WINDOWS
+    exeData = BinaryData::intumi_exe;
+    exeSize = BinaryData::intumi_exeSize;
+#elif defined(JUCE_MAC) && JUCE_MAC
+    exeData = BinaryData::intumi;
+    exeSize = BinaryData::intumiSize;
+#endif
 
     juce::File tempExe = juce::File::getSpecialLocation(juce::File::tempDirectory).getChildFile("intumi.exe");
 

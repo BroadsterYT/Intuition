@@ -14,6 +14,7 @@
 #include "AIManager.h"
 
 
+
 class IntumiTab : public juce::Component {
 public:
     IntumiTab();
