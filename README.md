@@ -1,4 +1,4 @@
-<img src="Assets/Images/intuition_logo_with_intumi.png"/>
+<img src="Assets/Images/intuition_logo_glow.png"/>
 
 # Overview
 Intuition is a VST/AU/standalone digital synthesizer designed to combine high-performance digital signal processing with an intuitive, modular workflow for sound design and music production. 
