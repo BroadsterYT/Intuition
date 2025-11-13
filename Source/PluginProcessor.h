@@ -81,6 +81,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    /// <summary>
+    /// Collects all available parametrs in the current ValueTreeState and returns them as a json-formatted string
+    /// </summary>
+    /// <returns>A JSON-formatted string of all current parameters</returns>
+    juce::String getParametersAsJsonString();
+
 private:
     float currentBPM = 60.0;
 

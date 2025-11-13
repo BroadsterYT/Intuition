@@ -12,12 +12,12 @@
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
 #include "AIManager.h"
-
+#include "PluginProcessor.h"
 
 
 class IntumiTab : public juce::Component {
 public:
-    IntumiTab();
+    IntumiTab(juce::AudioProcessor* ap);
     ~IntumiTab() override;
 
     void paint(juce::Graphics& g) override;
@@ -25,6 +25,8 @@ public:
 
 private:
     ItnLookAndFeel lookAndFeel;
+
+    IntuitionAudioProcessor* processor = nullptr;
 
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
@@ -46,4 +48,5 @@ private:
     /// </summary>
     /// <returns>An API key (if given one before)</returns>
     juce::String getApiKey();
+    juce::var convertStringToJson(const juce::String jsonString);
 };

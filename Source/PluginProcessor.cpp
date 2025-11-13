@@ -575,6 +575,125 @@ void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInB
     // whose contents will have been created by the getStateInformation() call.
 }
 
+juce::String IntuitionAudioProcessor::getParametersAsJsonString() {
+    juce::DynamicObject::Ptr root = new juce::DynamicObject();
+
+    auto setFloat = [&](const juce::String& id) {  // Thanks, Ahmed!
+        if (auto* p = parameters.getRawParameterValue(id)) {
+            root->setProperty(id, juce::var(static_cast<double>(p->load())));
+        }
+    };
+    auto setInt = [&](const juce::String& id) {
+        if (auto* p = parameters.getRawParameterValue(id)) {
+            root->setProperty(id, juce::var(static_cast<int>(std::lround(p->load()))));
+        }
+    };
+    auto setBool = [&](const juce::String& id) {
+        if (auto* p = parameters.getRawParameterValue(id)) {
+            root->setProperty(id, juce::var(p->load() >= 0.5f));
+        }
+    };
+
+    setFloat("MASTER");
+
+    // ===== Envelopes (OSC env + 3 user envs)
+    setFloat("ENV_OSC_ATTACK");
+    setFloat("ENV_OSC_DECAY");
+    setFloat("ENV_OSC_SUSTAIN");
+    setFloat("ENV_OSC_RELEASE");
+
+    setFloat("ENV1_ATTACK");
+    setFloat("ENV1_DECAY");
+    setFloat("ENV1_SUSTAIN");
+    setFloat("ENV1_RELEASE");
+
+    setFloat("ENV2_ATTACK");
+    setFloat("ENV2_DECAY");
+    setFloat("ENV2_SUSTAIN");
+    setFloat("ENV2_RELEASE");
+
+    setFloat("ENV3_ATTACK");
+    setFloat("ENV3_DECAY");
+    setFloat("ENV3_SUSTAIN");
+    setFloat("ENV3_RELEASE");
+
+    // ===== Oscillator A =====
+    setBool("A_TOGGLE");
+    setFloat("A_VOLUME");
+    setInt("A_UNISON");
+    setFloat("A_DETUNE");
+    setFloat("A_MORPH");
+    setInt("A_OCTAVE");
+    setInt("A_COARSE");
+    setInt("A_FINE");
+
+    // ===== Oscillator B =====
+    setBool("B_TOGGLE");
+    setFloat("B_VOLUME");
+    setInt("B_UNISON");
+    setFloat("B_DETUNE");
+    setFloat("B_MORPH");
+    setInt("B_OCTAVE");
+    setInt("B_COARSE");
+    setInt("B_FINE");
+
+    // ===== Oscillator C =====
+    setBool("C_TOGGLE");
+    setFloat("C_VOLUME");
+    setInt("C_UNISON");
+    setFloat("C_DETUNE");
+    setFloat("C_MORPH");
+    setInt("C_OCTAVE");
+    setInt("C_COARSE");
+    setInt("C_FINE");
+
+    // ===== Oscillator D =====
+    setBool("D_TOGGLE");
+    setFloat("D_VOLUME");
+    setInt("D_UNISON");
+    setFloat("D_DETUNE");
+    setFloat("D_MORPH");
+    setInt("D_OCTAVE");
+    setInt("D_COARSE");
+    setInt("D_FINE");
+
+    // ===== Filter Sends =====
+    setBool("A_FILTER_SEND");
+    setBool("B_FILTER_SEND");
+    setBool("C_FILTER_SEND");
+    setBool("D_FILTER_SEND");
+
+    // ===== LFOs (mode & sync are choice) =====
+    // LFO1
+    setInt("LFO1_MODE");
+    setInt("LFO1_SYNC_DIV");
+    setFloat("LFO1_RATE");
+    // LFO2
+    setInt("LFO2_MODE");
+    setInt("LFO2_SYNC_DIV");
+    setFloat("LFO2_RATE");
+    // LFO3
+    setInt("LFO3_MODE");
+    setInt("LFO3_SYNC_DIV");
+    setFloat("LFO3_RATE");
+
+    // ===== Filter =====
+    setFloat("FILTER_CUTOFF");
+    setFloat("FILTER_RESONANCE");
+    setInt("FILTER_TYPE");
+
+    // ===== Reverb =====
+    setBool("REVERB_TOGGLE");
+    setFloat("REVERB_DAMPING");
+    setFloat("REVERB_ROOM_SIZE");
+    setFloat("REVERB_WIDTH");
+    setFloat("REVERB_DRY_LEVEL");
+    setFloat("REVERB_WET_LEVEL");
+
+    juce::var jsonVar(root.get());
+    return juce::JSON::toString(jsonVar, true);
+}
+
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
     float div = 1.0f;
     switch (syncDiv) {

@@ -14,11 +14,11 @@ AIManager::AIManager() {
 
 }
 
-void AIManager::setKey(const juce::String newKey) {
-    apiKey = newKey;
-}
-
-juce::String AIManager::queryAI(const juce::String apiKey, const juce::String prompt) {
+juce::String AIManager::queryAI(
+    const juce::String apiKey,
+    const juce::String prompt,
+    const juce::String params
+) {
     const char* exeData;
     int exeSize;
 
@@ -38,7 +38,11 @@ juce::String AIManager::queryAI(const juce::String apiKey, const juce::String pr
     DBG(tempExe.getFullPathName());
 
     juce::ChildProcess intumi;
-    intumi.start(tempExe.getFullPathName() + " --api-key " + apiKey + " --prompt \"" + prompt + "\"");
+    intumi.start(tempExe.getFullPathName() 
+        + " --api-key " + apiKey 
+        + " --prompt \"" + prompt + "\""
+        + " --params \"" + params
+    );
 
     intumi.waitForProcessToFinish(-1);
     juce::String output = intumi.readAllProcessOutput();

@@ -10,8 +10,11 @@
 
 #include "IntumiTab.h"
 
-IntumiTab::IntumiTab() {
+
+IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     setLookAndFeel(&lookAndFeel);
+
+    processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 
     juce::File keyFile = getSavedKeyFile();
     if (!keyFile.existsAsFile()) {
@@ -29,7 +32,12 @@ IntumiTab::IntumiTab() {
     
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", GlowStyle::warmHighlight);
     promptBox.onReturnKey = [this]() {
-        juce::String intumiResponse = AIManager::queryAI(getApiKey(), promptBox.getText());
+        
+        juce::String intumiResponse = AIManager::queryAI(
+            getApiKey(),
+            promptBox.getText(),
+            processor->getParametersAsJsonString()
+        );
         outputBox.moveCaretToEnd();
         outputBox.insertTextAtCaret(intumiResponse);
     };
@@ -79,4 +87,13 @@ juce::String IntumiTab::getApiKey() {
     juce::String key = keySaveFile.loadFileAsString();
     DBG("API key returned: " << key);
     return key;
+}
+
+juce::var IntumiTab::convertStringToJson(const juce::String jsonString) {
+    juce::var parsedJson;
+
+    juce::Result result = juce::JSON::parse(jsonString, parsedJson);
+    jassert(result.wasOk());
+
+    return parsedJson;
 }

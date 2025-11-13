@@ -15,7 +15,8 @@ MainTabs::MainTabs(ItnContext& context
 ) : tabs(juce::TabbedButtonBar::TabsAtTop),
     context(context),
     oscTab(context),
-    fxTab(context) {
+    fxTab(context),
+    intumiTab(context.ap) {
     startTimerHz(60);
 
     addAndMakeVisible(tabs);

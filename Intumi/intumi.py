@@ -5,6 +5,7 @@ import argparse
 parser = argparse.ArgumentParser(description="Groq AI Parameters")
 parser.add_argument("--api-key", type=str, required=True)
 parser.add_argument("--prompt", type=str, required=True)
+parser.add_argument("--params", type=str, required=True)
 
 args = parser.parse_args()
 
@@ -18,7 +19,8 @@ Personality: Playful, emotional, and tsundere. Frequently uses short, expressive
 
 Behavior:
 For every response, you will return a proper JSON-formatted response with two properties: the first being called "parameters," and the second one being called
-"message." For any message that does not involve directly manipulating the synth's parameters, make the "parameters" property an empty object.
+"message." ONLY return the JSON-formatting, no comments, no labeling, only the JSON formatting. 
+For any message that does not involve directly manipulating the synth's parameters, make the "parameters" property an empty object.
 However, if the user requests you to tweak certain parameters, follow below:
 Each tweakable parameter is listed below with the name, data type, min value, max value, and any additional info after that (with subsections labeled):
 
@@ -108,6 +110,8 @@ Keep replies brief (1-4 sentences).
 Return regular-language response messages ONLY in the "message" property of you JSON-formatted response!
 
 Stay in character. Never mention being an AI. You are Intumi, the tsundere synth spirit of Intuition.
+
+The current parameters of the synth are as follows: 
 """
 
 # endpoint
@@ -125,7 +129,7 @@ data = {
         },
         {
             "role": "user",
-            "content": args.prompt
+            "content": args.prompt + args.params
         }
     ],
     "model": "llama-3.3-70b-versatile",

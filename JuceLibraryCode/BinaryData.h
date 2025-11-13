@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   AdventureKidWaveforms_txt;
-    const int            AdventureKidWaveforms_txtSize = 1303;
+    const int            AdventureKidWaveforms_txtSize = 1349;
 
     extern const char*   AKWF_0001_wav;
     const int            AKWF_0001_wavSize = 1344;
@@ -312,7 +312,7 @@ namespace BinaryData
     const int            AKWF_0100_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt2;
-    const int            AdventureKidWaveforms_txt2Size = 1303;
+    const int            AdventureKidWaveforms_txt2Size = 1349;
 
     extern const char*   AKWF_0101_wav;
     const int            AKWF_0101_wavSize = 1344;
@@ -615,7 +615,7 @@ namespace BinaryData
     const int            AKWF_0200_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt3;
-    const int            AdventureKidWaveforms_txt3Size = 1303;
+    const int            AdventureKidWaveforms_txt3Size = 1349;
 
     extern const char*   AKWF_0201_wav;
     const int            AKWF_0201_wavSize = 1344;
@@ -918,7 +918,7 @@ namespace BinaryData
     const int            AKWF_0300_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt4;
-    const int            AdventureKidWaveforms_txt4Size = 1303;
+    const int            AdventureKidWaveforms_txt4Size = 1349;
 
     extern const char*   AKWF_0301_wav;
     const int            AKWF_0301_wavSize = 1344;
@@ -1221,7 +1221,7 @@ namespace BinaryData
     const int            AKWF_0400_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt5;
-    const int            AdventureKidWaveforms_txt5Size = 1303;
+    const int            AdventureKidWaveforms_txt5Size = 1349;
 
     extern const char*   AKWF_0401_wav;
     const int            AKWF_0401_wavSize = 1344;
@@ -1524,7 +1524,7 @@ namespace BinaryData
     const int            AKWF_0500_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt6;
-    const int            AdventureKidWaveforms_txt6Size = 1303;
+    const int            AdventureKidWaveforms_txt6Size = 1349;
 
     extern const char*   AKWF_0501_wav;
     const int            AKWF_0501_wavSize = 1344;
@@ -1827,7 +1827,7 @@ namespace BinaryData
     const int            AKWF_0600_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt7;
-    const int            AdventureKidWaveforms_txt7Size = 1303;
+    const int            AdventureKidWaveforms_txt7Size = 1349;
 
     extern const char*   AKWF_0601_wav;
     const int            AKWF_0601_wavSize = 1344;
@@ -2130,7 +2130,7 @@ namespace BinaryData
     const int            AKWF_0700_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt8;
-    const int            AdventureKidWaveforms_txt8Size = 1303;
+    const int            AdventureKidWaveforms_txt8Size = 1349;
 
     extern const char*   AKWF_0701_wav;
     const int            AKWF_0701_wavSize = 1344;
@@ -2433,7 +2433,7 @@ namespace BinaryData
     const int            AKWF_0800_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt9;
-    const int            AdventureKidWaveforms_txt9Size = 1303;
+    const int            AdventureKidWaveforms_txt9Size = 1349;
 
     extern const char*   AKWF_0801_wav;
     const int            AKWF_0801_wavSize = 1344;
@@ -2736,7 +2736,7 @@ namespace BinaryData
     const int            AKWF_0900_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt10;
-    const int            AdventureKidWaveforms_txt10Size = 1303;
+    const int            AdventureKidWaveforms_txt10Size = 1349;
 
     extern const char*   AKWF_0901_wav;
     const int            AKWF_0901_wavSize = 1344;
@@ -3039,7 +3039,7 @@ namespace BinaryData
     const int            AKWF_1000_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt11;
-    const int            AdventureKidWaveforms_txt11Size = 1303;
+    const int            AdventureKidWaveforms_txt11Size = 1349;
 
     extern const char*   AKWF_1001_wav;
     const int            AKWF_1001_wavSize = 1344;
@@ -3342,7 +3342,7 @@ namespace BinaryData
     const int            AKWF_1100_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt12;
-    const int            AdventureKidWaveforms_txt12Size = 1303;
+    const int            AdventureKidWaveforms_txt12Size = 1349;
 
     extern const char*   AKWF_1101_wav;
     const int            AKWF_1101_wavSize = 1344;
@@ -3645,7 +3645,7 @@ namespace BinaryData
     const int            AKWF_1200_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt13;
-    const int            AdventureKidWaveforms_txt13Size = 1303;
+    const int            AdventureKidWaveforms_txt13Size = 1349;
 
     extern const char*   AKWF_1201_wav;
     const int            AKWF_1201_wavSize = 1344;
@@ -3948,7 +3948,7 @@ namespace BinaryData
     const int            AKWF_1300_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt14;
-    const int            AdventureKidWaveforms_txt14Size = 1303;
+    const int            AdventureKidWaveforms_txt14Size = 1349;
 
     extern const char*   AKWF_1301_wav;
     const int            AKWF_1301_wavSize = 1344;
@@ -4251,7 +4251,7 @@ namespace BinaryData
     const int            AKWF_1400_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt15;
-    const int            AdventureKidWaveforms_txt15Size = 1303;
+    const int            AdventureKidWaveforms_txt15Size = 1349;
 
     extern const char*   AKWF_1401_wav;
     const int            AKWF_1401_wavSize = 1344;
@@ -4554,7 +4554,7 @@ namespace BinaryData
     const int            AKWF_1500_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt16;
-    const int            AdventureKidWaveforms_txt16Size = 1303;
+    const int            AdventureKidWaveforms_txt16Size = 1349;
 
     extern const char*   AKWF_1501_wav;
     const int            AKWF_1501_wavSize = 1344;
@@ -4857,7 +4857,7 @@ namespace BinaryData
     const int            AKWF_1600_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt17;
-    const int            AdventureKidWaveforms_txt17Size = 1303;
+    const int            AdventureKidWaveforms_txt17Size = 1349;
 
     extern const char*   AKWF_1601_wav;
     const int            AKWF_1601_wavSize = 1344;
@@ -5160,7 +5160,7 @@ namespace BinaryData
     const int            AKWF_1700_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt18;
-    const int            AdventureKidWaveforms_txt18Size = 1303;
+    const int            AdventureKidWaveforms_txt18Size = 1349;
 
     extern const char*   AKWF_1701_wav;
     const int            AKWF_1701_wavSize = 1344;
@@ -5463,7 +5463,7 @@ namespace BinaryData
     const int            AKWF_1800_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt19;
-    const int            AdventureKidWaveforms_txt19Size = 1303;
+    const int            AdventureKidWaveforms_txt19Size = 1349;
 
     extern const char*   AKWF_1801_wav;
     const int            AKWF_1801_wavSize = 1344;
@@ -5766,7 +5766,7 @@ namespace BinaryData
     const int            AKWF_1900_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt20;
-    const int            AdventureKidWaveforms_txt20Size = 1303;
+    const int            AdventureKidWaveforms_txt20Size = 1349;
 
     extern const char*   AKWF_1901_wav;
     const int            AKWF_1901_wavSize = 1344;
@@ -6102,7 +6102,7 @@ namespace BinaryData
     const int            AKWF_2011_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt21;
-    const int            AdventureKidWaveforms_txt21Size = 1303;
+    const int            AdventureKidWaveforms_txt21Size = 1349;
 
     extern const char*   AKWF_aguitar_0001_wav;
     const int            AKWF_aguitar_0001_wavSize = 1344;
@@ -6219,7 +6219,7 @@ namespace BinaryData
     const int            AKWF_aguitar_0038_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt22;
-    const int            AdventureKidWaveforms_txt22Size = 1303;
+    const int            AdventureKidWaveforms_txt22Size = 1349;
 
     extern const char*   AKWF_altosax_0001_wav;
     const int            AKWF_altosax_0001_wavSize = 1344;
@@ -6300,7 +6300,7 @@ namespace BinaryData
     const int            AKWF_altosax_0026_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt23;
-    const int            AdventureKidWaveforms_txt23Size = 1303;
+    const int            AdventureKidWaveforms_txt23Size = 1349;
 
     extern const char*   AKWF_birds_0001_wav;
     const int            AKWF_birds_0001_wavSize = 1344;
@@ -6345,7 +6345,7 @@ namespace BinaryData
     const int            AKWF_birds_0014_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt24;
-    const int            AdventureKidWaveforms_txt24Size = 1303;
+    const int            AdventureKidWaveforms_txt24Size = 1349;
 
     extern const char*   AKWF_bitreduced_0001_wav;
     const int            AKWF_bitreduced_0001_wavSize = 1344;
@@ -6552,7 +6552,7 @@ namespace BinaryData
     const int            AKWF_tri8bit_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt25;
-    const int            AdventureKidWaveforms_txt25Size = 1303;
+    const int            AdventureKidWaveforms_txt25Size = 1349;
 
     extern const char*   AKWF_blended_0001_wav;
     const int            AKWF_blended_0001_wavSize = 1344;
@@ -6774,7 +6774,7 @@ namespace BinaryData
     const int            AKWF_blended_0080_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt26;
-    const int            AdventureKidWaveforms_txt26Size = 1303;
+    const int            AdventureKidWaveforms_txt26Size = 1349;
 
     extern const char*   AKWF_saw_wav;
     const int            AKWF_saw_wavSize = 1344;
@@ -6789,7 +6789,7 @@ namespace BinaryData
     const int            AKWF_tri_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt27;
-    const int            AdventureKidWaveforms_txt27Size = 1303;
+    const int            AdventureKidWaveforms_txt27Size = 1349;
 
     extern const char*   AKWF_saw_0001_wav;
     const int            AKWF_saw_0001_wavSize = 1344;
@@ -6942,7 +6942,7 @@ namespace BinaryData
     const int            AKWF_saw_0050_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt28;
-    const int            AdventureKidWaveforms_txt28Size = 1303;
+    const int            AdventureKidWaveforms_txt28Size = 1349;
 
     extern const char*   AKWF_bsaw_0001_wav;
     const int            AKWF_bsaw_0001_wavSize = 1344;
@@ -6975,7 +6975,7 @@ namespace BinaryData
     const int            AKWF_bsaw_0010_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt29;
-    const int            AdventureKidWaveforms_txt29Size = 1303;
+    const int            AdventureKidWaveforms_txt29Size = 1349;
 
     extern const char*   AKWF_gapsaw_0001_wav;
     const int            AKWF_gapsaw_0001_wavSize = 1344;
@@ -7104,7 +7104,7 @@ namespace BinaryData
     const int            AKWF_gapsaw_0042_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt30;
-    const int            AdventureKidWaveforms_txt30Size = 1303;
+    const int            AdventureKidWaveforms_txt30Size = 1349;
 
     extern const char*   AKWF_R_asym_saw_01_wav;
     const int            AKWF_R_asym_saw_01_wavSize = 1344;
@@ -7263,7 +7263,7 @@ namespace BinaryData
     const int            AKWF_R_sym_saw_26_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt31;
-    const int            AdventureKidWaveforms_txt31Size = 1303;
+    const int            AdventureKidWaveforms_txt31Size = 1349;
 
     extern const char*   AKWF_sin_0001_wav;
     const int            AKWF_sin_0001_wavSize = 1344;
@@ -7302,7 +7302,7 @@ namespace BinaryData
     const int            AKWF_sin_0012_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt32;
-    const int            AdventureKidWaveforms_txt32Size = 1303;
+    const int            AdventureKidWaveforms_txt32Size = 1349;
 
     extern const char*   AKWF_squ_0001_wav;
     const int            AKWF_squ_0001_wavSize = 1344;
@@ -7605,7 +7605,7 @@ namespace BinaryData
     const int            AKWF_squ_0100_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt33;
-    const int            AdventureKidWaveforms_txt33Size = 1303;
+    const int            AdventureKidWaveforms_txt33Size = 1349;
 
     extern const char*   AKWF_rAsymSqu_01_wav;
     const int            AKWF_rAsymSqu_01_wavSize = 1344;
@@ -7764,7 +7764,7 @@ namespace BinaryData
     const int            AKWF_rSymSqu_26_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt34;
-    const int            AdventureKidWaveforms_txt34Size = 1303;
+    const int            AdventureKidWaveforms_txt34Size = 1349;
 
     extern const char*   AKWF_tri_0001_wav;
     const int            AKWF_tri_0001_wavSize = 1344;
@@ -7842,7 +7842,7 @@ namespace BinaryData
     const int            AKWF_tri_0025_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt35;
-    const int            AdventureKidWaveforms_txt35Size = 1303;
+    const int            AdventureKidWaveforms_txt35Size = 1349;
 
     extern const char*   AKWF_c604_0001_wav;
     const int            AKWF_c604_0001_wavSize = 1344;
@@ -7941,7 +7941,7 @@ namespace BinaryData
     const int            AKWF_c604_0032_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt36;
-    const int            AdventureKidWaveforms_txt36Size = 1303;
+    const int            AdventureKidWaveforms_txt36Size = 1349;
 
     extern const char*   AKWF_cello_0001_wav;
     const int            AKWF_cello_0001_wavSize = 1344;
@@ -8001,7 +8001,7 @@ namespace BinaryData
     const int            AKWF_cello_0019_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt37;
-    const int            AdventureKidWaveforms_txt37Size = 1303;
+    const int            AdventureKidWaveforms_txt37Size = 1349;
 
     extern const char*   AKWF_clarinett_0001_wav;
     const int            AKWF_clarinett_0001_wavSize = 1344;
@@ -8079,7 +8079,7 @@ namespace BinaryData
     const int            AKWF_clarinett_0025_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt38;
-    const int            AdventureKidWaveforms_txt38Size = 1303;
+    const int            AdventureKidWaveforms_txt38Size = 1349;
 
     extern const char*   AKWF_clavinet_0001_wav;
     const int            AKWF_clavinet_0001_wavSize = 1344;
@@ -8181,7 +8181,7 @@ namespace BinaryData
     const int            AKWF_clavinet_0033_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt39;
-    const int            AdventureKidWaveforms_txt39Size = 1303;
+    const int            AdventureKidWaveforms_txt39Size = 1349;
 
     extern const char*   AKWF_dbass_0001_wav;
     const int            AKWF_dbass_0001_wavSize = 1344;
@@ -8391,7 +8391,7 @@ namespace BinaryData
     const int            AKWF_dbass_0069_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt40;
-    const int            AdventureKidWaveforms_txt40Size = 1303;
+    const int            AdventureKidWaveforms_txt40Size = 1349;
 
     extern const char*   AKWF_distorted_0001_wav;
     const int            AKWF_distorted_0001_wavSize = 1344;
@@ -8529,7 +8529,7 @@ namespace BinaryData
     const int            AKWF_distorted_0045_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt41;
-    const int            AdventureKidWaveforms_txt41Size = 1303;
+    const int            AdventureKidWaveforms_txt41Size = 1349;
 
     extern const char*   AKWF_ebass_0001_wav;
     const int            AKWF_ebass_0001_wavSize = 1344;
@@ -8742,7 +8742,7 @@ namespace BinaryData
     const int            AKWF_ebass_0070_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt42;
-    const int            AdventureKidWaveforms_txt42Size = 1303;
+    const int            AdventureKidWaveforms_txt42Size = 1349;
 
     extern const char*   AKWF_eguitar_0001_wav;
     const int            AKWF_eguitar_0001_wavSize = 1344;
@@ -8811,7 +8811,7 @@ namespace BinaryData
     const int            AKWF_eguitar_0022_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt43;
-    const int            AdventureKidWaveforms_txt43Size = 1303;
+    const int            AdventureKidWaveforms_txt43Size = 1349;
 
     extern const char*   AKWF_eorgan_0001_wav;
     const int            AKWF_eorgan_0001_wavSize = 1344;
@@ -9276,7 +9276,7 @@ namespace BinaryData
     const int            AKWF_eorgan_0154_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt44;
-    const int            AdventureKidWaveforms_txt44Size = 1303;
+    const int            AdventureKidWaveforms_txt44Size = 1349;
 
     extern const char*   AKWF_epiano_0001_wav;
     const int            AKWF_epiano_0001_wavSize = 1344;
@@ -9498,7 +9498,7 @@ namespace BinaryData
     const int            AKWF_epiano_0073_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt45;
-    const int            AdventureKidWaveforms_txt45Size = 1303;
+    const int            AdventureKidWaveforms_txt45Size = 1349;
 
     extern const char*   AKWF_flute_0001_wav;
     const int            AKWF_flute_0001_wavSize = 1344;
@@ -9552,7 +9552,7 @@ namespace BinaryData
     const int            AKWF_flute_0017_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt46;
-    const int            AdventureKidWaveforms_txt46Size = 1303;
+    const int            AdventureKidWaveforms_txt46Size = 1349;
 
     extern const char*   AKWF_fmsynth_0001_wav;
     const int            AKWF_fmsynth_0001_wavSize = 1344;
@@ -9921,7 +9921,7 @@ namespace BinaryData
     const int            AKWF_fmsynth_0122_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt47;
-    const int            AdventureKidWaveforms_txt47Size = 1303;
+    const int            AdventureKidWaveforms_txt47Size = 1349;
 
     extern const char*   AKWF_granular_0001_wav;
     const int            AKWF_granular_0001_wavSize = 1344;
@@ -10056,7 +10056,7 @@ namespace BinaryData
     const int            AKWF_granular_0044_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt48;
-    const int            AdventureKidWaveforms_txt48Size = 1303;
+    const int            AdventureKidWaveforms_txt48Size = 1349;
 
     extern const char*   AKWF_hdrawn_0001_wav;
     const int            AKWF_hdrawn_0001_wavSize = 1344;
@@ -10209,7 +10209,7 @@ namespace BinaryData
     const int            AKWF_hdrawn_0050_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt49;
-    const int            AdventureKidWaveforms_txt49Size = 1303;
+    const int            AdventureKidWaveforms_txt49Size = 1349;
 
     extern const char*   AKWF_hvoice_0001_wav;
     const int            AKWF_hvoice_0001_wavSize = 1344;
@@ -10524,7 +10524,7 @@ namespace BinaryData
     const int            AKWF_hvoice_0104_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt50;
-    const int            AdventureKidWaveforms_txt50Size = 1303;
+    const int            AdventureKidWaveforms_txt50Size = 1349;
 
     extern const char*   AKWF_linear_0001_wav;
     const int            AKWF_linear_0001_wavSize = 1344;
@@ -10782,7 +10782,7 @@ namespace BinaryData
     const int            AKWF_linear_0085_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt51;
-    const int            AdventureKidWaveforms_txt51Size = 1303;
+    const int            AdventureKidWaveforms_txt51Size = 1349;
 
     extern const char*   AKWF_oboe_0001_wav;
     const int            AKWF_oboe_0001_wavSize = 1344;
@@ -10824,7 +10824,7 @@ namespace BinaryData
     const int            AKWF_oboe_0013_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt52;
-    const int            AdventureKidWaveforms_txt52Size = 1303;
+    const int            AdventureKidWaveforms_txt52Size = 1349;
 
     extern const char*   AKWF_oscchip_0001_wav;
     const int            AKWF_oscchip_0001_wavSize = 1344;
@@ -11301,7 +11301,7 @@ namespace BinaryData
     const int            AKWF_oscchip_0158_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt53;
-    const int            AdventureKidWaveforms_txt53Size = 1303;
+    const int            AdventureKidWaveforms_txt53Size = 1349;
 
     extern const char*   AKWF_overtone_0001_wav;
     const int            AKWF_overtone_0001_wavSize = 1344;
@@ -11436,7 +11436,7 @@ namespace BinaryData
     const int            AKWF_overtone_0044_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt54;
-    const int            AdventureKidWaveforms_txt54Size = 1303;
+    const int            AdventureKidWaveforms_txt54Size = 1349;
 
     extern const char*   AKWF_piano_0001_wav;
     const int            AKWF_piano_0001_wavSize = 1344;
@@ -11529,7 +11529,7 @@ namespace BinaryData
     const int            AKWF_piano_0030_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt55;
-    const int            AdventureKidWaveforms_txt55Size = 1303;
+    const int            AdventureKidWaveforms_txt55Size = 1349;
 
     extern const char*   AKWF_pluckalgo_0001_wav;
     const int            AKWF_pluckalgo_0001_wavSize = 1344;
@@ -11559,7 +11559,7 @@ namespace BinaryData
     const int            AKWF_pluckalgo_0009_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt56;
-    const int            AdventureKidWaveforms_txt56Size = 1303;
+    const int            AdventureKidWaveforms_txt56Size = 1349;
 
     extern const char*   AKWF_raw_0001_wav;
     const int            AKWF_raw_0001_wavSize = 1344;
@@ -11670,7 +11670,7 @@ namespace BinaryData
     const int            AKWF_raw_0036_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt57;
-    const int            AdventureKidWaveforms_txt57Size = 1303;
+    const int            AdventureKidWaveforms_txt57Size = 1349;
 
     extern const char*   AKWF_sinharm_0001_wav;
     const int            AKWF_sinharm_0001_wavSize = 1344;
@@ -11721,7 +11721,7 @@ namespace BinaryData
     const int            AKWF_sinharm_0016_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt58;
-    const int            AdventureKidWaveforms_txt58Size = 1303;
+    const int            AdventureKidWaveforms_txt58Size = 1349;
 
     extern const char*   AKWF_snippet_0001_wav;
     const int            AKWF_snippet_0001_wavSize = 1344;
@@ -11865,7 +11865,7 @@ namespace BinaryData
     const int            AKWF_snippet_0047_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt59;
-    const int            AdventureKidWaveforms_txt59Size = 1303;
+    const int            AdventureKidWaveforms_txt59Size = 1349;
 
     extern const char*   AKWF_stereo_0001_wav;
     const int            AKWF_stereo_0001_wavSize = 2544;
@@ -12468,7 +12468,7 @@ namespace BinaryData
     const int            AKWF_stereo_0200_wavSize = 2544;
 
     extern const char*   AdventureKidWaveforms_txt60;
-    const int            AdventureKidWaveforms_txt60Size = 1303;
+    const int            AdventureKidWaveforms_txt60Size = 1349;
 
     extern const char*   AKWF_cheeze_0001_wav;
     const int            AKWF_cheeze_0001_wavSize = 1344;
@@ -12489,7 +12489,7 @@ namespace BinaryData
     const int            AKWF_cheeze_0006_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt61;
-    const int            AdventureKidWaveforms_txt61Size = 1303;
+    const int            AdventureKidWaveforms_txt61Size = 1349;
 
     extern const char*   AKWF_symetric_0001_wav;
     const int            AKWF_symetric_0001_wavSize = 1344;
@@ -12543,7 +12543,7 @@ namespace BinaryData
     const int            AKWF_symetric_0017_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt62;
-    const int            AdventureKidWaveforms_txt62Size = 1303;
+    const int            AdventureKidWaveforms_txt62Size = 1349;
 
     extern const char*   AKWF_tannerin_0001_wav;
     const int            AKWF_tannerin_0001_wavSize = 1344;
@@ -12624,7 +12624,7 @@ namespace BinaryData
     const int            AKWF_theremin_0022_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt63;
-    const int            AdventureKidWaveforms_txt63Size = 1303;
+    const int            AdventureKidWaveforms_txt63Size = 1349;
 
     extern const char*   AKWF_vgame_0001_wav;
     const int            AKWF_vgame_0001_wavSize = 1344;
@@ -13038,7 +13038,7 @@ namespace BinaryData
     const int            AKWF_vgame_0137_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt64;
-    const int            AdventureKidWaveforms_txt64Size = 1303;
+    const int            AdventureKidWaveforms_txt64Size = 1349;
 
     extern const char*   AKWF_vgsaw_0001_wav;
     const int            AKWF_vgsaw_0001_wavSize = 1344;
@@ -13233,7 +13233,7 @@ namespace BinaryData
     const int            AKWF_vgtri_0016_wavSize = 1344;
 
     extern const char*   AdventureKidWaveforms_txt65;
-    const int            AdventureKidWaveforms_txt65Size = 1303;
+    const int            AdventureKidWaveforms_txt65Size = 1349;
 
     extern const char*   AKWF_violin_0001_wav;
     const int            AKWF_violin_0001_wavSize = 1344;
@@ -13281,7 +13281,7 @@ namespace BinaryData
     const int            intumiSize = 11135600;
 
     extern const char*   intumi_exe;
-    const int            intumi_exeSize = 12083021;
+    const int            intumi_exeSize = 11879404;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 4425;
