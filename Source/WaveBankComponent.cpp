@@ -84,6 +84,7 @@ void WaveBankComponent::paint(juce::Graphics& g) {
 
 void WaveBankComponent::resized() {
     auto area = getLocalBounds();
+    area.removeFromBottom(90); // Keyboard
 
     viewport.setBounds(area.removeFromBottom(128).reduced(10));
     waveThumbnailComp.setBounds(0, 0, 1600, 80 + 15);
