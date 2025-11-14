@@ -4,3 +4,7 @@
 
 /Builds
 /.vs
+/Intumi/.venv
+/Intumi/build
+/Intumi/dist
+/Intumi/intumi.spec

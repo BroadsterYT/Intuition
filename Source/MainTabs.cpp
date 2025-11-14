@@ -15,12 +15,14 @@ MainTabs::MainTabs(ItnContext& context
 ) : tabs(juce::TabbedButtonBar::TabsAtTop),
     context(context),
     oscTab(context),
-    fxTab(context) {
+    fxTab(context),
+    intumiTab(context.ap) {
     startTimerHz(60);
 
     addAndMakeVisible(tabs);
     tabs.addTab("Osc", juce::Colours::darkgrey, &oscTab, false);
     tabs.addTab("FX", juce::Colours::darkgrey, &fxTab, false);
+    tabs.addTab("Intumi", juce::Colours::darkgrey, &intumiTab, false);
 }
 
 void MainTabs::paint(juce::Graphics& g) {
