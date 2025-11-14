@@ -86,6 +86,7 @@ public:
     /// </summary>
     /// <returns>A JSON-formatted string of all current parameters</returns>
     juce::String getParametersAsJsonString();
+    void applyJsonParameterTweaks(juce::var& jsonTweaks);
 
 private:
     float currentBPM = 60.0;

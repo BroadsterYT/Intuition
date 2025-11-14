@@ -694,6 +694,17 @@ juce::String IntuitionAudioProcessor::getParametersAsJsonString() {
     return juce::JSON::toString(jsonVar, true);
 }
 
+void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
+    juce::DynamicObject::Ptr obj = jsonTweaks.getDynamicObject();
+    jassert(obj);
+
+    for (auto& prop : obj->getProperties()) {
+        parameters.getParameterAsValue(prop.name).setValue(obj->getProperty(prop.name));
+
+        DBG(prop.name.toString() << ": " << obj->getProperty(prop.name).toString());
+    }
+}
+
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
     float div = 1.0f;
     switch (syncDiv) {

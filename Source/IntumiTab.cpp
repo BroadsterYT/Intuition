@@ -46,9 +46,12 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
             outputBox.insertTextAtCaret(intumiResponse);
             return;
         }
-
+        
         juce::String message = obj->getProperty("message");
-        outputBox.insertTextAtCaret(message);
+        outputBox.insertTextAtCaret(message + "\n");
+
+        juce::var jsonParams = obj->getProperty("parameters");
+        processor->applyJsonParameterTweaks(jsonParams);
     };
 
     outputBox.setReadOnly(true);
