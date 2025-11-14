@@ -32,14 +32,23 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", GlowStyle::warmHighlight);
     promptBox.onReturnKey = [this]() {
-        
+        outputBox.moveCaretToEnd();
+
         juce::String intumiResponse = AIManager::queryAI(
             getApiKey(),
             promptBox.getText(),
             processor->getParametersAsJsonString()
         );
-        outputBox.moveCaretToEnd();
-        outputBox.insertTextAtCaret(intumiResponse);
+
+        juce::var response = convertStringToJson(intumiResponse);
+        juce::DynamicObject::Ptr obj = response.getDynamicObject();
+        if (!obj) {
+            outputBox.insertTextAtCaret(intumiResponse);
+            return;
+        }
+
+        juce::String message = obj->getProperty("message");
+        outputBox.insertTextAtCaret(message);
     };
 
     outputBox.setReadOnly(true);

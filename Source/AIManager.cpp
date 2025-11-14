@@ -47,6 +47,6 @@ juce::String AIManager::queryAI(
     intumi.waitForProcessToFinish(-1);
     juce::String output = intumi.readAllProcessOutput();
 
-    DBG("Intumi says: " << output);
+    //DBG("Intumi says: " << output);
     return output;
 }

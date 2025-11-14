@@ -48,5 +48,6 @@ private:
     /// </summary>
     /// <returns>An API key (if given one before)</returns>
     juce::String getApiKey();
+    
     juce::var convertStringToJson(const juce::String jsonString);
 };
