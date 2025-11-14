@@ -6975,8 +6975,6 @@
       <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
-      <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
-      <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
         <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
               file="Source/ReverbModule.cpp"/>
@@ -6991,36 +6989,6 @@
               file="Source/EnvelopeManager.h"/>
         <FILE id="cISkP5" name="EnvelopeManager.cpp" compile="1" resource="0"
               file="Source/EnvelopeManager.cpp"/>
-      </GROUP>
-      <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
-      <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
-      <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">
-        <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
-        <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
-        <FILE id="yob1b7" name="ModDestination.h" compile="0" resource="0"
-              file="Source/ModDestination.h"/>
-        <FILE id="adDt3s" name="ModDestination.cpp" compile="1" resource="0"
-              file="Source/ModDestination.cpp"/>
-        <FILE id="vU0OON" name="ModConnection.h" compile="0" resource="0" file="Source/ModConnection.h"/>
-        <FILE id="o125Of" name="ModConnection.cpp" compile="1" resource="0"
-              file="Source/ModConnection.cpp"/>
-        <FILE id="i8ofm1" name="ModMatrix.h" compile="0" resource="0" file="Source/ModMatrix.h"/>
-        <FILE id="yxogXf" name="ModMatrix.cpp" compile="1" resource="0" file="Source/ModMatrix.cpp"/>
-      </GROUP>
-      <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
-            file="Source/WavetableHelper.cpp"/>
-      <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
-            file="Source/WavetableHelper.h"/>
-      <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
-      <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
-      <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
-            file="Source/WavetableBank.cpp"/>
-      <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
-      <GROUP id="{85E551C5-6659-167B-444B-C9F34F7A7269}" name="LFO">
-        <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
-        <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
-        <FILE id="qxtoc5" name="LFOPoint.h" compile="0" resource="0" file="Source/LFOPoint.h"/>
-        <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
         <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
@@ -7098,19 +7066,51 @@
         <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
               file="Source/WaveformDisplay.cpp"/>
       </GROUP>
-      <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
-      <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
-      <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
-            file="Source/WavetableOsc.cpp" skipPCH="1"/>
-      <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
-      <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+      <GROUP id="{85E551C5-6659-167B-444B-C9F34F7A7269}" name="LFO">
+        <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
+        <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
+        <FILE id="qxtoc5" name="LFOPoint.h" compile="0" resource="0" file="Source/LFOPoint.h"/>
+        <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
+      </GROUP>
+      <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">
+        <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
+        <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
+        <FILE id="yob1b7" name="ModDestination.h" compile="0" resource="0"
+              file="Source/ModDestination.h"/>
+        <FILE id="adDt3s" name="ModDestination.cpp" compile="1" resource="0"
+              file="Source/ModDestination.cpp"/>
+        <FILE id="vU0OON" name="ModConnection.h" compile="0" resource="0" file="Source/ModConnection.h"/>
+        <FILE id="o125Of" name="ModConnection.cpp" compile="1" resource="0"
+              file="Source/ModConnection.cpp"/>
+        <FILE id="i8ofm1" name="ModMatrix.h" compile="0" resource="0" file="Source/ModMatrix.h"/>
+        <FILE id="yxogXf" name="ModMatrix.cpp" compile="1" resource="0" file="Source/ModMatrix.cpp"/>
+      </GROUP>
+      <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
+      <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
+      <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
+      <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
+      <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="Wh8cjT" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="feZLPy" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+      <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
+      <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
+      <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
+      <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
+      <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
+            file="Source/WavetableBank.cpp"/>
+      <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
+      <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
+            file="Source/WavetableHelper.cpp"/>
+      <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
+            file="Source/WavetableHelper.h"/>
+      <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
+            file="Source/WavetableOsc.cpp" skipPCH="1"/>
+      <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

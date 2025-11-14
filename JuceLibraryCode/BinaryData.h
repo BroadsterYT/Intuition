@@ -13281,7 +13281,7 @@ namespace BinaryData
     const int            intumiSize = 11135600;
 
     extern const char*   intumi_exe;
-    const int            intumi_exeSize = 11879404;
+    const int            intumi_exeSize = 12078802;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 4425;
