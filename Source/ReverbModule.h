@@ -19,7 +19,7 @@ public:
 
     void prepare(double sampleRate, int samplesPerBlock, int numChannels);
     void updateParameters();
-    void process(juce::AudioBuffer<float>& buffer);
+    void processBlock(juce::AudioBuffer<float>& buffer);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;

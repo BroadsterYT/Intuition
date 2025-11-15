@@ -18,6 +18,7 @@
 #include "EnvelopeManager.h"
 #include "ReverbModule.h"
 #include "AIManager.h"
+#include "DelayModule.h"
 
 
 //==============================================================================
@@ -107,6 +108,7 @@ private:
     float envValue3 = 0.0f;
 
     ReverbModule reverbModule;
+    DelayModule delayModule;
 
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(

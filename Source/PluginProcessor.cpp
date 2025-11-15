@@ -114,6 +114,13 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("REVERB_WIDTH", "Width", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_DRY_LEVEL", "Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_WET_LEVEL", "Wet Level", 0.0f, 1.0f, 0.3f),
+
+        //============== Delay ===============//
+        std::make_unique<juce::AudioParameterBool>("DELAY_TOGGLE", "Delay Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_TIME_MS", "Delay Time", 0.0f, 2000.0f, 1000.0f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_FEEDBACK", "Delay Feedback", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_WET_LEVEL", "Delay Wet Level", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_CUTOFF", "Delay Cutoff Frequency", 20.0f, 20000.0f, 20000.0f),
     }),
     context(
         this,
@@ -134,7 +141,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         &lfoPhase3
     ),
     envManager(parameters),
-    reverbModule(parameters, &modMatrix)
+    reverbModule(parameters, &modMatrix),
+    delayModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 
@@ -277,6 +285,17 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     rvbWidthDest->setBasePtr(parameters.getRawParameterValue("REVERB_WIDTH"));
     rvbDryLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_DRY_LEVEL"));
     rvbWetLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_WET_LEVEL"));
+
+    //=== Delay
+    ModDestination* dlyTimeMsDest = modMatrix.addDestination("DELAY_TIME_MS");
+    ModDestination* dlyFeedbackDest = modMatrix.addDestination("DELAY_FEEDBACK");
+    ModDestination* dlyWetDest = modMatrix.addDestination("DELAY_WET_LEVEL");
+    ModDestination* dlyCutoffDest = modMatrix.addDestination("DELAY_CUTOFF");
+
+    dlyTimeMsDest->setBasePtr(parameters.getRawParameterValue("DELAY_TIME_MS"));
+    dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
+    dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
+    dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -374,6 +393,8 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     }
 
     envManager.prepare(sampleRate);
+
+    delayModule.prepare(getSampleRate(), 2000, getNumOutputChannels());
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -408,8 +429,7 @@ bool IntuitionAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 }
 #endif
 
-void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -544,7 +564,10 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     
     reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
     reverbModule.updateParameters();
-    reverbModule.process(buffer);
+    reverbModule.processBlock(buffer);
+ 
+    delayModule.updateParameters();
+    delayModule.processBlock(buffer);
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);

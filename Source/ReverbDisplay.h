@@ -25,7 +25,6 @@ public:
 
 private:
     ItnLookAndFeel lookAndFeel;
-
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
 
