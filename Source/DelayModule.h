@@ -32,7 +32,7 @@ private:
     double sampleRate = 44100.0;
     int writePos = 0;
     int maxDelaySamples = 0;
-    int delayTimeSamples = 0;
+    float delayTimeSamples = 0.0f;
 
     float feedback = 0.5f;
     float wet = 0.3f;

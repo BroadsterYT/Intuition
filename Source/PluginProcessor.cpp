@@ -566,6 +566,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     reverbModule.updateParameters();
     reverbModule.processBlock(buffer);
  
+    //delayModule.prepare(getSampleRate(), 2000, buffer.getNumChannels());
     delayModule.updateParameters();
     delayModule.processBlock(buffer);
     

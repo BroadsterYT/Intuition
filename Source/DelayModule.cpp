@@ -36,7 +36,7 @@ void DelayModule::updateParameters() {
     float wetLevel = modMatrix->getModdedDest("DELAY_WET_LEVEL");
     float cutoffHz = modMatrix->getModdedDest("DELAY_CUTOFF");
 
-    delayTimeSamples = (int)((delayTimeMs / 1000.0f) * sampleRate);
+    delayTimeSamples = (delayTimeMs / 1000.0f) * sampleRate;
     feedback = juce::jlimit(0.0f, 0.99f, fb);
     wet = juce::jlimit(0.0f, 1.0f, wetLevel);
 
@@ -48,22 +48,47 @@ void DelayModule::updateParameters() {
 void DelayModule::processBlock(juce::AudioBuffer<float>& buffer) {
     int numSamples = buffer.getNumSamples();
 
-    for (int ch = 0; ch < numChannels; ++ch) {
-        float* channelData = buffer.getWritePointer(ch);
-        float* delayData = delayBuffer.getWritePointer(ch);
+    //for (int ch = 0; ch < numChannels; ++ch) {
+    //    for (int n = 0; n < numSamples; ++n) {
+    //        float readPos = writePos - delayTimeSamples;
+    //        if (readPos < 0) readPos += maxDelaySamples;
 
-        for (int n = 0; n < numSamples; ++n) {
-            int readPos = writePos - delayTimeSamples;
-            if (readPos < 0) readPos += maxDelaySamples;
+    //        int idx1 = (int)readPos;
+    //        int idx2 = (idx1 + 1) % maxDelaySamples;
+    //        float frac = readPos - idx1;
 
-            float delayedSample = delayData[readPos];
+    //        float delayedSample = delayBuffer.getSample(ch, idx1) * (1.0f - frac)
+    //                            + delayBuffer.getSample(ch, idx2) * frac;
+    //        //float delayedSample = delayBuffer.getSample(ch, (int)readPos);
 
-            float inputWithFeedback = channelData[n] + feedbackFilter[ch].processSingleSampleRaw(delayedSample * feedback);
-            delayData[writePos] = inputWithFeedback;
+    //        float inputWithFeedback = buffer.getSample(ch, n) + feedbackFilter[ch].processSingleSampleRaw(delayedSample * feedback);
+    //        delayBuffer.setSample(ch, writePos, inputWithFeedback);
 
-            channelData[n] = channelData[n] * (1.0f - wet) + delayedSample * wet;
+    //        //channelData[n] = channelData[n] * (1.0f - wet) + delayedSample * wet;
+    //        buffer.setSample(ch, n, buffer.getSample(ch, n) * (1.0f - wet) + delayedSample * wet);
+    //    }
+    //}
+    for (int n = 0; n < numSamples; ++n) {
+        float readPos = writePos - delayTimeSamples;
+        if (readPos < 0) readPos += maxDelaySamples;
 
-            writePos = (writePos + 1) % maxDelaySamples;
+        int idx1 = (int)readPos;
+        int idx2 = (idx1 + 1) % maxDelaySamples;
+        float frac = readPos - idx1;
+
+        for (int ch = 0; ch < numChannels; ++ch) {
+            float delayedSample = delayBuffer.getSample(ch, idx1) * (1.0f - frac) 
+                                + delayBuffer.getSample(ch, idx2) * frac;
+
+            float input = buffer.getSample(ch, n);
+            float fb = feedbackFilter[ch].processSingleSampleRaw(delayedSample * feedback);
+
+            delayBuffer.setSample(ch, writePos, input + fb);
+
+            float wetOut = input * (1.0f - wet) + delayedSample * wet;
+            buffer.setSample(ch, n, wetOut);
         }
+
+        writePos = (writePos + 1) % maxDelaySamples;
     }
 }

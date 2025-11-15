@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
 #include "ReverbDisplay.h"
+#include "DelayDisplay.h"
 #include "ItnContext.h"
 
 
@@ -29,4 +30,5 @@ private:
     ItnContext& context;
 
     ReverbDisplay reverb;
+    DelayDisplay delay;
 };

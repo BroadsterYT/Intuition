@@ -18,9 +18,16 @@
 class DelayDisplay : public juce::Component {
 public:
     DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
+    ~DelayDisplay();
+
+    void paint(juce::Graphics& g) override;
+    void resized() override;
 
 private:
     ItnLookAndFeel lookAndFeel;
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
+
+    ItnSlider timeMs, feedback, wet, cutoff;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;
 };
