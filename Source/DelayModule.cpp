@@ -48,26 +48,6 @@ void DelayModule::updateParameters() {
 void DelayModule::processBlock(juce::AudioBuffer<float>& buffer) {
     int numSamples = buffer.getNumSamples();
 
-    //for (int ch = 0; ch < numChannels; ++ch) {
-    //    for (int n = 0; n < numSamples; ++n) {
-    //        float readPos = writePos - delayTimeSamples;
-    //        if (readPos < 0) readPos += maxDelaySamples;
-
-    //        int idx1 = (int)readPos;
-    //        int idx2 = (idx1 + 1) % maxDelaySamples;
-    //        float frac = readPos - idx1;
-
-    //        float delayedSample = delayBuffer.getSample(ch, idx1) * (1.0f - frac)
-    //                            + delayBuffer.getSample(ch, idx2) * frac;
-    //        //float delayedSample = delayBuffer.getSample(ch, (int)readPos);
-
-    //        float inputWithFeedback = buffer.getSample(ch, n) + feedbackFilter[ch].processSingleSampleRaw(delayedSample * feedback);
-    //        delayBuffer.setSample(ch, writePos, inputWithFeedback);
-
-    //        //channelData[n] = channelData[n] * (1.0f - wet) + delayedSample * wet;
-    //        buffer.setSample(ch, n, buffer.getSample(ch, n) * (1.0f - wet) + delayedSample * wet);
-    //    }
-    //}
     for (int n = 0; n < numSamples; ++n) {
         float readPos = writePos - delayTimeSamples;
         if (readPos < 0) readPos += maxDelaySamples;
