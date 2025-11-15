@@ -86,15 +86,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterChoice>("LFO1_MODE", "LFO 1 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO2_MODE", "LFO 2 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO2_RATE", "LFO 2 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
 
         //============== Filter ==============//
@@ -730,26 +730,11 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
     float div = 1.0f;
-    switch (syncDiv) {
-    case 0:  // 1/1
-        div = 1.0f;
-        break;
-    case 1:  // 1/2
-        div = 0.5f;
-        break;
-    case 2:  // 1/4
-        div = 0.25f;
-        break;
-    case 3:  // 1/8
-        div = 0.125f;
-        break;
-    case 4:  // 1/16
-        div = 0.0625f;
-        break;
-    case 5:  // 1/32
-        div = 0.03125f;
-        break;
+    
+    if (syncDiv <= 7) {
+        div = 4.0f * pow(0.5f, syncDiv);
     }
+
     return div;
 }
 
