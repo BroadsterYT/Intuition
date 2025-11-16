@@ -211,8 +211,8 @@ void UnisonVoice::processAtHighRate(juce::AudioBuffer<float>& block, int startSa
     filteredBuffer.setSize(2, numSamples);
     filteredBuffer.clear();
 
-    DBG("block samples: " << block.getNumSamples());
-    DBG("arg samples: " << numSamples);
+    //DBG("block samples: " << block.getNumSamples());
+    //DBG("arg samples: " << numSamples);
 
     bool toggleA = *parameters.getRawParameterValue("A_TOGGLE");
     bool toggleB = *parameters.getRawParameterValue("B_TOGGLE");

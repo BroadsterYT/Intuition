@@ -13,6 +13,7 @@
 #include "ModMatrix.h"
 #include "ItnLookAndFeel.h"
 #include "ItnSlider.h"
+#include "ReverbGraph.h"
 
 
 class ReverbDisplay : public juce::Component {
@@ -27,6 +28,8 @@ private:
     ItnLookAndFeel lookAndFeel;
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
+
+    ReverbGraph graph;
 
     ItnSlider damping, roomSize, rvbWidth, dryLevel, wetLevel;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dampingAttachment, roomSizeAttachment, rvbWidthAttachment, dryLevelAttachment, wetLevelAttachment;

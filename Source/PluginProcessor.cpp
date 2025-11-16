@@ -293,6 +293,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     ModDestination* dlyCutoffDest = modMatrix.addDestination("DELAY_CUTOFF");
 
     dlyTimeMsDest->setBasePtr(parameters.getRawParameterValue("DELAY_TIME_MS"));
+    dlyTimeMsDest->setMaxRange(2000);
     dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
     dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
     dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));

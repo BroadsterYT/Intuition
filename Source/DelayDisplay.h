@@ -30,4 +30,6 @@ private:
 
     ItnSlider timeMs, feedback, wet, cutoff;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;
+
+    juce::ToggleButton bpmSync;
 };
