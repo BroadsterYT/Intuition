@@ -17,14 +17,14 @@
 
 class ReverbGraph : public juce::Component, private juce::Timer {
 public:
-    ReverbGraph(ModMatrix* modMatrix);
+    ReverbGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
     ~ReverbGraph();
 
     void paint(juce::Graphics& g) override;
-    void resized() override;
 
 private:
     ItnLookAndFeel lookAndFeel;
+    juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
 
     juce::OwnedArray<ReverbRing> rings;

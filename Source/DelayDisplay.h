@@ -13,6 +13,7 @@
 #include "ModMatrix.h"
 #include "ItnLookAndFeel.h"
 #include "ItnSlider.h"
+#include "DelayGraph.h"
 
 
 class DelayDisplay : public juce::Component {
@@ -27,6 +28,8 @@ private:
     ItnLookAndFeel lookAndFeel;
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
+
+    DelayGraph graph;
 
     ItnSlider timeMs, feedback, wet, cutoff;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;

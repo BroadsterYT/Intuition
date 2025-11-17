@@ -297,6 +297,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
     dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
     dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));
+    dlyCutoffDest->setMinRange(20.0f);
+    dlyCutoffDest->setMaxRange(20000.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}

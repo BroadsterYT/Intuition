@@ -10,7 +10,7 @@
 
 #include "ReverbGraph.h"
 
-ReverbGraph::ReverbGraph(ModMatrix* modMatrix) : modMatrix(modMatrix) {
+ReverbGraph::ReverbGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
     setLookAndFeel(&lookAndFeel);
     startTimerHz(60);
     lastSpawnTime = juce::Time::getMillisecondCounter();
@@ -22,10 +22,6 @@ ReverbGraph::~ReverbGraph() {
 
 void ReverbGraph::paint(juce::Graphics& g) {
     g.fillAll(GlowStyle::roomDark);
-}
-
-void ReverbGraph::resized() {
-    auto area = getLocalBounds().reduced(10);
 }
 
 void ReverbGraph::timerCallback() {
@@ -52,8 +48,6 @@ void ReverbGraph::timerCallback() {
         for (auto& ring : toDelete) {
             rings.removeObject(ring, true);
         }
-
-        DBG("Current Ring count: " << rings.size());
     }
 
     // Dimming rings over time
