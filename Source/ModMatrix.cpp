@@ -135,3 +135,9 @@ void ModMatrix::removeConnection(const juce::String sourceName, const juce::Stri
         DBG("ModMatrix error: ModConnection not found within ModMatrix");
     }
 }
+
+void ModMatrix::getAllConnections(std::vector<ModConnection*>& output) {
+    for (const auto& conn : connections) {
+        output.push_back(conn.get());
+    }
+}

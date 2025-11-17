@@ -589,17 +589,72 @@ juce::AudioProcessorEditor* IntuitionAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void IntuitionAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
-{
+void IntuitionAudioProcessor::getStateInformation (juce::MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    destData.reset();
+    auto state = parameters.copyState();
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+
+    for (int i = xml->getNumChildElements() - 1; i >= 0; --i) {
+        if (xml->getChildElement(i)->hasTagName("ModConnections")) {
+            xml->removeChildElement(xml->getChildElement(i), true);
+        }
+    }
+
+    // Mod connections
+    auto* modList = xml->createNewChildElement("ModConnections");
+    std::vector<ModConnection*> allMods;
+    modMatrix.getAllConnections(allMods);
+    DBG("Number of mods: " << allMods.size());
+    for (const auto& conn : allMods) {
+        auto* source = conn->getSource();
+        auto* dest = conn->getDestination();
+
+        DBG("SOURCE: " << source->getName());
+        DBG("DEST: " << dest->getName());
+        
+        auto* mod = modList->createNewChildElement("ModConnection");
+        mod->setAttribute("source", source->getName());
+        mod->setAttribute("destination", dest->getName());
+        mod->setAttribute("active", conn->getActive());
+        mod->setAttribute("bipolar", conn->getBipolar());
+        mod->setAttribute("opacity", conn->getOpacity());
+        mod->setAttribute("depth", conn->getDepth());
+    }
+
+    copyXmlToBinary(*xml, destData);
 }
 
-void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+    DBG(xmlState->toString());
+
+    if (!xmlState.get()) return;
+    if (xmlState->hasTagName(parameters.state.getType())) {
+        parameters.replaceState(juce::ValueTree::fromXml(*xmlState));
+
+        // Rebuilding modConnections
+        if (auto* modList = xmlState->getChildByName("ModConnections")) {
+            forEachXmlChildElement(*modList, modElement) {
+                DBG("ModConnection child reached");
+                if (modElement->hasTagName("ModConnection")) {
+                    juce::String sourceId = modElement->getStringAttribute("source");
+                    juce::String destId = modElement->getStringAttribute("destination");
+                    modMatrix.addConnection(sourceId, destId);
+
+                    auto* conn = modMatrix.getConnection(sourceId, destId);
+                    conn->setActive(modElement->getBoolAttribute("active"));
+                    conn->setBipolar(modElement->getBoolAttribute("bipolar"));
+                    conn->setOpacity(modElement->getDoubleAttribute("opacity"));
+                    conn->setDepth(modElement->getDoubleAttribute("depth"));
+                }
+            }
+        }
+    }
 }
 
 juce::String IntuitionAudioProcessor::getParametersAsJsonString() {

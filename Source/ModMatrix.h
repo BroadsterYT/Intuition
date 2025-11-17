@@ -30,7 +30,7 @@ public:
     float getModdedDest(const juce::String destName);
 
     /// <summary>
-    /// Retrieves the names of all available mod sources and places them into a vector
+    /// Retrieves the names of all available mod sources and places them into a vector. Mainly used to list available mod sources available for a mod destination
     /// </summary>
     /// <param name="output">The vector to place all source names into</param>
     void getAllSourceNames(std::vector<juce::String>& output);
@@ -57,6 +57,12 @@ public:
     
     void addConnection(const juce::String sourceName, const juce::String destName);
     void removeConnection(const juce::String sourceName, const juce::String destName);
+
+    /// <summary>
+    /// Returns a vector containing pointers to all existing mod connections
+    /// </summary>
+    /// <param name="output">The vector to fill with all mod connections</param>
+    void getAllConnections(std::vector<ModConnection*>& output);
 
 private:
     std::unordered_map<juce::String, std::unique_ptr<ModSource>> sources;
