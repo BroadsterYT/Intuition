@@ -86,15 +86,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterChoice>("LFO1_MODE", "LFO 1 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO2_MODE", "LFO 2 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO2_RATE", "LFO 2 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"1/1", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
 
         //============== Filter ==============//
@@ -114,6 +114,13 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("REVERB_WIDTH", "Width", 0.0f, 1.0f, 1.0f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_DRY_LEVEL", "Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_WET_LEVEL", "Wet Level", 0.0f, 1.0f, 0.3f),
+
+        //============== Delay ===============//
+        std::make_unique<juce::AudioParameterBool>("DELAY_TOGGLE", "Delay Toggle", false),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_TIME_MS", "Delay Time", 0.0f, 2000.0f, 1000.0f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_FEEDBACK", "Delay Feedback", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_WET_LEVEL", "Delay Wet Level", 0.0f, 1.0f, 0.5f),
+        std::make_unique<juce::AudioParameterFloat>("DELAY_CUTOFF", "Delay Cutoff Frequency", 20.0f, 20000.0f, 20000.0f),
     }),
     context(
         this,
@@ -134,7 +141,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         &lfoPhase3
     ),
     envManager(parameters),
-    reverbModule(parameters, &modMatrix)
+    reverbModule(parameters, &modMatrix),
+    delayModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
 
@@ -277,6 +285,20 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     rvbWidthDest->setBasePtr(parameters.getRawParameterValue("REVERB_WIDTH"));
     rvbDryLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_DRY_LEVEL"));
     rvbWetLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_WET_LEVEL"));
+
+    //=== Delay
+    ModDestination* dlyTimeMsDest = modMatrix.addDestination("DELAY_TIME_MS");
+    ModDestination* dlyFeedbackDest = modMatrix.addDestination("DELAY_FEEDBACK");
+    ModDestination* dlyWetDest = modMatrix.addDestination("DELAY_WET_LEVEL");
+    ModDestination* dlyCutoffDest = modMatrix.addDestination("DELAY_CUTOFF");
+
+    dlyTimeMsDest->setBasePtr(parameters.getRawParameterValue("DELAY_TIME_MS"));
+    dlyTimeMsDest->setMaxRange(2000);
+    dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
+    dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
+    dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));
+    dlyCutoffDest->setMinRange(20.0f);
+    dlyCutoffDest->setMaxRange(20000.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -374,6 +396,8 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     }
 
     envManager.prepare(sampleRate);
+
+    delayModule.prepare(getSampleRate(), 2000, getNumOutputChannels());
 }
 
 void IntuitionAudioProcessor::releaseResources()
@@ -408,8 +432,7 @@ bool IntuitionAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 }
 #endif
 
-void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -544,7 +567,11 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     
     reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
     reverbModule.updateParameters();
-    reverbModule.process(buffer);
+    reverbModule.processBlock(buffer);
+ 
+    //delayModule.prepare(getSampleRate(), 2000, buffer.getNumChannels());
+    delayModule.updateParameters();
+    delayModule.processBlock(buffer);
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);
@@ -707,26 +734,11 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
     float div = 1.0f;
-    switch (syncDiv) {
-    case 0:  // 1/1
-        div = 1.0f;
-        break;
-    case 1:  // 1/2
-        div = 0.5f;
-        break;
-    case 2:  // 1/4
-        div = 0.25f;
-        break;
-    case 3:  // 1/8
-        div = 0.125f;
-        break;
-    case 4:  // 1/16
-        div = 0.0625f;
-        break;
-    case 5:  // 1/32
-        div = 0.03125f;
-        break;
+    
+    if (syncDiv <= 7) {
+        div = 4.0f * pow(0.5f, syncDiv);
     }
+
     return div;
 }
 

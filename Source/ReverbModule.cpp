@@ -43,7 +43,7 @@ void ReverbModule::updateParameters() {
     reverb.setParameters(reverbParams);
 }
 
-void ReverbModule::process(juce::AudioBuffer<float>& buffer) {
+void ReverbModule::processBlock(juce::AudioBuffer<float>& buffer) {
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     reverb.process(context);

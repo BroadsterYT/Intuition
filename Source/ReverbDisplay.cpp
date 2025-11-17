@@ -14,7 +14,8 @@ ReverbDisplay::ReverbDisplay(
     juce::AudioProcessorValueTreeState& vts,
     ModMatrix* modMatrix
 ) : parameters(vts),
-    modMatrix(modMatrix) {
+    modMatrix(modMatrix),
+    graph(vts, modMatrix) {
     setLookAndFeel(&lookAndFeel);
 
     addAndMakeVisible(damping);
@@ -22,6 +23,7 @@ ReverbDisplay::ReverbDisplay(
     addAndMakeVisible(rvbWidth);
     addAndMakeVisible(dryLevel);
     addAndMakeVisible(wetLevel);
+    addAndMakeVisible(graph);
 
     dampingAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_DAMPING", damping);
     roomSizeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_ROOM_SIZE", roomSize);
@@ -53,10 +55,12 @@ void ReverbDisplay::paint(juce::Graphics& g) {
 void ReverbDisplay::resized() {
     auto area = getLocalBounds().reduced(10);
 
-    int knobWidth = area.getWidth() / 5;
+    int knobWidth = area.getWidth() / 6;
     damping.setBounds(area.removeFromLeft(knobWidth));
     roomSize.setBounds(area.removeFromLeft(knobWidth));
     rvbWidth.setBounds(area.removeFromLeft(knobWidth));
     dryLevel.setBounds(area.removeFromLeft(knobWidth));
     wetLevel.setBounds(area.removeFromLeft(knobWidth));
+
+    graph.setBounds(area.removeFromLeft(knobWidth));
 }

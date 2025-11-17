@@ -6976,6 +6976,8 @@
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
+        <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
+        <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
         <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
               file="Source/ReverbModule.cpp"/>
         <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
@@ -6992,9 +6994,24 @@
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
         <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
-          <FILE id="WKEZi6" name="ReverbDisplay.cpp" compile="1" resource="0"
-                file="Source/ReverbDisplay.cpp"/>
-          <FILE id="TcNlYv" name="ReverbDisplay.h" compile="0" resource="0" file="Source/ReverbDisplay.h"/>
+          <GROUP id="{632735F1-161D-F802-74D9-C1FE57C8A2A2}" name="Reverb">
+            <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>
+            <FILE id="xBBfGM" name="ReverbRing.h" compile="0" resource="0" file="Source/ReverbRing.h"/>
+            <FILE id="wn3dVX" name="ReverbGraph.cpp" compile="1" resource="0" file="Source/ReverbGraph.cpp"/>
+            <FILE id="MGcA9L" name="ReverbGraph.h" compile="0" resource="0" file="Source/ReverbGraph.h"/>
+            <FILE id="TcNlYv" name="ReverbDisplay.h" compile="0" resource="0" file="Source/ReverbDisplay.h"/>
+            <FILE id="WKEZi6" name="ReverbDisplay.cpp" compile="1" resource="0"
+                  file="Source/ReverbDisplay.cpp"/>
+          </GROUP>
+          <GROUP id="{11BBC90E-08D8-AAC0-0A5C-9EFFB8F95E26}" name="Delay">
+            <FILE id="B5pKvb" name="DelayRing.cpp" compile="1" resource="0" file="Source/DelayRing.cpp"/>
+            <FILE id="e7xmM4" name="DelayRing.h" compile="0" resource="0" file="Source/DelayRing.h"/>
+            <FILE id="wHTg9p" name="DelayGraph.cpp" compile="1" resource="0" file="Source/DelayGraph.cpp"/>
+            <FILE id="llC2YA" name="DelayGraph.h" compile="0" resource="0" file="Source/DelayGraph.h"/>
+            <FILE id="e42HvA" name="DelayDisplay.h" compile="0" resource="0" file="Source/DelayDisplay.h"/>
+            <FILE id="YxJslY" name="DelayDisplay.cpp" compile="1" resource="0"
+                  file="Source/DelayDisplay.cpp"/>
+          </GROUP>
         </GROUP>
         <FILE id="RPytXF" name="ItnMidiKeyboard.cpp" compile="1" resource="0"
               file="Source/ItnMidiKeyboard.cpp"/>

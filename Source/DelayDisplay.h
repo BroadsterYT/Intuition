@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    ReverbDisplay.h
-    Created: 30 Oct 2025 6:37:22pm
+    DelayDisplay.h
+    Created: 14 Nov 2025 6:57:38pm
     Author:  BroDe
 
   ==============================================================================
@@ -13,13 +13,13 @@
 #include "ModMatrix.h"
 #include "ItnLookAndFeel.h"
 #include "ItnSlider.h"
-#include "ReverbGraph.h"
+#include "DelayGraph.h"
 
 
-class ReverbDisplay : public juce::Component {
+class DelayDisplay : public juce::Component {
 public:
-    ReverbDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
-    ~ReverbDisplay();
+    DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
+    ~DelayDisplay();
 
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -29,8 +29,10 @@ private:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
 
-    ReverbGraph graph;
+    DelayGraph graph;
 
-    ItnSlider damping, roomSize, rvbWidth, dryLevel, wetLevel;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dampingAttachment, roomSizeAttachment, rvbWidthAttachment, dryLevelAttachment, wetLevelAttachment;
+    ItnSlider timeMs, feedback, wet, cutoff;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;
+
+    juce::ToggleButton bpmSync;
 };

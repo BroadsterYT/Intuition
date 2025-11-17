@@ -130,4 +130,13 @@ namespace GlowStyle {
         g.setGradientFill(gradient);
         g.fillEllipse(bounds);
     }
+
+    inline void drawRadiantRing(
+        juce::Graphics& g,
+        float posX, float posY,
+        float radius, float brightness) {
+        
+        g.setColour(GlowStyle::warmHighlight.withAlpha(brightness));
+        g.drawEllipse(posX, posY, radius * 2.0f, radius * 2.0f, 2.0f);
+    }
 }
