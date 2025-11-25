@@ -6,15 +6,11 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{B32A88A1-14F7-2DEB-D90C-C55EA7A043CD}" name="Assets">
-      <GROUP id="{F7BB2695-014B-C5B2-2ECF-E49E9B09CCD6}" name="Waveforms">
-        <GROUP id="{5BBD02E3-FE7C-736D-1544-6B6A69F88BC5}" name="AKWF_bw_perfectwaves">
-          <FILE id="yWYYjc" name="AdventureKidWaveforms.txt" compile="0" resource="1"
-                file="Assets/Waveforms/AKWF/AKWF_bw_perfectwaves/AdventureKidWaveforms.txt"/>
-          <FILE id="rcrBts" name="AKWF_saw.wav" compile="0" resource="1" file="Assets/Waveforms/AKWF/AKWF_bw_perfectwaves/AKWF_saw.wav"/>
-          <FILE id="DbH3cM" name="AKWF_sin.wav" compile="0" resource="1" file="Assets/Waveforms/AKWF/AKWF_bw_perfectwaves/AKWF_sin.wav"/>
-          <FILE id="o5jFVY" name="AKWF_squ.wav" compile="0" resource="1" file="Assets/Waveforms/AKWF/AKWF_bw_perfectwaves/AKWF_squ.wav"/>
-          <FILE id="LRQkgf" name="AKWF_tri.wav" compile="0" resource="1" file="Assets/Waveforms/AKWF/AKWF_bw_perfectwaves/AKWF_tri.wav"/>
-        </GROUP>
+      <GROUP id="{F7BB2695-014B-C5B2-2ECF-E49E9B09CCD6}" name="DefaultWaveforms">
+        <FILE id="qdLed0" name="AKWF_saw.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_saw.wav"/>
+        <FILE id="OjTdbE" name="AKWF_sin.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_sin.wav"/>
+        <FILE id="ZyGxg6" name="AKWF_squ.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_squ.wav"/>
+        <FILE id="wReOI7" name="AKWF_tri.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_tri.wav"/>
       </GROUP>
     </GROUP>
     <GROUP id="{13A50E93-AAC6-03D3-12F4-A6683D5B6C92}" name="IntumiExes">

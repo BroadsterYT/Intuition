@@ -145,6 +145,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     delayModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
+    initializeUserDirectory();
 
     const void* wav = BinaryData::AKWF_saw_wav;
     int wavSize = BinaryData::AKWF_saw_wavSize;
@@ -785,6 +786,24 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
         DBG(prop.name.toString() << ": " << obj->getProperty(prop.name).toString());
     }
+}
+
+void IntuitionAudioProcessor::initializeUserDirectory() {
+    juce::File documents = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+    juce::File home = documents.getChildFile("Intuition");
+
+    if (!home.exists()) home.createDirectory();
+
+    // Organizing subfolders
+    auto wavetables = home.getChildFile("Waveforms");  // Users can organize this folder however they please
+    auto presets = home.getChildFile("Presets");
+    auto skins = home.getChildFile("Skins");
+    auto logs = home.getChildFile("Logs");
+
+    wavetables.createDirectory();
+    presets.createDirectory();
+    skins.createDirectory();
+    logs.createDirectory();
 }
 
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {

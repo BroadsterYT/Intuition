@@ -12,6 +12,16 @@
 #include <JuceHeader.h>
 
 /// <summary>
+/// A struct used to store all information regarding a waveform. Necessary for saving
+/// wavetable information when saving/loading the plugin
+/// </summary>
+struct WavetableInfo {
+    juce::File filePath;
+    bool isNative = false;
+    char* localData;
+};
+
+/// <summary>
 /// A class with functions for formatting/manipulating wavetables
 /// </summary>
 class WavetableBank {

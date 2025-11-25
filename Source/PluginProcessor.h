@@ -110,6 +110,11 @@ private:
     ReverbModule reverbModule;
     DelayModule delayModule;
 
+    /// <summary>
+    /// If not already initialized, will organize the Intuition directory in the user's Documents folder.
+    /// </summary>
+    void initializeUserDirectory();
+
     float getDivisionFloat(int syncDiv);
     void calculateLFOFrequency(
         const juce::String modeName,
@@ -117,9 +122,7 @@ private:
         const juce::String syncDivName,
         float& rateVal
     );
-    void calculateLFOPhase(
-        LFOShape& shape,
-        float& phase,
+    void calculateLFOPhase(LFOShape& shape, float& phase,
         const juce::String modeName,
         const juce::String syncDivName,
         const juce::String rateName,

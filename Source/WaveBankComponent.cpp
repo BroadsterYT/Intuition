@@ -32,9 +32,12 @@ WaveBankComponent::WaveBankComponent(
     waveThumbnailComp.addAndMakeVisible(addNewWaveButton);
     addNewWaveButton.setButtonText("Add New");
     addNewWaveButton.onClick = [this, &bank] () {
+        juce::File home = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition");
+        juce::File waveforms = home.getChildFile("Waveforms");
+        
         auto chooser = std::make_shared<juce::FileChooser>(
             "Select a WAV file to open...",
-            juce::File{},
+            waveforms,
             "*.wav"
         );
 
