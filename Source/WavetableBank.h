@@ -16,9 +16,9 @@
 /// wavetable information when saving/loading the plugin
 /// </summary>
 struct WavetableInfo {
+    bool isNative;
     juce::File filePath;
-    bool isNative = false;
-    char* localData;
+    int nativeId = -1;
 };
 
 /// <summary>
@@ -33,7 +33,7 @@ public:
     /// </summary>
     /// <param name="wavFile">The wavtable .wav</param>
     void addWavetable(juce::File& wavFile);
-    void addWavetable(const void* binaryWav, int binarySize);
+    void addWavetable(const char* binaryWav, int binarySize);
     /// <summary>
     /// Removes a wavetable from the wavebank. If there is only 1 wavetable in the
     /// bank, it will not be removed.
@@ -53,9 +53,20 @@ public:
     /// <param name="index">The index of the wavetable to retrieve</param>
     /// <returns>The wavetable at the given index</returns>
     juce::AudioBuffer<float>& getWavetable(int index);
+    /// <summary>
+    /// Returns the info object for the wavetable at the given index
+    /// </summary>
+    /// <param name="index">The index of the wavetable to get info from</param>
+    /// <returns>The info of the desired wavetable</returns>
+    WavetableInfo& getWavetableInfo(int index);
     
+    /// <summary>
+    /// Returns the number of wavetables in the wavebank
+    /// </summary>
+    /// <returns>The size of the wavebank</returns>
     size_t size();
 
 private:
+    std::vector<WavetableInfo> wavetableInfos;
     std::vector<juce::AudioBuffer<float>> wavetables;
 };
