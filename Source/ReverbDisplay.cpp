@@ -18,6 +18,7 @@ ReverbDisplay::ReverbDisplay(
     graph(vts, modMatrix) {
     setLookAndFeel(&lookAndFeel);
 
+    addAndMakeVisible(toggle);
     addAndMakeVisible(damping);
     addAndMakeVisible(roomSize);
     addAndMakeVisible(rvbWidth);
@@ -25,6 +26,7 @@ ReverbDisplay::ReverbDisplay(
     addAndMakeVisible(wetLevel);
     addAndMakeVisible(graph);
 
+    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, "REVERB_TOGGLE", toggle);
     dampingAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_DAMPING", damping);
     roomSizeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_ROOM_SIZE", roomSize);
     rvbWidthAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_WIDTH", rvbWidth);
@@ -55,6 +57,7 @@ void ReverbDisplay::paint(juce::Graphics& g) {
 void ReverbDisplay::resized() {
     auto area = getLocalBounds().reduced(10);
 
+    toggle.setBounds(area.removeFromLeft(25));
     int knobWidth = area.getWidth() / 6;
     damping.setBounds(area.removeFromLeft(knobWidth));
     roomSize.setBounds(area.removeFromLeft(knobWidth));

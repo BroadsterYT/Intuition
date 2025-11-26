@@ -31,6 +31,8 @@ private:
 
     DelayGraph graph;
 
+    juce::ToggleButton toggle;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
     ItnSlider timeMs, feedback, wet, cutoff;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;
 

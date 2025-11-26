@@ -31,6 +31,9 @@ private:
 
     ReverbGraph graph;
 
+    juce::ToggleButton toggle;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
+
     ItnSlider damping, roomSize, rvbWidth, dryLevel, wetLevel;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dampingAttachment, roomSizeAttachment, rvbWidthAttachment, dryLevelAttachment, wetLevelAttachment;
 };

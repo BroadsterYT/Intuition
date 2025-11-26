@@ -14,16 +14,18 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
 ) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix) {
     setLookAndFeel(&lookAndFeel);
 
+    addAndMakeVisible(toggle);
     addAndMakeVisible(timeMs);
     addAndMakeVisible(feedback);
     addAndMakeVisible(wet);
     addAndMakeVisible(cutoff);
     addAndMakeVisible(graph);
 
-    timeMsAttachment = std::make_unique< juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_TIME_MS", timeMs);
-    feedbackAttachment = std::make_unique< juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_FEEDBACK", feedback);
-    wetAttachment = std::make_unique< juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_WET_LEVEL", wet);
-    cutoffAttachment = std::make_unique< juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_CUTOFF", cutoff);
+    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, "DELAY_TOGGLE", toggle);
+    timeMsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_TIME_MS", timeMs);
+    feedbackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_FEEDBACK", feedback);
+    wetAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_WET_LEVEL", wet);
+    cutoffAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_CUTOFF", cutoff);
 
     timeMs.setLabelNames("Time", "Time");
     feedback.setLabelNames("Feedback", "Feedback");
@@ -48,6 +50,8 @@ void DelayDisplay::paint(juce::Graphics& g) {
 
 void DelayDisplay::resized() {
     auto area = getLocalBounds().reduced(10);
+
+    toggle.setBounds(area.removeFromLeft(25));
 
     int knobWidth = area.getWidth() / 6;
     timeMs.setBounds(area.removeFromLeft(knobWidth));

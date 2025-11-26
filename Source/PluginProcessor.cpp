@@ -574,13 +574,16 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     
-    reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
-    reverbModule.updateParameters();
-    reverbModule.processBlock(buffer);
- 
-    //delayModule.prepare(getSampleRate(), 2000, buffer.getNumChannels());
-    delayModule.updateParameters();
-    delayModule.processBlock(buffer);
+    if (*parameters.getRawParameterValue("REVERB_TOGGLE")) {
+        reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+        reverbModule.updateParameters();
+        reverbModule.processBlock(buffer);
+    }
+
+    if (*parameters.getRawParameterValue("DELAY_TOGGLE")) {
+        delayModule.updateParameters();
+        delayModule.processBlock(buffer);
+    }
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);
