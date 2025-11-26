@@ -81,6 +81,11 @@ WavetableInfo& WavetableBank::getWavetableInfo(int index) {
     return wavetableInfos[index];
 }
 
+void WavetableBank::clear() {
+    wavetableInfos.clear();
+    wavetables.clear();
+}
+
 size_t WavetableBank::size() {
     return wavetables.size();
 }

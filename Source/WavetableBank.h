@@ -60,6 +60,7 @@ public:
     /// <returns>The info of the desired wavetable</returns>
     WavetableInfo& getWavetableInfo(int index);
     
+    void clear();
     /// <summary>
     /// Returns the number of wavetables in the wavebank
     /// </summary>

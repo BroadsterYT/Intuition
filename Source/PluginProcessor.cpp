@@ -147,6 +147,21 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     parameters.state = juce::ValueTree("PARAMETERS");
     initializeUserDirectory();
 
+    const char* wav = BinaryData::AKWF_sin_wav;
+    int wavSize = BinaryData::AKWF_sin_wavSize;
+    if (bank1.size() == 0) {
+        bank1.addWavetable(wav, wavSize);
+    }
+    if (bank2.size() == 0) {
+        bank2.addWavetable(wav, wavSize);
+    }
+    if (bank3.size() == 0) {
+        bank3.addWavetable(wav, wavSize);
+    }
+    if (bank4.size() == 0) {
+        bank4.addWavetable(wav, wavSize);
+    }
+
     resetSynths();
 
     //========== ModMatrix Setup ==========//
@@ -673,6 +688,7 @@ void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInB
 
         // Rebuilding wavebanks
         auto refillBank = [&](WavetableBank& bank, const juce::String tag) {
+            bank.clear();
             if (auto* bankXml = xmlState->getChildByName(tag)) {
                 forEachXmlChildElement(*bankXml, modElement) {
                     if (modElement->getBoolAttribute("isNative")) {
@@ -690,19 +706,6 @@ void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInB
         refillBank(bank2, "Bank2");
         refillBank(bank3, "Bank3");
         refillBank(bank4, "Bank4");
-
-        //if (auto* bank1Xml = xmlState->getChildByName("Bank1")) {
-        //    forEachXmlChildElement(*bank1Xml, modElement) {
-        //        if (modElement->getBoolAttribute("isNative")) {
-        //            auto binary = WavetableHelper::getWavBinary(modElement->getIntAttribute("nativeId"));
-        //            bank1.addWavetable(binary.first, binary.second);
-        //        }
-        //        else {  // Load from file
-        //            juce::File wavFile(modElement->getStringAttribute("filePath"));
-        //            bank1.addWavetable(wavFile);
-        //        }
-        //    }
-        //}
     }
 
     const char* wav = BinaryData::AKWF_sin_wav;
