@@ -31,11 +31,13 @@ void WavetableBank::addWavetable(juce::File& wavFile) {
         WavetableHelper::preprocessWavetable(temp);
         WavetableHelper::phaseAlignWavetable(temp);
 
+        WavetableInfo info = { false, wavFile };
+        wavetableInfos.push_back(info);
         wavetables.push_back(temp);
     }
 }
 
-void WavetableBank::addWavetable(const void* binaryWav, int binarySize) {
+void WavetableBank::addWavetable(const char* binaryWav, int binarySize) {
     juce::AudioFormatManager formatManager;
     formatManager.registerBasicFormats();
 
@@ -56,11 +58,14 @@ void WavetableBank::addWavetable(const void* binaryWav, int binarySize) {
         WavetableHelper::preprocessWavetable(buffer);
         WavetableHelper::phaseAlignWavetable(buffer);
 
+        WavetableInfo info = { true, juce::File{}, WavetableHelper::getWavId(binaryWav) };
+        wavetableInfos.push_back(info);
         wavetables.push_back(buffer);
     }
 }
 
 void WavetableBank::removeWavetable(int index) {
+    wavetableInfos.erase(wavetableInfos.begin() + index);
     wavetables.erase(wavetables.begin() + index);
 }
 
@@ -70,6 +75,15 @@ void WavetableBank::updateWavetable(int index, const juce::AudioBuffer<float>& t
 
 juce::AudioBuffer<float>& WavetableBank::getWavetable(int index) {
     return wavetables[index];
+}
+
+WavetableInfo& WavetableBank::getWavetableInfo(int index) {
+    return wavetableInfos[index];
+}
+
+void WavetableBank::clear() {
+    wavetableInfos.clear();
+    wavetables.clear();
 }
 
 size_t WavetableBank::size() {

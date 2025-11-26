@@ -145,13 +145,22 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     delayModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
+    initializeUserDirectory();
 
-    const void* wav = BinaryData::AKWF_saw_wav;
-    int wavSize = BinaryData::AKWF_saw_wavSize;
-    bank1.addWavetable(wav, wavSize);
-    bank2.addWavetable(wav, wavSize);
-    bank3.addWavetable(wav, wavSize);
-    bank4.addWavetable(wav, wavSize);
+    const char* wav = BinaryData::AKWF_sin_wav;
+    int wavSize = BinaryData::AKWF_sin_wavSize;
+    if (bank1.size() == 0) {
+        bank1.addWavetable(wav, wavSize);
+    }
+    if (bank2.size() == 0) {
+        bank2.addWavetable(wav, wavSize);
+    }
+    if (bank3.size() == 0) {
+        bank3.addWavetable(wav, wavSize);
+    }
+    if (bank4.size() == 0) {
+        bank4.addWavetable(wav, wavSize);
+    }
 
     resetSynths();
 
@@ -597,23 +606,25 @@ void IntuitionAudioProcessor::getStateInformation (juce::MemoryBlock& destData) 
     auto state = parameters.copyState();
     std::unique_ptr<juce::XmlElement> xml(state.createXml());
 
-    for (int i = xml->getNumChildElements() - 1; i >= 0; --i) {
-        if (xml->getChildElement(i)->hasTagName("ModConnections")) {
-            xml->removeChildElement(xml->getChildElement(i), true);
+    auto removeOldChild = [&](const juce::String tag) {
+        auto* oldChild = xml->getChildByName(tag);
+        if (oldChild) {
+            xml->removeChildElement(oldChild, true);
         }
-    }
+    };
+    removeOldChild("ModConnections");
+    removeOldChild("Bank1");
+    removeOldChild("Bank2");
+    removeOldChild("Bank3");
+    removeOldChild("Bank4");
 
     // Mod connections
     auto* modList = xml->createNewChildElement("ModConnections");
     std::vector<ModConnection*> allMods;
     modMatrix.getAllConnections(allMods);
-    DBG("Number of mods: " << allMods.size());
     for (const auto& conn : allMods) {
         auto* source = conn->getSource();
         auto* dest = conn->getDestination();
-
-        DBG("SOURCE: " << source->getName());
-        DBG("DEST: " << dest->getName());
         
         auto* mod = modList->createNewChildElement("ModConnection");
         mod->setAttribute("source", source->getName());
@@ -623,6 +634,26 @@ void IntuitionAudioProcessor::getStateInformation (juce::MemoryBlock& destData) 
         mod->setAttribute("opacity", conn->getOpacity());
         mod->setAttribute("depth", conn->getDepth());
     }
+
+    // Wavebank states
+    auto* bank1Xml = xml->createNewChildElement("Bank1");
+    auto* bank2Xml = xml->createNewChildElement("Bank2");
+    auto* bank3Xml = xml->createNewChildElement("Bank3");
+    auto* bank4Xml = xml->createNewChildElement("Bank4");
+
+    auto generateBankXml = [&](WavetableBank& bank, juce::XmlElement* element) {
+        for (int i = 0; i < bank.size(); ++i) {
+            auto& info = bank.getWavetableInfo(i);
+            auto* wave = element->createNewChildElement("Wave" + juce::String(i));
+            wave->setAttribute("isNative", info.isNative);
+            wave->setAttribute("filePath", info.filePath.getFullPathName());
+            wave->setAttribute("nativeId", info.nativeId);
+        }
+    };
+    generateBankXml(bank1, bank1Xml);
+    generateBankXml(bank2, bank2Xml);
+    generateBankXml(bank3, bank3Xml);
+    generateBankXml(bank4, bank4Xml);
 
     copyXmlToBinary(*xml, destData);
 }
@@ -640,7 +671,7 @@ void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInB
         // Rebuilding modConnections
         if (auto* modList = xmlState->getChildByName("ModConnections")) {
             forEachXmlChildElement(*modList, modElement) {
-                DBG("ModConnection child reached");
+                //DBG("ModConnection child reached");
                 if (modElement->hasTagName("ModConnection")) {
                     juce::String sourceId = modElement->getStringAttribute("source");
                     juce::String destId = modElement->getStringAttribute("destination");
@@ -654,6 +685,42 @@ void IntuitionAudioProcessor::setStateInformation (const void* data, int sizeInB
                 }
             }
         }
+
+        // Rebuilding wavebanks
+        auto refillBank = [&](WavetableBank& bank, const juce::String tag) {
+            bank.clear();
+            if (auto* bankXml = xmlState->getChildByName(tag)) {
+                forEachXmlChildElement(*bankXml, modElement) {
+                    if (modElement->getBoolAttribute("isNative")) {
+                        auto binary = WavetableHelper::getWavBinary(modElement->getIntAttribute("nativeId"));
+                        bank.addWavetable(binary.first, binary.second);
+                    }
+                    else {  // Load from file
+                        juce::File wavFile(modElement->getStringAttribute("filePath"));
+                        bank.addWavetable(wavFile);
+                    }
+                }
+            }
+        };
+        refillBank(bank1, "Bank1");
+        refillBank(bank2, "Bank2");
+        refillBank(bank3, "Bank3");
+        refillBank(bank4, "Bank4");
+    }
+
+    const char* wav = BinaryData::AKWF_sin_wav;
+    int wavSize = BinaryData::AKWF_sin_wavSize;
+    if (bank1.size() == 0) {
+        bank1.addWavetable(wav, wavSize);
+    }
+    if (bank2.size() == 0) {
+        bank2.addWavetable(wav, wavSize);
+    }
+    if (bank3.size() == 0) {
+        bank3.addWavetable(wav, wavSize);
+    }
+    if (bank4.size() == 0) {
+        bank4.addWavetable(wav, wavSize);
     }
 }
 
@@ -785,6 +852,24 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
         DBG(prop.name.toString() << ": " << obj->getProperty(prop.name).toString());
     }
+}
+
+void IntuitionAudioProcessor::initializeUserDirectory() {
+    juce::File documents = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+    juce::File home = documents.getChildFile("Intuition");
+
+    if (!home.exists()) home.createDirectory();
+
+    // Organizing subfolders
+    auto wavetables = home.getChildFile("Waveforms");  // Users can organize this folder however they please
+    auto presets = home.getChildFile("Presets");
+    auto skins = home.getChildFile("Skins");
+    auto logs = home.getChildFile("Logs");
+
+    wavetables.createDirectory();
+    presets.createDirectory();
+    skins.createDirectory();
+    logs.createDirectory();
 }
 
 float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
