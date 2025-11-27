@@ -579,7 +579,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         reverbModule.updateParameters();
         reverbModule.processBlock(buffer);
     }
-
     if (*parameters.getRawParameterValue("DELAY_TOGGLE")) {
         delayModule.updateParameters();
         delayModule.processBlock(buffer);

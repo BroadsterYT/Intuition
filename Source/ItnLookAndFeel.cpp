@@ -11,6 +11,11 @@
 #include "ItnLookAndFeel.h"
 
 
+ItnLookAndFeel& ItnLookAndFeel::getInstance() {
+    static ItnLookAndFeel instance;
+    return instance;
+}
+
 juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider) {
     juce::Slider::SliderLayout layout;
 

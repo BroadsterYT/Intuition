@@ -12,8 +12,8 @@
 
 
 ItnSlider::ItnSlider() {
-    startTimerHz(30);
-    setLookAndFeel(&lookAndFeel);
+    startTimerHz(60);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     setSliderStyle(juce::Slider::Rotary);
     setTextBoxStyle(juce::Slider::TextBoxAbove, false, 40, 15);
 
@@ -27,10 +27,23 @@ ItnSlider::~ItnSlider() {
     stopTimer();
 }
 
+void ItnSlider::parentHierarchyChanged() {
+    // Allows tooltip to be seen outside slider bounds (necessary!)
+    auto top = getTopLevelComponent();
+    top->addChildComponent(tooltip);
+    tooltip.setBounds(top->getLocalBounds());
+}
+
 void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
     fullName = newFullName;
     nickname = newNickname;
     updateLabel();
+}
+
+void ItnSlider::setTooltipFields(const juce::String header, const juce::String subheader, const juce::String description) {
+    tooltip.setHeader(header);
+    tooltip.setSubheader(subheader);
+    tooltip.setDescription(description);
 }
 
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
@@ -56,6 +69,19 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     else {
         juce::Slider::mouseDown(e);
     }
+}
+
+void ItnSlider::mouseEnter(const juce::MouseEvent& e) {
+    DBG("Mouse over " << fullName);
+    hovering = true;
+}
+
+void ItnSlider::mouseExit(const juce::MouseEvent& e) {
+    DBG("Mouse left " << fullName);
+    hovering = false;
+    tooltipSpawnTimer = 0;
+    tooltipVisible = false;
+    tooltip.hide();
 }
 
 void ItnSlider::paint(juce::Graphics& g) {
@@ -122,13 +148,9 @@ void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
     paramName = pName;
 }
 
-void ItnSlider::timerCallback() {
-    repaint();
-}
-
 void ItnSlider::updateLabel() {
     label.setText(nickname, juce::dontSendNotification);
-    setTooltip(fullName);
+    //setTooltip(fullName);
 }
 
 void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
@@ -199,4 +221,40 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
     });
 
     menu.addSubMenu(sourceName, sub);
+}
+
+void ItnSlider::timerCallback() {
+    repaint();
+
+    if (hovering) {
+        tooltipSpawnTimer += 1;
+    }
+
+    if (tooltipSpawnTimer >= 30 && !tooltipVisible) {
+        tooltipVisible = true;
+        
+        // Placing tooltip within window bounds
+        juce::Point<int> tooltipPos(0, 0);
+        auto* top = getTopLevelComponent();
+        auto posInWindow = top->getLocalPoint(this, juce::Point<int>(0, 0));
+
+        if (posInWindow.getX() >= top->getWidth() / 2) {
+            tooltipPos.setX(posInWindow.getX() - 240);
+        }
+        else {
+            tooltipPos.setX(posInWindow.getX() + getWidth());
+        }
+
+        if (posInWindow.getY() >= top->getHeight() / 2) {
+            tooltipPos.setY(posInWindow.getY() - 120);
+        }
+        else {
+            tooltipPos.setY(posInWindow.getY() + getHeight());
+        }
+
+        tooltip.show(
+            tooltipPos.getX(),
+            tooltipPos.getY()
+        );
+    }
 }

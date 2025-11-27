@@ -15,6 +15,8 @@
 
 class ItnLookAndFeel : public juce::LookAndFeel_V4 {
 public:
+    static ItnLookAndFeel& getInstance();
+
     juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
 
     void drawRotarySlider(juce::Graphics& g,
