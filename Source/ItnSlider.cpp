@@ -247,13 +247,13 @@ void ItnSlider::timerCallback() {
         auto posInWindow = top->getLocalPoint(this, juce::Point<int>(0, 0));
 
         if (posInWindow.getX() >= top->getWidth() / 2) {
-            tooltipPos.setX(posInWindow.getX() - 240);
+            tooltipPos.setX(posInWindow.getX() - tooltip.getFullTextWidth());
         }
         else {
             tooltipPos.setX(posInWindow.getX() + getWidth());
         }
         if (posInWindow.getY() >= top->getHeight() / 2) {
-            tooltipPos.setY(posInWindow.getY() - 120);
+            tooltipPos.setY(posInWindow.getY() - tooltip.getFullTextHeight());
         }
         else {
             tooltipPos.setY(posInWindow.getY() + getHeight());

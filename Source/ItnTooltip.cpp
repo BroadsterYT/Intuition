@@ -34,7 +34,7 @@ void ItnTooltip::show(const int x, const int y) {
     subheaderCharsVisible = 0;
     descriptionCharsVisible = 0;
 
-    setBounds(x, y, 480, 480);
+    setBounds(x, y, maxTextWidth + 2.0f * widthPadding, getFullTextHeight());
     setVisible(true);
 }
 
@@ -50,16 +50,20 @@ void ItnTooltip::setText(const juce::String newHeader, const juce::String newSub
     buildTextLayouts();
 }
 
-void ItnTooltip::paint(juce::Graphics& g) {
-    auto area = getLocalBounds().toFloat();
+float ItnTooltip::getFullTextWidth() {
+    return maxTextWidth + 2.0f * widthPadding;
+}
 
+float ItnTooltip::getFullTextHeight() {
     float headerY = topToHeaderPadding;
     float subheaderY = headerY + headerLayout.getHeight() + headerToSubheaderPadding;
     float descriptionY = subheaderY + subheaderLayout.getHeight() + subheaderToDescriptionPadding;
     float totalHeight = descriptionY + descriptionLayout.getHeight() + descriptionToBottomPadding;
+    return totalHeight;
+}
 
-    float widthPadding = 10.0f;
-    auto filledArea = area.removeFromTop(totalHeight).removeFromLeft(maxTextWidth + 2.0f * widthPadding);
+void ItnTooltip::paint(juce::Graphics& g) {
+    auto filledArea = getLocalBounds().toFloat();
 
     g.setColour(GlowStyle::shadow);
     g.fillRoundedRectangle(filledArea, 15.0f);
@@ -73,6 +77,10 @@ void ItnTooltip::paint(juce::Graphics& g) {
         layout.createLayout(partialText, maxTextWidth);
         layout.draw(g, juce::Rectangle<float>(widthPadding, posY, layout.getWidth(), layout.getHeight()));
     };
+
+    float headerY = topToHeaderPadding;
+    float subheaderY = headerY + headerLayout.getHeight() + headerToSubheaderPadding;
+    float descriptionY = subheaderY + subheaderLayout.getHeight() + subheaderToDescriptionPadding;
 
     // Drawing partial text layouts for typewriter effect
     if (headerCharsVisible > 0) {
@@ -98,10 +106,6 @@ void ItnTooltip::buildTextLayouts() {
     headerLayout.createLayout(headerText, maxTextWidth);
     subheaderLayout.createLayout(subheaderText, maxTextWidth);
     descriptionLayout.createLayout(descriptionText, maxTextWidth);
-}
-
-float ItnTooltip::getTotalTextHeight() {
-    return 0.0f;
 }
 
 void ItnTooltip::timerCallback() {

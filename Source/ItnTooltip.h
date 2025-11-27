@@ -28,6 +28,8 @@ public:
     /// <param name="newSubheader">The new subheader to display</param>
     /// <param name="newDescription">The new description to display</param>
     void setText(const juce::String newHeader, const juce::String newSubheader, const juce::String newDescription);
+    float getFullTextWidth();
+    float getFullTextHeight();
 
     void paint(juce::Graphics& g) override;
 
@@ -49,6 +51,8 @@ private:
     juce::TextLayout descriptionLayout;
 
     float maxTextWidth = 300.0f;
+    float widthPadding = 10.0f;  // The space to save on either side of the text generation
+
     float topToHeaderPadding = 10.0f;
     float headerToSubheaderPadding = 10.0f;
     float subheaderToDescriptionPadding = 16.0f;
@@ -60,10 +64,5 @@ private:
     int charsPerFrame = 2;
 
     void buildTextLayouts();
-    /// <summary>
-    /// Returns the height of all text fields combined with all vertical padding
-    /// </summary>
-    /// <returns>The height of all text elements in the tooltip</returns>
-    float getTotalTextHeight();
     void timerCallback() override;
 };
