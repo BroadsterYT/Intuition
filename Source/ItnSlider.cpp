@@ -31,7 +31,6 @@ void ItnSlider::parentHierarchyChanged() {
     // Allows tooltip to be seen outside slider bounds (necessary!)
     auto top = getTopLevelComponent();
     top->addChildComponent(tooltip);
-    tooltip.setBounds(top->getLocalBounds());
 }
 
 void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
@@ -41,9 +40,7 @@ void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String
 }
 
 void ItnSlider::setTooltipFields(const juce::String header, const juce::String subheader, const juce::String description) {
-    tooltip.setHeader(header);
-    tooltip.setSubheader(subheader);
-    tooltip.setDescription(description);
+    tooltip.setText(header, subheader, description);
 }
 
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
@@ -72,16 +69,28 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
 }
 
 void ItnSlider::mouseEnter(const juce::MouseEvent& e) {
-    DBG("Mouse over " << fullName);
+    //DBG("Mouse over " << fullName);
     hovering = true;
 }
 
 void ItnSlider::mouseExit(const juce::MouseEvent& e) {
-    DBG("Mouse left " << fullName);
+    //DBG("Mouse left " << fullName);
     hovering = false;
     tooltipSpawnTimer = 0;
     tooltipVisible = false;
     tooltip.hide();
+}
+
+void ItnSlider::mouseDrag(const juce::MouseEvent& e) {
+    if (tooltipVisible) {
+        tooltipVisible = false;
+        tooltip.hide();
+    }
+
+    tooltipSpawnTimer = 0;
+    hovering = false;
+
+    juce::Slider::mouseDrag(e);
 }
 
 void ItnSlider::paint(juce::Graphics& g) {
@@ -150,7 +159,6 @@ void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
 
 void ItnSlider::updateLabel() {
     label.setText(nickname, juce::dontSendNotification);
-    //setTooltip(fullName);
 }
 
 void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
@@ -244,7 +252,6 @@ void ItnSlider::timerCallback() {
         else {
             tooltipPos.setX(posInWindow.getX() + getWidth());
         }
-
         if (posInWindow.getY() >= top->getHeight() / 2) {
             tooltipPos.setY(posInWindow.getY() - 120);
         }

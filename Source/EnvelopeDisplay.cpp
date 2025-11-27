@@ -26,6 +26,7 @@ EnvelopeDisplay::EnvelopeDisplay(
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName),
     graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
+    
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
@@ -42,6 +43,30 @@ EnvelopeDisplay::EnvelopeDisplay(
     decaySlider.setLabelNames("Decay", "D");
     sustainSlider.setLabelNames("Sustain", "S");
     releaseSlider.setLabelNames("Release", "R");
+
+    attackSlider.setTooltipFields(
+        "Attack",
+        "Because why be punctual?",
+        "Adjusts the length of the entrance ramp.\n\nFor example, let's say the envelope is modulating the volume of an oscillator (which ENV_OSC is hard-linked to do). An attack of 0 will cause notes to lead directly into their decay, but an attack of 1 will slowly ramp up to full volume before decaying."
+    );
+
+    decaySlider.setTooltipFields(
+        "Decay",
+        "A graceful retreat... or a quick flop.",
+        "The decay is the downward ramp between the attack and the sustain - the transition from the peak to the trough. A larger decay will fade slower from the max to the sustain."
+    );
+
+    sustainSlider.setTooltipFields(
+        "Sustain",
+        "The part of the note that refuses to leave.",
+        "The sustain part of the envelope is held until all notes have been released. If no attack or decay is set, then notes begin immediately at the sustain."
+    );
+
+    releaseSlider.setTooltipFields(
+        "Release",
+        "Notes need closure, too! (# > <)",
+        "The release is the fadeout of the envelope. The longer the release, the longer the envelope will persist after all notes have been released."
+    );
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {
@@ -50,7 +75,7 @@ EnvelopeDisplay::~EnvelopeDisplay() {
 
 void EnvelopeDisplay::visibilityChanged() {
     if (isShowing()) {
-        startTimerHz(30);
+        startTimerHz(60);
     }
     else {
         stopTimer();

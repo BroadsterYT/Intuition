@@ -99,6 +99,42 @@ OscillatorDisplay::OscillatorDisplay(
     addAndMakeVisible(octave);
     addAndMakeVisible(coarse);
     addAndMakeVisible(fine);
+
+    volume.setTooltipFields(
+        "Volume",
+        "Turn this one down if you hate fun.",
+        "Controls the loudness of your sound. A dynamic loudness can completely change the feeling of your sound for the better (or worse)."
+    );
+    unison.setTooltipFields(
+        "Unison",
+        "Stack 'em high, stack 'em loud.",
+        "Makes this oscillator play multiple copies of its wave, stacking them together for a richer, thicker tone. Use this to fatten leads, pads, or basses."
+    );
+    detune.setTooltipFields(
+        "Unison Detune",
+        "Detune responsibly... or don't.",
+        "Slightly shifts the pitch of each unison away from the base, creating a thicker, gnarlier sound. The more you detune, the wilder the chorus effect."
+    );
+    morph.setTooltipFields(
+        "Wavetable Morph",
+        "Look, Serum! No hands!",
+        "Shifts smoothly between the waveforms in this oscillator's wavebank. Use this to create evolving textures, dynamic timbres, or sounds that just keep changing."
+    );
+    octave.setTooltipFields(
+        "Octave",
+        "From basement rumble to dog whistle.",
+        "Shifts the pitch of this oscillator up or down in steps of whole octaves. A step up doubles the frequency of the sound, while a step down halves it. Use this to quickly jump between bass, mid-range, and treble."
+    );
+    coarse.setTooltipFields(
+        "Coarse Pitch (Semitones)",
+        "Adds grit.",
+        "Shifts the pitch of this oscillator up or down in single-note steps, called semitones. Each step raises or lowers the pitch by 1/12th of an octave. For example, playing middle C (C4) with this dial set to -1 will actually sound like B4."
+    );
+    fine.setTooltipFields(
+        "Fine Pitch (Cents)",
+        "Vibrato's best friend.",
+        "Shifts the pitch of this oscillator up or down in fractions of a semitone, called cents. Increasing/decreasing pitch by 100 cents is the same as increasing/decreasing by 1 semitone."
+    );
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {
