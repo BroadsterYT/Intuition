@@ -15,7 +15,6 @@ ItnTooltip::ItnTooltip() {
     setAlwaysOnTop(true);
     setInterceptsMouseClicks(false, false);
     setMouseClickGrabsKeyboardFocus(false);
-    startTimerHz(60);
 
     headerFont = juce::Font(juce::FontOptions("Arial", 24.0f, juce::Font::bold));
     subheaderFont = juce::Font(juce::FontOptions("Arial", 16.0f, juce::Font::italic));
@@ -30,6 +29,7 @@ ItnTooltip::~ItnTooltip() {
 }
 
 void ItnTooltip::show(const int x, const int y) {
+    startTimerHz(60);
     headerCharsVisible = 0;
     subheaderCharsVisible = 0;
     descriptionCharsVisible = 0;
@@ -40,14 +40,22 @@ void ItnTooltip::show(const int x, const int y) {
 
 void ItnTooltip::hide() {
     setVisible(false);
+    stopTimer();
 }
 
-void ItnTooltip::setText(const juce::String newHeader, const juce::String newSubheader, const juce::String newDescription) {
+void ItnTooltip::setHeader(const juce::String newHeader, bool rebuild) {
     header = newHeader;
-    subheader = newSubheader;
-    description = newDescription;
+    if (rebuild) buildTextLayouts();
+}
 
-    buildTextLayouts();
+void ItnTooltip::setSubheader(const juce::String newSubheader, bool rebuild) {
+    subheader = newSubheader;
+    if (rebuild) buildTextLayouts();
+}
+
+void ItnTooltip::setDescription(const juce::String newDescription, bool rebuild) {
+    description = newDescription;
+    if (rebuild) buildTextLayouts();
 }
 
 float ItnTooltip::getFullTextWidth() {
@@ -68,7 +76,7 @@ void ItnTooltip::paint(juce::Graphics& g) {
     g.setColour(GlowStyle::shadow);
     g.fillRoundedRectangle(filledArea, 15.0f);
     g.setColour(GlowStyle::warmHighlight);
-    g.drawRoundedRectangle(filledArea, 15.0f, 2.0f);
+    g.drawRoundedRectangle(filledArea, 15.0f, 4.0f);
 
     auto drawPartialLayout = [&](const juce::String& text, int charCount, float posY, juce::Font& font, juce::Colour color) {
         juce::AttributedString partialText;

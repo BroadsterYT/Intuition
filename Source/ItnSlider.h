@@ -24,12 +24,16 @@ public:
     void parentHierarchyChanged() override;
 
     /// <summary>
-    /// Sets the display names of the slider.
+    /// Sets the display name of the slider.
     /// </summary>
-    /// <param name="newFullName">The name to show as the header of the tooltip</param>
-    /// <param name="newNickname">The name to display on the slider itself when the slider's label is visible</param>
-    void setLabelNames(const juce::String newFullName, const juce::String newNickname);
-    void setTooltipFields(const juce::String header, const juce::String subheader, const juce::String description);
+    /// <param name="newName">The name to display on the slider itself when the slider's label is visible</param>
+    void setLabelName(const juce::String newName);
+
+    /// <summary>
+    /// Sets the text fields for this tooltip, taken from the JSON-formatted tooltip list
+    /// </summary>
+    /// <param name="parameterKey">The key to extract tooltip information from within the JSON tooltip structure</param>
+    void setCustomTooltipText(const juce::String parameterKey);
 
     void mouseDown(const juce::MouseEvent& e) override;
     void mouseEnter(const juce::MouseEvent& e) override;
@@ -42,8 +46,7 @@ public:
     void setModMatrix(ModMatrix* matrix, juce::String pName);
 
 private:
-    juce::String fullName;
-    juce::String nickname;
+    juce::String name;
     juce::Label label;
 
     ModMatrix* modMatrix = nullptr;
@@ -51,7 +54,6 @@ private:
 
     // Hover elements
     bool hovering = false;
-    
     ItnTooltip tooltip;
     int tooltipSpawnTimer = 0;
     bool tooltipVisible = false;

@@ -8,6 +8,9 @@
 
 namespace BinaryData
 {
+    extern const char*   tooltips_json;
+    const int            tooltips_jsonSize = 5634;
+
     extern const char*   AKWF_saw_wav;
     const int            AKWF_saw_wavSize = 1344;
 
@@ -27,7 +30,7 @@ namespace BinaryData
     const int            intumi_exeSize = 12078802;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 6;
+    const int namedResourceListSize = 7;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

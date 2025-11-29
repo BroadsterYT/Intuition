@@ -6,6 +6,9 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{B32A88A1-14F7-2DEB-D90C-C55EA7A043CD}" name="Assets">
+      <GROUP id="{25EE59C2-CF4E-8355-8D4A-D8421581CA15}" name="Text">
+        <FILE id="WOcqwt" name="tooltips.json" compile="0" resource="1" file="Assets/Text/tooltips.json"/>
+      </GROUP>
       <GROUP id="{F7BB2695-014B-C5B2-2ECF-E49E9B09CCD6}" name="DefaultWaveforms">
         <FILE id="qdLed0" name="AKWF_saw.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_saw.wav"/>
         <FILE id="OjTdbE" name="AKWF_sin.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_sin.wav"/>

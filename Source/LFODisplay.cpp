@@ -48,11 +48,7 @@ LFODisplay::LFODisplay(
     addAndMakeVisible(syncDiv);
     addChildComponent(rate);
 
-    rate.setTooltipFields(
-        "LFO Rate",
-        "Certified wobble.",
-        "The LFO rate is how many cycles per second the LFO completes. This dial controls the \"unsynced\" LFO rate, meaning that the rate may not align with the song's BPM."
-    );
+    rate.setCustomTooltipText("LFO_RATE");
 }
 
 void LFODisplay::paint(juce::Graphics& g) {

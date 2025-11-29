@@ -22,12 +22,24 @@ public:
     void hide();
 
     /// <summary>
-    /// Sets all text fields of the tooltip to new values
+    /// Assigns a new string to the tooltip header (title)
     /// </summary>
-    /// <param name="newHeader">The new header text to display</param>
-    /// <param name="newSubheader">The new subheader to display</param>
-    /// <param name="newDescription">The new description to display</param>
-    void setText(const juce::String newHeader, const juce::String newSubheader, const juce::String newDescription);
+    /// <param name="newHeader">The new header to use</param>
+    /// <param name="rebuild">Should the text layouts of the tooltip be rebuilt? Defaults to false (still needs to be called to display changes!).</param>
+    void setHeader(const juce::String newHeader, bool rebuild = false);
+    /// <summary>
+    /// Assigns a new string to the tooltip subheader (flavor text)
+    /// </summary>
+    /// <param name="newSubeader">The new subheader to use</param>
+    /// <param name="rebuild">Should the text layouts of the tooltip be rebuilt? Defaults to false (still needs to be called to display changes!).</param>
+    void setSubheader(const juce::String newSubheader, bool rebuild = false);
+    /// <summary>
+    /// Assigns a new string to the tooltip description
+    /// </summary>
+    /// <param name="newDescription">The new description to use</param>
+    /// <param name="rebuild">Should the text layouts of the tooltip be rebuilt? Defaults to false (still needs to be called to display changes!).</param>
+    void setDescription(const juce::String newDescription, bool rebuild = false);
+
     float getFullTextWidth();
     float getFullTextHeight();
 

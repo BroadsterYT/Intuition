@@ -31,8 +31,8 @@ FilterDisplay::FilterDisplay(
 
     frequency.setSkewFactorFromMidPoint(1000.0f);
 
-    frequency.setLabelNames("Cutoff", "Cutoff");
-    resonance.setLabelNames("Resonance", "Res");
+    frequency.setLabelName("Cutoff");
+    resonance.setLabelName("Res");
 
     frequency.setModMatrix(modMatrix, "FILTER_CUTOFF");
     resonance.setModMatrix(modMatrix, "FILTER_RESONANCE");
@@ -56,6 +56,9 @@ FilterDisplay::FilterDisplay(
     addAndMakeVisible(toggleB);
     addAndMakeVisible(toggleC);
     addAndMakeVisible(toggleD);
+
+    frequency.setCustomTooltipText("FILTER_CUTOFF");
+    resonance.setCustomTooltipText("FILTER_RESONANCE");
 }
 
 void FilterDisplay::paint(juce::Graphics& g) {

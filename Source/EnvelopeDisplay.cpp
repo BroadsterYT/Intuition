@@ -39,31 +39,15 @@ EnvelopeDisplay::EnvelopeDisplay(
     sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, sustainParamName, sustainSlider);
     releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);
 
-    attackSlider.setLabelNames("Attack", "A");
-    decaySlider.setLabelNames("Decay", "D");
-    sustainSlider.setLabelNames("Sustain", "S");
-    releaseSlider.setLabelNames("Release", "R");
+    attackSlider.setLabelName("A");
+    decaySlider.setLabelName("D");
+    sustainSlider.setLabelName("S");
+    releaseSlider.setLabelName("R");
 
-    attackSlider.setTooltipFields(
-        "Attack",
-        "Because why be punctual?",
-        "Adjusts the length of the entrance ramp.\n\nFor example, let's say the envelope is modulating the volume of an oscillator (which ENV_OSC is hard-linked to do). An attack of 0 will cause notes to lead directly into their decay, but an attack of 1 will slowly ramp up to full volume before decaying."
-    );
-    decaySlider.setTooltipFields(
-        "Decay",
-        "A graceful retreat... or a quick flop.",
-        "The decay is the downward ramp between the attack and the sustain - the transition from the peak to the trough. A larger decay will fade slower from the max to the sustain."
-    );
-    sustainSlider.setTooltipFields(
-        "Sustain",
-        "The part of the note that refuses to leave.",
-        "The sustain part of the envelope is held until all notes have been released. If no attack or decay is set, then notes begin immediately at the sustain."
-    );
-    releaseSlider.setTooltipFields(
-        "Release",
-        "Notes need closure, too! (# > <)",
-        "The release is the fadeout of the envelope. The longer the release, the longer the envelope will persist after all notes have been released."
-    );
+    attackSlider.setCustomTooltipText("ENV_ATTACK");
+    decaySlider.setCustomTooltipText("ENV_DECAY");
+    sustainSlider.setCustomTooltipText("ENV_SUSTAIN");
+    releaseSlider.setCustomTooltipText("ENV_RELEASE");
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {

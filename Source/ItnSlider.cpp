@@ -33,14 +33,35 @@ void ItnSlider::parentHierarchyChanged() {
     top->addChildComponent(tooltip);
 }
 
-void ItnSlider::setLabelNames(const juce::String newFullName, const juce::String newNickname) {
-    fullName = newFullName;
-    nickname = newNickname;
+void ItnSlider::setLabelName(const juce::String newName) {
+    name = newName;
     updateLabel();
 }
 
-void ItnSlider::setTooltipFields(const juce::String header, const juce::String subheader, const juce::String description) {
-    tooltip.setText(header, subheader, description);
+void ItnSlider::setCustomTooltipText(const juce::String parameterKey) {
+    auto jsonText = juce::String::fromUTF8(BinaryData::tooltips_json, BinaryData::tooltips_jsonSize);
+    juce::var parsed = juce::JSON::parse(jsonText);
+    
+    if (parsed.isVoid() || parsed.isUndefined()) {
+        DBG("Error: Unable to parse JSON file.");
+        return;
+    }
+
+    auto* obj = parsed.getDynamicObject();
+    if (!obj) {
+        DBG("Error: Could not convert JSON dat to Dynamic Object.");
+        return;
+    }
+
+    auto tooltipText = obj->getProperty(parameterKey);
+    auto* textObj = tooltipText.getDynamicObject();
+    juce::String header = textObj->getProperty("header");
+    juce::String subheader = textObj->getProperty("subheader");
+    juce::String description = textObj->getProperty("description");
+
+    tooltip.setHeader(header);
+    tooltip.setSubheader(subheader);
+    tooltip.setDescription(description, true);
 }
 
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
@@ -69,12 +90,10 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
 }
 
 void ItnSlider::mouseEnter(const juce::MouseEvent& e) {
-    //DBG("Mouse over " << fullName);
     hovering = true;
 }
 
 void ItnSlider::mouseExit(const juce::MouseEvent& e) {
-    //DBG("Mouse left " << fullName);
     hovering = false;
     tooltipSpawnTimer = 0;
     tooltipVisible = false;
@@ -158,7 +177,7 @@ void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
 }
 
 void ItnSlider::updateLabel() {
-    label.setText(nickname, juce::dontSendNotification);
+    label.setText(name, juce::dontSendNotification);
 }
 
 void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
