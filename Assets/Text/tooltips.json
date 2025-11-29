@@ -26,6 +26,11 @@
 		"subheader": "Turn this one down if you hate fun.",
 		"description": "Controls the loudness of your sound. A dynamic loudness can completely change the feeling of your sound for the better (or worse)."
 	},
+	"OSC_PAN": {
+		"header": "Panning",
+		"subheader": "Decide which speaker gets custody.",
+		"description": "Controls where the sound sits between the left and right speakers. Set to 0 to only play from the left speaker, turn to 1 to only play from the right."
+	},
 	"OSC_UNISON": {
 		"header": "Unison",
 		"subheader": "Stack 'em high, stack 'em loud.",
@@ -101,12 +106,12 @@
 	"REVERB_DRY_LEVEL": {
 		"header": "Reverb Dry Level",
 		"subheader": "The boring dial.",
-		"description": "Controls the volume of the original, \"un-reverbed\" signal you hear."
+		"description": "Controls the volume of the original signal passed through the reverb module, i.e., the volume of the \"un-reverbed\" sound."
 	},
 	"REVERB_WET_LEVEL": {
 		"header": "Reverb Wet Level",
 		"subheader": "Reverb heads: This one's for you.",
-		"description": "Controls how much of the reverberated, processed signal you hear."
+		"description": "Controls the volume of the reverberated, processed signal you hear."
 	},
 
 
@@ -123,8 +128,18 @@
 	},
 	"DELAY_CUTOFF": {
 		"header": "Delay Cutoff Frequency",
-		"subheader": "TK",
-		"description": "TK",
+		"subheader": "I hope you read the filter cutoff tooltip!",
+		"description": "The cutoff frequency of the filter that the wet signal is passed through. A lower cutoff will only let lower frequencies be heard in the delay, while a higher cutoff will let higher frequencies in.",
 		"units": "Hz"
+	},
+	"DELAY_DRY_LEVEL": {
+		"header": "Delay Dry Level",
+		"subheader": "The call...",
+		"description": "Controls the volume of the original signal passed through the delay module."
+	},
+	"DELAY_WET_LEVEL": {
+		"header": "Delay Wet Level",
+		"subheader": "... and the response.",
+		"description": "Controls how much of the delayed, repeated signal you hear."
 	}
 }

@@ -19,6 +19,7 @@ OscillatorDisplay::OscillatorDisplay(
     
     const juce::String toggleParamName,
     const juce::String volumeParamName,
+    const juce::String panParamName,
     const juce::String unisonParamName,
     const juce::String detuneParamName,
     const juce::String morphParamName,
@@ -32,6 +33,7 @@ OscillatorDisplay::OscillatorDisplay(
     
     toggleParamName(toggleParamName),
     volumeParamName(volumeParamName),
+    panParamName(panParamName),
     unisonParamName(unisonParamName),
     detuneParamName(detuneParamName),
     morphParamName(morphParamName),
@@ -52,6 +54,7 @@ OscillatorDisplay::OscillatorDisplay(
     
     toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
     volumeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, volumeParamName, volume);
+    panAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, panParamName, pan);
     unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
     detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, detuneParamName, detune);
     morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, morphParamName, morph);
@@ -61,6 +64,7 @@ OscillatorDisplay::OscillatorDisplay(
 
     //unison.setModMatrix(modMatrix, unisonParamName);
     volume.setModMatrix(modMatrix, volumeParamName);
+    pan.setModMatrix(modMatrix, panParamName);
     detune.setModMatrix(modMatrix, detuneParamName);
     morph.setModMatrix(modMatrix, morphParamName);
     octave.setModMatrix(modMatrix, octaveParamName);
@@ -76,6 +80,7 @@ OscillatorDisplay::OscillatorDisplay(
 
     toggle.setButtonText("");
     volume.setLabelName("Vol");
+    pan.setLabelName("Pan");
     unison.setLabelName("U");
     detune.setLabelName("D");
     morph.setLabelName("WTM");
@@ -84,6 +89,7 @@ OscillatorDisplay::OscillatorDisplay(
     fine.setLabelName("FIN");
 
     volume.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
+    pan.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     unison.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     detune.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     morph.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
@@ -93,6 +99,7 @@ OscillatorDisplay::OscillatorDisplay(
 
     addAndMakeVisible(toggle);
     addAndMakeVisible(volume);
+    addAndMakeVisible(pan);
     addAndMakeVisible(unison);
     addAndMakeVisible(detune);
     addAndMakeVisible(morph);
@@ -101,6 +108,7 @@ OscillatorDisplay::OscillatorDisplay(
     addAndMakeVisible(fine);
 
     volume.setCustomTooltipText("OSC_VOLUME");
+    pan.setCustomTooltipText("OSC_PAN");
     unison.setCustomTooltipText("OSC_UNISON");
     detune.setCustomTooltipText("OSC_DETUNE");
     morph.setCustomTooltipText("OSC_MORPH");
@@ -127,10 +135,11 @@ void OscillatorDisplay::resized() {
     volume.setBounds(knobArea.removeFromLeft(knobWidth));
 
     auto pitchArea = area.removeFromBottom(60);
-    int pitchWidth = pitchArea.getWidth() / 3;
+    int pitchWidth = pitchArea.getWidth() / 4;
     octave.setBounds(pitchArea.removeFromLeft(pitchWidth));
     coarse.setBounds(pitchArea.removeFromLeft(pitchWidth));
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
+    pan.setBounds(pitchArea.removeFromLeft(pitchWidth));
 
     toggle.setBounds(10, 10, 25, 25);
 

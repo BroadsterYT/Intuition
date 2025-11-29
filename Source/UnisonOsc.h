@@ -12,6 +12,7 @@
 #include "WavetableOsc.h"
 #include "WavetableBank.h"
 
+
 /// <summary>
 /// An oscillator of oscillators
 /// </summary>
@@ -43,9 +44,10 @@ public:
     std::pair<float, float> getSample();
 
 private:
+    juce::AudioProcessorValueTreeState* parameters = nullptr;
+
     std::vector<WavetableOsc> oscillators;
     WavetableBank* bank = nullptr;
-    juce::AudioProcessorValueTreeState* parameters = nullptr;
 
     double sampleRate = 44100.0;
     int unison = 1;

@@ -229,28 +229,38 @@ void UnisonVoice::processAtHighRate(juce::AudioBuffer<float>& block, int startSa
     float volumeC = modMatrix.getModdedDest("C_VOLUME");
     float volumeD = modMatrix.getModdedDest("D_VOLUME");
 
-    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered, float vol) {
+    float panA = modMatrix.getModdedDest("A_PAN");
+    float panB = modMatrix.getModdedDest("B_PAN");
+    float panC = modMatrix.getModdedDest("C_PAN");
+    float panD = modMatrix.getModdedDest("D_PAN");
+
+    auto processOscBlock = [&](UnisonOsc& osc, bool active, bool filtered, float vol, float pan) {
         if (!active) return;
 
         for (int s = 0; s < (int)numSamples; ++s) {
             auto [l, r] = osc.getSample();
             float outputVol = level * vol;
 
+            float panVal = juce::jmap(pan, 0.0f, 1.0f, -1.0f, 1.0f);
+            float angle = (panVal + 1.0f) * juce::MathConstants<float>::pi / 4.0f;
+            float panL = std::cos(angle);
+            float panR = std::sin(angle);
+
             if (filtered) {
-                filteredBuffer.addSample(0, s, l * outputVol);
-                filteredBuffer.addSample(1, s, r * outputVol);
+                filteredBuffer.addSample(0, s, l * outputVol * panL);
+                filteredBuffer.addSample(1, s, r * outputVol * panR);
             }
             else {
-                dryL[s] += l * outputVol;
-                dryR[s] += r * outputVol;
+                dryL[s] += l * outputVol * panL;
+                dryR[s] += r * outputVol * panR;
             }
         }
-        };
+    };
 
-    processOscBlock(oscA, toggleA, sendA, volumeA);
-    processOscBlock(oscB, toggleB, sendB, volumeB);
-    processOscBlock(oscC, toggleC, sendC, volumeC);
-    processOscBlock(oscD, toggleD, sendD, volumeD);
+    processOscBlock(oscA, toggleA, sendA, volumeA, panA);
+    processOscBlock(oscB, toggleB, sendB, volumeB, panB);
+    processOscBlock(oscC, toggleC, sendC, volumeC, panC);
+    processOscBlock(oscD, toggleD, sendD, volumeD, panD);
 
     // Filter block
     juce::dsp::AudioBlock<float> filterBlock(filteredBuffer);

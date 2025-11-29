@@ -154,11 +154,4 @@ std::pair<float, float> UnisonOsc::getSample() {
     right *= norm;
 
     return { left, right };
-
-    /*float sum = 0.0f;
-    for (int i = 0; i < unison; ++i) {
-        sum += oscillators[i].getSample();
-    }
-
-    return sum /= unison;*/
 }

@@ -18,7 +18,7 @@ namespace BinaryData
     const int            Exo2Regular_ttfSize = 151388;
 
     extern const char*   tooltips_json;
-    const int            tooltips_jsonSize = 6508;
+    const int            tooltips_jsonSize = 7437;
 
     extern const char*   AKWF_saw_wav;
     const int            AKWF_saw_wavSize = 1344;

@@ -35,5 +35,6 @@ private:
     float delayTimeSamples = 0.0f;
 
     float feedback = 0.5f;
+    float dry = 0.7f;
     float wet = 0.3f;
 };

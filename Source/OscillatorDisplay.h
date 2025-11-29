@@ -27,6 +27,7 @@ public:
         
         const juce::String toggleParamName,
         const juce::String volumeParamName,
+        const juce::String panParamName,
         const juce::String unisonParamName,
         const juce::String detuneParamName,
         const juce::String morphParamName,
@@ -44,6 +45,7 @@ private:
 
     juce::String toggleParamName;
     juce::String volumeParamName;
+    juce::String panParamName;
     juce::String unisonParamName;
     juce::String detuneParamName;
     juce::String morphParamName;
@@ -55,9 +57,9 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
     ItnSlider volume, unison, detune, morph;
-    ItnSlider octave, coarse, fine;
+    ItnSlider octave, coarse, fine, pan;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> volumeAttachment, unisonAttachment, detuneAttachment, morphAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment, panAttachment;
 
     juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;

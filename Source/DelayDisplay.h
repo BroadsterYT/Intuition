@@ -32,8 +32,8 @@ private:
 
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
-    ItnSlider timeMs, feedback, wet, cutoff;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, wetAttachment, cutoffAttachment;
+    ItnSlider timeMs, feedback, cutoff, dry, wet;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, dryAttachment, wetAttachment, cutoffAttachment;
 
     juce::ToggleButton bpmSync;
 };

@@ -33,12 +33,14 @@ void DelayModule::prepare(double sr, float maxDelayMs, int numChan) {
 void DelayModule::updateParameters() {
     float delayTimeMs = modMatrix->getModdedDest("DELAY_TIME_MS");
     float fb = modMatrix->getModdedDest("DELAY_FEEDBACK");
-    float wetLevel = modMatrix->getModdedDest("DELAY_WET_LEVEL");
     float cutoffHz = modMatrix->getModdedDest("DELAY_CUTOFF");
+    float dryLevel = modMatrix->getModdedDest("DELAY_DRY_LEVEL");
+    float wetLevel = modMatrix->getModdedDest("DELAY_WET_LEVEL");
 
     delayTimeSamples = (delayTimeMs / 1000.0f) * sampleRate;
     feedback = juce::jlimit(0.0f, 0.99f, fb);
-    wet = juce::jlimit(0.0f, 1.0f, wetLevel);
+    dry = dryLevel;
+    wet = wetLevel;
 
     for (int ch = 0; ch < numChannels; ++ch) {
         feedbackFilter[ch].setCoefficients(juce::IIRCoefficients::makeLowPass(sampleRate, cutoffHz));
@@ -65,8 +67,9 @@ void DelayModule::processBlock(juce::AudioBuffer<float>& buffer) {
 
             delayBuffer.setSample(ch, writePos, input + fb);
 
-            float wetOut = input * (1.0f - wet) + delayedSample * wet;
-            buffer.setSample(ch, n, wetOut);
+            float dryOut = input * dry;
+            float wetOut = delayedSample * wet;
+            buffer.setSample(ch, n, dryOut + wetOut);
         }
 
         writePos = (writePos + 1) % maxDelaySamples;
