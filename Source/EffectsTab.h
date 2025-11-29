@@ -25,8 +25,6 @@ public:
     void resized() override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
-    
     ItnContext& context;
 
     ReverbDisplay reverb;

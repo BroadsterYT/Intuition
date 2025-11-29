@@ -8,6 +8,18 @@
 
 namespace BinaryData
 {
+    extern const char*   Exo2Bold_ttf;
+    const int            Exo2Bold_ttfSize = 151520;
+
+    extern const char*   Exo2Italic_ttf;
+    const int            Exo2Italic_ttfSize = 151336;
+
+    extern const char*   Exo2Regular_ttf;
+    const int            Exo2Regular_ttfSize = 151388;
+
+    extern const char*   tooltips_json;
+    const int            tooltips_jsonSize = 6508;
+
     extern const char*   AKWF_saw_wav;
     const int            AKWF_saw_wavSize = 1344;
 
@@ -27,7 +39,7 @@ namespace BinaryData
     const int            intumi_exeSize = 12078802;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 6;
+    const int namedResourceListSize = 10;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

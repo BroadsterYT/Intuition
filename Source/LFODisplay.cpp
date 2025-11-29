@@ -47,6 +47,8 @@ LFODisplay::LFODisplay(
     addAndMakeVisible(mode);
     addAndMakeVisible(syncDiv);
     addChildComponent(rate);
+
+    rate.setCustomTooltipText("LFO_RATE");
 }
 
 void LFODisplay::paint(juce::Graphics& g) {

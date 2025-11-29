@@ -12,7 +12,7 @@
 
 DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
 ) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
     addAndMakeVisible(timeMs);
@@ -27,10 +27,10 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
     wetAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_WET_LEVEL", wet);
     cutoffAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_CUTOFF", cutoff);
 
-    timeMs.setLabelNames("Time", "Time");
-    feedback.setLabelNames("Feedback", "Feedback");
-    wet.setLabelNames("Wet Level", "Wet");
-    cutoff.setLabelNames("Cutoff Frequency", "Cutoff");
+    timeMs.setLabelName("Time");
+    feedback.setLabelName("Feedback");
+    wet.setLabelName("Wet");
+    cutoff.setLabelName("Cutoff");
 
     timeMs.setModMatrix(modMatrix, "DELAY_TIME_MS");
     feedback.setModMatrix(modMatrix, "DELAY_FEEDBACK");
@@ -38,6 +38,10 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
     cutoff.setModMatrix(modMatrix, "DELAY_CUTOFF");
 
     cutoff.setSkewFactorFromMidPoint(1000.0f);
+
+    timeMs.setCustomTooltipText("DELAY_TIME_MS");
+    feedback.setCustomTooltipText("DELAY_FEEDBACK");
+    cutoff.setCustomTooltipText("DELAY_CUTOFF");
 }
 
 DelayDisplay::~DelayDisplay() {

@@ -105,7 +105,7 @@ OscillatorTab::OscillatorTab(ItnContext& context
         context.parameters,
         context.modMatrix
     ) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(oscDisplay1);
     addAndMakeVisible(oscDisplay2);

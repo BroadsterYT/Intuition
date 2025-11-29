@@ -30,7 +30,6 @@ public:
     void resized() override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
     ItnContext& context;
 
     WaveBankComponent waveBankComp1;

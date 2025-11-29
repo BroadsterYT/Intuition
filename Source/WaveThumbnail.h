@@ -26,8 +26,6 @@ public:
     void resized() override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
-
     WavetableBank& bank;
     int waveId = 0; // ID of the wave for this component to draw
 

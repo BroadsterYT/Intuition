@@ -13,7 +13,7 @@
 FilterGraph::FilterGraph(
     juce::AudioProcessorValueTreeState& vts
 ) : parameters(vts) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(30);
 }
 
@@ -28,7 +28,7 @@ void FilterGraph::paint(juce::Graphics& g) {
     float resonance = *parameters.getRawParameterValue("FILTER_RESONANCE");
     int typeChoice = (int)*parameters.getRawParameterValue("FILTER_TYPE");
     
-    lookAndFeel.drawFilter(g, juce::Rectangle<float>(getWidth(), getHeight()), cutoff, resonance, typeChoice);
+    ItnLookAndFeel::drawFilter(g, juce::Rectangle<float>(getWidth(), getHeight()), cutoff, resonance, typeChoice);
 }
 
 void FilterGraph::timerCallback() {

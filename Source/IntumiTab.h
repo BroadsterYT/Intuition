@@ -24,8 +24,6 @@ public:
     void resized() override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
-
     IntuitionAudioProcessor* processor = nullptr;
 
     juce::TextEditor apiKeyBox;

@@ -19,6 +19,7 @@ namespace GlowStyle {
     const auto bulbGlow = juce::Colour::fromRGB(255, 248, 225);
     const auto shadow = juce::Colour::fromRGB(28, 24, 22);
     const auto charcoal = juce::Colour::fromRGB(32, 26, 22);
+    const auto gray = juce::Colour::fromRGB(176, 167, 157);
 
     /// <summary>
     /// Draws a waveform that looks like light casted from a lightbulb in a dark room

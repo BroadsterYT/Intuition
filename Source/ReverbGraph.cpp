@@ -11,7 +11,7 @@
 #include "ReverbGraph.h"
 
 ReverbGraph::ReverbGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
     lastSpawnTime = juce::Time::getMillisecondCounter();
 }

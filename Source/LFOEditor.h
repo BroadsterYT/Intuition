@@ -32,8 +32,6 @@ public:
     void visibilityChanged() override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
-
     LFOShape& shape;
     float* phase = nullptr;
 

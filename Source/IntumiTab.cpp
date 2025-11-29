@@ -12,7 +12,7 @@
 
 
 IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 

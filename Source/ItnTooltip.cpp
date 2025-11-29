@@ -1,0 +1,143 @@
+/*
+  ==============================================================================
+
+    ItnTooltip.cpp
+    Created: 26 Nov 2025 4:56:45pm
+    Author:  BroDe
+
+  ==============================================================================
+*/
+
+#include "ItnTooltip.h"
+
+ItnTooltip::ItnTooltip() {
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
+    setAlwaysOnTop(true);
+    setInterceptsMouseClicks(false, false);
+    setMouseClickGrabsKeyboardFocus(false);
+
+    buildTextLayouts();
+}
+
+ItnTooltip::~ItnTooltip() {
+    setLookAndFeel(nullptr);
+    stopTimer();
+}
+
+void ItnTooltip::show(const int x, const int y) {
+    startTimerHz(60);
+    headerCharsVisible = 0;
+    subheaderCharsVisible = 0;
+    descriptionCharsVisible = 0;
+
+    setBounds(x, y, maxTextWidth + 2.0f * widthPadding, getFullTextHeight());
+    setVisible(true);
+}
+
+void ItnTooltip::hide() {
+    setVisible(false);
+    stopTimer();
+}
+
+void ItnTooltip::setHeader(const juce::String newHeader, bool rebuild) {
+    header = newHeader;
+    if (rebuild) buildTextLayouts();
+}
+
+void ItnTooltip::setSubheader(const juce::String newSubheader, bool rebuild) {
+    subheader = newSubheader;
+    if (rebuild) buildTextLayouts();
+}
+
+void ItnTooltip::setDescription(const juce::String newDescription, bool rebuild) {
+    description = newDescription;
+    if (rebuild) buildTextLayouts();
+}
+
+float ItnTooltip::getFullTextWidth() {
+    return maxTextWidth + 2.0f * widthPadding;
+}
+
+float ItnTooltip::getFullTextHeight() {
+    float headerY = topToHeaderPadding;
+    float subheaderY = headerY + headerLayout.getHeight() + headerToSubheaderPadding;
+    float descriptionY = subheaderY + subheaderLayout.getHeight() + subheaderToDescriptionPadding;
+    float totalHeight = descriptionY + descriptionLayout.getHeight() + descriptionToBottomPadding;
+    return totalHeight;
+}
+
+void ItnTooltip::paint(juce::Graphics& g) {
+    auto filledArea = getLocalBounds().toFloat();
+
+    g.setColour(GlowStyle::shadow);
+    g.fillRoundedRectangle(filledArea, 15.0f);
+    g.setColour(GlowStyle::warmHighlight);
+    g.drawRoundedRectangle(filledArea, 15.0f, 4.0f);
+
+    auto drawPartialLayout = [&](const juce::String& text, int charCount, float posY, juce::Font& font, juce::Colour color) {
+        juce::AttributedString partialText;
+        partialText.append(text.substring(0, charCount), font, color);
+        juce::TextLayout layout;
+        layout.createLayout(partialText, maxTextWidth);
+        layout.draw(g, juce::Rectangle<float>(widthPadding, posY, layout.getWidth(), layout.getHeight()));
+    };
+
+    float headerY = topToHeaderPadding;
+    float subheaderY = headerY + headerLayout.getHeight() + headerToSubheaderPadding;
+    float descriptionY = subheaderY + subheaderLayout.getHeight() + subheaderToDescriptionPadding;
+
+    // Drawing partial text layouts for typewriter effect
+    ItnLookAndFeel* lookAndFeel = &ItnLookAndFeel::getInstance();
+    if (headerCharsVisible > 0) {
+        auto font = lookAndFeel->getTooltipHeaderFont();
+        drawPartialLayout(header, headerCharsVisible, headerY, font, GlowStyle::warmHighlight);
+    }
+    if (subheaderCharsVisible > 0) {
+        auto font = lookAndFeel->getTooltipSubheaderFont();
+        drawPartialLayout(subheader, subheaderCharsVisible, subheaderY, font, GlowStyle::gray);
+    }
+    if (descriptionCharsVisible > 0) {
+        auto font = lookAndFeel->getTooltipDescriptionFont();
+        drawPartialLayout(description, descriptionCharsVisible, descriptionY, font, GlowStyle::bulbGlow);
+    }
+}
+
+void ItnTooltip::buildTextLayouts() {
+    headerText.clear();
+    subheaderText.clear();
+    descriptionText.clear();
+
+    headerText.append(header, ItnLookAndFeel::getInstance().getTooltipHeaderFont(), GlowStyle::bulbGlow);
+    subheaderText.append(subheader, ItnLookAndFeel::getInstance().getTooltipSubheaderFont(), GlowStyle::bulbGlow);
+    descriptionText.append(description, ItnLookAndFeel::getInstance().getTooltipDescriptionFont(), GlowStyle::bulbGlow);
+
+    headerLayout.createLayout(headerText, maxTextWidth);
+    subheaderLayout.createLayout(subheaderText, maxTextWidth);
+    descriptionLayout.createLayout(descriptionText, maxTextWidth);
+}
+
+void ItnTooltip::timerCallback() {
+    bool repaintNeeded = false;
+
+    int headerLen = header.length();
+    int subheaderLen = subheader.length();
+    int descLen = description.length();
+
+    if (headerCharsVisible < headerLen) {
+        headerCharsVisible += charsPerFrame;
+        if (headerCharsVisible > headerLen) headerCharsVisible = headerLen;
+        repaintNeeded = true;
+    }
+    else if (subheaderCharsVisible < subheaderLen) {
+        subheaderCharsVisible += charsPerFrame;
+        if (subheaderCharsVisible > subheaderLen) subheaderCharsVisible = subheaderLen;
+        repaintNeeded = true;
+    }
+    else if (descriptionCharsVisible < descLen) {
+        descriptionCharsVisible += charsPerFrame;
+        if (descriptionCharsVisible > descLen) descriptionCharsVisible = descLen;
+        repaintNeeded = true;
+    }
+
+    if (repaintNeeded) repaint();
+}

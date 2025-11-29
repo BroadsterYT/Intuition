@@ -75,13 +75,13 @@ OscillatorDisplay::OscillatorDisplay(
     fine.setRange(-100, 100, 1);
 
     toggle.setButtonText("");
-    volume.setLabelNames("Volume", "Vol");
-    unison.setLabelNames("Unison", "U");
-    detune.setLabelNames("Detune", "D");
-    morph.setLabelNames("Morph", "WTM");
-    octave.setLabelNames("Octave", "OCT");
-    coarse.setLabelNames("Coarse Pitch", "SEM");
-    fine.setLabelNames("Fine Pitch", "FIN");
+    volume.setLabelName("Vol");
+    unison.setLabelName("U");
+    detune.setLabelName("D");
+    morph.setLabelName("WTM");
+    octave.setLabelName("OCT");
+    coarse.setLabelName("SEM");
+    fine.setLabelName("FIN");
 
     volume.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     unison.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
@@ -99,6 +99,14 @@ OscillatorDisplay::OscillatorDisplay(
     addAndMakeVisible(octave);
     addAndMakeVisible(coarse);
     addAndMakeVisible(fine);
+
+    volume.setCustomTooltipText("OSC_VOLUME");
+    unison.setCustomTooltipText("OSC_UNISON");
+    detune.setCustomTooltipText("OSC_DETUNE");
+    morph.setCustomTooltipText("OSC_MORPH");
+    octave.setCustomTooltipText("OSC_OCTAVE");
+    coarse.setCustomTooltipText("OSC_COARSE");
+    fine.setCustomTooltipText("OSC_FINE");
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {

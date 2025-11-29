@@ -20,7 +20,7 @@ WaveformDisplay::WaveformDisplay(
     modMatrix(modMatrix),
     bank(bank),
     morphParamName(morphParamName) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(30);
 }
 
@@ -37,7 +37,7 @@ void WaveformDisplay::setBank(WavetableBank& newBank) {
 void WaveformDisplay::paint(juce::Graphics& g) {
     g.fillAll(GlowStyle::roomDark);
     buildWaveform();
-    lookAndFeel.drawWaveform(g, getBounds().toFloat(), waveform);
+    ItnLookAndFeel::drawWaveform(g, getBounds().toFloat(), waveform);
 }
 
 bool WaveformDisplay::needsRedraw() {

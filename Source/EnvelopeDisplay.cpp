@@ -26,6 +26,7 @@ EnvelopeDisplay::EnvelopeDisplay(
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName),
     graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
+    
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
@@ -38,10 +39,15 @@ EnvelopeDisplay::EnvelopeDisplay(
     sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, sustainParamName, sustainSlider);
     releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);
 
-    attackSlider.setLabelNames("Attack", "A");
-    decaySlider.setLabelNames("Decay", "D");
-    sustainSlider.setLabelNames("Sustain", "S");
-    releaseSlider.setLabelNames("Release", "R");
+    attackSlider.setLabelName("A");
+    decaySlider.setLabelName("D");
+    sustainSlider.setLabelName("S");
+    releaseSlider.setLabelName("R");
+
+    attackSlider.setCustomTooltipText("ENV_ATTACK");
+    decaySlider.setCustomTooltipText("ENV_DECAY");
+    sustainSlider.setCustomTooltipText("ENV_SUSTAIN");
+    releaseSlider.setCustomTooltipText("ENV_RELEASE");
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {
@@ -50,7 +56,7 @@ EnvelopeDisplay::~EnvelopeDisplay() {
 
 void EnvelopeDisplay::visibilityChanged() {
     if (isShowing()) {
-        startTimerHz(30);
+        startTimerHz(60);
     }
     else {
         stopTimer();

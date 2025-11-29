@@ -16,7 +16,7 @@ ReverbDisplay::ReverbDisplay(
 ) : parameters(vts),
     modMatrix(modMatrix),
     graph(vts, modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
     addAndMakeVisible(damping);
@@ -33,17 +33,23 @@ ReverbDisplay::ReverbDisplay(
     dryLevelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_DRY_LEVEL", dryLevel);
     wetLevelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "REVERB_WET_LEVEL", wetLevel);
 
-    damping.setLabelNames("Damping", "Damp");
-    roomSize.setLabelNames("Room Size", "Size");
-    rvbWidth.setLabelNames("Width", "Width");
-    dryLevel.setLabelNames("Dry Level", "Dry");
-    wetLevel.setLabelNames("Wet Level", "Wet");
+    damping.setLabelName("Damp");
+    roomSize.setLabelName("Size");
+    rvbWidth.setLabelName("Width");
+    dryLevel.setLabelName("Dry");
+    wetLevel.setLabelName("Wet");
 
     damping.setModMatrix(modMatrix, "REVERB_DAMPING");
     roomSize.setModMatrix(modMatrix, "REVERB_ROOM_SIZE");
     rvbWidth.setModMatrix(modMatrix, "REVERB_WIDTH");
     dryLevel.setModMatrix(modMatrix, "REVERB_DRY_LEVEL");
     wetLevel.setModMatrix(modMatrix, "REVERB_WET_LEVEL");
+
+    damping.setCustomTooltipText("REVERB_DAMPING");
+    roomSize.setCustomTooltipText("REVERB_ROOM_SIZE");
+    rvbWidth.setCustomTooltipText("REVERB_WIDTH");
+    dryLevel.setCustomTooltipText("REVERB_DRY_LEVEL");
+    wetLevel.setCustomTooltipText("REVERB_WET_LEVEL");
 }
 
 ReverbDisplay::~ReverbDisplay() {

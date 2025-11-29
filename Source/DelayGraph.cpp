@@ -11,7 +11,7 @@
 #include "DelayGraph.h"
 
 DelayGraph::DelayGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
 }
 
@@ -41,7 +41,7 @@ void DelayGraph::timerCallback() {
         for (auto& ring : rings) {
             if (ring->getBrightness() <= 0.01f) {
                 toDelete.push_back(ring);
-                DBG("Ring deleted");
+                //DBG("Ring deleted");
             }
         }
         for (auto& ring : toDelete) {

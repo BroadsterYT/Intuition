@@ -14,7 +14,7 @@ EffectsTab::EffectsTab(ItnContext& context
 ) : context(context),
     reverb(context.parameters, context.modMatrix),
     delay(context.parameters, context.modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(reverb);
     addAndMakeVisible(delay);

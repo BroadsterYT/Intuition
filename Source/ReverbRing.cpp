@@ -11,7 +11,7 @@
 #include "ReverbRing.h"
 
 ReverbRing::ReverbRing(ModMatrix* modMatrix) : modMatrix(modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
 }
 

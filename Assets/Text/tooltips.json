@@ -1,0 +1,130 @@
+{
+	"ENV_ATTACK": {
+		"header": "Attack",
+		"subheader": "Because why be punctual?",
+		"description": "Adjusts the length of the entrance ramp.\n\nFor example, let's say the envelope is modulating the volume of an oscillator (which ENV_OSC is hard-linked to do). An attack of 0 will cause notes to lead directly into their decay, but an attack of 1 will slowly ramp up to full volume before decaying."
+	},
+	"ENV_DECAY": {
+		"header": "Decay",
+		"subheader": "A graceful retreat... or a quick flop.",
+		"description": "The decay is the downward ramp between the attack and the sustain - the transition from the peak to the trough. A larger decay will fade slower from the max to the sustain."
+	},
+	"ENV_SUSTAIN": {
+		"header": "Sustain",
+		"subheader": "The part of the note that refuses to leave.",
+		"description": "The sustain part of the envelope is held until all notes have been released. If no attack or decay is set, then notes begin immediately at the sustain."
+	},
+	"ENV_RELEASE": {
+		"header": "Release",
+		"subheader": "Notes need closure, too! (# > <)",
+		"description": "The release is the fadeout of the envelope. The longer the release, the longer the envelope will persist after all notes have been released."
+	},
+
+
+	"OSC_VOLUME": {
+		"header": "Volume",
+		"subheader": "Turn this one down if you hate fun.",
+		"description": "Controls the loudness of your sound. A dynamic loudness can completely change the feeling of your sound for the better (or worse)."
+	},
+	"OSC_UNISON": {
+		"header": "Unison",
+		"subheader": "Stack 'em high, stack 'em loud.",
+		"description": "Makes this oscillator play multiple copies of its wave, stacking them together for a richer, thicker tone. Use this to fatten leads, pads, or basses."
+	},
+	"OSC_DETUNE": {
+		"header": "Unison Detune",
+		"subheader": "Detune responsibly... or don't.",
+		"description": "Slightly shifts the pitch of each unison away from the base, creating a thicker, gnarlier sound. The more you detune, the wilder the chorus effect.",
+		"units":  "cents"
+	},
+	"OSC_MORPH": {
+		"header": "Wavetable Morph",
+		"subheader": "Look, Serum! No hands!",
+		"description": "Shifts smoothly between the waveforms in this oscillator's wavebank. Use this to create evolving textures, dynamic timbres, or sounds that just keep changing."
+	},
+	"OSC_OCTAVE": {
+		"header": "Octave Pitch",
+		"subheader": "From basement rumble to dog whistle.",
+		"description": "Shifts the pitch of this oscillator up or down in steps of whole octaves. A step up doubles the frequency of the sound, while a step down halves it. Use this to quickly jump between bass, mid-range, and treble.",
+		"units": "octaves"
+	},
+	"OSC_COARSE": {
+		"header": "Coarse Pitch",
+		"subheader": "Adds grit.",
+		"description": "Shifts the pitch of this oscillator up or down in single-note steps, called semitones. Each step raises or lowers the pitch by 1/12th of an octave. For example, playing middle C (C4) with this dial set to -1 will actually sound like B4.",
+		"units": "semitones"
+	},
+	"OSC_FINE": {
+		"header": "Fine Pitch",
+		"subheader": "Vibrato's best friend.",
+		"description": "Shifts the pitch of this oscillator up or down in fractions of a semitone, called cents. Increasing/decreasing pitch by 100 cents is the same as increasing/decreasing by 1 semitone.",
+		"units": "cents"
+	},
+
+
+	"LFO_RATE": {
+		"header": "LFO Rate",
+		"subheader": "Certified wobble.",
+		"description": "The LFO rate is how many cycles per second the LFO completes. This dial controls the \"unsynced\" LFO rate, meaning that the rate may not align with the song's BPM.",
+		"units": "Hz"
+	},
+
+
+	"FILTER_CUTOFF": {
+		"header": "Filter Cutoff Frequency",
+		"subheader": "Send the highs home early. Let the lows stay late.",
+		"description": "The cutoff frequency is the point at which frequencies will become attenuated. For a lowpass, turn it up to let higher frequencies in; turn it down to keep only the lowest lows. For a highpass, turn it up to only keep the highest highs, turn it down to let more bass through.",
+		"units": "Hz"
+	},
+	"FILTER_RESONANCE": {
+		"header": "Filter Resonance",
+		"subheader": "Every filter deserves a little ego.",
+		"description": "The resonance of the filter is the term used to define the emphasis on the frequencies near the cutoff frequency. Essentially, the higher the resonance, the higher the frequencies near the cutoff frequency will be boosted."
+	},
+
+
+	"REVERB_DAMPING": {
+		"header": "Reverb Damping",
+		"subheader": "Highs? In MY reverb? I'll pass.",
+		"description": "Controls how quickly the high frequencies in the reverb fade out. Lower damping gives a brighter, shimmery reverb, while higher damping makes a darker, more muffled reverb."
+	},
+	"REVERB_ROOM_SIZE": {
+		"header": "Reverb Room Size",
+		"subheader": "Your sonic real estate. No leasing!",
+		"description": "Adjusts the perceived \"room size\" of the reverb. Smaller values mimic tight, smaller rooms, while larger values mimic massive halls or atmospheric washes."
+	},
+	"REVERB_WIDTH": {
+		"header": "Reverb Width",
+		"subheader": "Stereo? Spread? Who are you trying to impress...?",
+		"description": "Controls the stereo spread of the reverb. Smaller width sounds more centered and static, while larger width sounds more spread out and dynamic."
+	},
+	"REVERB_DRY_LEVEL": {
+		"header": "Reverb Dry Level",
+		"subheader": "The boring dial.",
+		"description": "Controls the volume of the original, \"un-reverbed\" signal you hear."
+	},
+	"REVERB_WET_LEVEL": {
+		"header": "Reverb Wet Level",
+		"subheader": "Reverb heads: This one's for you.",
+		"description": "Controls how much of the reverberated, processed signal you hear."
+	},
+
+
+	"DELAY_TIME_MS": {
+		"header": "Delay Time",
+		"subheader": "Repeat offender... he's reaching!!'",
+		"description": "Sets how long it takes for the delayed signal to repeat after the original sound. Short times create slapback or flanger-like effects, long times create echoing repeats.",
+		"units": "ms"
+	},
+	"DELAY_FEEDBACK": {
+		"header": "Delay Feedback",
+		"subheader": "Feed it more and it won't stop talking.",
+		"description": "Controls how much of the delayed signal is fed back into itself. Low feedback gives a few polite repeats, while high feedback turns the delay into an echo chamber."
+	},
+	"DELAY_CUTOFF": {
+		"header": "Delay Cutoff Frequency",
+		"subheader": "TK",
+		"description": "TK",
+		"units": "Hz"
+	}
+}
