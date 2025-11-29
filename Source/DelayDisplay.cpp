@@ -38,6 +38,10 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
     cutoff.setModMatrix(modMatrix, "DELAY_CUTOFF");
 
     cutoff.setSkewFactorFromMidPoint(1000.0f);
+
+    timeMs.setCustomTooltipText("DELAY_TIME_MS");
+    feedback.setCustomTooltipText("DELAY_FEEDBACK");
+    cutoff.setCustomTooltipText("DELAY_CUTOFF");
 }
 
 DelayDisplay::~DelayDisplay() {

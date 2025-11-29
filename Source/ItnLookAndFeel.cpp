@@ -11,14 +11,10 @@
 #include "ItnLookAndFeel.h"
 
 
-//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceRegular;
-//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceBold;
-//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceItalic;
-
 ItnLookAndFeel::ItnLookAndFeel() {
-    /*exo2TypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Regular_ttf, BinaryData::Exo2Regular_ttfSize);
+    exo2TypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Regular_ttf, BinaryData::Exo2Regular_ttfSize);
     exo2TypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Bold_ttf, BinaryData::Exo2Bold_ttfSize);
-    exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);*/
+    exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);
 }
 
 ItnLookAndFeel& ItnLookAndFeel::getInstance() {
@@ -83,11 +79,19 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     GlowStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
 }
 
-void ItnLookAndFeel::drawWaveform(
-    juce::Graphics& g,
-    juce::Rectangle<float> bounds,
-    const juce::Array<float> waveform
-) {
+juce::Font ItnLookAndFeel::getTooltipHeaderFont(float height) {
+    return juce::Font(exo2TypeFaceBold).withHeight(height);
+}
+
+juce::Font ItnLookAndFeel::getTooltipSubheaderFont(float height) {
+    return juce::Font(exo2TypeFaceItalic).withHeight(height);
+}
+
+juce::Font ItnLookAndFeel::getTooltipDescriptionFont(float height) {
+    return juce::Font(exo2TypeFaceRegular).withHeight(height);
+}
+
+void ItnLookAndFeel::drawWaveform(juce::Graphics& g,juce::Rectangle<float> bounds, const juce::Array<float> waveform) {
     int width = bounds.getWidth();
     int height = bounds.getHeight();
     
@@ -106,18 +110,9 @@ void ItnLookAndFeel::drawWaveform(
 
     fill.closeSubPath();
     GlowStyle::drawRadiantWaveform(g, fill, bounds, true);
-    //GlowStyle::drawFilamentWaveform(g, line, bounds);
 }
 
-void ItnLookAndFeel::drawEnvelope(
-    juce::Graphics& g,
-    juce::Rectangle<float> bounds,
-    float attack,
-    float decay,
-    float sustain,
-    float release,
-    float envTime
-) {
+void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> bounds, float attack, float decay, float sustain, float release, float envTime) {
     int width = bounds.getWidth();
     int height = bounds.getHeight();
 

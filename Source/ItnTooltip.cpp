@@ -16,10 +16,6 @@ ItnTooltip::ItnTooltip() {
     setInterceptsMouseClicks(false, false);
     setMouseClickGrabsKeyboardFocus(false);
 
-    headerFont = juce::Font(juce::FontOptions("Arial", 24.0f, juce::Font::bold));
-    subheaderFont = juce::Font(juce::FontOptions("Arial", 16.0f, juce::Font::italic));
-    descriptionFont = juce::Font(juce::FontOptions("Arial", 16.0f, juce::Font::plain));
-
     buildTextLayouts();
 }
 
@@ -91,14 +87,18 @@ void ItnTooltip::paint(juce::Graphics& g) {
     float descriptionY = subheaderY + subheaderLayout.getHeight() + subheaderToDescriptionPadding;
 
     // Drawing partial text layouts for typewriter effect
+    ItnLookAndFeel* lookAndFeel = &ItnLookAndFeel::getInstance();
     if (headerCharsVisible > 0) {
-        drawPartialLayout(header, headerCharsVisible, headerY, headerFont, GlowStyle::bulbGlow);
+        auto font = lookAndFeel->getTooltipHeaderFont();
+        drawPartialLayout(header, headerCharsVisible, headerY, font, GlowStyle::warmHighlight);
     }
     if (subheaderCharsVisible > 0) {
-        drawPartialLayout(subheader, subheaderCharsVisible, subheaderY, subheaderFont, GlowStyle::bulbGlow);
+        auto font = lookAndFeel->getTooltipSubheaderFont();
+        drawPartialLayout(subheader, subheaderCharsVisible, subheaderY, font, GlowStyle::gray);
     }
     if (descriptionCharsVisible > 0) {
-        drawPartialLayout(description, descriptionCharsVisible, descriptionY, descriptionFont, GlowStyle::bulbGlow);
+        auto font = lookAndFeel->getTooltipDescriptionFont();
+        drawPartialLayout(description, descriptionCharsVisible, descriptionY, font, GlowStyle::bulbGlow);
     }
 }
 
@@ -107,9 +107,9 @@ void ItnTooltip::buildTextLayouts() {
     subheaderText.clear();
     descriptionText.clear();
 
-    headerText.append(header, headerFont, GlowStyle::bulbGlow);
-    subheaderText.append(subheader, subheaderFont, GlowStyle::bulbGlow);
-    descriptionText.append(description, descriptionFont, GlowStyle::bulbGlow);
+    headerText.append(header, ItnLookAndFeel::getInstance().getTooltipHeaderFont(), GlowStyle::bulbGlow);
+    subheaderText.append(subheader, ItnLookAndFeel::getInstance().getTooltipSubheaderFont(), GlowStyle::bulbGlow);
+    descriptionText.append(description, ItnLookAndFeel::getInstance().getTooltipDescriptionFont(), GlowStyle::bulbGlow);
 
     headerLayout.createLayout(headerText, maxTextWidth);
     subheaderLayout.createLayout(subheaderText, maxTextWidth);

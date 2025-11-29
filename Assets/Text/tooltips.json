@@ -34,7 +34,8 @@
 	"OSC_DETUNE": {
 		"header": "Unison Detune",
 		"subheader": "Detune responsibly... or don't.",
-		"description": "Slightly shifts the pitch of each unison away from the base, creating a thicker, gnarlier sound. The more you detune, the wilder the chorus effect."
+		"description": "Slightly shifts the pitch of each unison away from the base, creating a thicker, gnarlier sound. The more you detune, the wilder the chorus effect.",
+		"units":  "cents"
 	},
 	"OSC_MORPH": {
 		"header": "Wavetable Morph",
@@ -44,31 +45,36 @@
 	"OSC_OCTAVE": {
 		"header": "Octave Pitch",
 		"subheader": "From basement rumble to dog whistle.",
-		"description": "Shifts the pitch of this oscillator up or down in steps of whole octaves. A step up doubles the frequency of the sound, while a step down halves it. Use this to quickly jump between bass, mid-range, and treble."
+		"description": "Shifts the pitch of this oscillator up or down in steps of whole octaves. A step up doubles the frequency of the sound, while a step down halves it. Use this to quickly jump between bass, mid-range, and treble.",
+		"units": "octaves"
 	},
 	"OSC_COARSE": {
 		"header": "Coarse Pitch",
 		"subheader": "Adds grit.",
-		"description": "Shifts the pitch of this oscillator up or down in single-note steps, called semitones. Each step raises or lowers the pitch by 1/12th of an octave. For example, playing middle C (C4) with this dial set to -1 will actually sound like B4."
+		"description": "Shifts the pitch of this oscillator up or down in single-note steps, called semitones. Each step raises or lowers the pitch by 1/12th of an octave. For example, playing middle C (C4) with this dial set to -1 will actually sound like B4.",
+		"units": "semitones"
 	},
 	"OSC_FINE": {
 		"header": "Fine Pitch",
 		"subheader": "Vibrato's best friend.",
-		"description": "Shifts the pitch of this oscillator up or down in fractions of a semitone, called cents. Increasing/decreasing pitch by 100 cents is the same as increasing/decreasing by 1 semitone."
+		"description": "Shifts the pitch of this oscillator up or down in fractions of a semitone, called cents. Increasing/decreasing pitch by 100 cents is the same as increasing/decreasing by 1 semitone.",
+		"units": "cents"
 	},
 
 
 	"LFO_RATE": {
 		"header": "LFO Rate",
 		"subheader": "Certified wobble.",
-		"description": "The LFO rate is how many cycles per second the LFO completes. This dial controls the \"unsynced\" LFO rate, meaning that the rate may not align with the song's BPM."
+		"description": "The LFO rate is how many cycles per second the LFO completes. This dial controls the \"unsynced\" LFO rate, meaning that the rate may not align with the song's BPM.",
+		"units": "Hz"
 	},
 
 
 	"FILTER_CUTOFF": {
 		"header": "Filter Cutoff Frequency",
 		"subheader": "Send the highs home early. Let the lows stay late.",
-		"description": "The cutoff frequency is the point at which frequencies will become attenuated. For a lowpass, turn it up to let higher frequencies in; turn it down to keep only the lowest lows. For a highpass, turn it up to only keep the highest highs, turn it down to let more bass through."
+		"description": "The cutoff frequency is the point at which frequencies will become attenuated. For a lowpass, turn it up to let higher frequencies in; turn it down to keep only the lowest lows. For a highpass, turn it up to only keep the highest highs, turn it down to let more bass through.",
+		"units": "Hz"
 	},
 	"FILTER_RESONANCE": {
 		"header": "Filter Resonance",
@@ -101,5 +107,24 @@
 		"header": "Reverb Wet Level",
 		"subheader": "Reverb heads: This one's for you.",
 		"description": "Controls how much of the reverberated, processed signal you hear."
+	},
+
+
+	"DELAY_TIME_MS": {
+		"header": "Delay Time",
+		"subheader": "Repeat offender... he's reaching!!'",
+		"description": "Sets how long it takes for the delayed signal to repeat after the original sound. Short times create slapback or flanger-like effects, long times create echoing repeats.",
+		"units": "ms"
+	},
+	"DELAY_FEEDBACK": {
+		"header": "Delay Feedback",
+		"subheader": "Feed it more and it won't stop talking.",
+		"description": "Controls how much of the delayed signal is fed back into itself. Low feedback gives a few polite repeats, while high feedback turns the delay into an echo chamber."
+	},
+	"DELAY_CUTOFF": {
+		"header": "Delay Cutoff Frequency",
+		"subheader": "TK",
+		"description": "TK",
+		"units": "Hz"
 	}
 }

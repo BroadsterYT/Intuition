@@ -51,10 +51,6 @@ private:
     juce::String description = "Consectetur adipiscing elit. Nullam eu eleifend lorem. Nam rutrum sodales accumsan. Nunc eu diam ut.";
     juce::String units = "None";
 
-    juce::Font headerFont;
-    juce::Font subheaderFont;
-    juce::Font descriptionFont;
-
     juce::AttributedString headerText;
     juce::AttributedString subheaderText;
     juce::AttributedString descriptionText;
@@ -66,9 +62,9 @@ private:
     float maxTextWidth = 300.0f;
     float widthPadding = 10.0f;  // The space to save on either side of the text generation
 
-    float topToHeaderPadding = 10.0f;
-    float headerToSubheaderPadding = 10.0f;
-    float subheaderToDescriptionPadding = 16.0f;
+    float topToHeaderPadding = 0.0f;
+    float headerToSubheaderPadding = 0.0f;
+    float subheaderToDescriptionPadding = 10.0f;
     float descriptionToBottomPadding = 10.0f;
 
     int headerCharsVisible = 0;
