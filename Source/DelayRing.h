@@ -27,7 +27,6 @@ public:
     void paint(juce::Graphics& g) override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
     ModMatrix* modMatrix = nullptr;
 
     float radius = 10.0f;

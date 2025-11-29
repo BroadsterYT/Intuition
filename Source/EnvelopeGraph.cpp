@@ -23,7 +23,7 @@ EnvelopeGraph::EnvelopeGraph(
     decayParamName(decayParamName),
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 }
 
 EnvelopeGraph::~EnvelopeGraph() {
@@ -39,5 +39,5 @@ void EnvelopeGraph::paint(juce::Graphics& g) {
     float release = *parameters.getRawParameterValue(releaseParamName);
     float time = env.getNormalizedTime();
 
-    lookAndFeel.drawEnvelope(g, getBounds().toFloat(), attack, decay, sustain, release, time);
+    ItnLookAndFeel::drawEnvelope(g, getBounds().toFloat(), attack, decay, sustain, release, time);
 }

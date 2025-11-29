@@ -49,6 +49,7 @@ private:
     juce::String header = "Lorem Ipsum";
     juce::String subheader = "dolor sit amet";
     juce::String description = "Consectetur adipiscing elit. Nullam eu eleifend lorem. Nam rutrum sodales accumsan. Nunc eu diam ut.";
+    juce::String units = "None";
 
     juce::Font headerFont;
     juce::Font subheaderFont;

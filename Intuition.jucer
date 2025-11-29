@@ -6,6 +6,12 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" companyName="Brazill &amp; Shaban">
   <MAINGROUP id="U9lpsg" name="Intuition">
     <GROUP id="{B32A88A1-14F7-2DEB-D90C-C55EA7A043CD}" name="Assets">
+      <GROUP id="{251B8AAE-EAE2-9BDA-1CD8-64CB55FA0D7E}" name="Fonts">
+        <FILE id="WCm6jr" name="Exo2-Bold.ttf" compile="0" resource="1" file="Assets/Fonts/Exo2-Bold.ttf"/>
+        <FILE id="NwRKo3" name="Exo2-Italic.ttf" compile="0" resource="1" file="Assets/Fonts/Exo2-Italic.ttf"/>
+        <FILE id="THsLwG" name="Exo2-Regular.ttf" compile="0" resource="1"
+              file="Assets/Fonts/Exo2-Regular.ttf"/>
+      </GROUP>
       <GROUP id="{25EE59C2-CF4E-8355-8D4A-D8421581CA15}" name="Text">
         <FILE id="WOcqwt" name="tooltips.json" compile="0" resource="1" file="Assets/Text/tooltips.json"/>
       </GROUP>

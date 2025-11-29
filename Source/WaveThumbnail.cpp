@@ -13,7 +13,7 @@
 
 
 WaveThumbnail::WaveThumbnail(int id, WavetableBank& bank) : bank(bank) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     waveId = id;
 }
 
@@ -40,7 +40,7 @@ void WaveThumbnail::paint(juce::Graphics& g) {
     int height = getHeight();
 
     buildReducedWaveform();
-    lookAndFeel.drawWaveform(g, getBounds().toFloat(), waveform);
+    ItnLookAndFeel::drawWaveform(g, getBounds().toFloat(), waveform);
 }
 
 void WaveThumbnail::resized() {

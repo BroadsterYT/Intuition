@@ -28,7 +28,6 @@ public:
     /// </summary>
     /// <param name="newName">The name to display on the slider itself when the slider's label is visible</param>
     void setLabelName(const juce::String newName);
-
     /// <summary>
     /// Sets the text fields for this tooltip, taken from the JSON-formatted tooltip list
     /// </summary>

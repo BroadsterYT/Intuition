@@ -32,8 +32,6 @@ public:
     void paint(juce::Graphics& g) override;
 
 private:
-    ItnLookAndFeel lookAndFeel;
-
     juce::AudioProcessorValueTreeState& parameters;
     const GlobalEnvelope& env;
 

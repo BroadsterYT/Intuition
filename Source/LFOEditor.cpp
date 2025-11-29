@@ -12,7 +12,7 @@
 
 
 LFOEditor::LFOEditor(LFOShape& shape, float* phase) : shape(shape), phase(phase) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 }
 
 LFOEditor::~LFOEditor() {
@@ -26,10 +26,10 @@ void LFOEditor::paint(juce::Graphics& g) {
     if (shape.getNumPoints() < 2) return;
     if (!phase) return;
 
-    lookAndFeel.drawLFO(g, getBounds().toFloat(), shape, *phase);
+    ItnLookAndFeel::drawLFO(g, getBounds().toFloat(), shape, *phase);
     for (int i = 0; i < shape.getNumPoints(); ++i) {
         const LFOPoint& point = shape.getPoint(i);
-        lookAndFeel.drawLFOPoint(g, getBounds().toFloat(), point);
+        ItnLookAndFeel::drawLFOPoint(g, getBounds().toFloat(), point);
     }
 }
 

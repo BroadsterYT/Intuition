@@ -11,7 +11,7 @@
 #include "DelayGraph.h"
 
 DelayGraph::DelayGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
 }
 

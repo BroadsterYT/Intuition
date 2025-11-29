@@ -11,7 +11,7 @@
 #include "DelayRing.h"
 
 DelayRing::DelayRing(ModMatrix* modMatrix) : modMatrix(modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
 }
 

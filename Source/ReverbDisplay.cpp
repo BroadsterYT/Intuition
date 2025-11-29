@@ -16,7 +16,7 @@ ReverbDisplay::ReverbDisplay(
 ) : parameters(vts),
     modMatrix(modMatrix),
     graph(vts, modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
     addAndMakeVisible(damping);

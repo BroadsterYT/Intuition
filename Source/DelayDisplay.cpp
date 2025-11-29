@@ -12,7 +12,7 @@
 
 DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
 ) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix) {
-    setLookAndFeel(&lookAndFeel);
+    setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
     addAndMakeVisible(timeMs);

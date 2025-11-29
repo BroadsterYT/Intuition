@@ -11,6 +11,16 @@
 #include "ItnLookAndFeel.h"
 
 
+//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceRegular;
+//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceBold;
+//juce::Typeface::Ptr ItnLookAndFeel::exo2TypeFaceItalic;
+
+ItnLookAndFeel::ItnLookAndFeel() {
+    /*exo2TypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Regular_ttf, BinaryData::Exo2Regular_ttfSize);
+    exo2TypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Bold_ttf, BinaryData::Exo2Bold_ttfSize);
+    exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);*/
+}
+
 ItnLookAndFeel& ItnLookAndFeel::getInstance() {
     static ItnLookAndFeel instance;
     return instance;
