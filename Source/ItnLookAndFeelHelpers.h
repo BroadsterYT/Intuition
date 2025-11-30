@@ -28,11 +28,7 @@ namespace GlowStyle {
     /// <param name="waveformPath">The waveform path to draw</param>
     /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
     /// <param name="radial">If true, will draw the light source at the center of the component instead of the top</param>
-    inline void drawRadiantWaveform(
-        juce::Graphics& g,
-        juce::Path& waveformPath,
-        juce::Rectangle<float> bounds,
-        bool radial = false) {
+    inline void drawRadiantWaveform(juce::Graphics& g, juce::Path& waveformPath, juce::Rectangle<float> bounds, bool radial = false, float brightnessStartYProp = 0.2f) {
         juce::ColourGradient gradient;
         if (!radial) {
             gradient = juce::ColourGradient::vertical(
@@ -59,7 +55,7 @@ namespace GlowStyle {
                 true
             );
         }
-        gradient.addColour(0.2f, GlowStyle::warmHighlight.withAlpha(0.7f));
+        gradient.addColour(brightnessStartYProp, GlowStyle::warmHighlight.withAlpha(0.7f));
 
         g.setGradientFill(gradient);
         g.fillPath(waveformPath);

@@ -202,17 +202,48 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
         float freq = 20.0f * std::pow(20000.0f / 20.0f, (float)i / (float)width);
         float mag = 1.0f;
 
+        // Gathering general coefficients for the biquad equation
+        float omega = juce::MathConstants<float>::twoPi * freq / 44100.0f;  // Angular frequency
+        float g = std::tanf(juce::MathConstants<float>::pi * cutoff / 44100.0f);
+        float gSq = g * g; // g squared
+        float R = 1.0f / (2.0f * resonance);  // Inverse of res because of flipped y
+
+        float a0 = 1.0f + 2.0f * R * g + gSq;
+        float a1 = (2.0f * (gSq - 1.0f)) / a0;
+        float a2 = (1.0f - 2 * R * g + gSq) / a0;
+
+        auto biquadGeneralSol = [omega, a1, a2](float b0, float b1, float b2) {
+            float num1 = b0 + b1 * std::cosf(omega) + b2 * std::cosf(2.0f * omega);
+            float num2 = b1 * std::sinf(omega) + b2 * std::sinf(2.0f * omega);
+            float num = std::sqrtf(num1 * num1 + num2 * num2);
+
+            float den1 = 1.0f + a1 * std::cosf(omega) + a2 * std::cosf(2.0f * omega);
+            float den2 = a1 * std::sinf(omega) + a2 * std::sinf(2.0f * omega);
+            float den = std::sqrtf(den1 * den1 + den2 * den2);
+
+            return num / den;
+        };
+
         switch (filterType) {
-        case 0:  // Lowpass
-            mag = 1.0f / std::sqrt(1.0f + std::pow(freq / cutoff, 2.0f) * (1.0f + resonance));
+        case 0: {  // Lowpass
+            float b0 = gSq / a0;
+            float b1 = 2.0f * gSq / a0;
+            float b2 = gSq / a0;
+            mag = biquadGeneralSol(b0, b1, b2);
             break;
-        case 1:  // Highpass
-            mag = 1.0f / std::sqrt(1.0f + std::pow(cutoff / freq, 2.0f) * (1.0f + resonance));
+        }
+        case 1: {  // Highpass
+            float b0 = 1.0f / a0;
+            float b1 = -2.0f / a0;
+            float b2 = 1.0f / a0;
+            mag = biquadGeneralSol(b0, b1, b2);
             break;
-        case 2: { // Bandpass
-            float Q = 1.0f + resonance * 19.0f;
-            float ratio = freq / cutoff;
-            mag = 1.0f / std::sqrt(1.0f + Q * Q * (ratio - 1.0f / ratio) * (ratio - 1.0f / ratio));
+        }
+        case 2: {  // Bandpass
+            float b0 = g / a0;
+            float b1 = 0 / a0;
+            float b2 = -g / a0;
+            mag = biquadGeneralSol(b0, b1, b2);
             break;
         }
         }
@@ -221,7 +252,6 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
         float minDb = -24.0f;
         float maxDb = 24.0f;
         float y = (1.0f - (mag - minDb) / (maxDb - minDb)) * height;
-        //DBG("Look: " << y);
 
         if (i == 0) {
             path.startNewSubPath((float)i, y);
@@ -235,5 +265,5 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     path.lineTo(0.0f, height / 2);
 
     path.closeSubPath();
-    GlowStyle::drawRadiantWaveform(g, path, bounds);
+    GlowStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
 }
