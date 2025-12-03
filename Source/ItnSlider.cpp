@@ -135,8 +135,6 @@ void ItnSlider::paint(juce::Graphics& g) {
     float baseRaw = dest->getBaseValue();
     float modRaw = modMatrix->getModdedDest(paramName);
 
-    //DBG("Modded: " << modRaw);
-
     float baseMin = dest->getMinRange();
     float baseMax = dest->getMaxRange();
     float baseVal = (baseRaw - baseMin) / (baseMax - baseMin);

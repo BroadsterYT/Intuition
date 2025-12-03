@@ -15,6 +15,8 @@ ItnLookAndFeel::ItnLookAndFeel() {
     exo2TypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Regular_ttf, BinaryData::Exo2Regular_ttfSize);
     exo2TypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Bold_ttf, BinaryData::Exo2Bold_ttfSize);
     exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);
+    outfitTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitRegular_ttf, BinaryData::OutfitRegular_ttfSize);
+    outfitTypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitBold_ttf, BinaryData::OutfitBold_ttfSize);
 }
 
 ItnLookAndFeel& ItnLookAndFeel::getInstance() {
@@ -24,7 +26,6 @@ ItnLookAndFeel& ItnLookAndFeel::getInstance() {
 
 juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider) {
     juce::Slider::SliderLayout layout;
-
     auto bounds = slider.getLocalBounds();
     layout.sliderBounds = bounds;
 
@@ -41,10 +42,8 @@ juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider)
     else if (slider.getTextBoxPosition() == juce::Slider::NoTextBox) {
         auto labelArea = bounds.removeFromBottom(10);
         slider.setPopupDisplayEnabled(true, false, slider.getParentComponent());
-
         layout.sliderBounds = bounds;
     }
-
     return layout;
 }
 
@@ -79,6 +78,10 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     GlowStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
 }
 
+juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
+    return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
+}
+
 juce::Font ItnLookAndFeel::getTooltipHeaderFont(float height) {
     return juce::Font(exo2TypeFaceBold).withHeight(height);
 }
@@ -91,6 +94,18 @@ juce::Font ItnLookAndFeel::getTooltipDescriptionFont(float height) {
     return juce::Font(exo2TypeFaceRegular).withHeight(height);
 }
 
+void ItnLookAndFeel::drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor, bool includeLabelArea, float labelHeight) {
+    g.setColour(GlowStyle::borderDark);
+    g.fillRoundedRectangle(bounds, 10.0f);
+    g.setColour(insideColor);
+    g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
+
+    if (includeLabelArea) {
+        g.setColour(GlowStyle::borderDark);
+        g.fillRect(0.0f, labelHeight, bounds.getRight(), 1.0f);
+    }
+}
+
 void ItnLookAndFeel::drawWaveform(juce::Graphics& g,juce::Rectangle<float> bounds, const juce::Array<float> waveform) {
     int width = bounds.getWidth();
     int height = bounds.getHeight();
@@ -101,15 +116,16 @@ void ItnLookAndFeel::drawWaveform(juce::Graphics& g,juce::Rectangle<float> bound
 
     for (int i = 0; i < waveform.size(); ++i) {
         float x = juce::jmap((float)i, 0.0f, (float)waveform.size(), 0.0f, (float)width);
-        float y = juce::jmap(waveform[i], -1.0f, 1.0f, (float)height, 0.0f);
+        float y = juce::jmap(waveform[i], -1.0f, 1.0f, (float)height - 5.0f, 5.0f);
         fill.lineTo(x, y);
         line.lineTo(x, y);
     }
     fill.lineTo(width, height / 2);
     line.lineTo(width, height / 2);
 
-    fill.closeSubPath();
-    GlowStyle::drawRadiantWaveform(g, fill, bounds, true);
+    //fill.closeSubPath();
+    //GlowStyle::drawRadiantWaveform(g, fill, bounds, true);
+    GlowStyle::drawLineWaveform(g, line);
 }
 
 void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> bounds, float attack, float decay, float sustain, float release, float envTime) {

@@ -62,7 +62,6 @@ OscillatorDisplay::OscillatorDisplay(
     coarseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, coarseParamName, coarse);
     fineAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, fineParamName, fine);
 
-    //unison.setModMatrix(modMatrix, unisonParamName);
     volume.setModMatrix(modMatrix, volumeParamName);
     pan.setModMatrix(modMatrix, panParamName);
     detune.setModMatrix(modMatrix, detuneParamName);
@@ -97,6 +96,9 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 
+    title.setText("Wavebank", juce::dontSendNotification);
+
+    addAndMakeVisible(title);
     addAndMakeVisible(toggle);
     addAndMakeVisible(volume);
     addAndMakeVisible(pan);
@@ -118,14 +120,13 @@ OscillatorDisplay::OscillatorDisplay(
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(getLocalBounds());
+    ItnLookAndFeel::drawComponentPanel(g, getLocalBounds().toFloat());
 }
 
 void OscillatorDisplay::resized() {
-    auto area = getLocalBounds().reduced(10);
+    auto area = getLocalBounds();
+    auto titleArea = area.removeFromTop(32);
+    area = area.reduced(10);
 
     auto knobArea = area.removeFromBottom(80);
     int knobWidth = knobArea.getWidth() / 4;
@@ -141,7 +142,9 @@ void OscillatorDisplay::resized() {
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
     pan.setBounds(pitchArea.removeFromLeft(pitchWidth));
 
-    toggle.setBounds(10, 10, 25, 25);
+    titleArea.removeFromLeft(5);
+    toggle.setBounds(titleArea.removeFromLeft(25));
+    title.setBounds(toggle.getRight(), 5, 100, 25);
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

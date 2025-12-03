@@ -21,6 +21,30 @@ namespace GlowStyle {
     const auto charcoal = juce::Colour::fromRGB(32, 26, 22);
     const auto gray = juce::Colour::fromRGB(176, 167, 157);
 
+    // Background Colors
+    const auto bgDarkest = juce::Colour::fromRGB(13, 13, 15);
+    const auto bgDark = juce::Colour::fromRGB(20, 20, 24);
+    const auto bgPanel = juce::Colour::fromRGB(26, 26, 31);
+    const auto bgModule = juce::Colour::fromRGB(34, 34, 40);
+    const auto bgControl = juce::Colour::fromRGB(42, 42, 50);
+
+    // Border Colors
+    const auto borderDark = juce::Colour::fromRGB(45, 45, 53);
+    const auto borderLight = juce::Colour::fromRGB(61, 61, 69);
+
+    // Text Colors
+    const auto textPrimary = juce::Colour::fromRGB(245, 245, 247);
+    const auto textSecondary = juce::Colour::fromRGB(160, 160, 168);
+    const auto textDim = juce::Colour::fromRGB(106, 106, 114);
+
+    // Accent Colors
+    const auto accentPeach = juce::Colour::fromRGB(255, 176, 136);
+    const auto accentOrange = juce::Colour::fromRGB(255, 140, 90);
+    const auto accentWarm = juce::Colour::fromRGB(255, 160, 112);
+    const auto accentGlow = juce::Colour::fromRGBA(255, 140, 90, 77);
+    const auto accentSubtle = juce::Colour::fromRGBA(255, 176, 136, 26);
+
+
     /// <summary>
     /// Draws a waveform that looks like light casted from a lightbulb in a dark room
     /// </summary>
@@ -62,24 +86,12 @@ namespace GlowStyle {
     }
 
     /// <summary>
-    /// Draws a waveform shape that looks like a lightbulb filament
+    /// Draws a single-line waveform shape
     /// </summary>
     /// <param name="g">The JUCE graphics context</param>
     /// <param name="waveformPath">The path to draw</param>
-    /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
-    inline void drawFilamentWaveform(
-        juce::Graphics& g,
-        juce::Path& waveformPath,
-        juce::Rectangle<float> bounds) {
-        juce::ColourGradient gradient = juce::ColourGradient::horizontal(
-            GlowStyle::bulbGlow.withAlpha(0.8f),
-            bounds.getX(),
-            GlowStyle::bulbGlow.withAlpha(0.2f),
-            bounds.getRight()
-        );
-        gradient.addColour(0.5f, GlowStyle::shadow);
-
-        g.setGradientFill(gradient);
+    inline void drawLineWaveform(juce::Graphics& g, juce::Path& waveformPath) {
+        g.setColour(GlowStyle::accentPeach);
         g.strokePath(waveformPath, juce::PathStrokeType(2.0f));
     }
 

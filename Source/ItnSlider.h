@@ -68,7 +68,7 @@ private:
     /// If a mod connection has been established, will create a submenu for editing the properties
     /// of the link
     /// </summary>
-    /// <param name="menu">The submemu to add this submenu to</param>
+    /// <param name="menu">The submenu to add this submenu to</param>
     /// <param name="sourceName">The name of the source involvedin this mod connection</param>
     void addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::String sourceName);
 

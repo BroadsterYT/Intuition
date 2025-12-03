@@ -53,6 +53,7 @@ private:
     juce::String coarseParamName;
     juce::String fineParamName;
 
+    juce::Label title;
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
