@@ -7106,6 +7106,8 @@
       <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
       <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
       <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
+      <FILE id="jjbOQA" name="ItnFFT.cpp" compile="1" resource="0" file="Source/ItnFFT.cpp"/>
+      <FILE id="Nb0cVg" name="ItnFFT.h" compile="0" resource="0" file="Source/ItnFFT.h"/>
       <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>

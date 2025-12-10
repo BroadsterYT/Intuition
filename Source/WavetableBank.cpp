@@ -10,6 +10,7 @@
 
 #include "WavetableBank.h"
 #include "WavetableHelper.h"
+#include "ItnFFT.h"
 
 
 WavetableBank::WavetableBank() {
@@ -55,6 +56,12 @@ void WavetableBank::addWavetable(const void* binaryWav, int binarySize) {
 
         WavetableHelper::preprocessWavetable(buffer);
         WavetableHelper::phaseAlignWavetable(buffer);
+
+        ItnFFT fft;
+        std::vector<float> mags = fft.perform(buffer);
+        for (int i = 0; i < mags.size(); ++i) {
+            DBG(juce::String((i * 44100.0f / 1024)) << " Hz: " << mags[i]);
+        }
 
         wavetables.push_back(buffer);
     }
