@@ -71,7 +71,7 @@ Once completed, `pyinstaller` will create several new directories, one of them b
 With the AI microservice executable(s) created, we can now open the project in the Projucer. Open up the [Intuitition.jucer](Intuition.jucer) file in the Projucer and select "save and open in IDE," with the correct IDE for exporting selected. Once loaded, the project can be compiled and ran.
 
 ## Step 5 - Using Intumi
-TO use intumi, you will need your own Groq API key to use for querying. You can do that [here](https://console.groq.com/keys). once your API keyt is created, you will insert it into the API key field in the Intumi tab.
+To use intumi, you will need your own Groq API key to use for querying. You can get one [here](https://console.groq.com/keys) for free. once your API key is created, you will insert it into the API key field in the Intumi tab.
 
 ## Step 6 (Optional) - Finding Waveforms for Wavetable Morphing
 All sorts of unique single-cycle waveforms for wavetable morphing can be found [here](https://github.com/KristofferKarlAxelEkstrand/AKWF-FREE) thanks to KristofferKarlAxelEkstrand. After running the application at least once, you can drop any waves you wish to use into the "Waveforms" folder in your documents (Intuition creates the directory upon first boot).
