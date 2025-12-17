@@ -127,10 +127,6 @@
               file="Source/ItnMidiKeyboard.cpp"/>
         <FILE id="U8FiqK" name="ItnMidiKeyboard.h" compile="0" resource="0"
               file="Source/ItnMidiKeyboard.h"/>
-        <FILE id="cdNfoo" name="ItnPanelHeader.cpp" compile="1" resource="0"
-              file="Source/ItnPanelHeader.cpp"/>
-        <FILE id="uoBHKu" name="ItnPanelHeader.h" compile="0" resource="0"
-              file="Source/ItnPanelHeader.h"/>
         <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
         <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
         <FILE id="ZHqCzh" name="ItnTooltip.cpp" compile="1" resource="0" file="Source/ItnTooltip.cpp"/>
@@ -139,6 +135,10 @@
               file="Source/OscillatorDisplay.cpp"/>
         <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
               file="Source/OscillatorDisplay.h"/>
+        <FILE id="CTuMic" name="PanelTitleComponent.cpp" compile="1" resource="0"
+              file="Source/PanelTitleComponent.cpp"/>
+        <FILE id="tIrjbB" name="PanelTitleComponent.h" compile="0" resource="0"
+              file="Source/PanelTitleComponent.h"/>
         <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
               file="Source/WaveformDisplay.cpp"/>
         <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"

@@ -79,6 +79,10 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
 }
 
 juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
+    if (label.getComponentID() == "PanelTitle") {
+        return juce::Font(outfitTypeFaceBold).withHeight(18.0f);
+    }
+
     return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
 }
 

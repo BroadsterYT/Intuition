@@ -39,8 +39,11 @@ OscillatorDisplay::OscillatorDisplay(
     morphParamName(morphParamName),
     octaveParamName(octaveParamName),
     coarseParamName(coarseParamName),
-    fineParamName(fineParamName) {
+    fineParamName(fineParamName),
+    title(vts, "Wavetable", true, toggleParamName) {
     startTimerHz(60);
+
+    addAndMakeVisible(title);
 
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
@@ -52,7 +55,7 @@ OscillatorDisplay::OscillatorDisplay(
         waveBankComp->setVisible(true);
     };
     
-    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
+    //toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
     volumeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, volumeParamName, volume);
     panAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, panParamName, pan);
     unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
@@ -77,7 +80,7 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setRange(-12, 12, 1);
     fine.setRange(-100, 100, 1);
 
-    toggle.setButtonText("");
+    //toggle.setButtonText("");
     volume.setLabelName("Vol");
     pan.setLabelName("Pan");
     unison.setLabelName("U");
@@ -96,10 +99,10 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
     fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
 
-    title.setText("Wavebank", juce::dontSendNotification);
+    //title.setText("Wavebank", juce::dontSendNotification);
 
-    addAndMakeVisible(title);
-    addAndMakeVisible(toggle);
+    //addAndMakeVisible(title);
+    //addAndMakeVisible(toggle);
     addAndMakeVisible(volume);
     addAndMakeVisible(pan);
     addAndMakeVisible(unison);
@@ -125,8 +128,10 @@ void OscillatorDisplay::paint(juce::Graphics& g) {
 
 void OscillatorDisplay::resized() {
     auto area = getLocalBounds();
-    auto titleArea = area.removeFromTop(32);
+    auto titleArea = area.removeFromTop(33);
     area = area.reduced(10);
+
+    title.setBounds(titleArea);
 
     auto knobArea = area.removeFromBottom(80);
     int knobWidth = knobArea.getWidth() / 4;
@@ -142,9 +147,9 @@ void OscillatorDisplay::resized() {
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
     pan.setBounds(pitchArea.removeFromLeft(pitchWidth));
 
-    titleArea.removeFromLeft(5);
+    /*titleArea.removeFromLeft(5);
     toggle.setBounds(titleArea.removeFromLeft(25));
-    title.setBounds(toggle.getRight(), 5, 100, 25);
+    title.setBounds(toggle.getRight(), 5, 100, 25);*/
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

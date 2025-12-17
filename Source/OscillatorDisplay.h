@@ -15,6 +15,7 @@
 #include "WaveformDisplay.h"
 #include "WavetableBank.h"
 #include "WaveBankComponent.h"
+#include "PanelTitleComponent.h"
 
 
 class OscillatorDisplay : public juce::Component, private juce::Timer {
@@ -53,9 +54,7 @@ private:
     juce::String coarseParamName;
     juce::String fineParamName;
 
-    juce::Label title;
-    juce::ToggleButton toggle;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
+    PanelTitleComponent title;
 
     ItnSlider volume, unison, detune, morph;
     ItnSlider octave, coarse, fine, pan;
