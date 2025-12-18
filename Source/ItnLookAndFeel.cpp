@@ -32,7 +32,7 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
 
     juce::Path baseArc;
     baseArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, rotaryEndAngle, true);
-    g.setColour(GlowStyle::shadow);
+    g.setColour(MinimalStyle::shadow);
     g.strokePath(baseArc, juce::PathStrokeType(8.0f));
 
     float fillAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
@@ -40,12 +40,12 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     filledArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, fillAngle, true);
     
     juce::ColourGradient gradient = juce::ColourGradient::horizontal(
-        GlowStyle::shadow,
+        MinimalStyle::shadow,
         (float)x,
-        GlowStyle::warmHighlight,
+        MinimalStyle::warmHighlight,
         (float)(x + width)
     );
-    gradient.addColour(0.35f, GlowStyle::shadow);
+    gradient.addColour(0.35f, MinimalStyle::shadow);
     g.setGradientFill(gradient);
     g.strokePath(filledArc, juce::PathStrokeType(8.0f));
 
@@ -53,7 +53,7 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     float knobRadius = 6.0f;
     float knobX = centerX + std::cos(angle) * radius;
     float knobY = centerY + std::sin(angle) * radius;
-    GlowStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
+    MinimalStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
 }
 
 juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
@@ -78,7 +78,6 @@ juce::Font ItnLookAndFeel::getTooltipDescriptionFont(float height) {
 
 void ItnLookAndFeel::drawLabel(juce::Graphics& g, juce::Label& label) {
     const auto id = label.getComponentID();
-
     if (id == "sliderNameLabel") {
         juce::LookAndFeel_V4::drawLabel(g, label);
     }
@@ -91,13 +90,13 @@ void ItnLookAndFeel::drawLabel(juce::Graphics& g, juce::Label& label) {
 }
 
 void ItnLookAndFeel::drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor, bool includeLabelArea, float labelHeight) {
-    g.setColour(GlowStyle::borderDark);
+    g.setColour(MinimalStyle::borderDark);
     g.fillRoundedRectangle(bounds, 10.0f);
     g.setColour(insideColor);
     g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
 
     if (includeLabelArea) {
-        g.setColour(GlowStyle::borderDark);
+        g.setColour(MinimalStyle::borderDark);
         g.fillRect(0.0f, labelHeight, bounds.getRight(), 1.0f);
     }
 }
@@ -120,8 +119,8 @@ void ItnLookAndFeel::drawWaveform(juce::Graphics& g,juce::Rectangle<float> bound
     line.lineTo(width, height / 2);
 
     //fill.closeSubPath();
-    //GlowStyle::drawRadiantWaveform(g, fill, bounds, true);
-    GlowStyle::drawLineWaveform(g, line);
+    //MinimalStyle::drawRadiantWaveform(g, fill, bounds, true);
+    MinimalStyle::drawLineWaveform(g, line);
 }
 
 void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> bounds, float attack, float decay, float sustain, float release, float envTime) {
@@ -144,7 +143,7 @@ void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> boun
     envLine.lineTo(decayEndX, sustainY);
     envLine.lineTo(releaseEndX, height);
 
-    GlowStyle::drawRadiantWaveform(g, envLine, bounds);
+    MinimalStyle::drawRadiantWaveform(g, envLine, bounds);
 
     if (envTime <= 0.0f) return;
     float timeSeg = envTime * segWidth;
@@ -153,7 +152,7 @@ void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> boun
     juce::Path timePath;
     timePath.startNewSubPath(finalX, 0.0f);
     timePath.lineTo(finalX, bounds.getBottom());
-    GlowStyle::drawRadiantIndicator(g, timePath, finalX);
+    MinimalStyle::drawRadiantIndicator(g, timePath, finalX);
 }
 
 void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, LFOShape& shape, float phase) {
@@ -184,13 +183,13 @@ void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, L
     path.lineTo(width, height);
     path.lineTo(0.0f, height);
 
-    GlowStyle::drawRadiantWaveform(g, path, bounds);
+    MinimalStyle::drawRadiantWaveform(g, path, bounds);
 
     juce::Path phaseInd;
     float xPos = phase * bounds.getWidth();
     phaseInd.startNewSubPath(xPos, 0.0f);
     phaseInd.lineTo(xPos, bounds.getHeight());
-    GlowStyle::drawRadiantIndicator(g, phaseInd, xPos);
+    MinimalStyle::drawRadiantIndicator(g, phaseInd, xPos);
 }
 
 void ItnLookAndFeel::drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const LFOPoint& point) {
@@ -198,7 +197,7 @@ void ItnLookAndFeel::drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> boun
     float posY = point.getValue() * bounds.getHeight();
 
     float brightness = (posY) / bounds.getHeight();
-    GlowStyle::drawRadiantPoint(g, posX, bounds.getHeight() - posY, 16.0f, brightness);
+    MinimalStyle::drawRadiantPoint(g, posX, bounds.getHeight() - posY, 16.0f, brightness);
 }
 
 void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType) {
@@ -277,14 +276,14 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     path.lineTo(0.0f, height / 2);
 
     path.closeSubPath();
-    GlowStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
+    MinimalStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
 }
 
 void ItnLookAndFeel::drawSliderValueBox(juce::Graphics& g, juce::Label& label) {
     auto bounds = label.getLocalBounds();
 
     if (!label.isBeingEdited()) {
-        g.setColour(GlowStyle::accentPeach);
+        g.setColour(MinimalStyle::accentPeach);
         g.setFont(juce::Font(jetBrainsMonoTypeFaceRegular).withHeight(12.0f));
         g.drawText(label.getText(), bounds.toNearestInt(), label.getJustificationType(), true);
     }

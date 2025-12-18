@@ -144,7 +144,7 @@ void ItnSlider::paint(juce::Graphics& g) {
     float modAngle = startAngle + modVal * (endAngle - startAngle);
 
     // Draw the overlay arc
-    g.setColour(GlowStyle::warmHighlight.withAlpha(0.5f));
+    g.setColour(MinimalStyle::warmHighlight.withAlpha(0.5f));
 
     float minAngle = juce::jmin(baseAngle, modAngle);
     float delta = std::abs(modAngle - baseAngle);

@@ -34,7 +34,7 @@ float ReverbRing::getBrightness() {
 void ReverbRing::paint(juce::Graphics& g) {
     float w = getWidth();
     float h = getHeight();
-    GlowStyle::drawRadiantRing(g, w / 2 - radius, h / 2 - radius, radius, brightness);
+    MinimalStyle::drawRadiantRing(g, w / 2 - radius, h / 2 - radius, radius, brightness);
 }
 
 void ReverbRing::timerCallback() {

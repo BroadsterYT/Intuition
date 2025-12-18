@@ -42,7 +42,7 @@ public:
     /// </summary>
     /// <param name="g">The JUCE graphics object to use</param>
     /// <param name="bounds">The rectangle to draw the panel within</param>
-    static void drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor = GlowStyle::bgPanel, bool includeLabelArea = true, float labelHeight = 32.0f);
+    static void drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor = MinimalStyle::bgPanel, bool includeLabelArea = true, float labelHeight = 32.0f);
 
     // Specific GUI Components
 

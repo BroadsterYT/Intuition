@@ -22,7 +22,7 @@ FilterGraph::~FilterGraph() {
 }
 
 void FilterGraph::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    g.fillAll(MinimalStyle::roomDark);
     
     float cutoff = *parameters.getRawParameterValue("FILTER_CUTOFF");
     float resonance = *parameters.getRawParameterValue("FILTER_RESONANCE");

@@ -57,7 +57,7 @@ ReverbDisplay::~ReverbDisplay() {
 }
 
 void ReverbDisplay::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::charcoal);
+    g.fillAll(MinimalStyle::charcoal);
 }
 
 void ReverbDisplay::resized() {

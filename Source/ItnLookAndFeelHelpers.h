@@ -13,7 +13,7 @@
 #include "LFOShape.h"
 
 
-namespace GlowStyle {
+namespace MinimalStyle {
     const auto roomDark = juce::Colour::fromRGB(18, 14, 10);
     const auto warmHighlight = juce::Colour::fromRGB(255, 204, 102);
     const auto bulbGlow = juce::Colour::fromRGB(255, 248, 225);
@@ -56,9 +56,9 @@ namespace GlowStyle {
         juce::ColourGradient gradient;
         if (!radial) {
             gradient = juce::ColourGradient::vertical(
-                GlowStyle::bulbGlow.withAlpha(0.8f),
+                MinimalStyle::bulbGlow.withAlpha(0.8f),
                 bounds.getY(),
-                GlowStyle::roomDark.withAlpha(0.2f),
+                MinimalStyle::roomDark.withAlpha(0.2f),
                 bounds.getBottom()
             );
         }
@@ -70,16 +70,16 @@ namespace GlowStyle {
             float radius = bounds.getWidth() * 0.75f;
 
             gradient = juce::ColourGradient(
-                GlowStyle::bulbGlow.withAlpha(0.8f),
+                MinimalStyle::bulbGlow.withAlpha(0.8f),
                 centerX,
                 centerY,
-                GlowStyle::roomDark.withAlpha(0.2f),
+                MinimalStyle::roomDark.withAlpha(0.2f),
                 centerX + radius,
                 centerY,
                 true
             );
         }
-        gradient.addColour(brightnessStartYProp, GlowStyle::warmHighlight.withAlpha(0.7f));
+        gradient.addColour(brightnessStartYProp, MinimalStyle::warmHighlight.withAlpha(0.7f));
 
         g.setGradientFill(gradient);
         g.fillPath(waveformPath);
@@ -91,7 +91,7 @@ namespace GlowStyle {
     /// <param name="g">The JUCE graphics context</param>
     /// <param name="waveformPath">The path to draw</param>
     inline void drawLineWaveform(juce::Graphics& g, juce::Path& waveformPath) {
-        g.setColour(GlowStyle::accentPeach);
+        g.setColour(MinimalStyle::accentPeach);
         g.strokePath(waveformPath, juce::PathStrokeType(2.0f));
     }
 
@@ -107,14 +107,14 @@ namespace GlowStyle {
         float xPos) {
 
         juce::ColourGradient gradient = juce::ColourGradient::horizontal(
-            GlowStyle::bulbGlow.withAlpha(0.0f),
+            MinimalStyle::bulbGlow.withAlpha(0.0f),
             xPos - 6.0f,
-            GlowStyle::bulbGlow.withAlpha(0.0f),
+            MinimalStyle::bulbGlow.withAlpha(0.0f),
             xPos + 6.0f
         );
-        gradient.addColour(0.35f, GlowStyle::bulbGlow.withAlpha(0.25f));
-        gradient.addColour(0.5f, GlowStyle::bulbGlow);
-        gradient.addColour(0.65f, GlowStyle::bulbGlow.withAlpha(0.25f));
+        gradient.addColour(0.35f, MinimalStyle::bulbGlow.withAlpha(0.25f));
+        gradient.addColour(0.5f, MinimalStyle::bulbGlow);
+        gradient.addColour(0.65f, MinimalStyle::bulbGlow.withAlpha(0.25f));
         g.setGradientFill(gradient);
         g.strokePath(indicatorPath, juce::PathStrokeType(12.0f));
     }
@@ -124,16 +124,16 @@ namespace GlowStyle {
         float posX, float posY,
         float radius, float brightness) {
         juce::ColourGradient gradient(
-            GlowStyle::bulbGlow.withAlpha(1.0f),
+            MinimalStyle::bulbGlow.withAlpha(1.0f),
             posX,
             posY,
-            GlowStyle::roomDark.withAlpha(0.2f),
+            MinimalStyle::roomDark.withAlpha(0.2f),
             posX + radius,
             posY,
             true
         );
-        gradient.addColour(0.4f, GlowStyle::warmHighlight.withAlpha(0.3f + 0.7f * brightness));
-        gradient.addColour(1.0f, GlowStyle::roomDark);
+        gradient.addColour(0.4f, MinimalStyle::warmHighlight.withAlpha(0.3f + 0.7f * brightness));
+        gradient.addColour(1.0f, MinimalStyle::roomDark);
 
         juce::Rectangle<float> bounds = { posX - radius / 2.0f, posY - radius / 2.0f, radius, radius };
         g.setGradientFill(gradient);
@@ -145,7 +145,7 @@ namespace GlowStyle {
         float posX, float posY,
         float radius, float brightness) {
         
-        g.setColour(GlowStyle::warmHighlight.withAlpha(brightness));
+        g.setColour(MinimalStyle::warmHighlight.withAlpha(brightness));
         g.drawEllipse(posX, posY, radius * 2.0f, radius * 2.0f, 2.0f);
     }
 }

@@ -69,9 +69,9 @@ float ItnTooltip::getFullTextHeight() {
 void ItnTooltip::paint(juce::Graphics& g) {
     auto filledArea = getLocalBounds().toFloat();
 
-    g.setColour(GlowStyle::shadow);
+    g.setColour(MinimalStyle::shadow);
     g.fillRoundedRectangle(filledArea, 15.0f);
-    g.setColour(GlowStyle::warmHighlight);
+    g.setColour(MinimalStyle::warmHighlight);
     g.drawRoundedRectangle(filledArea, 15.0f, 4.0f);
 
     auto drawPartialLayout = [&](const juce::String& text, int charCount, float posY, juce::Font& font, juce::Colour color) {
@@ -90,15 +90,15 @@ void ItnTooltip::paint(juce::Graphics& g) {
     ItnLookAndFeel* lookAndFeel = &ItnLookAndFeel::getInstance();
     if (headerCharsVisible > 0) {
         auto font = lookAndFeel->getTooltipHeaderFont();
-        drawPartialLayout(header, headerCharsVisible, headerY, font, GlowStyle::warmHighlight);
+        drawPartialLayout(header, headerCharsVisible, headerY, font, MinimalStyle::warmHighlight);
     }
     if (subheaderCharsVisible > 0) {
         auto font = lookAndFeel->getTooltipSubheaderFont();
-        drawPartialLayout(subheader, subheaderCharsVisible, subheaderY, font, GlowStyle::gray);
+        drawPartialLayout(subheader, subheaderCharsVisible, subheaderY, font, MinimalStyle::gray);
     }
     if (descriptionCharsVisible > 0) {
         auto font = lookAndFeel->getTooltipDescriptionFont();
-        drawPartialLayout(description, descriptionCharsVisible, descriptionY, font, GlowStyle::bulbGlow);
+        drawPartialLayout(description, descriptionCharsVisible, descriptionY, font, MinimalStyle::bulbGlow);
     }
 }
 
@@ -107,9 +107,9 @@ void ItnTooltip::buildTextLayouts() {
     subheaderText.clear();
     descriptionText.clear();
 
-    headerText.append(header, ItnLookAndFeel::getInstance().getTooltipHeaderFont(), GlowStyle::bulbGlow);
-    subheaderText.append(subheader, ItnLookAndFeel::getInstance().getTooltipSubheaderFont(), GlowStyle::bulbGlow);
-    descriptionText.append(description, ItnLookAndFeel::getInstance().getTooltipDescriptionFont(), GlowStyle::bulbGlow);
+    headerText.append(header, ItnLookAndFeel::getInstance().getTooltipHeaderFont(), MinimalStyle::bulbGlow);
+    subheaderText.append(subheader, ItnLookAndFeel::getInstance().getTooltipSubheaderFont(), MinimalStyle::bulbGlow);
+    descriptionText.append(description, ItnLookAndFeel::getInstance().getTooltipDescriptionFont(), MinimalStyle::bulbGlow);
 
     headerLayout.createLayout(headerText, maxTextWidth);
     subheaderLayout.createLayout(subheaderText, maxTextWidth);

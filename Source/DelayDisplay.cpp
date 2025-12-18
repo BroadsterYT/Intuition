@@ -55,7 +55,7 @@ DelayDisplay::~DelayDisplay() {
 }
 
 void DelayDisplay::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::charcoal);
+    g.fillAll(MinimalStyle::charcoal);
 }
 
 void DelayDisplay::resized() {

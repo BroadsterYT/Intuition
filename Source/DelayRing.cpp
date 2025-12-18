@@ -36,7 +36,7 @@ void DelayRing::paint(juce::Graphics& g) {
     float h = getHeight();
 
     float realRad = radius + 50.0f;
-    GlowStyle::drawRadiantRing(g, 0.0f - realRad - 50.0f, h / 2 - realRad, realRad, brightness);
+    MinimalStyle::drawRadiantRing(g, 0.0f - realRad - 50.0f, h / 2 - realRad, realRad, brightness);
 }
 
 void DelayRing::timerCallback() {

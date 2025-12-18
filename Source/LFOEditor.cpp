@@ -21,7 +21,7 @@ LFOEditor::~LFOEditor() {
 }
 
 void LFOEditor::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    g.fillAll(MinimalStyle::roomDark);
 
     if (shape.getNumPoints() < 2) return;
     if (!phase) return;

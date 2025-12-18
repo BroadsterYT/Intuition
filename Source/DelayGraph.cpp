@@ -20,7 +20,7 @@ DelayGraph::~DelayGraph() {
 }
 
 void DelayGraph::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    g.fillAll(MinimalStyle::roomDark);
 }
 
 void DelayGraph::timerCallback() {
