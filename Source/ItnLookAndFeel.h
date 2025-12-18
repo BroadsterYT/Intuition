@@ -18,8 +18,6 @@ public:
     ItnLookAndFeel();
     static ItnLookAndFeel& getInstance();
 
-    juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
-
     void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height,
         float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle,
         juce::Slider& slider) override;
@@ -37,6 +35,7 @@ public:
     juce::Font getTooltipDescriptionFont(float height = 20.0f);
 
     // General GUI
+    void drawLabel(juce::Graphics& g, juce::Label& label) override;
 
     /// <summary>
     /// Draws a panel for a component
@@ -54,10 +53,15 @@ public:
     static void drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType);
 
 private:
+    // ----- Fonts ----- //
     juce::Typeface::Ptr exo2TypeFaceRegular;
     juce::Typeface::Ptr exo2TypeFaceBold;
     juce::Typeface::Ptr exo2TypeFaceItalic;
 
     juce::Typeface::Ptr outfitTypeFaceRegular;
     juce::Typeface::Ptr outfitTypeFaceBold;
+
+    juce::Typeface::Ptr jetBrainsMonoTypeFaceRegular;
+
+    void drawSliderValueBox(juce::Graphics& g, juce::Label& label);
 };

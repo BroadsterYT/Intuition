@@ -31,47 +31,36 @@ OscillatorDisplay::OscillatorDisplay(
     waveDisplay(vts, modMatrix, bank, morphParamName),
     waveBankComp(wbComp),
     
-    toggleParamName(toggleParamName),
-    volumeParamName(volumeParamName),
-    panParamName(panParamName),
-    unisonParamName(unisonParamName),
-    detuneParamName(detuneParamName),
-    morphParamName(morphParamName),
-    octaveParamName(octaveParamName),
-    coarseParamName(coarseParamName),
-    fineParamName(fineParamName),
+    volume(vts, volumeParamName, "Volume"),
+    pan(vts, panParamName, "Pan"),
+    unison(vts, unisonParamName, "Unison"),
+    detune(vts, detuneParamName, "Detune", "ct"),
+    morph(vts, morphParamName, "WTM"),
+    octave(vts, octaveParamName, "Octave", "oct"),
+    coarse(vts, coarseParamName, "Coarse", "sem"),
+    fine(vts, fineParamName, "Fine", "ct"),
+
     title(vts, "Wavetable", true, toggleParamName) {
     startTimerHz(60);
-
     addAndMakeVisible(title);
 
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
-    
+
     addAndMakeVisible(waveBankEditorToggle);
     waveBankEditorToggle.setButtonText("Edit");
 
     waveBankEditorToggle.onClick = [this] {
         waveBankComp->setVisible(true);
     };
-    
-    //toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
-    volumeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, volumeParamName, volume);
-    panAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, panParamName, pan);
-    unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
-    detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, detuneParamName, detune);
-    morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, morphParamName, morph);
-    octaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, octaveParamName, octave);
-    coarseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, coarseParamName, coarse);
-    fineAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, fineParamName, fine);
 
-    volume.setModMatrix(modMatrix, volumeParamName);
-    pan.setModMatrix(modMatrix, panParamName);
-    detune.setModMatrix(modMatrix, detuneParamName);
-    morph.setModMatrix(modMatrix, morphParamName);
-    octave.setModMatrix(modMatrix, octaveParamName);
-    coarse.setModMatrix(modMatrix, coarseParamName);
-    fine.setModMatrix(modMatrix, fineParamName);
+    volume.setModMatrix(modMatrix);
+    pan.setModMatrix(modMatrix);
+    detune.setModMatrix(modMatrix);
+    morph.setModMatrix(modMatrix);
+    octave.setModMatrix(modMatrix);
+    coarse.setModMatrix(modMatrix);
+    fine.setModMatrix(modMatrix);
 
     unison.setRange(1, 8, 1);
     detune.setRange(0, 100);
@@ -80,29 +69,6 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setRange(-12, 12, 1);
     fine.setRange(-100, 100, 1);
 
-    //toggle.setButtonText("");
-    volume.setLabelName("Vol");
-    pan.setLabelName("Pan");
-    unison.setLabelName("U");
-    detune.setLabelName("D");
-    morph.setLabelName("WTM");
-    octave.setLabelName("OCT");
-    coarse.setLabelName("SEM");
-    fine.setLabelName("FIN");
-
-    volume.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    pan.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    unison.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    detune.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    morph.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    octave.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-
-    //title.setText("Wavebank", juce::dontSendNotification);
-
-    //addAndMakeVisible(title);
-    //addAndMakeVisible(toggle);
     addAndMakeVisible(volume);
     addAndMakeVisible(pan);
     addAndMakeVisible(unison);

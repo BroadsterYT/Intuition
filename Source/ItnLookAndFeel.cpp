@@ -17,34 +17,12 @@ ItnLookAndFeel::ItnLookAndFeel() {
     exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);
     outfitTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitRegular_ttf, BinaryData::OutfitRegular_ttfSize);
     outfitTypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitBold_ttf, BinaryData::OutfitBold_ttfSize);
+    jetBrainsMonoTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::JetBrainsMonoRegular_ttf, BinaryData::JetBrainsMonoRegular_ttfSize);
 }
 
 ItnLookAndFeel& ItnLookAndFeel::getInstance() {
     static ItnLookAndFeel instance;
     return instance;
-}
-
-juce::Slider::SliderLayout ItnLookAndFeel::getSliderLayout(juce::Slider& slider) {
-    juce::Slider::SliderLayout layout;
-    auto bounds = slider.getLocalBounds();
-    layout.sliderBounds = bounds;
-
-    if (slider.getTextBoxPosition() == juce::Slider::TextBoxAbove) {
-        auto textArea = bounds.removeFromTop(slider.getTextBoxHeight());
-        auto labelArea = bounds.removeFromBottom(10);
-        float textBoxPadding = bounds.getWidth() - slider.getTextBoxWidth();
-        textArea.removeFromLeft(textBoxPadding / 2);
-        textArea.removeFromRight(textBoxPadding / 2);
-
-        layout.sliderBounds = bounds;
-        layout.textBoxBounds = textArea;
-    }
-    else if (slider.getTextBoxPosition() == juce::Slider::NoTextBox) {
-        auto labelArea = bounds.removeFromBottom(10);
-        slider.setPopupDisplayEnabled(true, false, slider.getParentComponent());
-        layout.sliderBounds = bounds;
-    }
-    return layout;
 }
 
 void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) {
@@ -79,10 +57,10 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
 }
 
 juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
-    if (label.getComponentID() == "PanelTitle") {
+    auto id = label.getComponentID();
+    if (id == "PanelTitle") {
         return juce::Font(outfitTypeFaceBold).withHeight(18.0f);
     }
-
     return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
 }
 
@@ -96,6 +74,20 @@ juce::Font ItnLookAndFeel::getTooltipSubheaderFont(float height) {
 
 juce::Font ItnLookAndFeel::getTooltipDescriptionFont(float height) {
     return juce::Font(exo2TypeFaceRegular).withHeight(height);
+}
+
+void ItnLookAndFeel::drawLabel(juce::Graphics& g, juce::Label& label) {
+    const auto id = label.getComponentID();
+
+    if (id == "sliderNameLabel") {
+        juce::LookAndFeel_V4::drawLabel(g, label);
+    }
+    else if (id == "sliderValueBox") {
+        drawSliderValueBox(g, label);  // TODO: Replace with custom draw method
+    }
+    else {
+        juce::LookAndFeel_V4::drawLabel(g, label);
+    }
 }
 
 void ItnLookAndFeel::drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor, bool includeLabelArea, float labelHeight) {
@@ -286,4 +278,14 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
 
     path.closeSubPath();
     GlowStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
+}
+
+void ItnLookAndFeel::drawSliderValueBox(juce::Graphics& g, juce::Label& label) {
+    auto bounds = label.getLocalBounds();
+
+    if (!label.isBeingEdited()) {
+        g.setColour(GlowStyle::accentPeach);
+        g.setFont(juce::Font(jetBrainsMonoTypeFaceRegular).withHeight(12.0f));
+        g.drawText(label.getText(), bounds.toNearestInt(), label.getJustificationType(), true);
+    }
 }

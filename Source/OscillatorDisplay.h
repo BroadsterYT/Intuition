@@ -16,6 +16,7 @@
 #include "WavetableBank.h"
 #include "WaveBankComponent.h"
 #include "PanelTitleComponent.h"
+#include "SliderComponent.h"
 
 
 class OscillatorDisplay : public juce::Component, private juce::Timer {
@@ -45,21 +46,15 @@ private:
     ModMatrix* modMatrix = nullptr;
 
     juce::String toggleParamName;
-    juce::String volumeParamName;
-    juce::String panParamName;
-    juce::String unisonParamName;
-    juce::String detuneParamName;
-    juce::String morphParamName;
-    juce::String octaveParamName;
-    juce::String coarseParamName;
-    juce::String fineParamName;
 
     PanelTitleComponent title;
 
-    ItnSlider volume, unison, detune, morph;
-    ItnSlider octave, coarse, fine, pan;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> volumeAttachment, unisonAttachment, detuneAttachment, morphAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment, panAttachment;
+    SliderComponent volume, unison, detune, morph;
+    SliderComponent octave, coarse, fine, pan;
+    //ItnSlider unison, detune, morph;
+    //ItnSlider octave, coarse, fine, pan;
+    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> unisonAttachment, detuneAttachment, morphAttachment;
+    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment, panAttachment;
 
     juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;

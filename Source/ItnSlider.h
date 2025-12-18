@@ -45,9 +45,6 @@ public:
     void setModMatrix(ModMatrix* matrix, juce::String pName);
 
 private:
-    juce::String name;
-    juce::Label label;
-
     ModMatrix* modMatrix = nullptr;
     juce::String paramName = "";
 

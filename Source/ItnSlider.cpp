@@ -15,11 +15,7 @@ ItnSlider::ItnSlider() {
     startTimerHz(60);
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     setSliderStyle(juce::Slider::Rotary);
-    setTextBoxStyle(juce::Slider::TextBoxAbove, false, 40, 15);
-
-    addAndMakeVisible(label);
-    label.setJustificationType(juce::Justification::centredBottom);
-    updateLabel();
+    setTextBoxStyle(juce::Slider::NoTextBox, false, 40, 15);
 }
 
 ItnSlider::~ItnSlider() {
@@ -34,8 +30,8 @@ void ItnSlider::parentHierarchyChanged() {
 }
 
 void ItnSlider::setLabelName(const juce::String newName) {
-    name = newName;
-    updateLabel();
+    /*name = newName;
+    updateLabel();*/
 }
 
 void ItnSlider::setCustomTooltipText(const juce::String parameterKey) {
@@ -166,7 +162,7 @@ void ItnSlider::resized() {
     juce::Slider::resized();
     auto area = getLocalBounds().removeFromBottom(15);
 
-    label.setBounds(area);
+    //label.setBounds(area);
 }
 
 void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
@@ -175,7 +171,7 @@ void ItnSlider::setModMatrix(ModMatrix* matrix, const juce::String pName) {
 }
 
 void ItnSlider::updateLabel() {
-    label.setText(name, juce::dontSendNotification);
+    //label.setText(name, juce::dontSendNotification);
 }
 
 void ItnSlider::addModLinkSubmenu(juce::PopupMenu& menu) {
