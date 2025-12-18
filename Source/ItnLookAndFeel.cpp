@@ -26,34 +26,33 @@ ItnLookAndFeel& ItnLookAndFeel::getInstance() {
 }
 
 void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) {
-    auto radius = juce::jmin(width / 2.0f, height / 2.0f) - 8.0f;
-    auto centerX = x + width * 0.5f;
-    auto centerY = y + height * 0.5f;
+    // Dial BG
+    float diam = juce::jmin(width, height) - 8.0f;
+    float offX = 0.5f * (width - diam);
+    float offY = 0.5f * (height - diam);
+    auto knobArea = juce::Rectangle<float>(x + offX, y + offY, diam, diam);
+    g.setColour(MinimalStyle::borderLight);
+    g.fillEllipse(knobArea);
 
-    juce::Path baseArc;
-    baseArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, rotaryEndAngle, true);
-    g.setColour(MinimalStyle::shadow);
-    g.strokePath(baseArc, juce::PathStrokeType(8.0f));
+    // Inset detail
+    float innerRingDiam = diam - 7.0f;
+    float innerOffX = 0.5f * (width - innerRingDiam);
+    float innerOffY = 0.5f * (height - innerRingDiam);
+    auto innerRingArea = juce::Rectangle<float>(x + innerOffX, y + innerOffY, innerRingDiam, innerRingDiam);
+    g.setColour(MinimalStyle::bgControl);
+    g.drawEllipse(innerRingArea, 3.0f);
 
-    float fillAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
-    juce::Path filledArc;
-    filledArc.addCentredArc(centerX, centerY, radius, radius, 0.0f, rotaryStartAngle, fillAngle, true);
+    // Value indicator
+    float angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+    g.saveState();
+    g.addTransform(juce::AffineTransform::rotation(angle, width / 2.0f, height / 2.0f));
     
-    juce::ColourGradient gradient = juce::ColourGradient::horizontal(
-        MinimalStyle::shadow,
-        (float)x,
-        MinimalStyle::warmHighlight,
-        (float)(x + width)
-    );
-    gradient.addColour(0.35f, MinimalStyle::shadow);
-    g.setGradientFill(gradient);
-    g.strokePath(filledArc, juce::PathStrokeType(8.0f));
+    float startY = innerOffY + 4.0f;
+    float endY = height / 2.0f;
+    g.setColour(MinimalStyle::accentPeach);
+    g.drawLine(width / 2.0f, startY, width / 2.0f, endY, 2.0f);
 
-    float angle = 3.0f * juce::MathConstants<float>::pi / 2.0f + rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
-    float knobRadius = 6.0f;
-    float knobX = centerX + std::cos(angle) * radius;
-    float knobY = centerY + std::sin(angle) * radius;
-    MinimalStyle::drawRadiantPoint(g, knobX, knobY, knobRadius * 2.0f, sliderPosProportional);
+    g.restoreState();
 }
 
 juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {

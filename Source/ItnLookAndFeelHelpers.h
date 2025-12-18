@@ -44,7 +44,6 @@ namespace MinimalStyle {
     const auto accentGlow = juce::Colour::fromRGBA(255, 140, 90, 77);
     const auto accentSubtle = juce::Colour::fromRGBA(255, 176, 136, 26);
 
-
     /// <summary>
     /// Draws a waveform that looks like light casted from a lightbulb in a dark room
     /// </summary>
