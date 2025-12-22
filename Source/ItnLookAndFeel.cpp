@@ -15,9 +15,10 @@ ItnLookAndFeel::ItnLookAndFeel() {
     exo2TypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Regular_ttf, BinaryData::Exo2Regular_ttfSize);
     exo2TypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Bold_ttf, BinaryData::Exo2Bold_ttfSize);
     exo2TypeFaceItalic = juce::Typeface::createSystemTypefaceFor(BinaryData::Exo2Italic_ttf, BinaryData::Exo2Italic_ttfSize);
+    interTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::Inter_28ptMedium_ttf, BinaryData::Inter_28ptMedium_ttfSize);
+    jetBrainsMonoTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::JetBrainsMonoRegular_ttf, BinaryData::JetBrainsMonoRegular_ttfSize);
     outfitTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitRegular_ttf, BinaryData::OutfitRegular_ttfSize);
     outfitTypeFaceBold = juce::Typeface::createSystemTypefaceFor(BinaryData::OutfitBold_ttf, BinaryData::OutfitBold_ttfSize);
-    jetBrainsMonoTypeFaceRegular = juce::Typeface::createSystemTypefaceFor(BinaryData::JetBrainsMonoRegular_ttf, BinaryData::JetBrainsMonoRegular_ttfSize);
 }
 
 ItnLookAndFeel& ItnLookAndFeel::getInstance() {
@@ -60,6 +61,9 @@ juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
     if (id == "PanelTitle") {
         return juce::Font(outfitTypeFaceBold).withHeight(18.0f);
     }
+    else if (id == "sliderNameLabel") {
+        return juce::Font(interTypeFaceRegular).withHeight(12.0f);
+    }
     return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
 }
 
@@ -78,22 +82,28 @@ juce::Font ItnLookAndFeel::getTooltipDescriptionFont(float height) {
 void ItnLookAndFeel::drawLabel(juce::Graphics& g, juce::Label& label) {
     const auto id = label.getComponentID();
     if (id == "sliderNameLabel") {
-        juce::LookAndFeel_V4::drawLabel(g, label);
+        drawSliderNameLabel(g, label);
+        return;
     }
     else if (id == "sliderValueBox") {
         drawSliderValueBox(g, label);  // TODO: Replace with custom draw method
+        return;
     }
-    else {
-        juce::LookAndFeel_V4::drawLabel(g, label);
-    }
+    juce::LookAndFeel_V4::drawLabel(g, label);
+}
+
+void ItnLookAndFeel::drawTabButton(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) {
+    auto bounds = button.getLocalBounds().toFloat();
+
+    g.setColour(MinimalStyle::borderDark);
+    g.fillRoundedRectangle(bounds, 10.0f);
+
+    g.setColour(MinimalStyle::bgPanel);
+    g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
 }
 
 void ItnLookAndFeel::drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor, bool includeLabelArea, float labelHeight) {
-    g.setColour(MinimalStyle::borderDark);
-    g.fillRoundedRectangle(bounds, 10.0f);
-    g.setColour(insideColor);
-    g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
-
+    MinimalStyle::drawCustomRoundedPanel(g, bounds, false, false, false, false);
     if (includeLabelArea) {
         g.setColour(MinimalStyle::borderDark);
         g.fillRect(0.0f, labelHeight, bounds.getRight(), 1.0f);
@@ -278,9 +288,15 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     MinimalStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
 }
 
+void ItnLookAndFeel::drawSliderNameLabel(juce::Graphics& g, juce::Label& label) {
+    auto bounds = label.getLocalBounds();
+    g.setFont(getLabelFont(label));
+    g.setColour(MinimalStyle::textSecondary);
+    g.drawText(label.getText(), bounds.toNearestInt(), label.getJustificationType(), true);
+}
+
 void ItnLookAndFeel::drawSliderValueBox(juce::Graphics& g, juce::Label& label) {
     auto bounds = label.getLocalBounds();
-
     if (!label.isBeingEdited()) {
         g.setColour(MinimalStyle::accentPeach);
         g.setFont(juce::Font(jetBrainsMonoTypeFaceRegular).withHeight(12.0f));

@@ -17,6 +17,12 @@ namespace BinaryData
     extern const char*   Exo2Regular_ttf;
     const int            Exo2Regular_ttfSize = 151388;
 
+    extern const char*   Inter_28ptMedium_ttf;
+    const int            Inter_28ptMedium_ttfSize = 342808;
+
+    extern const char*   Inter_28ptRegular_ttf;
+    const int            Inter_28ptRegular_ttfSize = 342484;
+
     extern const char*   JetBrainsMonoRegular_ttf;
     const int            JetBrainsMonoRegular_ttfSize = 273900;
 
@@ -48,7 +54,7 @@ namespace BinaryData
     const int            intumi_exeSize = 12078802;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 13;
+    const int namedResourceListSize = 15;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

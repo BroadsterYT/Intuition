@@ -31,14 +31,14 @@ OscillatorDisplay::OscillatorDisplay(
     waveDisplay(vts, modMatrix, bank, morphParamName),
     waveBankComp(wbComp),
     
-    volume(vts, volumeParamName, "Volume"),
-    pan(vts, panParamName, "Pan"),
-    unison(vts, unisonParamName, "Unison"),
-    detune(vts, detuneParamName, "Detune", "ct"),
+    volume(vts, volumeParamName, "VOLUME"),
+    pan(vts, panParamName, "PAN"),
+    unison(vts, unisonParamName, "UNISON"),
+    detune(vts, detuneParamName, "DETUNE", "ct"),
     morph(vts, morphParamName, "WTM"),
-    octave(vts, octaveParamName, "Octave", "oct"),
-    coarse(vts, coarseParamName, "Coarse", "sem"),
-    fine(vts, fineParamName, "Fine", "ct"),
+    octave(vts, octaveParamName, "OCTAVE", "oct"),
+    coarse(vts, coarseParamName, "COARSE", "sem"),
+    fine(vts, fineParamName, "FINE", "ct"),
 
     title(vts, "Wavetable", true, toggleParamName) {
     startTimerHz(60);
@@ -106,16 +106,12 @@ void OscillatorDisplay::resized() {
     morph.setBounds(knobArea.removeFromLeft(knobWidth));
     volume.setBounds(knobArea.removeFromLeft(knobWidth));
 
-    auto pitchArea = area.removeFromBottom(60);
+    auto pitchArea = area.removeFromBottom(80);
     int pitchWidth = pitchArea.getWidth() / 4;
     octave.setBounds(pitchArea.removeFromLeft(pitchWidth));
     coarse.setBounds(pitchArea.removeFromLeft(pitchWidth));
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
     pan.setBounds(pitchArea.removeFromLeft(pitchWidth));
-
-    /*titleArea.removeFromLeft(5);
-    toggle.setBounds(titleArea.removeFromLeft(25));
-    title.setBounds(toggle.getRight(), 5, 100, 25);*/
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

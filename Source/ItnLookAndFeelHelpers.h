@@ -45,6 +45,49 @@ namespace MinimalStyle {
     const auto accentSubtle = juce::Colour::fromRGBA(255, 176, 136, 26);
 
     /// <summary>
+    /// Draws a rounded rectangle for a component panel with select corners rounded and sharp
+    /// </summary>
+    /// <param name="g">The JUCE graphics context to use</param>
+    /// <param name="bounds">The bounds to draw within</param>
+    /// <param name="sharpTopLeft">Make true if the top left corner should be a right angle. False to round it.</param>
+    /// <param name="sharpTopRight">Make true if the top right corner should be a right angle. False to round it.</param>
+    /// <param name="sharpBottomLeft">Make true if the bottom left corner should be a right angle. False to round it.</param>
+    /// <param name="sharpBottomRight">Make true if the bottom right corner should be a right angle. False to round it.</param>
+    inline void drawCustomRoundedPanel(juce::Graphics& g, juce::Rectangle<float> bounds, bool sharpTopLeft, bool sharpTopRight, bool sharpBottomLeft, bool sharpBottomRight) {
+        g.setColour(borderDark);
+        g.fillRoundedRectangle(bounds, 10.0f);
+        g.setColour(bgPanel);
+        g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
+
+        float width = bounds.getWidth();
+        float height = bounds.getHeight();
+        if (sharpTopLeft) {
+            g.setColour(borderDark);
+            g.fillRect(0.0f, 0.0f, 10.0f, 10.0f);
+            g.setColour(bgPanel);
+            g.fillRect(1.0f, 1.0f, 10.0f, 10.0f);
+        }
+        if (sharpTopRight) {
+            g.setColour(borderDark);
+            g.fillRect(width - 10.0f, 0.0f, 10.0f, 10.0f);
+            g.setColour(bgPanel);
+            g.fillRect(width - 10.0f, 1.0f, 9.0f, 9.0f);
+        }
+        if (sharpBottomLeft) {
+            g.setColour(borderDark);
+            g.fillRect(0.0f, height - 10.0f, 10.0f, 10.0f);
+            g.setColour(bgPanel);
+            g.fillRect(1.0f, height - 11.0f, 10.0f, 10.0f);
+        }
+        if (sharpBottomRight) {
+            g.setColour(borderDark);
+            g.fillRect(width - 10.0f, height - 10.0f, 10.0f, 10.0f);
+            g.setColour(bgPanel);
+            g.fillRect(width - 10.0f, height - 10.0f, 9.0f, 9.0f);
+        }
+    }
+
+    /// <summary>
     /// Draws a waveform that looks like light casted from a lightbulb in a dark room
     /// </summary>
     /// <param name="g">The JUCE graphics context</param>

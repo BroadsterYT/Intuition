@@ -15,6 +15,7 @@ SliderComponent::SliderComponent(juce::AudioProcessorValueTreeState& vts, const 
     addAndMakeVisible(nameLabel);
     addAndMakeVisible(valueBox);
 
+    slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 
     nameLabel.setComponentID("sliderNameLabel");

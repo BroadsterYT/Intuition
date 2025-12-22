@@ -25,29 +25,33 @@ EnvelopeDisplay::EnvelopeDisplay(
     decayParamName(decayParamName),
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName),
+
+    attackSlider(vts, attackParamName, "ATTACK"),
+    decaySlider(vts, decayParamName, "DECAY"),
+    sustainSlider(vts, sustainParamName, "SUSTAIN"),
+    releaseSlider(vts, releaseParamName, "RELEASE"),
+
     graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
-    
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
-
     addAndMakeVisible(graph);
 
-    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, attackParamName, attackSlider);
+    /*attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, attackParamName, attackSlider);
     decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, decayParamName, decaySlider);
     sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, sustainParamName, sustainSlider);
-    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);
+    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);*/
 
-    attackSlider.setLabelName("A");
+    /*attackSlider.setLabelName("A");
     decaySlider.setLabelName("D");
     sustainSlider.setLabelName("S");
-    releaseSlider.setLabelName("R");
+    releaseSlider.setLabelName("R");*/
 
-    attackSlider.setCustomTooltipText("ENV_ATTACK");
+    /*attackSlider.setCustomTooltipText("ENV_ATTACK");
     decaySlider.setCustomTooltipText("ENV_DECAY");
     sustainSlider.setCustomTooltipText("ENV_SUSTAIN");
-    releaseSlider.setCustomTooltipText("ENV_RELEASE");
+    releaseSlider.setCustomTooltipText("ENV_RELEASE");*/
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {

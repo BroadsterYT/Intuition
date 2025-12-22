@@ -36,7 +36,7 @@ public:
 
     // General GUI
     void drawLabel(juce::Graphics& g, juce::Label& label) override;
-
+    void drawTabButton(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) override;
     /// <summary>
     /// Draws a panel for a component
     /// </summary>
@@ -57,11 +57,11 @@ private:
     juce::Typeface::Ptr exo2TypeFaceRegular;
     juce::Typeface::Ptr exo2TypeFaceBold;
     juce::Typeface::Ptr exo2TypeFaceItalic;
-
+    juce::Typeface::Ptr interTypeFaceRegular;
+    juce::Typeface::Ptr jetBrainsMonoTypeFaceRegular;
     juce::Typeface::Ptr outfitTypeFaceRegular;
     juce::Typeface::Ptr outfitTypeFaceBold;
 
-    juce::Typeface::Ptr jetBrainsMonoTypeFaceRegular;
-
+    void drawSliderNameLabel(juce::Graphics& g, juce::Label& label);
     void drawSliderValueBox(juce::Graphics& g, juce::Label& label);
 };

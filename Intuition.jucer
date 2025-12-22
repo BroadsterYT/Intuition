@@ -11,6 +11,10 @@
         <FILE id="NwRKo3" name="Exo2-Italic.ttf" compile="0" resource="1" file="Assets/Fonts/Exo2-Italic.ttf"/>
         <FILE id="THsLwG" name="Exo2-Regular.ttf" compile="0" resource="1"
               file="Assets/Fonts/Exo2-Regular.ttf"/>
+        <FILE id="kkGrWS" name="Inter_28pt-Medium.ttf" compile="0" resource="1"
+              file="Assets/Fonts/Inter_28pt-Medium.ttf"/>
+        <FILE id="zaVuCV" name="Inter_28pt-Regular.ttf" compile="0" resource="1"
+              file="Assets/Fonts/Inter_28pt-Regular.ttf"/>
         <FILE id="wWGfF0" name="JetBrainsMono-Regular.ttf" compile="0" resource="1"
               file="Assets/Fonts/JetBrainsMono-Regular.ttf"/>
         <FILE id="odl35e" name="Outfit-Bold.ttf" compile="0" resource="1" file="Assets/Fonts/Outfit-Bold.ttf"/>
