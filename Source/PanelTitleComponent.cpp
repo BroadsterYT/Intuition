@@ -24,14 +24,19 @@ PanelTitleComponent::PanelTitleComponent(juce::AudioProcessorValueTreeState& vts
 void PanelTitleComponent::resized() {
     auto area = getLocalBounds();
 
-    // Setting toggle button location
-    juce::Rectangle<int> toggleBounds;
-    toggleBounds.setSize(25, 25);
-    int togglePosY = (int)(0.5 * (area.getHeight() - toggleBounds.getHeight()));
-    toggleBounds.setPosition(5, togglePosY);
-    toggle.setBounds(toggleBounds);
+    if (toggleVisible) {
+        juce::Rectangle<int> toggleBounds;
+        toggleBounds.setSize(25, 25);
+        int togglePosY = (int)(0.5 * (area.getHeight() - toggleBounds.getHeight()));
+        toggleBounds.setPosition(5, togglePosY);
+        toggle.setBounds(toggleBounds);
+
+        area.removeFromLeft(5 + toggleBounds.getWidth());  // Rest of area for title and whatever else
+    }
+    else {
+        area.removeFromLeft(5);
+    }
 
     // Label location
-    area.removeFromLeft(5 + toggleBounds.getWidth());  // Rest of area for title and whatever else
     title.setBounds(area);
 }

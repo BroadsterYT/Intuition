@@ -135,6 +135,10 @@
               file="Source/ItnMidiKeyboard.h"/>
         <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
         <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
+        <FILE id="Y89n8U" name="ItnTabbedComponent.cpp" compile="1" resource="0"
+              file="Source/ItnTabbedComponent.cpp"/>
+        <FILE id="WSzIY5" name="ItnTabbedComponent.h" compile="0" resource="0"
+              file="Source/ItnTabbedComponent.h"/>
         <FILE id="ZHqCzh" name="ItnTooltip.cpp" compile="1" resource="0" file="Source/ItnTooltip.cpp"/>
         <FILE id="oBE4jj" name="ItnTooltip.h" compile="0" resource="0" file="Source/ItnTooltip.h"/>
         <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"

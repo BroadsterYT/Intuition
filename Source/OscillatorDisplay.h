@@ -48,13 +48,8 @@ private:
     juce::String toggleParamName;
 
     PanelTitleComponent title;
-
     SliderComponent volume, unison, detune, morph;
     SliderComponent octave, coarse, fine, pan;
-    //ItnSlider unison, detune, morph;
-    //ItnSlider octave, coarse, fine, pan;
-    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> unisonAttachment, detuneAttachment, morphAttachment;
-    //std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment, panAttachment;
 
     juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;

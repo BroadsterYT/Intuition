@@ -28,10 +28,9 @@ LFOTabs::LFOTabs(
     editor2(vts, shape2, phase2, "LFO2_MODE", "LFO2_RATE", "LFO2_SYNC_DIV"),
     editor3(vts, shape3, phase3, "LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV") {
 
-    tabs.addTab("LFO 1", juce::Colours::darkgrey, &editor1, false);
-    tabs.addTab("LFO 2", juce::Colours::darkgrey, &editor2, false);
-    tabs.addTab("LFO 3", juce::Colours::darkgrey, &editor3, false);
-    
+    tabs.addTab("LFO 1", juce::Colours::transparentBlack, &editor1, false);
+    tabs.addTab("LFO 2", juce::Colours::transparentBlack, &editor2, false);
+    tabs.addTab("LFO 3", juce::Colours::transparentBlack, &editor3, false);
     addAndMakeVisible(tabs);
 }
 

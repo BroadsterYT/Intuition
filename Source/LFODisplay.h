@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "ItnSlider.h"
 #include "LFOEditor.h"
+#include "SliderComponent.h"
 
 
 class LFODisplay : public juce::Component {
@@ -32,13 +33,12 @@ private:
     juce::AudioProcessorValueTreeState& parameters;
     LFOEditor editor;
 
-    juce::String modeName, rateName, syncDivName;
+    juce::String modeName, syncDivName;
 
     juce::ComboBox mode, syncDiv;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> modeAttachment, syncDivAttachment;
 
-    ItnSlider rate;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> rateAttachment;
+    SliderComponent rate;
 
     void modeChanged();
 };

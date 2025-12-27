@@ -29,6 +29,8 @@ public:
     /// <param name="newMaximum">The highest value allowed</param>
     /// <param name="newInterval">The steps in which the value is allowed to increase</param>
     void setRange(double newMinimum, double newMaximum, double newInterval = 0.0);
+    void setSkewFactorFromMidPoint(double sliderValueToShowAtMidPoint);
+    
     void setCustomTooltipText(const juce::String parameterKey);
 
     void resized() override;

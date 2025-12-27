@@ -59,6 +59,10 @@ void SliderComponent::setRange(double newMinimum, double newMaximum, double newI
     slider.setRange(newMinimum, newMaximum, newInterval);
 }
 
+void SliderComponent::setSkewFactorFromMidPoint(double sliderValueToShowAtMidPoint) {
+    slider.setSkewFactorFromMidPoint(sliderValueToShowAtMidPoint);
+}
+
 void SliderComponent::setCustomTooltipText(const juce::String parameterKey) {
     slider.setCustomTooltipText(parameterKey);
 }

@@ -10,17 +10,19 @@
 
 #pragma once
 #include "EnvelopeDisplay.h"
+#include "ItnTabbedComponent.h"
 
 
 class EnvelopeTabs : public juce::Component {
 public:
     EnvelopeTabs(ItnContext& context);
 
+    void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
     ItnContext& context;
-    juce::TabbedComponent tabs;
+    ItnTabbedComponent tabs;
 
     EnvelopeDisplay envOsc;
     EnvelopeDisplay env1, env2, env3;

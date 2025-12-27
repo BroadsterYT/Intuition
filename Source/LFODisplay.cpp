@@ -12,16 +12,16 @@
 
 LFODisplay::LFODisplay(
     juce::AudioProcessorValueTreeState& vts,
-    LFOShape& shape,
-    float* phase,
+    LFOShape& shape, float* phase,
     const juce::String modeName,
     const juce::String rateName,
     const juce::String syncDivName
 ) : parameters(vts),
     editor(shape, phase), 
     modeName(modeName),
-    rateName(rateName),
-    syncDivName(syncDivName) {
+    syncDivName(syncDivName),
+    
+    rate(vts, rateName, "LFO RATE", "Hz") {
 
     mode.addItem("Free Run", 1);
     mode.addItem("BPM Sync", 2);
@@ -39,28 +39,22 @@ LFODisplay::LFODisplay(
 
     modeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, modeName, mode);
     syncDivAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, syncDivName, syncDiv);
-    rateAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, rateName, rate);
 
     rate.setRange(0.01f, 30.0f);
+    rate.setCustomTooltipText("LFO_RATE");
 
     addAndMakeVisible(editor);
     addAndMakeVisible(mode);
     addAndMakeVisible(syncDiv);
     addChildComponent(rate);
-
-    rate.setCustomTooltipText("LFO_RATE");
 }
 
 void LFODisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(getLocalBounds());
+    MinimalStyle::drawCustomRoundedPanel(g, getLocalBounds().toFloat(), MinimalStyle::bgPanel, true, true, false, false);
 }
 
 void LFODisplay::resized() {
     auto area = getLocalBounds();
-
     auto optionsArea = area.removeFromBottom(100).reduced(10);
     
     int split = optionsArea.getWidth() / 3;
@@ -73,7 +67,6 @@ void LFODisplay::resized() {
 
 void LFODisplay::modeChanged() {
     int id = mode.getSelectedId();
-
     if (id == 1) {
         rate.setVisible(true);
         syncDiv.setVisible(false);

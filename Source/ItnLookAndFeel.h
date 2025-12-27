@@ -34,9 +34,15 @@ public:
     juce::Font getTooltipSubheaderFont(float height = 20.0f);
     juce::Font getTooltipDescriptionFont(float height = 20.0f);
 
-    // General GUI
+    // Override General GUI
     void drawLabel(juce::Graphics& g, juce::Label& label) override;
+    
     void drawTabButton(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) override;
+    void drawTabButtonText(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) override;
+    void drawTabAreaBehindFrontButton(juce::TabbedButtonBar& bar, juce::Graphics& g, int, int) override;
+    
+    // Custom General GUI
+
     /// <summary>
     /// Draws a panel for a component
     /// </summary>
@@ -44,7 +50,7 @@ public:
     /// <param name="bounds">The rectangle to draw the panel within</param>
     static void drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor = MinimalStyle::bgPanel, bool includeLabelArea = true, float labelHeight = 32.0f);
 
-    // Specific GUI Components
+    // Custom Specific GUI
 
     static void drawWaveform(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Array<float> waveform);
     static void drawEnvelope(juce::Graphics& g, juce::Rectangle<float> bounds, float attack, float decay, float sustain, float release, float envTime);

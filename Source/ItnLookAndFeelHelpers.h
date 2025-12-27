@@ -49,14 +49,15 @@ namespace MinimalStyle {
     /// </summary>
     /// <param name="g">The JUCE graphics context to use</param>
     /// <param name="bounds">The bounds to draw within</param>
+    /// <param name="insideColor">The color to fill the rectangle with</param>
     /// <param name="sharpTopLeft">Make true if the top left corner should be a right angle. False to round it.</param>
     /// <param name="sharpTopRight">Make true if the top right corner should be a right angle. False to round it.</param>
     /// <param name="sharpBottomLeft">Make true if the bottom left corner should be a right angle. False to round it.</param>
     /// <param name="sharpBottomRight">Make true if the bottom right corner should be a right angle. False to round it.</param>
-    inline void drawCustomRoundedPanel(juce::Graphics& g, juce::Rectangle<float> bounds, bool sharpTopLeft, bool sharpTopRight, bool sharpBottomLeft, bool sharpBottomRight) {
+    inline void drawCustomRoundedPanel(juce::Graphics& g, juce::Rectangle<float> bounds, juce::Colour insideColor, bool sharpTopLeft, bool sharpTopRight, bool sharpBottomLeft, bool sharpBottomRight) {
         g.setColour(borderDark);
         g.fillRoundedRectangle(bounds, 10.0f);
-        g.setColour(bgPanel);
+        g.setColour(insideColor);
         g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
 
         float width = bounds.getWidth();
@@ -64,67 +65,27 @@ namespace MinimalStyle {
         if (sharpTopLeft) {
             g.setColour(borderDark);
             g.fillRect(0.0f, 0.0f, 10.0f, 10.0f);
-            g.setColour(bgPanel);
+            g.setColour(insideColor);
             g.fillRect(1.0f, 1.0f, 10.0f, 10.0f);
         }
         if (sharpTopRight) {
             g.setColour(borderDark);
             g.fillRect(width - 10.0f, 0.0f, 10.0f, 10.0f);
-            g.setColour(bgPanel);
+            g.setColour(insideColor);
             g.fillRect(width - 10.0f, 1.0f, 9.0f, 9.0f);
         }
         if (sharpBottomLeft) {
             g.setColour(borderDark);
             g.fillRect(0.0f, height - 10.0f, 10.0f, 10.0f);
-            g.setColour(bgPanel);
+            g.setColour(insideColor);
             g.fillRect(1.0f, height - 11.0f, 10.0f, 10.0f);
         }
         if (sharpBottomRight) {
             g.setColour(borderDark);
             g.fillRect(width - 10.0f, height - 10.0f, 10.0f, 10.0f);
-            g.setColour(bgPanel);
+            g.setColour(insideColor);
             g.fillRect(width - 10.0f, height - 10.0f, 9.0f, 9.0f);
         }
-    }
-
-    /// <summary>
-    /// Draws a waveform that looks like light casted from a lightbulb in a dark room
-    /// </summary>
-    /// <param name="g">The JUCE graphics context</param>
-    /// <param name="waveformPath">The waveform path to draw</param>
-    /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
-    /// <param name="radial">If true, will draw the light source at the center of the component instead of the top</param>
-    inline void drawRadiantWaveform(juce::Graphics& g, juce::Path& waveformPath, juce::Rectangle<float> bounds, bool radial = false, float brightnessStartYProp = 0.2f) {
-        juce::ColourGradient gradient;
-        if (!radial) {
-            gradient = juce::ColourGradient::vertical(
-                MinimalStyle::bulbGlow.withAlpha(0.8f),
-                bounds.getY(),
-                MinimalStyle::roomDark.withAlpha(0.2f),
-                bounds.getBottom()
-            );
-        }
-        else {
-            auto pathBounds = waveformPath.getBounds();
-
-            float centerX = pathBounds.getCentreX();
-            float centerY = pathBounds.getCentreY();
-            float radius = bounds.getWidth() * 0.75f;
-
-            gradient = juce::ColourGradient(
-                MinimalStyle::bulbGlow.withAlpha(0.8f),
-                centerX,
-                centerY,
-                MinimalStyle::roomDark.withAlpha(0.2f),
-                centerX + radius,
-                centerY,
-                true
-            );
-        }
-        gradient.addColour(brightnessStartYProp, MinimalStyle::warmHighlight.withAlpha(0.7f));
-
-        g.setGradientFill(gradient);
-        g.fillPath(waveformPath);
     }
 
     /// <summary>
@@ -135,6 +96,24 @@ namespace MinimalStyle {
     inline void drawLineWaveform(juce::Graphics& g, juce::Path& waveformPath) {
         g.setColour(MinimalStyle::accentPeach);
         g.strokePath(waveformPath, juce::PathStrokeType(2.0f));
+    }
+
+    /// <summary>
+    /// Draws a waveform with a gradient fill
+    /// </summary>
+    /// <param name="g">The JUCE graphics context</param>
+    /// <param name="waveformPath">The waveform path to draw</param>
+    /// <param name="bounds">The bounds of the component the waveform is being drawn within</param>
+    /// <param name="radial">If true, will draw the light source at the center of the component instead of the top</param>
+    inline void drawGradientWaveform(juce::Graphics& g, juce::Path& waveformPath, juce::Rectangle<float> bounds) {
+        juce::ColourGradient gradient = juce::ColourGradient::vertical(
+            MinimalStyle::accentGlow,
+            bounds.getY(),
+            MinimalStyle::accentSubtle,
+            bounds.getBottom()
+        );
+        g.setGradientFill(gradient);
+        g.fillPath(waveformPath);
     }
 
     /// <summary>
@@ -161,32 +140,14 @@ namespace MinimalStyle {
         g.strokePath(indicatorPath, juce::PathStrokeType(12.0f));
     }
 
-    inline void drawRadiantPoint(
-        juce::Graphics& g,
-        float posX, float posY,
-        float radius, float brightness) {
-        juce::ColourGradient gradient(
-            MinimalStyle::bulbGlow.withAlpha(1.0f),
-            posX,
-            posY,
-            MinimalStyle::roomDark.withAlpha(0.2f),
-            posX + radius,
-            posY,
-            true
-        );
-        gradient.addColour(0.4f, MinimalStyle::warmHighlight.withAlpha(0.3f + 0.7f * brightness));
-        gradient.addColour(1.0f, MinimalStyle::roomDark);
-
+    inline void drawRadiantPoint(juce::Graphics& g, float posX, float posY, float radius) {
         juce::Rectangle<float> bounds = { posX - radius / 2.0f, posY - radius / 2.0f, radius, radius };
-        g.setGradientFill(gradient);
+        g.setColour(accentOrange);
         g.fillEllipse(bounds);
     }
 
     inline void drawRadiantRing(
-        juce::Graphics& g,
-        float posX, float posY,
-        float radius, float brightness) {
-        
+        juce::Graphics& g, float posX, float posY, float radius, float brightness) {
         g.setColour(MinimalStyle::warmHighlight.withAlpha(brightness));
         g.drawEllipse(posX, posY, radius * 2.0f, radius * 2.0f, 2.0f);
     }

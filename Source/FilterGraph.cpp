@@ -22,12 +22,11 @@ FilterGraph::~FilterGraph() {
 }
 
 void FilterGraph::paint(juce::Graphics& g) {
-    g.fillAll(MinimalStyle::roomDark);
+    g.fillAll(MinimalStyle::bgDarkest);
     
     float cutoff = *parameters.getRawParameterValue("FILTER_CUTOFF");
     float resonance = *parameters.getRawParameterValue("FILTER_RESONANCE");
     int typeChoice = (int)*parameters.getRawParameterValue("FILTER_TYPE");
-    
     ItnLookAndFeel::drawFilter(g, juce::Rectangle<float>(getWidth(), getHeight()), cutoff, resonance, typeChoice);
 }
 

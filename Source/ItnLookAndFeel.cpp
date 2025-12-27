@@ -94,16 +94,35 @@ void ItnLookAndFeel::drawLabel(juce::Graphics& g, juce::Label& label) {
 
 void ItnLookAndFeel::drawTabButton(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) {
     auto bounds = button.getLocalBounds().toFloat();
+    auto color = MinimalStyle::bgPanel;
+    if (button.isFrontTab()) color = MinimalStyle::accentOrange;
+    
+    if (button.getIndex() == 0) {
+        MinimalStyle::drawCustomRoundedPanel(g, bounds, color, false, true, true, true);
+    }
+    else {
+        MinimalStyle::drawCustomRoundedPanel(g, bounds, color, true, true, true, true);
+    }
+    drawTabButtonText(button, g, isMouseOver, isMouseDown);
+}
 
-    g.setColour(MinimalStyle::borderDark);
-    g.fillRoundedRectangle(bounds, 10.0f);
+void ItnLookAndFeel::drawTabButtonText(juce::TabBarButton& button, juce::Graphics& g, bool isMouseOver, bool isMouseDown) {
+    if (button.isFrontTab()) {
+        g.setColour(MinimalStyle::textPrimary);
+    }
+    else {
+        g.setColour(MinimalStyle::textSecondary);
+    }
+    g.setFont(juce::Font(juce::FontOptions(interTypeFaceRegular)));
+    g.drawFittedText(button.getButtonText(), button.getLocalBounds(), juce::Justification::centred, 1);
+}
 
-    g.setColour(MinimalStyle::bgPanel);
-    g.fillRoundedRectangle(bounds.reduced(1.0f), 10.0f);
+void ItnLookAndFeel::drawTabAreaBehindFrontButton(juce::TabbedButtonBar& bar, juce::Graphics& g, int, int) {
+
 }
 
 void ItnLookAndFeel::drawComponentPanel(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Colour insideColor, bool includeLabelArea, float labelHeight) {
-    MinimalStyle::drawCustomRoundedPanel(g, bounds, false, false, false, false);
+    MinimalStyle::drawCustomRoundedPanel(g, bounds, insideColor, false, false, false, false);
     if (includeLabelArea) {
         g.setColour(MinimalStyle::borderDark);
         g.fillRect(0.0f, labelHeight, bounds.getRight(), 1.0f);
@@ -128,7 +147,7 @@ void ItnLookAndFeel::drawWaveform(juce::Graphics& g,juce::Rectangle<float> bound
     line.lineTo(width, height / 2);
 
     //fill.closeSubPath();
-    //MinimalStyle::drawRadiantWaveform(g, fill, bounds, true);
+    //MinimalStyle::drawGradientWaveform(g, fill, bounds, true);
     MinimalStyle::drawLineWaveform(g, line);
 }
 
@@ -152,7 +171,13 @@ void ItnLookAndFeel::drawEnvelope(juce::Graphics& g, juce::Rectangle<float> boun
     envLine.lineTo(decayEndX, sustainY);
     envLine.lineTo(releaseEndX, height);
 
-    MinimalStyle::drawRadiantWaveform(g, envLine, bounds);
+    juce::AffineTransform transform = juce::AffineTransform::translation(0, -height)
+        .scaled(1.0f, 0.9f)
+        .translated(0, height);
+    envLine.applyTransform(transform);
+
+    MinimalStyle::drawGradientWaveform(g, envLine, bounds);
+    MinimalStyle::drawLineWaveform(g, envLine);
 
     if (envTime <= 0.0f) return;
     float timeSeg = envTime * segWidth;
@@ -189,10 +214,12 @@ void ItnLookAndFeel::drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, L
 
         path.quadraticTo(cx, cy, x2, y2);
     }
+    auto linePath = path;
     path.lineTo(width, height);
     path.lineTo(0.0f, height);
 
-    MinimalStyle::drawRadiantWaveform(g, path, bounds);
+    MinimalStyle::drawGradientWaveform(g, path, bounds);
+    MinimalStyle::drawLineWaveform(g, linePath);
 
     juce::Path phaseInd;
     float xPos = phase * bounds.getWidth();
@@ -206,7 +233,7 @@ void ItnLookAndFeel::drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> boun
     float posY = point.getValue() * bounds.getHeight();
 
     float brightness = (posY) / bounds.getHeight();
-    MinimalStyle::drawRadiantPoint(g, posX, bounds.getHeight() - posY, 16.0f, brightness);
+    MinimalStyle::drawRadiantPoint(g, posX, bounds.getHeight() - posY, 16.0f);
 }
 
 void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType) {
@@ -280,12 +307,14 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
             path.lineTo((float)i, y);
         }
     }
+    auto linePath = path;
     path.lineTo(width, height);
     path.lineTo(0.0f, height);
     path.lineTo(0.0f, height / 2);
 
     path.closeSubPath();
-    MinimalStyle::drawRadiantWaveform(g, path, bounds, false, 0.6f);
+    MinimalStyle::drawGradientWaveform(g, path, bounds);
+    MinimalStyle::drawLineWaveform(g, linePath);
 }
 
 void ItnLookAndFeel::drawSliderNameLabel(juce::Graphics& g, juce::Label& label) {
