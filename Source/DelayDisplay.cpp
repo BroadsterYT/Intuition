@@ -11,7 +11,12 @@
 #include "DelayDisplay.h"
 
 DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
-) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix) {
+) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix),
+    timeMs(vts, "DELAY_TIME_MS", "DELAY TIME", "ms"),
+    feedback(vts, "DELAY_FEEDBACK", "FEEDBACK"),
+    cutoff(vts, "DELAY_CUTOFF", "CUTOFF FREQUENCY", "Hz"),
+    dry(vts, "DELAY_DRY_LEVEL", "DRY"),
+    wet(vts, "DELAY_WET_LEVEL", "WET") {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
@@ -23,23 +28,12 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
     addAndMakeVisible(graph);
 
     toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, "DELAY_TOGGLE", toggle);
-    timeMsAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_TIME_MS", timeMs);
-    feedbackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_FEEDBACK", feedback);
-    cutoffAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_CUTOFF", cutoff);
-    dryAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_DRY_LEVEL", dry);
-    wetAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "DELAY_WET_LEVEL", wet);
 
-    timeMs.setLabelName("Time");
-    feedback.setLabelName("Feedback");
-    cutoff.setLabelName("Cutoff");
-    dry.setLabelName("Dry");
-    wet.setLabelName("Wet");
-
-    timeMs.setModMatrix(modMatrix, "DELAY_TIME_MS");
-    feedback.setModMatrix(modMatrix, "DELAY_FEEDBACK");
-    cutoff.setModMatrix(modMatrix, "DELAY_CUTOFF");
-    dry.setModMatrix(modMatrix, "DELAY_DRY_LEVEL");
-    wet.setModMatrix(modMatrix, "DELAY_WET_LEVEL");
+    timeMs.setModMatrix(modMatrix);
+    feedback.setModMatrix(modMatrix);
+    cutoff.setModMatrix(modMatrix);
+    dry.setModMatrix(modMatrix);
+    wet.setModMatrix(modMatrix);
 
     cutoff.setSkewFactorFromMidPoint(1000.0f);
 
