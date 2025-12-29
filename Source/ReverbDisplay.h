@@ -12,7 +12,7 @@
 #include <JuceHeader.h>
 #include "ModMatrix.h"
 #include "ItnLookAndFeel.h"
-#include "ItnSlider.h"
+#include "SliderComponent.h"
 #include "ReverbGraph.h"
 
 
@@ -33,6 +33,5 @@ private:
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
-    ItnSlider damping, roomSize, rvbWidth, dryLevel, wetLevel;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dampingAttachment, roomSizeAttachment, rvbWidthAttachment, dryLevelAttachment, wetLevelAttachment;
+    SliderComponent damping, roomSize, rvbWidth, dryLevel, wetLevel;
 };
