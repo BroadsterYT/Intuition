@@ -11,9 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
+#include "ItnTooltip.h"
 
 
-class ButtonComponent : juce::Component {
+class ButtonComponent : public juce::Component {
 public:
     ButtonComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, bool showName = false, const juce::String displayName = "");
     ~ButtonComponent();

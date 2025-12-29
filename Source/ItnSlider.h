@@ -13,7 +13,7 @@
 #include "InlineValueEntry.h"
 #include "ItnLookAndFeel.h"
 #include "ModMatrix.h"
-#include "ItnTooltip.h"
+#include "TooltipController.h"
 
 
 class ItnSlider : public juce::Slider, private juce::Timer {
@@ -21,7 +21,7 @@ public:
     ItnSlider();
     ~ItnSlider();
 
-    void parentHierarchyChanged() override;
+    //void parentHierarchyChanged() override;
 
     /// <summary>
     /// Sets the display name of the slider.
@@ -35,9 +35,9 @@ public:
     void setCustomTooltipText(const juce::String parameterKey);
 
     void mouseDown(const juce::MouseEvent& e) override;
-    void mouseEnter(const juce::MouseEvent& e) override;
+    /*void mouseEnter(const juce::MouseEvent& e) override;
     void mouseExit(const juce::MouseEvent& e) override;
-    void mouseDrag(const juce::MouseEvent& e) override;
+    void mouseDrag(const juce::MouseEvent& e) override;*/
     
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -48,6 +48,7 @@ private:
     ModMatrix* modMatrix = nullptr;
     juce::String paramName = "";
 
+    TooltipController tooltipController;
     // Hover elements
     bool hovering = false;
     ItnTooltip tooltip;

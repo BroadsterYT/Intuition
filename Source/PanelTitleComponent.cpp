@@ -10,28 +10,28 @@
 
 #include "PanelTitleComponent.h"
 
-PanelTitleComponent::PanelTitleComponent(juce::AudioProcessorValueTreeState& vts, const juce::String displayTitle, bool toggleVisible, const juce::String toggleParamName) : parameters(vts), toggleVisible(toggleVisible) {
+PanelTitleComponent::PanelTitleComponent(juce::AudioProcessorValueTreeState& vts, const juce::String displayTitle, bool buttonVisible, const juce::String toggleParamName
+) : parameters(vts), buttonVisible(buttonVisible), button(vts, toggleParamName) {
     title.setComponentID("PanelTitle");
     title.setText(displayTitle, juce::dontSendNotification);
     addAndMakeVisible(title);
 
-    if (toggleVisible) {
-        toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
-        addAndMakeVisible(toggle);
+    if (buttonVisible) {
+        addAndMakeVisible(button);
     }
 }
 
 void PanelTitleComponent::resized() {
     auto area = getLocalBounds();
 
-    if (toggleVisible) {
-        juce::Rectangle<int> toggleBounds;
-        toggleBounds.setSize(25, 25);
-        int togglePosY = (int)(0.5 * (area.getHeight() - toggleBounds.getHeight()));
-        toggleBounds.setPosition(5, togglePosY);
-        toggle.setBounds(toggleBounds);
+    if (buttonVisible) {
+        juce::Rectangle<int> buttonBounds;
+        buttonBounds.setSize(60, 25);
+        int togglePosY = (int)(0.5 * (area.getHeight() - buttonBounds.getHeight()));
+        buttonBounds.setPosition(5, togglePosY);
+        button.setBounds(buttonBounds);
 
-        area.removeFromLeft(5 + toggleBounds.getWidth());  // Rest of area for title and whatever else
+        area.removeFromLeft(5 + buttonBounds.getWidth());  // Rest of area for title and whatever else
     }
     else {
         area.removeFromLeft(5);

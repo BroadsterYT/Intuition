@@ -11,11 +11,12 @@
 #include "ItnSlider.h"
 
 
-ItnSlider::ItnSlider() {
+ItnSlider::ItnSlider() : tooltipController(*this) {
     startTimerHz(60);
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     setSliderStyle(juce::Slider::Rotary);
     setTextBoxStyle(juce::Slider::NoTextBox, false, 40, 15);
+    tooltipController.setTooltipText("DEFAULT");
 }
 
 ItnSlider::~ItnSlider() {
@@ -23,11 +24,11 @@ ItnSlider::~ItnSlider() {
     stopTimer();
 }
 
-void ItnSlider::parentHierarchyChanged() {
-    // Allows tooltip to be seen outside slider bounds (necessary!)
-    auto top = getTopLevelComponent();
-    top->addChildComponent(tooltip);
-}
+//void ItnSlider::parentHierarchyChanged() {
+//    // Allows tooltip to be seen outside slider bounds (necessary!)
+//    auto top = getTopLevelComponent();
+//    top->addChildComponent(tooltip);
+//}
 
 void ItnSlider::setLabelName(const juce::String newName) {
     /*name = newName;
@@ -35,7 +36,7 @@ void ItnSlider::setLabelName(const juce::String newName) {
 }
 
 void ItnSlider::setCustomTooltipText(const juce::String parameterKey) {
-    auto jsonText = juce::String::fromUTF8(BinaryData::tooltips_json, BinaryData::tooltips_jsonSize);
+    /*auto jsonText = juce::String::fromUTF8(BinaryData::tooltips_json, BinaryData::tooltips_jsonSize);
     juce::var parsed = juce::JSON::parse(jsonText);
     
     if (parsed.isVoid() || parsed.isUndefined()) {
@@ -57,7 +58,7 @@ void ItnSlider::setCustomTooltipText(const juce::String parameterKey) {
 
     tooltip.setHeader(header);
     tooltip.setSubheader(subheader);
-    tooltip.setDescription(description, true);
+    tooltip.setDescription(description, true);*/
 }
 
 void ItnSlider::mouseDown(const juce::MouseEvent& e) {
@@ -85,28 +86,28 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     }
 }
 
-void ItnSlider::mouseEnter(const juce::MouseEvent& e) {
-    hovering = true;
-}
-
-void ItnSlider::mouseExit(const juce::MouseEvent& e) {
-    hovering = false;
-    tooltipSpawnTimer = 0;
-    tooltipVisible = false;
-    tooltip.hide();
-}
-
-void ItnSlider::mouseDrag(const juce::MouseEvent& e) {
-    if (tooltipVisible) {
-        tooltipVisible = false;
-        tooltip.hide();
-    }
-
-    tooltipSpawnTimer = 0;
-    hovering = false;
-
-    juce::Slider::mouseDrag(e);
-}
+//void ItnSlider::mouseEnter(const juce::MouseEvent& e) {
+//    hovering = true;
+//}
+//
+//void ItnSlider::mouseExit(const juce::MouseEvent& e) {
+//    hovering = false;
+//    tooltipSpawnTimer = 0;
+//    tooltipVisible = false;
+//    tooltip.hide();
+//}
+//
+//void ItnSlider::mouseDrag(const juce::MouseEvent& e) {
+//    if (tooltipVisible) {
+//        tooltipVisible = false;
+//        tooltip.hide();
+//    }
+//
+//    tooltipSpawnTimer = 0;
+//    hovering = false;
+//
+//    juce::Slider::mouseDrag(e);
+//}
 
 void ItnSlider::paint(juce::Graphics& g) {
     if (!modMatrix || paramName.isEmpty()) {
@@ -247,34 +248,34 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
 void ItnSlider::timerCallback() {
     repaint();
 
-    if (hovering) {
-        tooltipSpawnTimer += 1;
-    }
+    //if (hovering) {
+    //    tooltipSpawnTimer += 1;
+    //}
 
-    if (tooltipSpawnTimer >= 30 && !tooltipVisible) {
-        tooltipVisible = true;
-        
-        // Placing tooltip within window bounds
-        juce::Point<int> tooltipPos(0, 0);
-        auto* top = getTopLevelComponent();
-        auto posInWindow = top->getLocalPoint(this, juce::Point<int>(0, 0));
+    //if (tooltipSpawnTimer >= 30 && !tooltipVisible) {
+    //    tooltipVisible = true;
+    //    
+    //    // Placing tooltip within window bounds
+    //    juce::Point<int> tooltipPos(0, 0);
+    //    auto* top = getTopLevelComponent();
+    //    auto posInWindow = top->getLocalPoint(this, juce::Point<int>(0, 0));
 
-        if (posInWindow.getX() >= top->getWidth() / 2) {
-            tooltipPos.setX(posInWindow.getX() - tooltip.getFullTextWidth());
-        }
-        else {
-            tooltipPos.setX(posInWindow.getX() + getWidth());
-        }
-        if (posInWindow.getY() >= top->getHeight() / 2) {
-            tooltipPos.setY(posInWindow.getY() - tooltip.getFullTextHeight());
-        }
-        else {
-            tooltipPos.setY(posInWindow.getY() + getHeight());
-        }
+    //    if (posInWindow.getX() >= top->getWidth() / 2) {
+    //        tooltipPos.setX(posInWindow.getX() - tooltip.getFullTextWidth());
+    //    }
+    //    else {
+    //        tooltipPos.setX(posInWindow.getX() + getWidth());
+    //    }
+    //    if (posInWindow.getY() >= top->getHeight() / 2) {
+    //        tooltipPos.setY(posInWindow.getY() - tooltip.getFullTextHeight());
+    //    }
+    //    else {
+    //        tooltipPos.setY(posInWindow.getY() + getHeight());
+    //    }
 
-        tooltip.show(
-            tooltipPos.getX(),
-            tooltipPos.getY()
-        );
-    }
+    //    tooltip.show(
+    //        tooltipPos.getX(),
+    //        tooltipPos.getY()
+    //    );
+    //}
 }

@@ -11,6 +11,7 @@
 #pragma once
 #include "JuceHeader.h"
 #include "ItnLookAndFeel.h"
+#include "ButtonComponent.h"
 
 
 /// <summary>
@@ -25,7 +26,7 @@ public:
     /// <param name="displayTitle">The text to show as the title</param>
     /// <param name="toggleVisible">Should the title contain a toggle for the content it is labeling?</param>
     /// <param name="toggleParamName">The parameter name of the toggle. Can be empty if the toggle is disabled.</param>
-    PanelTitleComponent(juce::AudioProcessorValueTreeState& vts, const juce::String displayTitle, bool toggleVisible = false, const juce::String toggleParamName = "");
+    PanelTitleComponent(juce::AudioProcessorValueTreeState& vts, const juce::String displayTitle, bool buttonVisible = false, const juce::String toggleParamName = "");
 
     void resized() override;
 
@@ -34,7 +35,6 @@ private:
 
     juce::Label title;
 
-    bool toggleVisible = false;
-    juce::ToggleButton toggle;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
+    bool buttonVisible = false;
+    ButtonComponent button;
 };

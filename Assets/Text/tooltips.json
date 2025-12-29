@@ -1,4 +1,9 @@
 {
+	"DEFAULT": {
+		"header": "Default Header",
+		"subheader": "Default subheader.",
+		"description":  "Default description."
+	},
 	"ENV_ATTACK": {
 		"header": "Attack",
 		"subheader": "Because why be punctual?",
@@ -40,7 +45,7 @@
 		"header": "Unison Detune",
 		"subheader": "Detune responsibly... or don't.",
 		"description": "Slightly shifts the pitch of each unison away from the base, creating a thicker, gnarlier sound. The more you detune, the wilder the chorus effect.",
-		"units":  "cents"
+		"units": "cents"
 	},
 	"OSC_MORPH": {
 		"header": "Wavetable Morph",

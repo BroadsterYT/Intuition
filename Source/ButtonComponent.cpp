@@ -11,7 +11,7 @@
 #include "ButtonComponent.h"
 
 ButtonComponent::ButtonComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, bool showName, const juce::String displayName
-) : parameters(vts), showName(showName) {
+) : parameters(vts), paramName(paramName), showName(showName) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(button);
@@ -21,6 +21,7 @@ ButtonComponent::ButtonComponent(juce::AudioProcessorValueTreeState& vts, const 
         nameLabel.setComponentID("sliderNameLabel");
         nameLabel.setText(displayName, juce::dontSendNotification);
         nameLabel.setJustificationType(juce::Justification::centredLeft);
+        attachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, paramName, button);
     }
 }
 
@@ -30,4 +31,8 @@ ButtonComponent::~ButtonComponent() {
 
 void ButtonComponent::resized() {
     auto area = getLocalBounds();
+    auto buttonArea = area.removeFromLeft(25);
+
+    button.setBounds(buttonArea);
+    nameLabel.setBounds(area);
 }
