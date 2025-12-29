@@ -64,7 +64,7 @@ void SliderComponent::setSkewFactorFromMidPoint(double sliderValueToShowAtMidPoi
 }
 
 void SliderComponent::setCustomTooltipText(const juce::String parameterKey) {
-    slider.setCustomTooltipText(parameterKey);
+    //slider.setCustomTooltipText(parameterKey);
 }
 
 void SliderComponent::resized() {
