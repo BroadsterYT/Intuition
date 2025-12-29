@@ -121,6 +121,10 @@
           <FILE id="ODdX3E" name="WaveBankComponent.cpp" compile="1" resource="0"
                 file="Source/WaveBankComponent.cpp"/>
         </GROUP>
+        <FILE id="lUHnAe" name="ButtonComponent.cpp" compile="1" resource="0"
+              file="Source/ButtonComponent.cpp"/>
+        <FILE id="BVind5" name="ButtonComponent.h" compile="0" resource="0"
+              file="Source/ButtonComponent.h"/>
         <FILE id="r67dFC" name="InlineValueEntry.h" compile="0" resource="0"
               file="Source/InlineValueEntry.h"/>
         <FILE id="MbZ3O5" name="ItnLookAndFeel.cpp" compile="1" resource="0"
