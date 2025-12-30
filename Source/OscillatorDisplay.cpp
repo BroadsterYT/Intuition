@@ -31,14 +31,14 @@ OscillatorDisplay::OscillatorDisplay(
     waveDisplay(vts, modMatrix, bank, morphParamName),
     waveBankComp(wbComp),
     
-    volume(vts, volumeParamName, "VOLUME"),
-    pan(vts, panParamName, "PAN"),
-    unison(vts, unisonParamName, "UNISON"),
-    detune(vts, detuneParamName, "DETUNE", "ct"),
-    morph(vts, morphParamName, "WTM"),
-    octave(vts, octaveParamName, "OCTAVE", "oct"),
-    coarse(vts, coarseParamName, "COARSE", "sem"),
-    fine(vts, fineParamName, "FINE", "ct"),
+    volume(vts, volumeParamName, "VOLUME", "OSC_VOLUME"),
+    pan(vts, panParamName, "PAN", "OSC_PAN"),
+    unison(vts, unisonParamName, "UNISON", "OSC_UNISON"),
+    detune(vts, detuneParamName, "DETUNE", "OSC_DETUNE", "ct"),
+    morph(vts, morphParamName, "WTM", "OSC_MORPH"),
+    octave(vts, octaveParamName, "OCTAVE", "OSC_OCTAVE", "oct"),
+    coarse(vts, coarseParamName, "COARSE", "OSC_COARSE", "sem"),
+    fine(vts, fineParamName, "FINE", "OSC_FINE", "ct"),
 
     title(vts, "Wavetable", true, toggleParamName) {
     startTimerHz(60);
@@ -77,15 +77,6 @@ OscillatorDisplay::OscillatorDisplay(
     addAndMakeVisible(octave);
     addAndMakeVisible(coarse);
     addAndMakeVisible(fine);
-
-    volume.setCustomTooltipText("OSC_VOLUME");
-    pan.setCustomTooltipText("OSC_PAN");
-    unison.setCustomTooltipText("OSC_UNISON");
-    detune.setCustomTooltipText("OSC_DETUNE");
-    morph.setCustomTooltipText("OSC_MORPH");
-    octave.setCustomTooltipText("OSC_OCTAVE");
-    coarse.setCustomTooltipText("OSC_COARSE");
-    fine.setCustomTooltipText("OSC_FINE");
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {

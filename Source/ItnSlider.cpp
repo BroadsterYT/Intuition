@@ -11,11 +11,11 @@
 #include "ItnSlider.h"
 
 
-ItnSlider::ItnSlider() : tooltipController(*this) {
+ItnSlider::ItnSlider(const juce::String tooltipKey) : tooltipController(*this) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     setSliderStyle(juce::Slider::Rotary);
     setTextBoxStyle(juce::Slider::NoTextBox, false, 40, 15);
-    tooltipController.setTooltipText("DEFAULT");
+    tooltipController.setTooltipText(tooltipKey);
 }
 
 ItnSlider::~ItnSlider() {

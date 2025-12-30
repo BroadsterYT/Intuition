@@ -21,7 +21,7 @@ LFODisplay::LFODisplay(
     modeName(modeName),
     syncDivName(syncDivName),
     
-    rate(vts, rateName, "LFO RATE", "Hz") {
+    rate(vts, rateName, "LFO RATE", "LFO_RATE", "Hz") {
 
     mode.addItem("Free Run", 1);
     mode.addItem("BPM Sync", 2);
@@ -41,7 +41,6 @@ LFODisplay::LFODisplay(
     syncDivAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, syncDivName, syncDiv);
 
     rate.setRange(0.01f, 30.0f);
-    rate.setCustomTooltipText("LFO_RATE");
 
     addAndMakeVisible(editor);
     addAndMakeVisible(mode);

@@ -10,7 +10,8 @@
 
 #include "SliderComponent.h"
 
-SliderComponent::SliderComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, const juce::String displayName, const juce::String units) : parameters(vts), paramName(paramName), units(units) {
+SliderComponent::SliderComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, const juce::String displayName, const juce::String tooltipKey, const juce::String units
+) : parameters(vts), paramName(paramName), units(units), slider(tooltipKey) {
     addAndMakeVisible(slider);
     addAndMakeVisible(nameLabel);
     addAndMakeVisible(valueBox);

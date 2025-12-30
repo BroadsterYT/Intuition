@@ -18,7 +18,7 @@
 
 class ItnSlider : public juce::Slider {
 public:
-    ItnSlider();
+    ItnSlider(const juce::String tooltipKey);
     ~ItnSlider();
 
     void mouseDown(const juce::MouseEvent& e) override;

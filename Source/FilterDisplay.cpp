@@ -13,8 +13,8 @@
 FilterDisplay::FilterDisplay(
     juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
 ) : parameters(vts), modMatrix(modMatrix), title(vts, "Filter"), graph(vts),
-    frequency(vts, "FILTER_CUTOFF", "CUTOFF FREQUENCY", "Hz"),
-    resonance(vts, "FILTER_RESONANCE", "RESONANCE") {
+    frequency(vts, "FILTER_CUTOFF", "CUTOFF FREQUENCY", "FILTER_CUTOFF", "Hz"),
+    resonance(vts, "FILTER_RESONANCE", "RESONANCE", "FILTER_RESONANCE") {
     typeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, "FILTER_TYPE", type);
     addAndMakeVisible(title);
     type.addItem("Lowpass", 1);

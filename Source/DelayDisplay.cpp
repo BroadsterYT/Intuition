@@ -12,11 +12,11 @@
 
 DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
 ) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix),
-    timeMs(vts, "DELAY_TIME_MS", "DELAY TIME", "ms"),
-    feedback(vts, "DELAY_FEEDBACK", "FEEDBACK"),
-    cutoff(vts, "DELAY_CUTOFF", "CUTOFF FREQUENCY", "Hz"),
-    dry(vts, "DELAY_DRY_LEVEL", "DRY"),
-    wet(vts, "DELAY_WET_LEVEL", "WET") {
+    timeMs(vts, "DELAY_TIME_MS", "DELAY TIME", "DELAY_TIME_MS", "ms"),
+    feedback(vts, "DELAY_FEEDBACK", "FEEDBACK", "DELAY_FEEDBACK"),
+    cutoff(vts, "DELAY_CUTOFF", "CUTOFF FREQUENCY", "DELAY_CUTOFF", "Hz"),
+    dry(vts, "DELAY_DRY_LEVEL", "DRY", "DELAY_DRY_LEVEL"),
+    wet(vts, "DELAY_WET_LEVEL", "WET", "DELAY_WET_LEVEL") {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(toggle);
@@ -36,12 +36,6 @@ DelayDisplay::DelayDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* m
     wet.setModMatrix(modMatrix);
 
     cutoff.setSkewFactorFromMidPoint(1000.0f);
-
-    timeMs.setCustomTooltipText("DELAY_TIME_MS");
-    feedback.setCustomTooltipText("DELAY_FEEDBACK");
-    cutoff.setCustomTooltipText("DELAY_CUTOFF");
-    dry.setCustomTooltipText("DELAY_DRY_LEVEL");
-    wet.setCustomTooltipText("DELAY_WET_LEVEL");
 }
 
 DelayDisplay::~DelayDisplay() {

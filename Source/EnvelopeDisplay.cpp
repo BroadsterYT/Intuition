@@ -26,10 +26,10 @@ EnvelopeDisplay::EnvelopeDisplay(
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName),
 
-    attackSlider(vts, attackParamName, "ATTACK"),
-    decaySlider(vts, decayParamName, "DECAY"),
-    sustainSlider(vts, sustainParamName, "SUSTAIN"),
-    releaseSlider(vts, releaseParamName, "RELEASE"),
+    attackSlider(vts, attackParamName, "ATTACK", "ENV_ATTACK"),
+    decaySlider(vts, decayParamName, "DECAY", "ENV_DECAY"),
+    sustainSlider(vts, sustainParamName, "SUSTAIN", "ENV_SUSTAIN"),
+    releaseSlider(vts, releaseParamName, "RELEASE", "ENV_RELEASE"),
 
     graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
     addAndMakeVisible(attackSlider);
@@ -37,11 +37,6 @@ EnvelopeDisplay::EnvelopeDisplay(
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
     addAndMakeVisible(graph);
-
-    attackSlider.setCustomTooltipText("ENV_ATTACK");
-    decaySlider.setCustomTooltipText("ENV_DECAY");
-    sustainSlider.setCustomTooltipText("ENV_SUSTAIN");
-    releaseSlider.setCustomTooltipText("ENV_RELEASE");
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {

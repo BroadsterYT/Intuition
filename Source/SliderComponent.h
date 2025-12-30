@@ -19,7 +19,7 @@
 /// </summary>
 class SliderComponent : public juce::Component {
 public:
-    SliderComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, const juce::String displayName, const juce::String units = "");
+    SliderComponent(juce::AudioProcessorValueTreeState& vts, const juce::String paramName, const juce::String displayName, const juce::String tooltipKey, const juce::String units = "");
 
     void setModMatrix(ModMatrix* matrix);
     /// <summary>
