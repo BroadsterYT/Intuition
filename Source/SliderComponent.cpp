@@ -41,7 +41,8 @@ SliderComponent::SliderComponent(juce::AudioProcessorValueTreeState& vts, const 
     valueBox.onEditorHide = [this] {
         auto val = valueBox.getText().getDoubleValue();
         slider.setValue(val, juce::sendNotificationSync);
-        valueBox.setText(formatValueWithUnit(val), juce::dontSendNotification);
+        auto sliderValue = slider.getValue();  // Prevents displaying decimal values on sliders with integer increments
+        valueBox.setText(formatValueWithUnit(sliderValue), juce::dontSendNotification);
     };
     slider.onValueChange = [this] {
         auto val = slider.getValue();
