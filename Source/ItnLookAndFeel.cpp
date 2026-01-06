@@ -56,9 +56,14 @@ void ItnLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width
     g.restoreState();
 }
 
+void ItnLookAndFeel::drawComboBox(juce::Graphics& g, int width, int height, bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) {
+    auto bounds = juce::Rectangle<float>(0, 0, width, height);
+    MinimalStyle::drawCustomRoundedPanel(g, bounds, MinimalStyle::bgPanel);
+}
+
 juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
     auto id = label.getComponentID();
-    if (id == "PanelTitle") {
+    if (id == "panelTitle") {
         return juce::Font(outfitTypeFaceBold).withHeight(18.0f);
     }
     else if (id == "sliderNameLabel") {

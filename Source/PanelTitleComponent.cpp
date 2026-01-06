@@ -12,7 +12,7 @@
 
 PanelTitleComponent::PanelTitleComponent(juce::AudioProcessorValueTreeState& vts, const juce::String displayTitle, bool buttonVisible, const juce::String toggleParamName
 ) : parameters(vts), buttonVisible(buttonVisible), button(vts, toggleParamName) {
-    title.setComponentID("PanelTitle");
+    title.setComponentID("panelTitle");
     title.setText(displayTitle, juce::dontSendNotification);
     addAndMakeVisible(title);
 
@@ -26,7 +26,9 @@ void PanelTitleComponent::resized() {
 
     if (buttonVisible) {
         juce::Rectangle<int> buttonBounds;
-        buttonBounds.setSize(60, 25);
+
+        // TODO: Adjust button bounds to account for width of button label
+        buttonBounds.setSize(25, 25);
         int togglePosY = (int)(0.5 * (area.getHeight() - buttonBounds.getHeight()));
         buttonBounds.setPosition(5, togglePosY);
         button.setBounds(buttonBounds);

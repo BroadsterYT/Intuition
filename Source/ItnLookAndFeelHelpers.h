@@ -54,7 +54,7 @@ namespace MinimalStyle {
     /// <param name="sharpTopRight">Make true if the top right corner should be a right angle. False to round it.</param>
     /// <param name="sharpBottomLeft">Make true if the bottom left corner should be a right angle. False to round it.</param>
     /// <param name="sharpBottomRight">Make true if the bottom right corner should be a right angle. False to round it.</param>
-    inline void drawCustomRoundedPanel(juce::Graphics& g, juce::Rectangle<float> bounds, juce::Colour insideColor, bool sharpTopLeft, bool sharpTopRight, bool sharpBottomLeft, bool sharpBottomRight) {
+    inline void drawCustomRoundedPanel(juce::Graphics& g, juce::Rectangle<float> bounds, juce::Colour insideColor, bool sharpTopLeft = false, bool sharpTopRight = false, bool sharpBottomLeft = false, bool sharpBottomRight = false) {
         g.setColour(borderDark);
         g.fillRoundedRectangle(bounds, 10.0f);
         g.setColour(insideColor);

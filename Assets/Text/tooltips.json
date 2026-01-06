@@ -2,7 +2,7 @@
 	"DEFAULT": {
 		"header": "Default Header",
 		"subheader": "Default subheader.",
-		"description":  "Default description."
+		"description": "Default description."
 	},
 	"ENV_ATTACK": {
 		"header": "Attack",
@@ -25,7 +25,26 @@
 		"description": "The release is the fadeout of the envelope. The longer the release, the longer the envelope will persist after all notes have been released."
 	},
 
-
+	"OSC_A_TOGGLE": {
+		"header": "Oscillator A Toggle",
+		"subheader": "It's obvious.",
+		"description": "Toggles Oscillator A on or off. When off, the oscillator will not generate sound data."
+	},
+	"OSC_B_TOGGLE": {
+		"header": "Oscillator B Toggle",
+		"subheader": "It's obvious.",
+		"description": "Toggles Oscillator B on or off. When off, the oscillator will not generate sound data."
+	},
+	"OSC_C_TOGGLE": {
+		"header": "Oscillator C Toggle",
+		"subheader": "It's obvious.",
+		"description": "Toggles Oscillator C on or off. When off, the oscillator will not generate sound data."
+	},
+	"OSC_D_TOGGLE": {
+		"header": "Oscillator D Toggle",
+		"subheader": "It's obvious.",
+		"description": "Toggles Oscillator D on or off. When off, the oscillator will not generate sound data."
+	},
 	"OSC_VOLUME": {
 		"header": "Volume",
 		"subheader": "Turn this one down if you hate fun.",
