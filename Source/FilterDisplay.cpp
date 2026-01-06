@@ -11,16 +11,12 @@
 #include "FilterDisplay.h"
 
 FilterDisplay::FilterDisplay(
-    juce::AudioProcessorValueTreeState& vts,
-    ModMatrix* modMatrix
-) : parameters(vts),
-    modMatrix(modMatrix),
-    graph(vts) {
-
-    frequencyAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "FILTER_CUTOFF", frequency);
-    resonanceAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, "FILTER_RESONANCE", resonance);
+    juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix
+) : parameters(vts), modMatrix(modMatrix), title(vts, "Filter"), graph(vts),
+    frequency(vts, "FILTER_CUTOFF", "CUTOFF FREQUENCY", "FILTER_CUTOFF", "Hz"),
+    resonance(vts, "FILTER_RESONANCE", "RESONANCE", "FILTER_RESONANCE") {
     typeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, "FILTER_TYPE", type);
-
+    addAndMakeVisible(title);
     type.addItem("Lowpass", 1);
     type.addItem("Highpass", 2);
     type.addItem("Bandpass", 3);
@@ -29,13 +25,10 @@ FilterDisplay::FilterDisplay(
     frequency.setRange(20.0f, 20000.0f);
     resonance.setRange(0.01f, 1.0f);
 
-    frequency.setSkewFactorFromMidPoint(1000.0f);
+    frequency.setSkewFactorFromMidPoint(1000.0);
 
-    frequency.setLabelName("Cutoff");
-    resonance.setLabelName("Res");
-
-    frequency.setModMatrix(modMatrix, "FILTER_CUTOFF");
-    resonance.setModMatrix(modMatrix, "FILTER_RESONANCE");
+    frequency.setModMatrix(modMatrix);
+    resonance.setModMatrix(modMatrix);
 
     addAndMakeVisible(graph);
     addAndMakeVisible(frequency);
@@ -62,14 +55,14 @@ FilterDisplay::FilterDisplay(
 }
 
 void FilterDisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(getLocalBounds());
+    ItnLookAndFeel::drawComponentPanel(g, getLocalBounds().toFloat());
 }
 
 void FilterDisplay::resized() {
     auto area = getLocalBounds();
+    auto titleArea = area.removeFromTop(33);
+
+    title.setBounds(titleArea);
 
     auto filterTypeArea = area.removeFromTop(40);
     type.setBounds(filterTypeArea.reduced(10));

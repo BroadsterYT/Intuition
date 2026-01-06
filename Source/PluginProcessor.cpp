@@ -24,6 +24,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 #endif
     // Setting parameters
     parameters(*this, nullptr, "PARAMETERS", {
+        std::make_unique<juce::AudioParameterBool>("DEFAULT", "default", false),  // For ButtonComponents without a designated parameter
         std::make_unique<juce::AudioParameterFloat>("MASTER", "Master Volume", 0.0f, 1.0f, 0.75f),
 
         //================ Envelopes =================//

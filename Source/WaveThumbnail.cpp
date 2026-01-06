@@ -34,7 +34,7 @@ void WaveThumbnail::mouseDown(const juce::MouseEvent& e) {
 }
 
 void WaveThumbnail::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    g.fillAll(MinimalStyle::roomDark);
 
     int width = getWidth();
     int height = getHeight();

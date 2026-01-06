@@ -25,29 +25,18 @@ EnvelopeDisplay::EnvelopeDisplay(
     decayParamName(decayParamName),
     sustainParamName(sustainParamName),
     releaseParamName(releaseParamName),
+
+    attackSlider(vts, attackParamName, "ATTACK", "ENV_ATTACK"),
+    decaySlider(vts, decayParamName, "DECAY", "ENV_DECAY"),
+    sustainSlider(vts, sustainParamName, "SUSTAIN", "ENV_SUSTAIN"),
+    releaseSlider(vts, releaseParamName, "RELEASE", "ENV_RELEASE"),
+
     graph(vts, env, attackParamName, decayParamName, sustainParamName, releaseParamName) {
-    
     addAndMakeVisible(attackSlider);
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(sustainSlider);
     addAndMakeVisible(releaseSlider);
-
     addAndMakeVisible(graph);
-
-    attackAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, attackParamName, attackSlider);
-    decayAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, decayParamName, decaySlider);
-    sustainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, sustainParamName, sustainSlider);
-    releaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, releaseParamName, releaseSlider);
-
-    attackSlider.setLabelName("A");
-    decaySlider.setLabelName("D");
-    sustainSlider.setLabelName("S");
-    releaseSlider.setLabelName("R");
-
-    attackSlider.setCustomTooltipText("ENV_ATTACK");
-    decaySlider.setCustomTooltipText("ENV_DECAY");
-    sustainSlider.setCustomTooltipText("ENV_SUSTAIN");
-    releaseSlider.setCustomTooltipText("ENV_RELEASE");
 }
 
 EnvelopeDisplay::~EnvelopeDisplay() {
@@ -64,13 +53,7 @@ void EnvelopeDisplay::visibilityChanged() {
 }
 
 void EnvelopeDisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(getLocalBounds());
-    
-    g.setColour(juce::Colours::white);
-    //drawEnvelopeGraph(g);
+    MinimalStyle::drawCustomRoundedPanel(g, getLocalBounds().toFloat(), MinimalStyle::bgPanel, true, true, false, false);
 }
 
 void EnvelopeDisplay::resized() {

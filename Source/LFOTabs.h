@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "LFODisplay.h"
 #include "LFOShape.h"
+#include "ItnTabbedComponent.h"
 
 
 class LFOTabs : public juce::Component {
@@ -30,7 +31,7 @@ public:
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
-    juce::TabbedComponent tabs;
+    ItnTabbedComponent tabs;
 
     LFOShape& shape1, shape2, shape3;
     LFODisplay editor1, editor2, editor3;

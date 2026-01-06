@@ -13,6 +13,7 @@
 #include "ItnSlider.h"
 #include "EnvelopeGraph.h"
 #include "EnvelopeManager.h"
+#include "SliderComponent.h"
 
 
 class EnvelopeDisplay : public juce::Component, private juce::Timer {
@@ -40,8 +41,9 @@ private:
     juce::String sustainParamName;
     juce::String releaseParamName;
 
-    ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
+    SliderComponent attackSlider, decaySlider, sustainSlider, releaseSlider;
+    /*ItnSlider attackSlider, decaySlider, sustainSlider, releaseSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;*/
 
     EnvelopeGraph graph;
 

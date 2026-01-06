@@ -15,6 +15,8 @@
 #include "WaveformDisplay.h"
 #include "WavetableBank.h"
 #include "WaveBankComponent.h"
+#include "PanelTitleComponent.h"
+#include "SliderComponent.h"
 
 
 class OscillatorDisplay : public juce::Component, private juce::Timer {
@@ -44,22 +46,10 @@ private:
     ModMatrix* modMatrix = nullptr;
 
     juce::String toggleParamName;
-    juce::String volumeParamName;
-    juce::String panParamName;
-    juce::String unisonParamName;
-    juce::String detuneParamName;
-    juce::String morphParamName;
-    juce::String octaveParamName;
-    juce::String coarseParamName;
-    juce::String fineParamName;
 
-    juce::ToggleButton toggle;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
-
-    ItnSlider volume, unison, detune, morph;
-    ItnSlider octave, coarse, fine, pan;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> volumeAttachment, unisonAttachment, detuneAttachment, morphAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> octaveAttachment, coarseAttachment, fineAttachment, panAttachment;
+    PanelTitleComponent title;
+    SliderComponent volume, unison, detune, morph;
+    SliderComponent octave, coarse, fine, pan;
 
     juce::TextButton waveBankEditorToggle;
     WaveBankComponent* waveBankComp;

@@ -21,7 +21,7 @@ ReverbGraph::~ReverbGraph() {
 }
 
 void ReverbGraph::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    g.fillAll(MinimalStyle::roomDark);
 }
 
 void ReverbGraph::timerCallback() {

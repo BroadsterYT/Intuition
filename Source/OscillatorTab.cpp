@@ -131,7 +131,7 @@ OscillatorTab::~OscillatorTab() {
 }
 
 void OscillatorTab::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::shadow);
+    g.fillAll(MinimalStyle::shadow);
 }
 
 void OscillatorTab::resized() {
@@ -139,10 +139,10 @@ void OscillatorTab::resized() {
 
     envTabs.setBounds(padding, padding, 300, 250);
 
-    oscDisplay1.setBounds(envTabs.getRight() + padding, padding, 200, 250);
-    oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 250);
-    oscDisplay3.setBounds(envTabs.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
-    oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 250);
+    oscDisplay1.setBounds(envTabs.getRight() + padding, padding, 200, 300);
+    oscDisplay2.setBounds(oscDisplay1.getRight() + padding, padding, 200, 300);
+    oscDisplay3.setBounds(envTabs.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 300);
+    oscDisplay4.setBounds(oscDisplay3.getRight() + padding, oscDisplay1.getBottom() + padding, 200, 300);
     lfoTabs.setBounds(padding, envTabs.getBottom() + padding, 300, 250);
     filterDisplay.setBounds(oscDisplay4.getRight() + padding, padding, 250, 250);
 

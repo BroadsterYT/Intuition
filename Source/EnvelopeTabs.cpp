@@ -45,13 +45,14 @@ envOsc(
         "ENV3_SUSTAIN",
         "ENV3_RELEASE"
     ) {
+    tabs.addTab("Env Osc", juce::Colours::transparentBlack, &envOsc, false);
+    tabs.addTab("Env 1", juce::Colours::transparentBlack, &env1, false);
+    tabs.addTab("Env 2", juce::Colours::transparentBlack, &env2, false);
+    tabs.addTab("Env 3", juce::Colours::transparentBlack, &env3, false);
     addAndMakeVisible(tabs);
-
-    tabs.addTab("Env Osc", juce::Colours::burlywood, &envOsc, false);
-    tabs.addTab("Env 1", juce::Colours::darkgrey, &env1, false);
-    tabs.addTab("Env 2", juce::Colours::darkgrey, &env2, false);
-    tabs.addTab("Env 3", juce::Colours::darkgrey, &env3, false);
 }
+
+void EnvelopeTabs::paint(juce::Graphics& g) {}
 
 void EnvelopeTabs::resized() {
     tabs.setBounds(getLocalBounds());

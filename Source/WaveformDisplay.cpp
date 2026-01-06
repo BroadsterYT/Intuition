@@ -35,9 +35,9 @@ void WaveformDisplay::setBank(WavetableBank& newBank) {
 }
 
 void WaveformDisplay::paint(juce::Graphics& g) {
-    g.fillAll(GlowStyle::roomDark);
+    ItnLookAndFeel::drawComponentPanel(g, getLocalBounds().toFloat(), MinimalStyle::bgDarkest, false);
     buildWaveform();
-    ItnLookAndFeel::drawWaveform(g, getBounds().toFloat(), waveform);
+    ItnLookAndFeel::drawWaveform(g, getLocalBounds().toFloat(), waveform);
 }
 
 bool WaveformDisplay::needsRedraw() {

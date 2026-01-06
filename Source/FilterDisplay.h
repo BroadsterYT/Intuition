@@ -10,7 +10,8 @@
 
 #pragma once
 #include "FilterGraph.h"
-#include "ItnSlider.h"
+#include "PanelTitleComponent.h"
+#include "SliderComponent.h"
 
 
 class FilterDisplay : public juce::Component {
@@ -28,8 +29,8 @@ private:
     ModMatrix* modMatrix = nullptr;
     FilterGraph graph;
 
-    ItnSlider frequency, resonance;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> frequencyAttachment, resonanceAttachment;
+    PanelTitleComponent title;
+    SliderComponent frequency, resonance;
 
     juce::ToggleButton toggleA, toggleB, toggleC, toggleD;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> aToggleAttach, bToggleAttach, cToggleAttach, dToggleAttach;

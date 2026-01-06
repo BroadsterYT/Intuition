@@ -17,31 +17,31 @@ ItnMidiKeyboard::ItnMidiKeyboard(juce::MidiKeyboardState& state, Orientation ori
 
 void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce::Rectangle<float> area, bool isDown, bool isOver, juce::Colour lineColour, juce::Colour textColour) {
     /*auto lineColor = juce::ColourGradient::vertical(
-        GlowStyle::shadow.withAlpha(0.5f),
+        MinimalStyle::shadow.withAlpha(0.5f),
         0.0f,
-        GlowStyle::warmHighlight.withAlpha(0.5f),
+        MinimalStyle::warmHighlight.withAlpha(0.5f),
         getHeight()
     );*/
-    auto lineColor = GlowStyle::shadow;
+    auto lineColor = MinimalStyle::shadow;
     
     float darkRange = 0.5f * std::sin(phase + midiNoteNumber / 12.0f) + 0.5f;
     float darkMult = juce::jmap(darkRange, 0.2f, 1.3f);
-    auto baseColor = GlowStyle::warmHighlight.darker(darkMult);
+    auto baseColor = MinimalStyle::warmHighlight.darker(darkMult);
 
     auto hoverColor = juce::ColourGradient::vertical(
-        GlowStyle::warmHighlight,
+        MinimalStyle::warmHighlight,
         0.0f,
-        GlowStyle::bulbGlow,
+        MinimalStyle::bulbGlow,
         getHeight()
     );
 
     /*auto downColor = juce::ColourGradient::vertical(
-        GlowStyle::bulbGlow,
+        MinimalStyle::bulbGlow,
         0.0f,
-        GlowStyle::warmHighlight,
+        MinimalStyle::warmHighlight,
         getHeight()
     );*/
-    auto downColor = GlowStyle::bulbGlow;
+    auto downColor = MinimalStyle::bulbGlow;
     
     if (isDown) {
         g.setColour(downColor);
@@ -56,14 +56,14 @@ void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce:
 }
 
 void ItnMidiKeyboard::drawBlackNote(int midiNoteNumber, juce::Graphics& g, juce::Rectangle<float> area, bool isDown, bool isOver, juce::Colour noteFillColour) {
-    auto baseColor = GlowStyle::roomDark;
+    auto baseColor = MinimalStyle::roomDark;
     auto hoverColor = juce::ColourGradient::vertical(
-        GlowStyle::warmHighlight,
+        MinimalStyle::warmHighlight,
         0.0f,
-        GlowStyle::bulbGlow,
+        MinimalStyle::bulbGlow,
         getHeight()
     );
-    auto downColor = GlowStyle::bulbGlow;
+    auto downColor = MinimalStyle::bulbGlow;
 
     if (isDown) {
         g.setColour(downColor);

@@ -31,45 +31,36 @@ OscillatorDisplay::OscillatorDisplay(
     waveDisplay(vts, modMatrix, bank, morphParamName),
     waveBankComp(wbComp),
     
-    toggleParamName(toggleParamName),
-    volumeParamName(volumeParamName),
-    panParamName(panParamName),
-    unisonParamName(unisonParamName),
-    detuneParamName(detuneParamName),
-    morphParamName(morphParamName),
-    octaveParamName(octaveParamName),
-    coarseParamName(coarseParamName),
-    fineParamName(fineParamName) {
+    volume(vts, volumeParamName, "VOLUME", "OSC_VOLUME"),
+    pan(vts, panParamName, "PAN", "OSC_PAN"),
+    unison(vts, unisonParamName, "UNISON", "OSC_UNISON"),
+    detune(vts, detuneParamName, "DETUNE", "OSC_DETUNE", "ct"),
+    morph(vts, morphParamName, "WTM", "OSC_MORPH"),
+    octave(vts, octaveParamName, "OCTAVE", "OSC_OCTAVE", "oct"),
+    coarse(vts, coarseParamName, "COARSE", "OSC_COARSE", "sem"),
+    fine(vts, fineParamName, "FINE", "OSC_FINE", "ct"),
+
+    title(vts, "Wavetable", true, toggleParamName) {
     startTimerHz(60);
+    addAndMakeVisible(title);
 
     addAndMakeVisible(waveDisplay);
     waveDisplay.setBank(bank);
-    
+
     addAndMakeVisible(waveBankEditorToggle);
     waveBankEditorToggle.setButtonText("Edit");
 
     waveBankEditorToggle.onClick = [this] {
         waveBankComp->setVisible(true);
     };
-    
-    toggleAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, toggleParamName, toggle);
-    volumeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, volumeParamName, volume);
-    panAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, panParamName, pan);
-    unisonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, unisonParamName, unison);
-    detuneAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, detuneParamName, detune);
-    morphAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, morphParamName, morph);
-    octaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, octaveParamName, octave);
-    coarseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, coarseParamName, coarse);
-    fineAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, fineParamName, fine);
 
-    //unison.setModMatrix(modMatrix, unisonParamName);
-    volume.setModMatrix(modMatrix, volumeParamName);
-    pan.setModMatrix(modMatrix, panParamName);
-    detune.setModMatrix(modMatrix, detuneParamName);
-    morph.setModMatrix(modMatrix, morphParamName);
-    octave.setModMatrix(modMatrix, octaveParamName);
-    coarse.setModMatrix(modMatrix, coarseParamName);
-    fine.setModMatrix(modMatrix, fineParamName);
+    volume.setModMatrix(modMatrix);
+    pan.setModMatrix(modMatrix);
+    detune.setModMatrix(modMatrix);
+    morph.setModMatrix(modMatrix);
+    octave.setModMatrix(modMatrix);
+    coarse.setModMatrix(modMatrix);
+    fine.setModMatrix(modMatrix);
 
     unison.setRange(1, 8, 1);
     detune.setRange(0, 100);
@@ -78,26 +69,6 @@ OscillatorDisplay::OscillatorDisplay(
     coarse.setRange(-12, 12, 1);
     fine.setRange(-100, 100, 1);
 
-    toggle.setButtonText("");
-    volume.setLabelName("Vol");
-    pan.setLabelName("Pan");
-    unison.setLabelName("U");
-    detune.setLabelName("D");
-    morph.setLabelName("WTM");
-    octave.setLabelName("OCT");
-    coarse.setLabelName("SEM");
-    fine.setLabelName("FIN");
-
-    volume.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    pan.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    unison.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    detune.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    morph.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    octave.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    coarse.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-    fine.setTextBoxStyle(juce::Slider::NoTextBox, false, 1, 1);
-
-    addAndMakeVisible(toggle);
     addAndMakeVisible(volume);
     addAndMakeVisible(pan);
     addAndMakeVisible(unison);
@@ -106,26 +77,18 @@ OscillatorDisplay::OscillatorDisplay(
     addAndMakeVisible(octave);
     addAndMakeVisible(coarse);
     addAndMakeVisible(fine);
-
-    volume.setCustomTooltipText("OSC_VOLUME");
-    pan.setCustomTooltipText("OSC_PAN");
-    unison.setCustomTooltipText("OSC_UNISON");
-    detune.setCustomTooltipText("OSC_DETUNE");
-    morph.setCustomTooltipText("OSC_MORPH");
-    octave.setCustomTooltipText("OSC_OCTAVE");
-    coarse.setCustomTooltipText("OSC_COARSE");
-    fine.setCustomTooltipText("OSC_FINE");
 }
 
 void OscillatorDisplay::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colours::black);
-
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(getLocalBounds());
+    ItnLookAndFeel::drawComponentPanel(g, getLocalBounds().toFloat());
 }
 
 void OscillatorDisplay::resized() {
-    auto area = getLocalBounds().reduced(10);
+    auto area = getLocalBounds();
+    auto titleArea = area.removeFromTop(33);
+    area = area.reduced(10);
+
+    title.setBounds(titleArea);
 
     auto knobArea = area.removeFromBottom(80);
     int knobWidth = knobArea.getWidth() / 4;
@@ -134,14 +97,12 @@ void OscillatorDisplay::resized() {
     morph.setBounds(knobArea.removeFromLeft(knobWidth));
     volume.setBounds(knobArea.removeFromLeft(knobWidth));
 
-    auto pitchArea = area.removeFromBottom(60);
+    auto pitchArea = area.removeFromBottom(80);
     int pitchWidth = pitchArea.getWidth() / 4;
     octave.setBounds(pitchArea.removeFromLeft(pitchWidth));
     coarse.setBounds(pitchArea.removeFromLeft(pitchWidth));
     fine.setBounds(pitchArea.removeFromLeft(pitchWidth));
     pan.setBounds(pitchArea.removeFromLeft(pitchWidth));
-
-    toggle.setBounds(10, 10, 25, 25);
 
     waveDisplay.setBounds(area);
     waveBankEditorToggle.setBounds(area.getWidth() - 32, 10, 40, 24);

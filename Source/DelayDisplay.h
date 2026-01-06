@@ -12,8 +12,8 @@
 #include <JuceHeader.h>
 #include "ModMatrix.h"
 #include "ItnLookAndFeel.h"
-#include "ItnSlider.h"
 #include "DelayGraph.h"
+#include "SliderComponent.h"
 
 
 class DelayDisplay : public juce::Component {
@@ -32,8 +32,7 @@ private:
 
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
-    ItnSlider timeMs, feedback, cutoff, dry, wet;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeMsAttachment, feedbackAttachment, dryAttachment, wetAttachment, cutoffAttachment;
+    SliderComponent timeMs, feedback, cutoff, dry, wet;
 
     juce::ToggleButton bpmSync;
 };
