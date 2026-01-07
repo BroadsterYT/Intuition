@@ -48,4 +48,6 @@ private:
     juce::String getApiKey();
     
     juce::var convertStringToJson(const juce::String jsonString);
+
+    void appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& message, const juce::String& parametersJsonString);
 };

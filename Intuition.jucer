@@ -36,6 +36,16 @@
       <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <GROUP id="{FB50DE9E-DB31-2296-B72F-6E22C0F8348B}" name="Oscs">
+        <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+        <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
+        <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
+        <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
+        <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
+        <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
+        <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
+              file="Source/WavetableOsc.cpp" skipPCH="1"/>
+      </GROUP>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
         <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
         <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
@@ -189,6 +199,8 @@
       <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
       <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
       <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
+      <FILE id="BwBcRt" name="JsonHelper.cpp" compile="1" resource="0" file="Source/JsonHelper.cpp"/>
+      <FILE id="f6siak" name="JsonHelper.h" compile="0" resource="0" file="Source/JsonHelper.h"/>
       <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
@@ -196,11 +208,6 @@
             file="Source/PluginProcessor.cpp"/>
       <FILE id="feZLPy" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
-      <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
-      <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
-      <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
-      <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
       <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
             file="Source/WavetableBank.cpp"/>
       <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
@@ -208,9 +215,6 @@
             file="Source/WavetableHelper.cpp"/>
       <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
             file="Source/WavetableHelper.h"/>
-      <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
-            file="Source/WavetableOsc.cpp" skipPCH="1"/>
-      <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
