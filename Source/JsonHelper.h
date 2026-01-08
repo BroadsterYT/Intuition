@@ -15,4 +15,5 @@
 class JsonHelper {
 public:
     static juce::var getJsonFileAsVar(const juce::File& jsonFile);
+    static juce::var getJsonStringAsVar(const juce::String& jsonString);
 };

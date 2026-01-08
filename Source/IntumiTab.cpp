@@ -46,9 +46,10 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
             processor->getParametersAsJsonString()
         );
 
+        appendIntumiMessageToConversation(convoFile, "intumi", intumiResponse);
         //appendUserMessageToConversation(convoFile, "intumi", intumiResponse);
 
-        juce::var response = convertStringToJson(intumiResponse);
+        juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
         juce::DynamicObject::Ptr obj = response.getDynamicObject();
         if (!obj) {
             outputBox.insertTextAtCaret(intumiResponse);  // Displays error
@@ -107,34 +108,30 @@ juce::String IntumiTab::getApiKey() {
     return key;
 }
 
-juce::var IntumiTab::convertStringToJson(const juce::String jsonString) {
-    juce::var parsedJson;
-
-    juce::Result result = juce::JSON::parse(jsonString, parsedJson);
-    jassert(result.wasOk());
-
-    return parsedJson;
-}
-
-void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& message, const juce::String& parametersJsonString) {
-    juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
-    auto* root = jsonConvo.getDynamicObject();
+juce::var IntumiTab::getConversationArray(juce::var& jsonVar) {
+    auto* root = jsonVar.getDynamicObject();
     if (!root) {
-        DBG("DynamicObject could not be retrieved from JSON file: " << jsonFile.getFullPathName());
-        return;
+        DBG("Error: DynamicObject could not be retrieved from JSON file.");
+        return juce::var();
     }
 
     juce::var messagesVar = root->getProperty("messages");
     if (!messagesVar.isArray()) {
-        DBG("The value of \"mesaages\" is not of type array.");
-        return;
+        DBG("Error: The value of \"messages\" is not of type array.");
+        return juce::var();
     }
+    return messagesVar;
+}
+
+void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& message, const juce::String& parametersJsonString) {
+    juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
+    juce::var messagesVar = getConversationArray(jsonConvo);
     auto* messages = messagesVar.getArray();
 
     // Formatting user content as json
     juce::var userContent(new juce::DynamicObject());
     auto* contentRoot = userContent.getDynamicObject();
-    contentRoot->setProperty("parameters", convertStringToJson(parametersJsonString));
+    contentRoot->setProperty("parameters", JsonHelper::getJsonStringAsVar(parametersJsonString));
     contentRoot->setProperty("message", message);
 
     // Adding user query to messages json
@@ -145,5 +142,22 @@ void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, cons
     userDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
     userDyn->setProperty("content", userContent);
     messages->add(userMsg);
+    jsonFile.replaceWithText(juce::JSON::toString(jsonConvo));
+}
+
+void IntumiTab::appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& jsonResponse) {
+    juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
+    juce::var messagesVar = getConversationArray(jsonConvo);
+    auto* messages = messagesVar.getArray();
+
+    juce::var intumiContent = JsonHelper::getJsonStringAsVar(jsonResponse);
+
+    juce::var finalMsg(new juce::DynamicObject());
+    auto* finalDyn = finalMsg.getDynamicObject();
+    finalDyn->setProperty("id", juce::Uuid().toString());
+    finalDyn->setProperty("role", role);
+    finalDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
+    finalDyn->setProperty("content", intumiContent);
+    messages->add(finalMsg);
     jsonFile.replaceWithText(juce::JSON::toString(jsonConvo));
 }

@@ -46,8 +46,15 @@ private:
     /// </summary>
     /// <returns>An API key (if given one before)</returns>
     juce::String getApiKey();
-    
-    juce::var convertStringToJson(const juce::String jsonString);
 
+    juce::var getConversationArray(juce::var& jsonVar);
+    /// <summary>
+    /// Adds a user's message to the json file containing the current Intumi conversation after formatting it.
+    /// </summary>
+    /// <param name="jsonFile">The file containing the conversation</param>
+    /// <param name="role">The role of the sender of the message</param>
+    /// <param name="message">The prompt the user netered into the prompt box</param>
+    /// <param name="parametersJsonString">A string containing all current parameter values</param>
     void appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& message, const juce::String& parametersJsonString);
+    void appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& jsonResponse);
 };

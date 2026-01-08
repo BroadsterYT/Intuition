@@ -30,3 +30,10 @@ juce::var JsonHelper::getJsonFileAsVar(const juce::File& jsonFile) {
 
     return jsonVar;
 }
+
+juce::var JsonHelper::getJsonStringAsVar(const juce::String& jsonString) {
+    juce::var parsedJson;
+    juce::Result result = juce::JSON::parse(jsonString, parsedJson);
+    jassert(result.wasOk());
+    return parsedJson;
+}
