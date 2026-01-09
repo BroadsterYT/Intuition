@@ -64,6 +64,11 @@
               file="Source/EnvelopeManager.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
+        <FILE id="OGT9cE" name="TypewriterText.cpp" compile="1" resource="0"
+              file="Source/TypewriterText.cpp"/>
+        <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
+              file="Source/TypewriterText.h"/>
+        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI"/>
         <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
           <GROUP id="{632735F1-161D-F802-74D9-C1FE57C8A2A2}" name="Reverb">
             <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>

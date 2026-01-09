@@ -37,7 +37,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         
         // Retrieving messages array
         juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
-        appendUserMessageToConversation(convoFile, "user", promptBox.getText(), processor->getParametersAsJsonString());
+        appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
         
         // API query
         juce::String intumiResponse = AIManager::queryAI(
@@ -46,8 +46,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
             processor->getParametersAsJsonString()
         );
 
-        appendIntumiMessageToConversation(convoFile, "intumi", intumiResponse);
-        //appendUserMessageToConversation(convoFile, "intumi", intumiResponse);
+        appendIntumiMessageToConversation(convoFile, intumiResponse);
 
         juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
         juce::DynamicObject::Ptr obj = response.getDynamicObject();
@@ -123,7 +122,7 @@ juce::var IntumiTab::getConversationArray(juce::var& jsonVar) {
     return messagesVar;
 }
 
-void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& message, const juce::String& parametersJsonString) {
+void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& message, const juce::String& parametersJsonString) {
     juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
     juce::var messagesVar = getConversationArray(jsonConvo);
     auto* messages = messagesVar.getArray();
@@ -138,14 +137,14 @@ void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, cons
     juce::var userMsg(new juce::DynamicObject());
     auto* userDyn = userMsg.getDynamicObject();
     userDyn->setProperty("id", juce::Uuid().toString());
-    userDyn->setProperty("role", role);
+    userDyn->setProperty("role", "user");
     userDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
     userDyn->setProperty("content", userContent);
     messages->add(userMsg);
     jsonFile.replaceWithText(juce::JSON::toString(jsonConvo));
 }
 
-void IntumiTab::appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& role, const juce::String& jsonResponse) {
+void IntumiTab::appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& jsonResponse) {
     juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
     juce::var messagesVar = getConversationArray(jsonConvo);
     auto* messages = messagesVar.getArray();
@@ -155,7 +154,7 @@ void IntumiTab::appendIntumiMessageToConversation(const juce::File& jsonFile, co
     juce::var finalMsg(new juce::DynamicObject());
     auto* finalDyn = finalMsg.getDynamicObject();
     finalDyn->setProperty("id", juce::Uuid().toString());
-    finalDyn->setProperty("role", role);
+    finalDyn->setProperty("role", "intumi");
     finalDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
     finalDyn->setProperty("content", intumiContent);
     messages->add(finalMsg);
