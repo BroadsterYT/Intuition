@@ -13,6 +13,8 @@
 #include "ItnLookAndFeel.h"
 #include "AIManager.h"
 #include "PluginProcessor.h"
+#include "ConvoMessageComponent.h"
+#include "ConvoView.h"
 
 
 class IntumiTab : public juce::Component {
@@ -29,6 +31,9 @@ private:
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
     juce::TextEditor outputBox;
+
+    juce::Viewport convoViewport;
+    ConvoView convoView;
 
     /// <summary>
     /// Retrieves the file where the API key is saved. If no key has been saved, the

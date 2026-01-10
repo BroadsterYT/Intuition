@@ -12,8 +12,9 @@
 
 TypewriterText::TypewriterText() {}
 
-void TypewriterText::setText(const juce::String& newText) {
+void TypewriterText::setText(const juce::String& newText, bool revealAll) {
     text = newText;
+    if (revealAll) charsVisible = text.length();
     buildTextLayout();
 }
 
@@ -21,6 +22,10 @@ void TypewriterText::setFont(const juce::Font& newFont, const juce::Colour& newC
     font = newFont;
     color = newColor;
     buildTextLayout();
+}
+
+float TypewriterText::getFullTextHeight() const {
+    return layout.getHeight();
 }
 
 bool TypewriterText::iterateTypewriterEffect(bool repaintNeeded) {
@@ -39,13 +44,18 @@ bool TypewriterText::iterateTypewriterEffect(bool repaintNeeded) {
 
 void TypewriterText::paint(juce::Graphics& g) {
     float textWidth = getLocalBounds().toFloat().getWidth();
-    ItnLookAndFeel* lookAndFeel = &ItnLookAndFeel::getInstance();
 
     juce::AttributedString partialText;
     partialText.append(text.substring(0, charsVisible), font, color);
     juce::TextLayout partialLayout;
     partialLayout.createLayout(partialText, textWidth);
-    partialLayout.draw(g, getLocalBounds().toFloat());
+
+    // Centering text verically in bounds
+    auto bounds = getLocalBounds().toFloat();
+    float heightDiff = (float)abs((double)(getBounds().getHeight() - partialLayout.getHeight()));
+    auto drawArea = juce::Rectangle<float>(0.0f, heightDiff / 2.0f, bounds.getWidth(), bounds.getHeight());
+
+    partialLayout.draw(g, drawArea);
 }
 
 void TypewriterText::buildTextLayout() {

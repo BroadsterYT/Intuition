@@ -45,7 +45,6 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
             promptBox.getText(),
             processor->getParametersAsJsonString()
         );
-
         appendIntumiMessageToConversation(convoFile, intumiResponse);
 
         juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
@@ -64,9 +63,13 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     outputBox.setReadOnly(true);
     outputBox.setMultiLine(true);
 
+    convoViewport.setViewedComponent(&convoView);
+    convoViewport.setScrollBarsShown(true, false);
+
     addAndMakeVisible(apiKeyBox);
     addAndMakeVisible(promptBox);
-    addAndMakeVisible(outputBox);
+    addAndMakeVisible(convoViewport);
+    //addAndMakeVisible(outputBox);
 }
 
 IntumiTab::~IntumiTab() {
@@ -81,7 +84,9 @@ void IntumiTab::resized() {
     auto area = getLocalBounds();
     apiKeyBox.setBounds(50, 50, 1000, 40);
     promptBox.setBounds(50, 100, 1000, 40);
-    outputBox.setBounds(50, 250, 1000, 360);
+    //outputBox.setBounds(50, 250, 1000, 360);
+
+    convoViewport.setBounds(50, 250, 1000, 360);
 }
 
 juce::File IntumiTab::getSavedKeyFile() {

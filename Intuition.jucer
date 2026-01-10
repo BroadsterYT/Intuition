@@ -68,7 +68,14 @@
               file="Source/TypewriterText.cpp"/>
         <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
               file="Source/TypewriterText.h"/>
-        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI"/>
+        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI">
+          <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
+                file="Source/ConvoMessageComponent.cpp"/>
+          <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
+                file="Source/ConvoMessageComponent.h"/>
+          <FILE id="EiVzxo" name="ConvoView.cpp" compile="1" resource="0" file="Source/ConvoView.cpp"/>
+          <FILE id="s6GfYO" name="ConvoView.h" compile="0" resource="0" file="Source/ConvoView.h"/>
+        </GROUP>
         <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
           <GROUP id="{632735F1-161D-F802-74D9-C1FE57C8A2A2}" name="Reverb">
             <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>
