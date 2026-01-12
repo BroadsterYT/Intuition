@@ -16,6 +16,13 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 
+    juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
+    if (!convoFile.existsAsFile()) {
+        convoFile.create();
+        convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
+    }
+    renderAllPreviousMessages(convoFile);
+
     // ----- API Key Box ----- //
     juce::File keyFile = getSavedKeyFile();
     if (!keyFile.existsAsFile()) {
@@ -37,6 +44,10 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         
         // Retrieving messages array
         juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
+        if (!convoFile.existsAsFile()) {
+            convoFile.create();
+            convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
+        }
         appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
         convoView.addMessage("user", promptBox.getText());
 
@@ -112,6 +123,32 @@ juce::String IntumiTab::getApiKey() {
     juce::String key = keySaveFile.loadFileAsString();
     DBG("API key returned: " << key);
     return key;
+}
+
+void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
+    juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
+    juce::var messagesVar = getConversationArray(jsonConvo);
+    auto* messages = messagesVar.getArray();
+
+    for (int i = 0; i < messages->size(); ++i) {
+        juce::var msgVar = messages->getUnchecked(i);
+        
+        auto* obj = msgVar.getDynamicObject();
+        if (!obj) continue;
+
+        juce::String role = obj->getProperty("role");
+        juce::var contentVar = obj->getProperty("content");
+        auto* contentObj = contentVar.getDynamicObject();
+        if (!contentObj) {
+            DBG("Error: Could not get DynamicObject from message content.");
+            continue;
+        }
+
+        juce::String msgText = contentObj->getProperty("message");
+        DBG("Message: " << msgText);
+
+        convoView.addMessage(role, msgText, true);
+    }
 }
 
 juce::var IntumiTab::getConversationArray(juce::var& jsonVar) {

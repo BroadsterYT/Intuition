@@ -12,7 +12,7 @@
 
 ConvoMessageComponent::ConvoMessageComponent(const juce::String& role, const juce::String& messageText, bool revealAll) : role(role) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
-    startTimerHz(10);
+    startTimerHz(60);
 
     addAndMakeVisible(message);
     message.setText(messageText, revealAll);
@@ -38,7 +38,6 @@ void ConvoMessageComponent::paint(juce::Graphics& g) {
 void ConvoMessageComponent::resized() {
     auto area = getLocalBounds();
     message.setBounds(area.reduced(10));
-    //message.setBounds(area);
 }
 
 void ConvoMessageComponent::timerCallback() {

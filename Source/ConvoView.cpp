@@ -11,12 +11,7 @@
 #include "ConvoView.h"
 
 ConvoView::ConvoView() {
-    startTimerHz(60);
     setSize(1000, 1200);
-}
-
-ConvoView::~ConvoView() {
-    stopTimer();
 }
 
 void ConvoView::addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed) {
@@ -41,11 +36,8 @@ void ConvoView::resized() {
         float textHeight = msg->getMessageTextHeight();
         float width = 300.0f;
         
-        juce::Rectangle<float> msgBounds;
         float msgHeight = 20.0f + textHeight;
-        msgBounds.setWidth(20.0f + width);
-        msgBounds.setHeight(msgHeight);
-        msgBounds.setY(lastY);
+        juce::Rectangle<float> msgBounds(0.0f, lastY, 20.0f + width, msgHeight);
         lastY += msgHeight;
 
         if (msg->getRole() == "user") {
@@ -57,7 +49,4 @@ void ConvoView::resized() {
 
         msg->setBounds(msgBounds.toNearestInt());
     }
-}
-
-void ConvoView::timerCallback() {
 }

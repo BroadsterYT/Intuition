@@ -14,10 +14,9 @@
 #include "ItnLookAndFeel.h"
 
 
-class ConvoView : public juce::Component, private juce::Timer {
+class ConvoView : public juce::Component {
 public:
     ConvoView();
-    ~ConvoView();
 
     void addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed = false);
     void clear();
@@ -27,6 +26,4 @@ public:
 
 private:
     juce::OwnedArray<ConvoMessageComponent> messages;
-
-    void timerCallback() override;
 };

@@ -52,6 +52,19 @@ private:
     /// <returns>An API key (if given one before)</returns>
     juce::String getApiKey();
 
+    // ----- Conversation ----- //
+
+    /// <summary>
+    /// Given a JSON conversation file, will render all messages into the conversation window
+    /// </summary>
+    /// <param name="jsonFile">A JSON file containing an AI conversation log</param>
+    void renderAllPreviousMessages(const juce::File& jsonFile);
+
+    /// <summary>
+    /// Given a juce::var of an entire conversation JSON, returns a juce::var containing an array of all the messages sent and received.
+    /// </summary>
+    /// <param name="jsonVar">A juce::var containing a JSON conversation</param>
+    /// <returns>A juce::var containing an array of all the messages sent and received in a specific conversation</returns>
     juce::var getConversationArray(juce::var& jsonVar);
     /// <summary>
     /// Adds a user's message to the json file containing the current Intumi conversation after formatting it.
