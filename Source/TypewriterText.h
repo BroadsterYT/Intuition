@@ -44,6 +44,8 @@ private:
     juce::AttributedString attrString;
     juce::TextLayout layout;
 
+    float maxTextWidth = 300.0f;
+
     juce::Font font = ItnLookAndFeel::getInstance().getTooltipDescriptionFont();
     juce::Colour color = MinimalStyle::textPrimary;
 

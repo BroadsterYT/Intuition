@@ -43,7 +43,7 @@ void ConvoView::resized() {
         
         juce::Rectangle<float> msgBounds;
         float msgHeight = 20.0f + textHeight;
-        msgBounds.setWidth(width);
+        msgBounds.setWidth(20.0f + width);
         msgBounds.setHeight(msgHeight);
         msgBounds.setY(lastY);
         lastY += msgHeight;

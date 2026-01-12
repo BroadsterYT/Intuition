@@ -38,6 +38,7 @@ void ConvoMessageComponent::paint(juce::Graphics& g) {
 void ConvoMessageComponent::resized() {
     auto area = getLocalBounds();
     message.setBounds(area.reduced(10));
+    //message.setBounds(area);
 }
 
 void ConvoMessageComponent::timerCallback() {

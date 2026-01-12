@@ -43,17 +43,11 @@ bool TypewriterText::iterateTypewriterEffect(bool repaintNeeded) {
 }
 
 void TypewriterText::paint(juce::Graphics& g) {
-    float textWidth = getLocalBounds().toFloat().getWidth();
-
     juce::AttributedString partialText;
     partialText.append(text.substring(0, charsVisible), font, color);
     juce::TextLayout partialLayout;
-    partialLayout.createLayout(partialText, textWidth);
-
-    // Centering text verically in bounds
-    auto bounds = getLocalBounds().toFloat();
-    float heightDiff = (float)abs((double)(getBounds().getHeight() - partialLayout.getHeight()));
-    auto drawArea = juce::Rectangle<float>(0.0f, heightDiff / 2.0f, bounds.getWidth(), bounds.getHeight());
+    partialLayout.createLayout(partialText, maxTextWidth);
+    auto drawArea = juce::Rectangle<float>(0.0f, 0.0f, layout.getWidth(), layout.getHeight());
 
     partialLayout.draw(g, drawArea);
 }
@@ -61,5 +55,5 @@ void TypewriterText::paint(juce::Graphics& g) {
 void TypewriterText::buildTextLayout() {
     attrString.clear();
     attrString.append(text, font, color);
-    layout.createLayout(attrString, getLocalBounds().getWidth());
+    layout.createLayout(attrString, maxTextWidth);
 }

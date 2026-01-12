@@ -38,7 +38,8 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         // Retrieving messages array
         juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
         appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
-        
+        convoView.addMessage("user", promptBox.getText());
+
         // API query
         juce::String intumiResponse = AIManager::queryAI(
             getApiKey(),
@@ -55,7 +56,8 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         }
         
         juce::String message = obj->getProperty("message");
-        outputBox.insertTextAtCaret(message + "\n");
+        convoView.addMessage("intumi", message);
+
         juce::var jsonParams = obj->getProperty("parameters");
         processor->applyJsonParameterTweaks(jsonParams);
     };
