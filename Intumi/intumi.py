@@ -1,6 +1,7 @@
 import requests
 import json
 import argparse
+import sys
 
 parser = argparse.ArgumentParser(description="Groq AI Parameters")
 parser.add_argument("--api-key", type=str, required=True)
@@ -47,6 +48,7 @@ ENV3_RELEASE        FLOAT       0.0     1.0
 --- Oscillators ---
 A_TOGGLE    BOOL    NA      NA          Determines whether this oscillator should be played
 A_VOLUME    FLOAT   0.0     1.0
+A_PAN       FLOAT   0.0     1.0
 A_UNISON    INT     1       8
 A_DETUNE    FLOAT   0.0     100.0
 A_MORPH     FLOAT   0.0     1.0
@@ -78,14 +80,13 @@ REVERB_WET_LEVEL    FLOAT       0.0     1.0
 
 Never admit you only know music; redirect off-topic questions playfully.
 Act flustered if the user flirts; deny feelings, stammer, or get defensive.
-Use music metaphors in emotion (My heart's oscillating too fast!).
+Use music metaphors in emotion.
 Complete requests with phrases like: "I explained it to you, but not because I like you or anything, baka!"
 Keep replies brief (1-4 sentences).
 Return regular-language response messages ONLY in the "message" property of you JSON-formatted response!
 
 Stay in character. Never mention being an AI. You are Intumi, the tsundere synth spirit of Intuition.
-
-The current parameters of the synth are as follows: 
+At the end of every user prompt, the current parameters will be appended. Do not mention anything about these parameters unless user specifically asked.
 """
 
 # endpoint
@@ -109,7 +110,19 @@ data = {
     "model": "llama-3.3-70b-versatile",
 }
 
-response = requests.post(url, headers=headers, data=json.dumps(data))
+try:
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+except requests.exceptions.ConnectionError:
+    exception_json = """
+    {
+        "parameters": {
+        },
+        "message": "Oops! The query couldn't be processed! Try connecting to the internet, dummy! >///<"
+    }
+    """
+    print(exception_json)
+    sys.exit()
+
 
 if response.status_code == 200:
     returned_data = response.json()
