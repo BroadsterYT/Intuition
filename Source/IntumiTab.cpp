@@ -40,8 +40,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     // ----- Prompt Box ----- //
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::warmHighlight);
     promptBox.onReturnKey = [this]() {
-        outputBox.moveCaretToEnd();
-        
+
         // Retrieving messages array
         juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
         if (!convoFile.existsAsFile()) {
@@ -62,7 +61,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
         juce::DynamicObject::Ptr obj = response.getDynamicObject();
         if (!obj) {
-            outputBox.insertTextAtCaret(intumiResponse);  // Displays error
+            // TODO: Find way to display errors with updated Intumi UI
             return;
         }
         
@@ -73,16 +72,12 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         processor->applyJsonParameterTweaks(jsonParams);
     };
 
-    outputBox.setReadOnly(true);
-    outputBox.setMultiLine(true);
-
     convoViewport.setViewedComponent(&convoView);
     convoViewport.setScrollBarsShown(true, false);
 
     addAndMakeVisible(apiKeyBox);
     addAndMakeVisible(promptBox);
     addAndMakeVisible(convoViewport);
-    //addAndMakeVisible(outputBox);
 }
 
 IntumiTab::~IntumiTab() {
@@ -97,8 +92,6 @@ void IntumiTab::resized() {
     auto area = getLocalBounds();
     apiKeyBox.setBounds(50, 50, 1000, 40);
     promptBox.setBounds(50, 100, 1000, 40);
-    //outputBox.setBounds(50, 250, 1000, 360);
-
     convoViewport.setBounds(50, 250, 1000, 360);
 }
 

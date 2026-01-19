@@ -30,7 +30,7 @@ private:
 
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
-    juce::TextEditor outputBox;
+    //juce::TextEditor outputBox;
 
     juce::Viewport convoViewport;
     ConvoView convoView;
