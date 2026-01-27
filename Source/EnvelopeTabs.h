@@ -17,7 +17,6 @@ class EnvelopeTabs : public juce::Component {
 public:
     EnvelopeTabs(ItnContext& context);
 
-    void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
