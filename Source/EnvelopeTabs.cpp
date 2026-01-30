@@ -52,8 +52,6 @@ envOsc(
     addAndMakeVisible(tabs);
 }
 
-void EnvelopeTabs::paint(juce::Graphics& g) {}
-
 void EnvelopeTabs::resized() {
     tabs.setBounds(getLocalBounds());
 }

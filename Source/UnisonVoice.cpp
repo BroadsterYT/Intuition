@@ -84,10 +84,10 @@ void UnisonVoice::updatePitch() {
         oscC.setCurrentFrequency(baseFreq);
         oscD.setCurrentFrequency(baseFreq);
 
-        oscA.setFrequency(baseFreq, octA, semA, finA, 0.0f);
-        oscB.setFrequency(baseFreq, octB, semB, finB, 0.0f);
-        oscC.setFrequency(baseFreq, octC, semC, finC, 0.0f);
-        oscD.setFrequency(baseFreq, octD, semD, finD, 0.0f);
+        oscA.setPitch(octA, semA, finA);
+        oscB.setPitch(octB, semB, finB);
+        oscC.setPitch(octC, semC, finC);
+        oscD.setPitch(octD, semD, finD);
 
         oscA.updateOscDetunes();
         oscB.updateOscDetunes();
@@ -266,9 +266,6 @@ void UnisonVoice::processAtHighRate(juce::AudioBuffer<float>& block, int startSa
     juce::dsp::AudioBlock<float> filterBlock(filteredBuffer);
     juce::dsp::ProcessContextReplacing<float> filterContext(filterBlock);
     filter.process(filterContext);
-
-    /*auto left = block.getChannelPointer(0);
-    auto right = block.getNumChannels() > 1 ? block.getChannelPointer(1) : nullptr;*/
 
     for (int s = 0; s < (int)numSamples; ++s) {
         float env = adsr.getNextSample();
