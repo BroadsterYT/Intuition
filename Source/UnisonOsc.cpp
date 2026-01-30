@@ -26,24 +26,7 @@ void UnisonOsc::setSampleRate(double newRate) {
     sampleRate = newRate;
 }
 
-void UnisonOsc::setFrequency(
-    float frequency,
-    int oct,
-    int semitones,
-    int cents,
-    float detuneCents
-) {
-    if (!bank || bank->size() == 0 || bank->getWavetable(0).getNumSamples() == 0) return;
-    for (auto& osc : oscillators) {
-        osc.setFrequency(
-            frequency,
-            0,
-            0,
-            0,
-            detuneCents
-        );
-    }
-
+void UnisonOsc::setPitch(int oct, int semitones, int cents) {
     octave = oct;
     coarse = semitones;
     fine = cents;

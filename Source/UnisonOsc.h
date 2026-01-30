@@ -24,13 +24,7 @@ public:
     void setBank(WavetableBank* newBank);
     
     void setSampleRate(double newRate);
-    void setFrequency(
-        float frequency,
-        int octave,
-        int semitones,
-        int cents,
-        float detuneCents
-    );
+    void setPitch(int octave, int semitones, int cents);
     void setCurrentFrequency(float freq);
     
     void setUnison(int newUnison);
@@ -38,6 +32,9 @@ public:
     void setRandomPhaseOffsets();
 
     void setDetuneRange(float range);
+    /// <summary>
+    /// Updates the detunes for each of the WavetableOscs and assigns each WavetableOsc its correct frequency.
+    /// </summary>
     void updateOscDetunes();
 
     void resetPhase();
