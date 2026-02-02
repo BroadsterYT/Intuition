@@ -47,6 +47,9 @@
               file="Source/WavetableOsc.cpp" skipPCH="1"/>
       </GROUP>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
+        <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
+              file="Source/ChorusModule.cpp"/>
+        <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
         <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
         <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
         <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
