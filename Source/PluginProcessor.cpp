@@ -131,7 +131,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         //============== Chorus ==============//
         std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", true),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_RATE", "Chorus Rate", 0.05f, 5.0f, 0.3f),
-        std::make_unique<juce::AudioParameterFloat>("CHORUS_DEPTH", "Chorus Depth", 0.5f, 20.0f, 3.0f),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_DEPTH", "Chorus Depth", 0.5f, 8.0f, 3.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_DRY_LEVEL", "Chorus Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
