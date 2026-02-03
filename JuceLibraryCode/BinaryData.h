@@ -33,7 +33,7 @@ namespace BinaryData
     const int            OutfitRegular_ttfSize = 54912;
 
     extern const char*   tooltips_json;
-    const int            tooltips_jsonSize = 9112;
+    const int            tooltips_jsonSize = 9706;
 
     extern const char*   AKWF_saw_wav;
     const int            AKWF_saw_wavSize = 1344;

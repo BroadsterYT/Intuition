@@ -47,7 +47,7 @@ void ChorusModule::updateParameters() {
     dryLevel = modMatrix->getModdedDest("CHORUS_DRY_LEVEL");
     wetLevel = modMatrix->getModdedDest("CHORUS_WET_LEVEL");
 
-    lfoIncrement = juce::MathConstants<float>::twoPi * rate / sampleRate;
+    lfoIncrement = juce::MathConstants<float>::twoPi * rate / (float)sampleRate;
 }
 
 void ChorusModule::processBlock(juce::AudioBuffer<float>& buffer) {
@@ -69,8 +69,8 @@ void ChorusModule::processBlock(juce::AudioBuffer<float>& buffer) {
 
         float delayLms = baseDelayMs + depthMs * lfo;
         float delayRms = baseDelayMs + depthMs * lfoR;
-        delayL.setDelay(delayLms * sampleRate * 0.001f);
-        delayR.setDelay(delayRms * sampleRate * 0.001f);
+        delayL.setDelay(delayLms * (float)sampleRate * 0.001f);
+        delayR.setDelay(delayRms * (float)sampleRate * 0.001f);
 
         //=== Process left
         float dryL = left[i];

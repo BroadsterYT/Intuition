@@ -141,7 +141,7 @@
 
 	"DELAY_TIME_MS": {
 		"header": "Delay Time",
-		"subheader": "Repeat offender... he's reaching!!'",
+		"subheader": "Repeat offender...",
 		"description": "Sets how long it takes for the delayed signal to repeat after the original sound. Short times create slapback or flanger-like effects, long times create echoing repeats.",
 		"units": "ms"
 	},
@@ -168,28 +168,28 @@
 	},
 
 	"CHORUS_RATE": {
-		"header": "Rate header",
-		"subheader": "Rate subheader",
-		"description": "Rate description"
+		"header": "Chorus Rate",
+		"subheader": "The speed at which your sound starts wobbling.",
+		"description": "Controls the speed of the low-frequency oscillator that modulates the chorus delay time. Higher values increase how fast the pitch and timing variations occur, making the effect more animated and noticeable."
 	},
 	"CHORUS_DEPTH": {
-		"header": "Depth header",
-		"subheader": "Depth subheader",
-		"description": "Depth description"
+		"header": "Chorus Depth",
+		"subheader": "Subtle movement or full wobble - your call.",
+		"description": "Controls how strongly the chorus LFO modulates the delay time. Higher depth increases the amount of pitch and timing variation, making the effect thicker, wider, and more noticeable."
 	},
 	"CHORUS_WIDTH": {
-		"header": "Width header",
-		"subheader": "Width subheader",
-		"description": "Width description"
+		"header": "Chorus Width",
+		"subheader": "The width at which your wobble wobbles.",
+		"description": "Controls how far the modulated chorus signal is spread across the stereo field. Higher values increase left–right separation, making the chorus feel wider and more spacious."
 	},
 	"CHORUS_DRY_LEVEL": {
 		"header": "Chorus Dry Level",
-		"subheader": "The call...",
+		"subheader": "Boring old input.",
 		"description": "Controls the volume of the original signal passed through the chorus module."
 	},
 	"CHORUS_WET_LEVEL": {
 		"header": "Chorus Wet Level",
-		"subheader": "... and the response.",
-		"description": "Controls how much of the processed signal you hear."
+		"subheader": "Wobble wobble wobble.",
+		"description": "Controls how much of the processed chorus signal you hear."
 	}
 }
