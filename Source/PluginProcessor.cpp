@@ -117,8 +117,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("REVERB_DAMPING", "Damping", 0.0f, 1.0f, 0.5f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_ROOM_SIZE", "Room Size", 0.0f, 1.0f, 0.5f),
         std::make_unique<juce::AudioParameterFloat>("REVERB_WIDTH", "Width", 0.0f, 1.0f, 1.0f),
-        std::make_unique<juce::AudioParameterFloat>("REVERB_DRY_LEVEL", "Dry Level", 0.0f, 1.0f, 0.7f),
-        std::make_unique<juce::AudioParameterFloat>("REVERB_WET_LEVEL", "Wet Level", 0.0f, 1.0f, 0.3f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_DRY_LEVEL", "Reverb Dry Level", 0.0f, 1.0f, 0.7f),
+        std::make_unique<juce::AudioParameterFloat>("REVERB_WET_LEVEL", "Reverb Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============== Delay ===============//
         std::make_unique<juce::AudioParameterBool>("DELAY_TOGGLE", "Delay Toggle", false),
@@ -127,6 +127,14 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("DELAY_CUTOFF", "Delay Cutoff Frequency", 20.0f, 20000.0f, 20000.0f),
         std::make_unique<juce::AudioParameterFloat>("DELAY_DRY_LEVEL", "Delay Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("DELAY_WET_LEVEL", "Delay Wet Level", 0.0f, 1.0f, 0.3f),
+
+        //============== Chorus ==============//
+        std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", true),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_RATE", "Chorus Rate", 0.05f, 5.0f, 0.3f),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_DEPTH", "Chorus Depth", 0.5f, 8.0f, 3.0f),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_DRY_LEVEL", "Chorus Dry Level", 0.0f, 1.0f, 0.7f),
+        std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
     }),
     context(
         this,
@@ -148,7 +156,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     ),
     envManager(parameters),
     reverbModule(parameters, &modMatrix),
-    delayModule(parameters, &modMatrix)
+    delayModule(parameters, &modMatrix),
+    chorusModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
     initializeUserDirectory();
@@ -324,6 +333,23 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     dlyCutoffDest->setMaxRange(20000.0f);
     dlyDryDest->setBasePtr(parameters.getRawParameterValue("DELAY_DRY_LEVEL"));
     dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
+
+    //=== Chorus
+    ModDestination* chsRateDest = modMatrix.addDestination("CHORUS_RATE");
+    ModDestination* chsDepthDest = modMatrix.addDestination("CHORUS_DEPTH");
+    ModDestination* chsWidthDest = modMatrix.addDestination("CHORUS_WIDTH");
+    ModDestination* chsDryDest = modMatrix.addDestination("CHORUS_DRY_LEVEL");
+    ModDestination* chsWetDest = modMatrix.addDestination("CHORUS_WET_LEVEL");
+
+    chsRateDest->setBasePtr(parameters.getRawParameterValue("CHORUS_RATE"));
+    chsRateDest->setMinRange(0.05f);
+    chsRateDest->setMaxRange(5.0f);
+    chsDepthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DEPTH"));
+    chsDepthDest->setMinRange(0.5f);
+    chsDepthDest->setMaxRange(8.0f);
+    chsWidthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WIDTH"));
+    chsDryDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DRY_LEVEL"));
+    chsWetDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WET_LEVEL"));
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -598,6 +624,11 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     if (*parameters.getRawParameterValue("DELAY_TOGGLE")) {
         delayModule.updateParameters();
         delayModule.processBlock(buffer);
+    }
+    if (*parameters.getRawParameterValue("CHORUS_TOGGLE")) {
+        chorusModule.prepare(getSampleRate(), buffer.getNumSamples());
+        chorusModule.updateParameters();
+        chorusModule.processBlock(buffer);
     }
     
     float masterVol = *parameters.getRawParameterValue("MASTER");

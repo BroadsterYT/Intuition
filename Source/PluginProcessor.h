@@ -17,8 +17,9 @@
 #include "ItnContext.h"
 #include "EnvelopeManager.h"
 #include "ReverbModule.h"
-#include "AIManager.h"
 #include "DelayModule.h"
+#include "ChorusModule.h"
+#include "AIManager.h"
 
 
 //==============================================================================
@@ -109,6 +110,7 @@ private:
 
     ReverbModule reverbModule;
     DelayModule delayModule;
+    ChorusModule chorusModule;
 
     /// <summary>
     /// If not already initialized, will organize the Intuition directory in the user's Documents folder.

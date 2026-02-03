@@ -165,5 +165,31 @@
 		"header": "Delay Wet Level",
 		"subheader": "... and the response.",
 		"description": "Controls how much of the delayed, repeated signal you hear."
+	},
+
+	"CHORUS_RATE": {
+		"header": "Rate header",
+		"subheader": "Rate subheader",
+		"description": "Rate description"
+	},
+	"CHORUS_DEPTH": {
+		"header": "Depth header",
+		"subheader": "Depth subheader",
+		"description": "Depth description"
+	},
+	"CHORUS_WIDTH": {
+		"header": "Width header",
+		"subheader": "Width subheader",
+		"description": "Width description"
+	},
+	"CHORUS_DRY_LEVEL": {
+		"header": "Chorus Dry Level",
+		"subheader": "The call...",
+		"description": "Controls the volume of the original signal passed through the chorus module."
+	},
+	"CHORUS_WET_LEVEL": {
+		"header": "Chorus Wet Level",
+		"subheader": "... and the response.",
+		"description": "Controls how much of the processed signal you hear."
 	}
 }

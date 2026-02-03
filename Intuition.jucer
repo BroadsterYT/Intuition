@@ -47,6 +47,9 @@
               file="Source/WavetableOsc.cpp" skipPCH="1"/>
       </GROUP>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
+        <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
+              file="Source/ChorusModule.cpp"/>
+        <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
         <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
         <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
         <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
@@ -64,19 +67,12 @@
               file="Source/EnvelopeManager.cpp"/>
       </GROUP>
       <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
-        <FILE id="OGT9cE" name="TypewriterText.cpp" compile="1" resource="0"
-              file="Source/TypewriterText.cpp"/>
-        <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
-              file="Source/TypewriterText.h"/>
-        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI">
-          <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
-                file="Source/ConvoMessageComponent.cpp"/>
-          <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
-                file="Source/ConvoMessageComponent.h"/>
-          <FILE id="EiVzxo" name="ConvoView.cpp" compile="1" resource="0" file="Source/ConvoView.cpp"/>
-          <FILE id="s6GfYO" name="ConvoView.h" compile="0" resource="0" file="Source/ConvoView.h"/>
-        </GROUP>
         <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
+          <GROUP id="{49B58A15-6FA6-BA6B-C910-6B5DC33AB48F}" name="Chorus">
+            <FILE id="jihxKI" name="ChorusDisplay.cpp" compile="1" resource="0"
+                  file="Source/ChorusDisplay.cpp"/>
+            <FILE id="w3KGG2" name="ChorusDisplay.h" compile="0" resource="0" file="Source/ChorusDisplay.h"/>
+          </GROUP>
           <GROUP id="{632735F1-161D-F802-74D9-C1FE57C8A2A2}" name="Reverb">
             <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>
             <FILE id="xBBfGM" name="ReverbRing.h" compile="0" resource="0" file="Source/ReverbRing.h"/>
@@ -114,6 +110,14 @@
           <FILE id="fKbsTI" name="FilterDisplay.h" compile="0" resource="0" file="Source/FilterDisplay.h"/>
           <FILE id="XL7yq1" name="FilterGraph.cpp" compile="1" resource="0" file="Source/FilterGraph.cpp"/>
           <FILE id="vrYOqn" name="FilterGraph.h" compile="0" resource="0" file="Source/FilterGraph.h"/>
+        </GROUP>
+        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI">
+          <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
+                file="Source/ConvoMessageComponent.cpp"/>
+          <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
+                file="Source/ConvoMessageComponent.h"/>
+          <FILE id="EiVzxo" name="ConvoView.cpp" compile="1" resource="0" file="Source/ConvoView.cpp"/>
+          <FILE id="s6GfYO" name="ConvoView.h" compile="0" resource="0" file="Source/ConvoView.h"/>
         </GROUP>
         <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFO_GUI">
           <FILE id="vNnHaR" name="LFODisplay.cpp" compile="1" resource="0" file="Source/LFODisplay.cpp"/>
@@ -183,6 +187,10 @@
               file="Source/TooltipController.cpp"/>
         <FILE id="dNo4cW" name="TooltipController.h" compile="0" resource="0"
               file="Source/TooltipController.h"/>
+        <FILE id="OGT9cE" name="TypewriterText.cpp" compile="1" resource="0"
+              file="Source/TypewriterText.cpp"/>
+        <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
+              file="Source/TypewriterText.h"/>
         <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
               file="Source/WaveformDisplay.cpp"/>
         <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"
