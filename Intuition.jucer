@@ -36,6 +36,9 @@
       <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <FILE id="y53mkE" name="FFTProcessor.cpp" compile="1" resource="0"
+            file="Source/FFTProcessor.cpp"/>
+      <FILE id="biQLIU" name="FFTProcessor.h" compile="0" resource="0" file="Source/FFTProcessor.h"/>
       <GROUP id="{FB50DE9E-DB31-2296-B72F-6E22C0F8348B}" name="Oscs">
         <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
         <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>

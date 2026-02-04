@@ -435,6 +435,9 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
+    //setLatencySamples(1024);  // For FFT
+    fft[0].prepare(sampleRate);
+    fft[1].prepare(sampleRate);
 
     resetSynths();
     synth.clearSounds();
@@ -511,44 +514,17 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     
     calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate1);
     float phaseInc1 = lfoRate1 / sampleRate;
-    calculateLFOPhase(
-        lfoShape1,lfoPhase1,
-        "LFO1_MODE",
-        "LFO1_SYNC_DIV",
-        "LFO1_RATE",
-        lfoValue1,
-        sampleRate,
-        buffer.getNumSamples()
-    );
+    calculateLFOPhase(lfoShape1,lfoPhase1, "LFO1_MODE", "LFO1_SYNC_DIV", "LFO1_RATE", lfoValue1, sampleRate, buffer.getNumSamples());
 
     calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate2);
     float phaseInc2 = lfoRate2 / sampleRate;
-    calculateLFOPhase(
-        lfoShape2, lfoPhase2,
-        "LFO2_MODE",
-        "LFO2_SYNC_DIV",
-        "LFO2_RATE",
-        lfoValue2,
-        sampleRate,
-        buffer.getNumSamples()
-    );
+    calculateLFOPhase(lfoShape2, lfoPhase2, "LFO2_MODE", "LFO2_SYNC_DIV", "LFO2_RATE", lfoValue2, sampleRate, buffer.getNumSamples());
 
     calculateLFOFrequency("LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV", lfoRate3);
     float phaseInc3 = lfoRate3 / sampleRate;
-    calculateLFOPhase(
-        lfoShape3, lfoPhase3,
-        "LFO3_MODE",
-        "LFO3_SYNC_DIV",
-        "LFO3_RATE",
-        lfoValue3,
-        sampleRate,
-        buffer.getNumSamples()
-    );
+    calculateLFOPhase(lfoShape3, lfoPhase3, "LFO3_MODE", "LFO3_SYNC_DIV", "LFO3_RATE", lfoValue3, sampleRate, buffer.getNumSamples());
 
     //======= Envelope Modulation ========//
-
-    //DBG("ENV1 val: " << envValue1);
-
     modMatrix.applyMods();
 
     juce::ADSR::Parameters adsrParams;
@@ -615,6 +591,24 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         buffer.clear(i, 0, buffer.getNumSamples());
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    //============= FFT TESTING ============//
+    int numSamples = buffer.getNumSamples();
+    float* channelL = buffer.getWritePointer(0);
+    float* channelR = buffer.getWritePointer(1);
+
+    for (int sample = 0; sample < numSamples; ++sample) {
+        float sampleL = channelL[sample];
+        float sampleR = channelR[sample];
+
+        sampleL = fft[0].processSample(sampleL);
+        sampleR = fft[1].processSample(sampleR);
+
+        channelL[sample] = sampleL;
+        channelR[sample] = sampleR;
+    }
+
+    //======================================//
     
     if (*parameters.getRawParameterValue("REVERB_TOGGLE")) {
         reverbModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
@@ -630,6 +624,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         chorusModule.updateParameters();
         chorusModule.processBlock(buffer);
     }
+
+    //========== FFT TESTING ===============//
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);

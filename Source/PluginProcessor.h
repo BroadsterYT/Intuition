@@ -20,6 +20,7 @@
 #include "DelayModule.h"
 #include "ChorusModule.h"
 #include "AIManager.h"
+#include "FFTProcessor.h"
 
 
 //==============================================================================
@@ -111,6 +112,9 @@ private:
     ReverbModule reverbModule;
     DelayModule delayModule;
     ChorusModule chorusModule;
+
+    // FFT
+    FFTProcessor fft[2];
 
     /// <summary>
     /// If not already initialized, will organize the Intuition directory in the user's Documents folder.
