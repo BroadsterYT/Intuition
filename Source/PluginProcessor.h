@@ -114,7 +114,8 @@ private:
     ChorusModule chorusModule;
 
     // FFT
-    FFTProcessor fft[2];
+    FFTProcessor fftL;
+    FFTProcessor fftR;
 
     /// <summary>
     /// If not already initialized, will organize the Intuition directory in the user's Documents folder.

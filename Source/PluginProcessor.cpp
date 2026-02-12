@@ -436,8 +436,8 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
     //setLatencySamples(1024);  // For FFT
-    fft[0].prepare(sampleRate);
-    fft[1].prepare(sampleRate);
+    fftL.prepare(sampleRate, 0);
+    fftR.prepare(sampleRate, 1);
 
     resetSynths();
     synth.clearSounds();
@@ -593,20 +593,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     //============= FFT TESTING ============//
-    int numSamples = buffer.getNumSamples();
-    float* channelL = buffer.getWritePointer(0);
-    float* channelR = buffer.getWritePointer(1);
-
-    for (int sample = 0; sample < numSamples; ++sample) {
-        float sampleL = channelL[sample];
-        float sampleR = channelR[sample];
-
-        sampleL = fft[0].processSample(sampleL);
-        sampleR = fft[1].processSample(sampleR);
-
-        channelL[sample] = sampleL;
-        channelR[sample] = sampleR;
-    }
+    fftL.processBlock(buffer);
+    fftR.processBlock(buffer);
 
     //======================================//
     

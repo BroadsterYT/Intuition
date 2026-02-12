@@ -17,9 +17,14 @@ class FFTProcessor {
 public:
     FFTProcessor();
 
-    void prepare(double sr);
+    void prepare(double sr, int channelNum);
     void reset();
-    float processSample(float& sample);
+
+    /// <summary>
+    /// Performs the FFT/inverse FFT along with any frequency modifications and places the results back into buffer
+    /// </summary>
+    /// <param name="buffer">The audio data to pass through the FFT</param>
+    void processBlock(juce::AudioBuffer<float>& buffer);
 
 private:
     static constexpr int fftOrder = 10;
@@ -30,6 +35,7 @@ private:
     static constexpr float windowCorrection = 2.0f / 3.0f;
 
     double sampleRate = 44100.0;
+    int channel = 0;  // The channel to read from the audio buffer
 
     juce::dsp::FFT fft;
     juce::dsp::WindowingFunction<float> window;
@@ -38,8 +44,9 @@ private:
     int writePos = 0;  // Keeps track of current write position in input FIFO and output FIFO
     std::array<float, fftSize> inputFifo;
     std::array<float, fftSize> outputFifo;
-    std::array<float, fftSize * 2> fftData;
+    std::array<float, fftSize * 2> fftData; // Holds real, imag pairs so need double size
 
+    float processSample(float& sample);
     void processFrame();
     virtual void processSpectrum(float* data, int numBins);
 };

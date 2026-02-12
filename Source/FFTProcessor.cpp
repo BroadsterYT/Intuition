@@ -14,8 +14,9 @@ FFTProcessor::FFTProcessor() : fft(fftOrder), window(fftSize + 1, juce::dsp::Win
     reset();
 }
 
-void FFTProcessor::prepare(double sr) {
+void FFTProcessor::prepare(double sr, int channelNum) {
     sampleRate = sr;
+    channel = channelNum;
 }
 
 void FFTProcessor::reset() {
@@ -23,6 +24,16 @@ void FFTProcessor::reset() {
     writePos = 0;
     std::fill(inputFifo.begin(), inputFifo.end(), 0.0f);
     std::fill(outputFifo.begin(), outputFifo.end(), 0.0f);
+}
+
+void FFTProcessor::processBlock(juce::AudioBuffer<float>& buffer) {
+    int numSamples = buffer.getNumSamples();
+    float* channelPtr = buffer.getWritePointer(channel);
+
+    for (int i = 0; i < numSamples; ++i) {
+        float sample = processSample(channelPtr[i]);
+        channelPtr[i] = sample;
+    }
 }
 
 float FFTProcessor::processSample(float& sample) {
@@ -83,6 +94,7 @@ void FFTProcessor::processSpectrum(float* data, int numBins) {
         float phase = std::arg(cdata[i]);
 
         // Spectrum manipulation goes here
+        //if (i > cutoffBin) magnitude = 0.0f;
 
         cdata[i] = std::polar(magnitude, phase);
     }
