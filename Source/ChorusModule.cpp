@@ -9,6 +9,7 @@
 */
 
 #include "ChorusModule.h"
+#include "FFTProcessor.h"
 
 ChorusModule::ChorusModule(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
 
