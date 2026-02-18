@@ -25,6 +25,7 @@ public:
 private:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;
+    bool initialized = false;  // Delay lines MUST be initialized, no exceptions!
 
     double sampleRate = 44100.0;
     static constexpr float maxDelayMs = 40.0f;

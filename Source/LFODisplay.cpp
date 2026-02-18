@@ -19,7 +19,7 @@ LFODisplay::LFODisplay(
 ) : parameters(vts),
     editor(shape, phase), 
     modeName(modeName),
-    syncDivName(syncDivName),
+    syncDiv(vts, syncDivName),
     
     rate(vts, rateName, "LFO RATE", "LFO_RATE", "Hz") {
 
@@ -28,17 +28,8 @@ LFODisplay::LFODisplay(
     mode.setSelectedId(1);
     mode.onChange = [this] { modeChanged(); };
 
-    syncDiv.addItem("4 bars", 1);
-    syncDiv.addItem("2 bars", 2);
-    syncDiv.addItem("1 bar", 3);
-    syncDiv.addItem("1/2", 4);
-    syncDiv.addItem("1/4", 5);
-    syncDiv.addItem("1/8", 6);
-    syncDiv.addItem("1/16", 7);
-    syncDiv.addItem("1/32", 8);
-
     modeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, modeName, mode);
-    syncDivAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, syncDivName, syncDiv);
+    //syncDivAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, syncDivName, syncDiv);
 
     rate.setRange(0.01f, 30.0f);
 

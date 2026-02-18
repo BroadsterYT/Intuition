@@ -36,6 +36,7 @@
       <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
     </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
+      <FILE id="bxV01F" name="TempoDivision.h" compile="0" resource="0" file="Source/TempoDivision.h"/>
       <GROUP id="{FB50DE9E-DB31-2296-B72F-6E22C0F8348B}" name="Oscs">
         <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
         <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
@@ -183,6 +184,8 @@
               file="Source/SliderComponent.cpp"/>
         <FILE id="KiCMib" name="SliderComponent.h" compile="0" resource="0"
               file="Source/SliderComponent.h"/>
+        <FILE id="xETEqV" name="TempoSelect.cpp" compile="1" resource="0" file="Source/TempoSelect.cpp"/>
+        <FILE id="krJCCk" name="TempoSelect.h" compile="0" resource="0" file="Source/TempoSelect.h"/>
         <FILE id="Esa4Ji" name="TooltipController.cpp" compile="1" resource="0"
               file="Source/TooltipController.cpp"/>
         <FILE id="dNo4cW" name="TooltipController.h" compile="0" resource="0"
