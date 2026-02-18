@@ -91,15 +91,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterChoice>("LFO1_MODE", "LFO 1 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO2_MODE", "LFO 2 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO2_RATE", "LFO 2 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
 
         //============== Filter ==============//
@@ -129,7 +129,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("DELAY_WET_LEVEL", "Delay Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============== Chorus ==============//
-        std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", true),
+        std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", false),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_RATE", "Chorus Rate", 0.05f, 5.0f, 0.3f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_DEPTH", "Chorus Depth", 0.5f, 8.0f, 3.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
@@ -945,32 +945,40 @@ void IntuitionAudioProcessor::calculateLFOPhase(
     int mode = (int)*parameters.getRawParameterValue(modeName);
     
     if (mode == 1) {  // BPM Sync
-        juce::AudioPlayHead::CurrentPositionInfo posInfo;
-        auto* playHead = getPlayHead();
-        if (playHead && playHead->getCurrentPosition(posInfo) && posInfo.isPlaying) {
-            double ppq = posInfo.ppqPosition;
-            float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
-            phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
-            lfoValue = shape.getValue(phase);
-            return;
-        }
-        else if (playHead && playHead->getCurrentPosition(posInfo) && !posInfo.isPlaying) {
-            double bpm = posInfo.bpm > 0.0 ? posInfo.bpm : 120.0;
-            float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
-            float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
-            for (int sample = 0; sample < numSamples; ++sample) {
-                phase += phaseInc;
-                while (phase > 1.0f) {
-                    phase -= 1.0f;
-                }
+        // Getting tempo multiplier
+        int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
+        TempoDivision division = static_cast<TempoDivision>(tempoIndex);
+        float beatsPerCycle = divisionToBeats(division);
 
-                lfoValue = shape.getValue(phase);
+        if (auto* playHead = getPlayHead()) {
+            if (auto position = playHead->getPosition()) {
+                bool isPlaying = position->getIsPlaying();
+                auto bpmOpt = position->getBpm();
+                auto ppqOpt = position->getPpqPosition();
+
+                if (isPlaying && ppqOpt) {  // DAW is actively playing/in playback
+                    double ppq = *ppqOpt;
+                    phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
+                    lfoValue = shape.getValue(phase);
+                    return;
+                }
+                else {  // DAW is idle/no trace
+                    double bpm = bpmOpt && (*bpmOpt > 0.0) ? *bpmOpt : 120.0;
+                    float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
+                    for (int sample = 0; sample < numSamples; ++sample) {
+                        phase += phaseInc;
+                        while (phase > 1.0f) {
+                            phase -= 1.0f;
+                        }
+                        lfoValue = shape.getValue(phase);
+                    }
+                    return;
+                }
             }
-            return;
         }
         DBG("Error retrieving PlayHead info");
     }
-    else if (mode == 0) {  // Free Run
+    else if (mode == 0) {  // Free Run (No tempo sync)
         float rate = *parameters.getRawParameterValue(rateName);
         float phaseInc = rate / sampleRate;
         for (int sample = 0; sample < numSamples; ++sample) {
