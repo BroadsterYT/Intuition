@@ -21,7 +21,7 @@ void ChorusModule::reset() {
 }
 
 void ChorusModule::prepare(double sr, int samplesPerBlock) {
-    if (sr != sampleRate) {
+    if (sr != sampleRate || !initialized) {
         sampleRate = sr;
         const int maxDelaySamples = static_cast<int>(sampleRate * maxDelayMs * 0.001f) + 1;
 
@@ -37,6 +37,7 @@ void ChorusModule::prepare(double sr, int samplesPerBlock) {
         delayR.setMaximumDelayInSamples(maxDelaySamples);
 
         reset();
+        initialized = true;
     }
 }
 
