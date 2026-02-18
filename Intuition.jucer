@@ -51,14 +51,28 @@
               file="Source/WavetableOsc.cpp" skipPCH="1"/>
       </GROUP>
       <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
-        <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
-              file="Source/ChorusModule.cpp"/>
-        <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
-        <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
-        <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
-        <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
-              file="Source/ReverbModule.cpp"/>
-        <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
+        <GROUP id="{2A509522-4F32-74F7-B5E3-F848E80360B2}" name="Equalizer">
+          <FILE id="cLKv57" name="EQBand.cpp" compile="1" resource="0" file="Source/EQBand.cpp"/>
+          <FILE id="HpzqDW" name="EQBand.h" compile="0" resource="0" file="Source/EQBand.h"/>
+          <FILE id="ih7nas" name="EqualizerModule.cpp" compile="1" resource="0"
+                file="Source/EqualizerModule.cpp"/>
+          <FILE id="Sv2NYo" name="EqualizerModule.h" compile="0" resource="0"
+                file="Source/EqualizerModule.h"/>
+        </GROUP>
+        <GROUP id="{204BDE00-6CAE-DDD2-7347-0CB7A42D7E73}" name="Reverb">
+          <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
+          <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
+                file="Source/ReverbModule.cpp"/>
+        </GROUP>
+        <GROUP id="{12B7013C-D415-91ED-6E95-342B31BCB85D}" name="Delay">
+          <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
+          <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
+        </GROUP>
+        <GROUP id="{DD4132D4-4A1B-A33A-44EF-884EACD16DE0}" name="Chorus">
+          <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
+          <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
+                file="Source/ChorusModule.cpp"/>
+        </GROUP>
       </GROUP>
       <GROUP id="{5916C2C8-F668-3723-F198-FB24A81F89CA}" name="Envelope">
         <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"

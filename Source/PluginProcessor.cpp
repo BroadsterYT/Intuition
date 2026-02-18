@@ -592,10 +592,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    //============= FFT TESTING ============//
-    fftL.processBlock(buffer);
-    fftR.processBlock(buffer);
-
     //======================================//
     
     if (*parameters.getRawParameterValue("REVERB_TOGGLE")) {

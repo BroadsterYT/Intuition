@@ -48,5 +48,5 @@ private:
 
     float processSample(float& sample);
     void processFrame();
-    virtual void processSpectrum(float* data, int numBins);
+    virtual void processSpectrum(float* data);
 };
