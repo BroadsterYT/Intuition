@@ -129,7 +129,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("DELAY_WET_LEVEL", "Delay Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============== Chorus ==============//
-        std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", true),
+        std::make_unique<juce::AudioParameterBool>("CHORUS_TOGGLE", "Chorus Toggle", false),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_RATE", "Chorus Rate", 0.05f, 5.0f, 0.3f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_DEPTH", "Chorus Depth", 0.5f, 8.0f, 3.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
@@ -961,41 +961,40 @@ void IntuitionAudioProcessor::calculateLFOPhase(
     int mode = (int)*parameters.getRawParameterValue(modeName);
     
     if (mode == 1) {  // BPM Sync
-        juce::AudioPlayHead::CurrentPositionInfo posInfo;
-        auto* playHead = getPlayHead();
-        if (playHead && playHead->getCurrentPosition(posInfo) && posInfo.isPlaying) {
-            double ppq = posInfo.ppqPosition;
+        // Getting tempo multiplier
+        int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
+        TempoDivision division = static_cast<TempoDivision>(tempoIndex);
+        float beatsPerCycle = divisionToBeats(division);
 
-            int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
-            TempoDivision division = static_cast<TempoDivision>(tempoIndex);
-            float beatsPerCycle = divisionToBeats(division);
-            
-            phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
-            lfoValue = shape.getValue(phase);
-            return;
-        }
+        if (auto* playHead = getPlayHead()) {
+            if (auto position = playHead->getPosition()) {
+                bool isPlaying = position->getIsPlaying();
+                auto bpmOpt = position->getBpm();
+                auto ppqOpt = position->getPpqPosition();
 
-        else if (playHead && playHead->getCurrentPosition(posInfo) && !posInfo.isPlaying) {
-            double bpm = posInfo.bpm > 0.0 ? posInfo.bpm : 120.0;
-            
-            int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
-            TempoDivision division = static_cast<TempoDivision>(tempoIndex);
-            float beatsPerCycle = divisionToBeats(division);
-
-            float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
-            for (int sample = 0; sample < numSamples; ++sample) {
-                phase += phaseInc;
-                while (phase > 1.0f) {
-                    phase -= 1.0f;
+                if (isPlaying && ppqOpt) {  // DAW is actively playing/in playback
+                    double ppq = *ppqOpt;
+                    phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
+                    lfoValue = shape.getValue(phase);
+                    return;
                 }
-
-                lfoValue = shape.getValue(phase);
+                else {  // DAW is idle/no trace
+                    double bpm = bpmOpt && (*bpmOpt > 0.0) ? *bpmOpt : 120.0;
+                    float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
+                    for (int sample = 0; sample < numSamples; ++sample) {
+                        phase += phaseInc;
+                        while (phase > 1.0f) {
+                            phase -= 1.0f;
+                        }
+                        lfoValue = shape.getValue(phase);
+                    }
+                    return;
+                }
             }
-            return;
         }
         DBG("Error retrieving PlayHead info");
     }
-    else if (mode == 0) {  // Free Run
+    else if (mode == 0) {  // Free Run (No tempo sync)
         float rate = *parameters.getRawParameterValue(rateName);
         float phaseInc = rate / sampleRate;
         for (int sample = 0; sample < numSamples; ++sample) {
