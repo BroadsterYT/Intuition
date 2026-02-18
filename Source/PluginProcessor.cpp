@@ -91,15 +91,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
         //=============== LFOs ===============//
         std::make_unique<juce::AudioParameterChoice>("LFO1_MODE", "LFO 1 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO1_SYNC_DIV", "LFO 1 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO1_RATE", "LFO 1 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO2_MODE", "LFO 2 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO2_SYNC_DIV", "LFO 2 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO2_RATE", "LFO 2 Rate", 0.01f, 30.0f, 1.0f),
 
         std::make_unique<juce::AudioParameterChoice>("LFO3_MODE", "LFO 3 Mode", juce::StringArray{"Free", "Synced"}, 0),
-        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1 bar", "1/2", "1/4", "1/8", "1/16", "1/32"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("LFO3_SYNC_DIV", "LFO 3 Sync Division", juce::StringArray{"4 bars", "2 bars", "1/1", "1/2", "1/4", "1/8", "1/16", "1/32", "1/64"}, 2),
         std::make_unique<juce::AudioParameterFloat>("LFO3_RATE", "LFO 3 Rate", 0.01f, 30.0f, 1.0f),
 
         //============== Filter ==============//
@@ -965,14 +965,23 @@ void IntuitionAudioProcessor::calculateLFOPhase(
         auto* playHead = getPlayHead();
         if (playHead && playHead->getCurrentPosition(posInfo) && posInfo.isPlaying) {
             double ppq = posInfo.ppqPosition;
-            float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
+
+            int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
+            TempoDivision division = static_cast<TempoDivision>(tempoIndex);
+            float beatsPerCycle = divisionToBeats(division);
+            
             phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
             lfoValue = shape.getValue(phase);
             return;
         }
+
         else if (playHead && playHead->getCurrentPosition(posInfo) && !posInfo.isPlaying) {
             double bpm = posInfo.bpm > 0.0 ? posInfo.bpm : 120.0;
-            float beatsPerCycle = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
+            
+            int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
+            TempoDivision division = static_cast<TempoDivision>(tempoIndex);
+            float beatsPerCycle = divisionToBeats(division);
+
             float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
             for (int sample = 0; sample < numSamples; ++sample) {
                 phase += phaseInc;
