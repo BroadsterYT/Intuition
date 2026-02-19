@@ -609,10 +609,9 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         chorusModule.updateParameters();
         chorusModule.processBlock(buffer);
     }
-    /*equalizerModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
-    equalizerModule.processBlock(buffer);*/
+    equalizerModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+    equalizerModule.processBlock(buffer);
 
-    //========== FFT TESTING ===============//
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);

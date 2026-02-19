@@ -14,7 +14,7 @@
 EQBand::EQBand() {
     frequency.setCurrentAndTargetValue(1000.0f);
     gain.setCurrentAndTargetValue(0.5f);
-    quality.setCurrentAndTargetValue(0.5f);
+    quality.setCurrentAndTargetValue(0.707f);
 }
 
 void EQBand::prepare(double sr, int samplesPerBlock, int numChannels) {
@@ -35,13 +35,44 @@ void EQBand::prepare(double sr, int samplesPerBlock, int numChannels) {
 }
 
 void EQBand::updateCoefficients() {
-    auto coeffs = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, frequency.getCurrentValue());
+    if (!updateFilter) return;
+
+    juce::ReferenceCountedObjectPtr<juce::dsp::IIR::Coefficients<float>> coeffs;
+    
+    float curFreq = frequency.getCurrentValue();
+    float curGain = gain.getCurrentValue();
+    float curQ = quality.getCurrentValue();
+
+    switch (type) {
+    case FilterType::HighPass:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, curFreq);
+        break;
+    case FilterType::HighShelf:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makeHighShelf(sampleRate, curFreq, curQ, curGain);
+        break;
+    case FilterType::Peak:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, curFreq, curQ, curGain);
+        break;
+    case FilterType::LowShelf:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makeLowShelf(sampleRate, curFreq, curQ, curGain);
+        break;
+    case FilterType::LowPass:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, curFreq);
+        break;
+    }
 
     *filter.state = *coeffs;
+    filter.reset();
+    updateFilter = false;
 }
 
 void EQBand::process(juce::dsp::ProcessContextReplacing<float>& context) {
     filter.process(context);
+}
+
+void EQBand::setFilterType(FilterType newType) {
+    type = newType;
+    updateFilter = true;
 }
 
 void EQBand::setFrequency(float newFreq) {
