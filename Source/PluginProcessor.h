@@ -19,6 +19,7 @@
 #include "ReverbModule.h"
 #include "DelayModule.h"
 #include "ChorusModule.h"
+#include "EqualizerModule.h"
 #include "AIManager.h"
 #include "FFTProcessor.h"
 
@@ -112,6 +113,7 @@ private:
     ReverbModule reverbModule;
     DelayModule delayModule;
     ChorusModule chorusModule;
+    EqualizerModule equalizerModule;
 
     // FFT
     FFTProcessor fftL;

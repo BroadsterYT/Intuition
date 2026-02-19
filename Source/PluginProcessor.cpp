@@ -157,7 +157,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     envManager(parameters),
     reverbModule(parameters, &modMatrix),
     delayModule(parameters, &modMatrix),
-    chorusModule(parameters, &modMatrix)
+    chorusModule(parameters, &modMatrix),
+    equalizerModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
     initializeUserDirectory();
@@ -608,6 +609,8 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         chorusModule.updateParameters();
         chorusModule.processBlock(buffer);
     }
+    /*equalizerModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+    equalizerModule.processBlock(buffer);*/
 
     //========== FFT TESTING ===============//
     

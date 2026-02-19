@@ -11,6 +11,10 @@
 #include "EqualizerModule.h"
 
 
+EqualizerModule::EqualizerModule(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
+    bands.push_back(EQBand());
+}
+
 void EqualizerModule::prepare(double sr, int samplesPerBlock, int numChannels) {
     sampleRate = sr;
 

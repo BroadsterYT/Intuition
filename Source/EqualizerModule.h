@@ -11,16 +11,20 @@
 #pragma once
 #include <JuceHeader.h>
 #include "EQBand.h"
+#include "ModMatrix.h"
 
 
 class EqualizerModule {
 public:
-    EqualizerModule();
+    EqualizerModule(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
 
     void prepare(double sr, int samplesPerBlock, int numChannels);
     void processBlock(juce::AudioBuffer<float>& buffer);
 
 private:
+    juce::AudioProcessorValueTreeState& parameters;
+    ModMatrix* modMatrix = nullptr;
+
     std::vector<EQBand> bands;
     double sampleRate = 44100.0;
 };
