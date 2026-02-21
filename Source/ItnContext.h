@@ -13,6 +13,7 @@
 #include "ModMatrix.h"
 #include "WavetableBank.h"
 #include "EnvelopeManager.h"
+#include "EqualizerModule.h"
 
 
 /// <summary>
@@ -37,7 +38,9 @@ public:
         LFOShape& shape3,
         float* phase1,
         float* phase2,
-        float* phase3
+        float* phase3,
+
+        EqualizerModule& equalizer
     );
 
     juce::AudioProcessor* ap;
@@ -56,4 +59,8 @@ public:
     float* phase1;
     float* phase2;
     float* phase3;
+
+    // Necessary effects
+
+    EqualizerModule& equalizer;
 };

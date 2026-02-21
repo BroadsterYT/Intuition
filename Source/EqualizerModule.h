@@ -21,6 +21,12 @@ public:
     void prepare(double sr, int samplesPerBlock, int numChannels);
     void processBlock(juce::AudioBuffer<float>& buffer);
 
+    /// <summary>
+    /// Returns the biquad coefficients of each EQ band
+    /// </summary>
+    /// <param name="bandCoeffs">The nested vector to place the coefficients. Will be in same order as bands in eq module.</param>
+    void getBandCoefficients(std::vector<std::vector<float>>& bandCoeffs);
+
 private:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix = nullptr;

@@ -60,6 +60,7 @@ public:
     static void drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, LFOShape& shape, float phase);
     static void drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const LFOPoint& point);
     static void drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType);
+    static void drawEqualizer(juce::Graphics& g, juce::Rectangle<float>& bounds, std::vector<std::vector<float>> bandCoeffs);
 
 private:
     // ----- Fonts ----- //

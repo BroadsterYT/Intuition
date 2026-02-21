@@ -135,6 +135,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_DRY_LEVEL", "Chorus Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
+
+        //============= Equalizer ============//
+
     }),
     context(
         this,
@@ -152,7 +155,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         lfoShape3,
         &lfoPhase1,
         &lfoPhase2,
-        &lfoPhase3
+        &lfoPhase3,
+
+        equalizerModule
     ),
     envManager(parameters),
     reverbModule(parameters, &modMatrix),
@@ -436,9 +441,6 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
-    //setLatencySamples(1024);  // For FFT
-    fftL.prepare(sampleRate, 0);
-    fftR.prepare(sampleRate, 1);
 
     resetSynths();
     synth.clearSounds();
