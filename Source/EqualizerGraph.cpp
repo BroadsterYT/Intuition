@@ -24,12 +24,14 @@ EqualizerGraph::~EqualizerGraph() {
 void EqualizerGraph::paint(juce::Graphics& g) {
     std::vector<std::vector<float>> bandCoeffs;
     equalizer.getBandCoefficients(bandCoeffs);
-    if (bandCoeffs.size() <= 0) {
-        DBG("ZERO BAND COEFFS");
-        return;
-    }
-    DBG("b0: " << bandCoeffs[0][0] << " b1: " << bandCoeffs[0][1] << " b2: " << bandCoeffs[0][2] << " a1: " << bandCoeffs[0][3] << " a2: " << bandCoeffs[0][4]);
+    jassert(bandCoeffs.size() > 0);
     ItnLookAndFeel::drawEqualizer(g, getLocalBounds().toFloat(), bandCoeffs);
+
+    // Drawing band locations
+    float freq1 = modMatrix->getModdedDest("EQBAND1_FREQUENCY");
+    float gain1 = modMatrix->getModdedDest("EQBAND1_GAIN");
+    float q1 = modMatrix->getModdedDest("EQBAND1_Q");
+    ItnLookAndFeel::drawEqualizerPoint(g, getLocalBounds().toFloat(), freq1, gain1, q1);
 }
 
 void EqualizerGraph::timerCallback() {

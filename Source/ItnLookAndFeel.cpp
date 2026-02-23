@@ -306,13 +306,49 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     MinimalStyle::drawLineWaveform(g, linePath);
 }
 
+void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, float freq, float gain, float q) {
+    // TODO: Display Q somehow
+
+    float gainMin = -18.0f;
+    float gainMax = 18.0f;
+
+    float posX = BiquadResponse::getFreqInLinearRange(freq, bounds.getWidth());
+    float posY = juce::jmap(gain, gainMin, gainMax, bounds.getHeight(), 0.0f);
+    g.setColour(MinimalStyle::accentPeach);
+    MinimalStyle::drawRadiantPoint(g, posX, posY, 24.0f);
+}
+
 void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float>& bounds, std::vector<std::vector<float>> bandCoeffs) {
     float width = bounds.getWidth();
     float height = bounds.getHeight();
     juce::Path path;
 
+    float minFreq = 20.0f;
+    float maxFreq = 20000.0f;
+
+    auto linearToLog = [width, minFreq, maxFreq](float val) {
+        return 20.0f * std::pow(maxFreq / minFreq, val / (float)width);
+    };
+
+    auto drawGridline = [&](float freq) {
+        float x = BiquadResponse::getFreqInLinearRange(freq, width);
+        g.drawLine(x, 0.0f, x, height, 1.0f);
+    };
+
+    // Drawing gridlines
+    g.setColour(MinimalStyle::textSecondary.withAlpha(0.5f));
+    drawGridline(50.0f);
+    drawGridline(100.0f);
+    drawGridline(200.0f);
+    drawGridline(500.0f);
+    drawGridline(1000.0f);
+    drawGridline(2000.0f);
+    drawGridline(5000.0f);
+    drawGridline(10000.0f);
+
+    // Drawing frequency response
     for (int i = 0; i < width; ++i) {
-        float freq = 20.0f * std::pow(20000.0f / 20.0f, (float)i / (float)width);
+        float freq = linearToLog((float)i);
 
         float totalDb = 0.0f;
         for (auto& band : bandCoeffs) {
@@ -320,8 +356,8 @@ void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float>& bo
             totalDb += bandDb;
         }
 
-        float minDb = -24.0f;
-        float maxDb = 24.0f;
+        float minDb = -18.0f;
+        float maxDb = 18.0f;
         float y = (1.0f - (totalDb - minDb) / (maxDb - minDb)) * height;
 
         if (i == 0) {

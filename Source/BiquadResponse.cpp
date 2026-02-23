@@ -26,3 +26,8 @@ float BiquadResponse::getDecibelsAtFrequency(float freq, float sampleRate, float
     std::complex<float> H = numerator / denominator;
     return 20.0f * std::log10(std::abs(H));  // Magnitude to decibel conversion for complex
 }
+
+float BiquadResponse::getFreqInLinearRange(float freq, float width, float minFreq, float maxFreq) {
+    float weight = std::log(freq / minFreq) / std::log(maxFreq / minFreq);
+    return weight * width;
+}

@@ -137,7 +137,32 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============= Equalizer ============//
-
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_FREQUENCY", "EQ Band 1 Frequency", 20.0f, 20000.0f, 63.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_FREQUENCY", "EQ Band 2 Frequency", 20.0f, 20000.0f, 122.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_FREQUENCY", "EQ Band 3 Frequency", 20.0f, 20000.0f, 235.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_FREQUENCY", "EQ Band 4 Frequency", 20.0f, 20000.0f, 454.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_FREQUENCY", "EQ Band 5 Frequency", 20.0f, 20000.0f, 877.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_FREQUENCY", "EQ Band 6 Frequency", 20.0f, 20000.0f, 1693.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_FREQUENCY", "EQ Band 7 Frequency", 20.0f, 20000.0f, 3269.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_FREQUENCY", "EQ Band 8 Frequency", 20.0f, 20000.0f, 6324.0f),
+        
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_GAIN", "EQ Band 1 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_GAIN", "EQ Band 2 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_GAIN", "EQ Band 3 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_GAIN", "EQ Band 4 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_GAIN", "EQ Band 5 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_GAIN", "EQ Band 6 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_GAIN", "EQ Band 7 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_GAIN", "EQ Band 8 Gain", -18.0f, 18.0f, 0.0f),
+        
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_Q", "EQ Band 1 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_Q", "EQ Band 2 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_Q", "EQ Band 3 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_Q", "EQ Band 4 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_Q", "EQ Band 5 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_Q", "EQ Band 6 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_Q", "EQ Band 7 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_Q", "EQ Band 8 Quality Factor", 0.2f, 12.0f, 0.707f),
     }),
     context(
         this,
@@ -205,6 +230,16 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     envSource3->setValuePtr(&envValue3);
 
     //===== Destinations
+
+    // Simple helper lambda for initializing floating-point destinations
+    auto createFloatDest = [&](const juce::String& destName, float minRange = 0.0f, float maxRange = 1.0f) {
+        ModDestination* dest = modMatrix.addDestination(destName);
+        dest->setBasePtr(parameters.getRawParameterValue(destName));
+        dest->setMinRange(minRange);
+        dest->setMaxRange(maxRange);
+        return dest;
+    };
+    
     ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
     ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
     ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
@@ -356,6 +391,34 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     chsWidthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WIDTH"));
     chsDryDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DRY_LEVEL"));
     chsWetDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WET_LEVEL"));
+
+    //=== Equalizer
+    ModDestination* eqBand1FreqDest = createFloatDest("EQBAND1_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand2FreqDest = createFloatDest("EQBAND2_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand3FreqDest = createFloatDest("EQBAND3_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand4FreqDest = createFloatDest("EQBAND4_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand5FreqDest = createFloatDest("EQBAND5_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand6FreqDest = createFloatDest("EQBAND6_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand7FreqDest = createFloatDest("EQBAND7_FREQUENCY", 20.0f, 20000.0f);
+    ModDestination* eqBand8FreqDest = createFloatDest("EQBAND8_FREQUENCY", 20.0f, 20000.0f);
+
+    ModDestination* eqBand1GainDest = createFloatDest("EQBAND1_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand2GainDest = createFloatDest("EQBAND2_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand3GainDest = createFloatDest("EQBAND3_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand4GainDest = createFloatDest("EQBAND4_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand5GainDest = createFloatDest("EQBAND5_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand6GainDest = createFloatDest("EQBAND6_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand7GainDest = createFloatDest("EQBAND7_GAIN", -18.0f, 18.0f);
+    ModDestination* eqBand8GainDest = createFloatDest("EQBAND8_GAIN", -18.0f, 18.0f);
+
+    ModDestination* eqBand1QDest = createFloatDest("EQBAND1_Q", 0.2f, 12.0f);
+    ModDestination* eqBand2QDest = createFloatDest("EQBAND2_Q", 0.2f, 12.0f);
+    ModDestination* eqBand3QDest = createFloatDest("EQBAND3_Q", 0.2f, 12.0f);
+    ModDestination* eqBand4QDest = createFloatDest("EQBAND4_Q", 0.2f, 12.0f);
+    ModDestination* eqBand5QDest = createFloatDest("EQBAND5_Q", 0.2f, 12.0f);
+    ModDestination* eqBand6QDest = createFloatDest("EQBAND6_Q", 0.2f, 12.0f);
+    ModDestination* eqBand7QDest = createFloatDest("EQBAND7_Q", 0.2f, 12.0f);
+    ModDestination* eqBand8QDest = createFloatDest("EQBAND8_Q", 0.2f, 12.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -453,7 +516,6 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     }
 
     envManager.prepare(sampleRate);
-
     delayModule.prepare(getSampleRate(), 2000, getNumOutputChannels());
 }
 
