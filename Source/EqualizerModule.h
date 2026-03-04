@@ -19,6 +19,7 @@ public:
     EqualizerModule(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix);
 
     void prepare(double sr, int samplesPerBlock, int numChannels);
+    void updateParameters();
     void processBlock(juce::AudioBuffer<float>& buffer);
 
     const EQBand& getBand(int bandIndex);

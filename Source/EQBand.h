@@ -56,7 +56,7 @@ private:
     double sampleRate = 44100.0;
     int preparedChannels = 0;
 
-    FilterType type = FilterType::Peak;  // The type of filter this band uses
+    FilterType type = FilterType::Peaking;  // The type of filter this band uses
     bool updateFilter = true;  // Should the filter be updated in the next updateCoefficients call?
 
     float frequency = 1000.0f;

@@ -17,7 +17,7 @@
 enum class FilterType {
     HighPass,
     HighShelf,
-    Peak,
+    Peaking,
     LowShelf,
     LowPass
 };

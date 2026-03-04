@@ -40,7 +40,7 @@ void EQBand::updateCoefficients() {
     case FilterType::HighShelf:
         coeffs = juce::dsp::IIR::Coefficients<float>::makeHighShelf(sampleRate, frequency, quality, gainAmp);
         break;
-    case FilterType::Peak:
+    case FilterType::Peaking:
         coeffs = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, frequency, quality, gainAmp);
         break;
     case FilterType::LowShelf:

@@ -137,6 +137,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============= Equalizer ============//
+        std::make_unique<juce::AudioParameterChoice>("EQBAND1_FILTER_TYPE", "EQ Band 1 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND2_FILTER_TYPE", "EQ Band 2 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND3_FILTER_TYPE", "EQ Band 3 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND4_FILTER_TYPE", "EQ Band 4 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND5_FILTER_TYPE", "EQ Band 5 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND6_FILTER_TYPE", "EQ Band 6 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND7_FILTER_TYPE", "EQ Band 7 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND8_FILTER_TYPE", "EQ Band 8 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass" }, 2),
+
         std::make_unique<juce::AudioParameterFloat>("EQBAND1_FREQUENCY", "EQ Band 1 Frequency", 20.0f, 20000.0f, 63.0f),
         std::make_unique<juce::AudioParameterFloat>("EQBAND2_FREQUENCY", "EQ Band 2 Frequency", 20.0f, 20000.0f, 122.0f),
         std::make_unique<juce::AudioParameterFloat>("EQBAND3_FREQUENCY", "EQ Band 3 Frequency", 20.0f, 20000.0f, 235.0f),
@@ -674,6 +683,7 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         chorusModule.processBlock(buffer);
     }
     equalizerModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+    equalizerModule.updateParameters();
     equalizerModule.processBlock(buffer);
 
     
