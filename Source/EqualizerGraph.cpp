@@ -23,15 +23,19 @@ EqualizerGraph::~EqualizerGraph() {
 
 void EqualizerGraph::paint(juce::Graphics& g) {
     std::vector<std::vector<float>> bandCoeffs;
-    equalizer.getBandCoefficients(bandCoeffs);
+    for (int i = 0; i < 8; ++i) {
+        auto& band = equalizer.getBand(i);
+        std::vector<float> coeffs;
+        band.getBiquadCoefficients(coeffs);
+        bandCoeffs.push_back(coeffs);
+    }
     jassert(bandCoeffs.size() > 0);
     ItnLookAndFeel::drawEqualizer(g, getLocalBounds().toFloat(), bandCoeffs);
 
     // Drawing band locations
-    float freq1 = modMatrix->getModdedDest("EQBAND1_FREQUENCY");
-    float gain1 = modMatrix->getModdedDest("EQBAND1_GAIN");
-    float q1 = modMatrix->getModdedDest("EQBAND1_Q");
-    ItnLookAndFeel::drawEqualizerPoint(g, getLocalBounds().toFloat(), freq1, gain1, q1);
+    for (int i = 0; i < 8; ++i) {
+        ItnLookAndFeel::drawEqualizerPoint(g, getLocalBounds().toFloat(), equalizer.getBand(i));
+    }
 }
 
 void EqualizerGraph::timerCallback() {

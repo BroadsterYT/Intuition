@@ -61,11 +61,6 @@ void EqualizerModule::processBlock(juce::AudioBuffer<float>& buffer) {
     }
 }
 
-void EqualizerModule::getBandCoefficients(std::vector<std::vector<float>>& bandCoeffs) {
-    for (auto& band : bands) {
-        std::vector<float> coeffs;
-        band.getFilterCoefficients(coeffs);
-        jassert(coeffs.size() > 0);
-        bandCoeffs.push_back(coeffs);
-    }
+const EQBand& EqualizerModule::getBand(int bandIndex) {
+    return bands[bandIndex];
 }

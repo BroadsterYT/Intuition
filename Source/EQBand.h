@@ -26,7 +26,7 @@ public:
     /// Returns the biquad coefficients of the filter in order of b0, b1, b2, a1, a2
     /// </summary>
     /// <param name="coeffVec">The vector to place the coefficients inside</param>
-    void getFilterCoefficients(std::vector<float>& coeffVec) const;
+    void getBiquadCoefficients(std::vector<float>& coeffVec) const;
 
     /// <summary>
     /// Sets the central/cutoff frequency of the band in Hz
@@ -44,6 +44,10 @@ public:
     /// <param name="newQuality">The new Q factor to assign to the EQ band</param>
     void setQuality(float newQuality);
 
+    float getFrequency() const;
+    float getGain() const;
+    float getQuality() const;
+
 private:
     juce::dsp::ProcessorDuplicator<
         juce::dsp::IIR::Filter<float>,
@@ -55,7 +59,7 @@ private:
     FilterType type = FilterType::Peak;  // The type of filter this band uses
     bool updateFilter = true;  // Should the filter be updated in the next updateCoefficients call?
 
-    juce::SmoothedValue<float> frequency;
-    juce::SmoothedValue<float> gain;
-    juce::SmoothedValue<float> quality;  // Quality factor (Q)
+    float frequency = 1000.0f;
+    float gain = 1.0f;
+    float quality = 0.707f;
 };

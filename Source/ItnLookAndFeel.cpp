@@ -306,11 +306,13 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     MinimalStyle::drawLineWaveform(g, linePath);
 }
 
-void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, float freq, float gain, float q) {
+void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const EQBand& band) {
     // TODO: Display Q somehow
-
     float gainMin = -18.0f;
     float gainMax = 18.0f;
+
+    float freq = band.getFrequency();
+    float gain = band.getGain();
 
     float posX = BiquadResponse::getFreqInLinearRange(freq, bounds.getWidth());
     float posY = juce::jmap(gain, gainMin, gainMax, bounds.getHeight(), 0.0f);
@@ -329,22 +331,6 @@ void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float>& bo
     auto linearToLog = [width, minFreq, maxFreq](float val) {
         return 20.0f * std::pow(maxFreq / minFreq, val / (float)width);
     };
-
-    auto drawGridline = [&](float freq) {
-        float x = BiquadResponse::getFreqInLinearRange(freq, width);
-        g.drawLine(x, 0.0f, x, height, 1.0f);
-    };
-
-    // Drawing gridlines
-    g.setColour(MinimalStyle::textSecondary.withAlpha(0.5f));
-    drawGridline(50.0f);
-    drawGridline(100.0f);
-    drawGridline(200.0f);
-    drawGridline(500.0f);
-    drawGridline(1000.0f);
-    drawGridline(2000.0f);
-    drawGridline(5000.0f);
-    drawGridline(10000.0f);
 
     // Drawing frequency response
     for (int i = 0; i < width; ++i) {
