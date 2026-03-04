@@ -63,8 +63,10 @@ void EQBand::process(juce::dsp::ProcessContextReplacing<float>& context) {
 }
 
 void EQBand::setFilterType(FilterType newType) {
-    type = newType;
-    updateFilter = true;
+    if (type != newType) {
+        updateFilter = true;
+        type = newType;
+    }
 }
 
 void EQBand::getBiquadCoefficients(std::vector<float>& coeffVec) const {
@@ -86,6 +88,10 @@ void EQBand::setGain(float newGain) {
 
 void EQBand::setQuality(float newQuality) {
     quality = newQuality;
+}
+
+FilterType EQBand::getFilterType() const {
+    return type;
 }
 
 float EQBand::getFrequency() const {

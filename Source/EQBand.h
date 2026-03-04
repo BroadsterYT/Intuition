@@ -44,6 +44,7 @@ public:
     /// <param name="newQuality">The new Q factor to assign to the EQ band</param>
     void setQuality(float newQuality);
 
+    FilterType getFilterType() const;
     float getFrequency() const;
     float getGain() const;
     float getQuality() const;

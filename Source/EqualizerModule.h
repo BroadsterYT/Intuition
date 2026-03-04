@@ -30,4 +30,12 @@ private:
 
     std::vector<EQBand> bands;
     double sampleRate = 44100.0;
+
+    /// <summary>
+    /// Sets the filter type of a band to the type specified by a filter type parameter. This handles the conversion
+    /// between the AudioParameterChoice and FilterType enum.
+    /// </summary>
+    /// <param name="bandIndex">The index of the band to set the filter type for</param>
+    /// <param name="filterParamName">The parameter name of the AudioParameterChoice to select the filter type from</param>
+    void setBandFilterType(int bandIndex, const juce::String& filterParamName);
 };

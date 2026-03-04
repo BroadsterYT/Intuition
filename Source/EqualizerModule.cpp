@@ -25,29 +25,14 @@ void EqualizerModule::prepare(double sr, int samplesPerBlock, int numChannels) {
 }
 
 void EqualizerModule::updateParameters() {
-    auto selectFilterType = [&](int choice) {
-        switch (choice) {
-        case 0:
-            return FilterType::HighPass;
-        case 1:
-            return FilterType::HighShelf;
-        case 2:
-            return FilterType::Peaking;
-        case 3:
-            return FilterType::LowShelf;
-        case 4:
-            return FilterType::LowPass;
-        }
-    };
-
-    bands[0].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND1_FILTER_TYPE")->load()));
-    bands[1].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND2_FILTER_TYPE")->load()));
-    bands[2].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND3_FILTER_TYPE")->load()));
-    bands[3].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND4_FILTER_TYPE")->load()));
-    bands[4].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND5_FILTER_TYPE")->load()));
-    bands[5].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND6_FILTER_TYPE")->load()));
-    bands[6].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND7_FILTER_TYPE")->load()));
-    bands[7].setFilterType(selectFilterType(parameters.getRawParameterValue("EQBAND8_FILTER_TYPE")->load()));
+    setBandFilterType(0, "EQBAND1_FILTER_TYPE");
+    setBandFilterType(1, "EQBAND2_FILTER_TYPE");
+    setBandFilterType(2, "EQBAND3_FILTER_TYPE");
+    setBandFilterType(3, "EQBAND4_FILTER_TYPE");
+    setBandFilterType(4, "EQBAND5_FILTER_TYPE");
+    setBandFilterType(5, "EQBAND6_FILTER_TYPE");
+    setBandFilterType(6, "EQBAND7_FILTER_TYPE");
+    setBandFilterType(7, "EQBAND8_FILTER_TYPE");
 
     bands[0].setFrequency(modMatrix->getModdedDest("EQBAND1_FREQUENCY"));
     bands[1].setFrequency(modMatrix->getModdedDest("EQBAND2_FREQUENCY"));
@@ -89,4 +74,27 @@ void EqualizerModule::processBlock(juce::AudioBuffer<float>& buffer) {
 
 const EQBand& EqualizerModule::getBand(int bandIndex) {
     return bands[bandIndex];
+}
+
+void EqualizerModule::setBandFilterType(int bandIndex, const juce::String& filterParamName) {
+    int choice = (int)parameters.getRawParameterValue(filterParamName)->load();
+    switch (choice) {
+    case 0:
+        bands[bandIndex].setFilterType(FilterType::HighPass);
+        break;
+    case 1:
+        bands[bandIndex].setFilterType(FilterType::HighShelf);
+        break;
+    case 2:
+        bands[bandIndex].setFilterType(FilterType::Peaking);
+        break;
+    case 3:
+        bands[bandIndex].setFilterType(FilterType::LowShelf);
+        break;
+    case 4:
+        bands[bandIndex].setFilterType(FilterType::LowPass);
+        break;
+    default:
+        break;
+    }
 }
