@@ -90,6 +90,53 @@ void EqualizerGraph::mouseDrag(const juce::MouseEvent& e) {
     gainParam->setValueNotifyingHost(normGain);
 }
 
+void EqualizerGraph::mouseWheelMove(const juce::MouseEvent& e, const juce::MouseWheelDetails& wheel) {
+    const EQBand* band = getNearestEQBand(e);
+    if (!band) return;
+    
+    juce::RangedAudioParameter* qParam = parameters.getParameter("EQBAND1_Q");
+    int bandIndex = band->getId();
+    switch (bandIndex) {
+    case 0:
+        break;
+    case 1:
+        qParam = parameters.getParameter("EQBAND2_Q");
+        break;
+    case 2:
+        qParam = parameters.getParameter("EQBAND3_Q");
+        break;
+    case 3:
+        qParam = parameters.getParameter("EQBAND4_Q");
+        break;
+    case 4:
+        qParam = parameters.getParameter("EQBAND5_Q");
+        break;
+    case 5:
+        qParam = parameters.getParameter("EQBAND6_Q");
+        break;
+    case 6:
+        qParam = parameters.getParameter("EQBAND7_Q");
+        break;
+    case 7:
+        qParam = parameters.getParameter("EQBAND8_Q");
+        break;
+    }
+
+    // Unnormalizing
+    auto& qRange = qParam->getNormalisableRange();
+    float newQ = qRange.convertFrom0to1(qParam->getValue());
+    if (wheel.deltaY > 0.0f) {  // Scroll up
+        newQ += 0.2f;
+    }
+    else if (wheel.deltaY < 0.0f) {  // Scroll down
+        newQ -= 0.2f;
+    }
+    // Re-normalizing
+    newQ = std::clamp(newQ, qRange.start, qRange.end);
+    float normQ = qRange.convertTo0to1(newQ);
+    qParam->setValueNotifyingHost(normQ);
+}
+
 const EQBand* EqualizerGraph::getNearestEQBand(const juce::MouseEvent& e) {
     const EQBand* nearest = nullptr;
     float minDist = std::numeric_limits<float>::max();
