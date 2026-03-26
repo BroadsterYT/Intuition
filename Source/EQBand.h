@@ -15,7 +15,9 @@
 
 class EQBand {
 public:
-    EQBand();
+    EQBand(int id);
+
+    int getId() const;
 
     void prepare(double sr, int samplesPerBlock, int numChannels);
     void updateCoefficients();
@@ -50,6 +52,7 @@ public:
     float getQuality() const;
 
 private:
+    int bandId = 0;
     juce::dsp::ProcessorDuplicator<
         juce::dsp::IIR::Filter<float>,
         juce::dsp::IIR::Coefficients<float>> filter;
@@ -61,6 +64,6 @@ private:
     bool updateFilter = true;  // Should the filter be updated in the next updateCoefficients call?
 
     float frequency = 1000.0f;
-    float gain = 1.0f;
+    float gain = 1.0f;  // dB
     float quality = 0.707f;
 };

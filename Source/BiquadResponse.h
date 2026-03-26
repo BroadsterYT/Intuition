@@ -20,7 +20,7 @@ public:
     // Visual
     
     /// <summary>
-    /// Coverts a value from a frequency (logarithmic) scale into a point on a linear range
+    /// Converts a value from a frequency (logarithmic) scale into a point on a linear range
     /// </summary>
     /// <param name="freq">The frequency to covert</param>
     /// <param name="width">The width of the linear range. For drawing purposes, this would be the width of the component being drawn onto.</param>
@@ -28,4 +28,13 @@ public:
     /// <param name="maxFreq">The maximum frequency of the frequency range. Defaults to 20 kHz.</param>
     /// <returns>The frequency point in the linear scale</returns>
     static float getFreqInLinearRange(float freq, float width, float minFreq = 20.0f, float maxFreq = 20000.0f);
+    /// <summary>
+    /// Converts a linear value into its equivalent value on a logarithmic scale
+    /// </summary>
+    /// <param name="val">The linear value to convert</param>
+    /// <param name="width">The range of the linear space</param>
+    /// <param name="minFreq">The minimum frequency of the frequency range. Defaults to 20.0Hz</param>
+    /// <param name="maxFreq">The maximum frequency of the frequency range. Defaults to 20000.0Hz</param>
+    /// <returns>The linear value at the same position on a logarithmic scale</returns>
+    static float getLinearValueAsFreq(float val, float width, float minFreq = 20.0f, float maxFreq = 20000.0f);
 };

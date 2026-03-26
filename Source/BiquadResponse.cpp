@@ -31,3 +31,7 @@ float BiquadResponse::getFreqInLinearRange(float freq, float width, float minFre
     float weight = std::log(freq / minFreq) / std::log(maxFreq / minFreq);
     return weight * width;
 }
+
+float BiquadResponse::getLinearValueAsFreq(float val, float width, float minFreq, float maxFreq) {
+    return minFreq * std::pow(maxFreq / minFreq, val / width);
+}

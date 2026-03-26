@@ -11,7 +11,11 @@
 #include "EQBand.h"
 
 
-EQBand::EQBand() {
+EQBand::EQBand(int id) : bandId(id) {
+}
+
+int EQBand::getId() const {
+    return bandId;
 }
 
 void EQBand::prepare(double sr, int samplesPerBlock, int numChannels) {

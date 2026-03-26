@@ -240,194 +240,89 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
 
     //===== Destinations
 
-    // Simple helper lambda for initializing floating-point destinations
-    auto createFloatDest = [&](const juce::String& destName, float minRange = 0.0f, float maxRange = 1.0f) {
-        ModDestination* dest = modMatrix.addDestination(destName);
-        dest->setBasePtr(parameters.getRawParameterValue(destName));
-        dest->setMinRange(minRange);
-        dest->setMaxRange(maxRange);
-        return dest;
-    };
-    
-    ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
-    ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
-    ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
-    ModDestination* aMorphDest = modMatrix.addDestination("A_MORPH");
-    ModDestination* aDetuneDest = modMatrix.addDestination("A_DETUNE");
-    ModDestination* aVolumeDest = modMatrix.addDestination("A_VOLUME");
-    ModDestination* aPanDest = modMatrix.addDestination("A_PAN");
-    
-    aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
-    aOctDest->setMinRange(-4);
-    aOctDest->setMaxRange(4);
-    aCoarseDest->setBasePtr(parameters.getRawParameterValue("A_COARSE"));
-    aCoarseDest->setMinRange(-12);
-    aCoarseDest->setMaxRange(12);
-    aFineDest->setBasePtr(parameters.getRawParameterValue("A_FINE"));
-    aFineDest->setMinRange(-100);
-    aFineDest->setMaxRange(100);
-    aMorphDest->setBasePtr(parameters.getRawParameterValue("A_MORPH"));
-    aDetuneDest->setBasePtr(parameters.getRawParameterValue("A_DETUNE"));
-    aDetuneDest->setMinRange(0.0f);
-    aDetuneDest->setMaxRange(100.0f);
-    aVolumeDest->setBasePtr(parameters.getRawParameterValue("A_VOLUME"));
-    aPanDest->setBasePtr(parameters.getRawParameterValue("A_PAN"));
+    createModDestination("A_OCTAVE", -4, 4);
+    createModDestination("A_COARSE", -12, 12);
+    createModDestination("A_FINE", -100, 100);
+    createModDestination("A_MORPH", 0.0f, 1.0f);
+    createModDestination("A_DETUNE", 0.0f, 1.0f);
+    createModDestination("A_VOLUME", 0.0f, 1.0f);
+    createModDestination("A_PAN", 0.0f, 1.0f);
 
-    ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
-    ModDestination* bCoarseDest = modMatrix.addDestination("B_COARSE");
-    ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
-    ModDestination* bMorphDest = modMatrix.addDestination("B_MORPH");
-    ModDestination* bDetuneDest = modMatrix.addDestination("B_DETUNE");
-    ModDestination* bVolumeDest = modMatrix.addDestination("B_VOLUME");
-    ModDestination* bPanDest = modMatrix.addDestination("B_PAN");
+    createModDestination("B_OCTAVE", -4, 4);
+    createModDestination("B_COARSE", -12, 12);
+    createModDestination("B_FINE", -100, 100);
+    createModDestination("B_MORPH", 0.0f, 1.0f);
+    createModDestination("B_DETUNE", 0.0f, 1.0f);
+    createModDestination("B_VOLUME", 0.0f, 1.0f);
+    createModDestination("B_PAN", 0.0f, 1.0f);
 
-    bOctDest->setBasePtr(parameters.getRawParameterValue("B_OCTAVE"));
-    bOctDest->setMinRange(-4);
-    bOctDest->setMaxRange(4);
-    bCoarseDest->setBasePtr(parameters.getRawParameterValue("B_COARSE"));
-    bCoarseDest->setMinRange(-12);
-    bCoarseDest->setMaxRange(12);
-    bFineDest->setBasePtr(parameters.getRawParameterValue("B_FINE"));
-    bFineDest->setMinRange(-100);
-    bFineDest->setMaxRange(100);
-    bMorphDest->setBasePtr(parameters.getRawParameterValue("B_MORPH"));
-    bDetuneDest->setBasePtr(parameters.getRawParameterValue("B_DETUNE"));
-    bDetuneDest->setMinRange(0.0f);
-    bDetuneDest->setMaxRange(100.0f);
-    bVolumeDest->setBasePtr(parameters.getRawParameterValue("B_VOLUME"));
-    bPanDest->setBasePtr(parameters.getRawParameterValue("B_PAN"));
+    createModDestination("C_OCTAVE", -4, 4);
+    createModDestination("C_COARSE", -12, 12);
+    createModDestination("C_FINE", -100, 100);
+    createModDestination("C_MORPH", 0.0f, 1.0f);
+    createModDestination("C_DETUNE", 0.0f, 1.0f);
+    createModDestination("C_VOLUME", 0.0f, 1.0f);
+    createModDestination("C_PAN", 0.0f, 1.0f);
 
-    ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
-    ModDestination* cCoarseDest = modMatrix.addDestination("C_COARSE");
-    ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
-    ModDestination* cMorphDest = modMatrix.addDestination("C_MORPH");
-    ModDestination* cDetuneDest = modMatrix.addDestination("C_DETUNE");
-    ModDestination* cVolumeDest = modMatrix.addDestination("C_VOLUME");
-    ModDestination* cPanDest = modMatrix.addDestination("C_PAN");
+    createModDestination("D_OCTAVE", -4, 4);
+    createModDestination("D_COARSE", -12, 12);
+    createModDestination("D_FINE", -100, 100);
+    createModDestination("D_MORPH", 0.0f, 1.0f);
+    createModDestination("D_DETUNE", 0.0f, 1.0f);
+    createModDestination("D_VOLUME", 0.0f, 1.0f);
+    createModDestination("D_PAN", 0.0f, 1.0f);
 
-    cOctDest->setBasePtr(parameters.getRawParameterValue("C_OCTAVE"));
-    cOctDest->setMinRange(-4);
-    cOctDest->setMaxRange(4);
-    cCoarseDest->setBasePtr(parameters.getRawParameterValue("C_COARSE"));
-    cCoarseDest->setMinRange(-12);
-    cCoarseDest->setMaxRange(12);
-    cFineDest->setBasePtr(parameters.getRawParameterValue("C_FINE"));
-    cFineDest->setMinRange(-100);
-    cFineDest->setMaxRange(100);
-    cMorphDest->setBasePtr(parameters.getRawParameterValue("C_MORPH"));
-    cDetuneDest->setBasePtr(parameters.getRawParameterValue("C_DETUNE"));
-    cDetuneDest->setMinRange(0.0f);
-    cDetuneDest->setMaxRange(100.0f);
-    cVolumeDest->setBasePtr(parameters.getRawParameterValue("C_VOLUME"));
-    cPanDest->setBasePtr(parameters.getRawParameterValue("C_PAN"));
-
-    ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
-    ModDestination* dCoarseDest = modMatrix.addDestination("D_COARSE");
-    ModDestination* dFineDest = modMatrix.addDestination("D_FINE");
-    ModDestination* dMorphDest = modMatrix.addDestination("D_MORPH");
-    ModDestination* dDetuneDest = modMatrix.addDestination("D_DETUNE");
-    ModDestination* dVolumeDest = modMatrix.addDestination("D_VOLUME");
-    ModDestination* dPanDest = modMatrix.addDestination("D_PAN");
-
-    dOctDest->setBasePtr(parameters.getRawParameterValue("D_OCTAVE"));
-    dOctDest->setMinRange(-4);
-    dOctDest->setMaxRange(4);
-    dCoarseDest->setBasePtr(parameters.getRawParameterValue("D_COARSE"));
-    dCoarseDest->setMinRange(-12);
-    dCoarseDest->setMaxRange(12);
-    dFineDest->setBasePtr(parameters.getRawParameterValue("D_FINE"));
-    dFineDest->setMinRange(-100);
-    dFineDest->setMaxRange(100);
-    dMorphDest->setBasePtr(parameters.getRawParameterValue("D_MORPH"));
-    dDetuneDest->setBasePtr(parameters.getRawParameterValue("D_DETUNE"));
-    dDetuneDest->setMinRange(0.0f);
-    dDetuneDest->setMaxRange(100.0f);
-    dVolumeDest->setBasePtr(parameters.getRawParameterValue("D_VOLUME"));
-    dPanDest->setBasePtr(parameters.getRawParameterValue("D_PAN"));
-
-    ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
-    ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
-
-    filterCutoffDest->setBasePtr(parameters.getRawParameterValue("FILTER_CUTOFF"));
-    filterCutoffDest->setMinRange(20.0f);
-    filterCutoffDest->setMaxRange(20000.0f);
-    filterResonanceDest->setBasePtr(parameters.getRawParameterValue("FILTER_RESONANCE"));
-    filterResonanceDest->setMinRange(0.01f);
-    filterResonanceDest->setMaxRange(1.0f);
+    createModDestination("FILTER_CUTOFF", 20.0f, 20000.0f);
+    createModDestination("FILTER_RESONANCE", 0.01f, 1.0f);
 
     //=== Reverb
-    ModDestination* rvbDampingDest = modMatrix.addDestination("REVERB_DAMPING");
-    ModDestination* rvbRoomSizeDest = modMatrix.addDestination("REVERB_ROOM_SIZE");
-    ModDestination* rvbWidthDest = modMatrix.addDestination("REVERB_WIDTH");
-    ModDestination* rvbDryLevelDest = modMatrix.addDestination("REVERB_DRY_LEVEL");
-    ModDestination* rvbWetLevelDest = modMatrix.addDestination("REVERB_WET_LEVEL");
-
-    rvbDampingDest->setBasePtr(parameters.getRawParameterValue("REVERB_DAMPING"));
-    rvbRoomSizeDest->setBasePtr(parameters.getRawParameterValue("REVERB_ROOM_SIZE"));
-    rvbWidthDest->setBasePtr(parameters.getRawParameterValue("REVERB_WIDTH"));
-    rvbDryLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_DRY_LEVEL"));
-    rvbWetLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_WET_LEVEL"));
+    createModDestination("REVERB_DAMPING");
+    createModDestination("REVERB_ROOM_SIZE");
+    createModDestination("REVERB_WIDTH");
+    createModDestination("REVERB_DRY_LEVEL");
+    createModDestination("REVERB_WET_LEVEL");
 
     //=== Delay
-    ModDestination* dlyTimeMsDest = modMatrix.addDestination("DELAY_TIME_MS");
-    ModDestination* dlyFeedbackDest = modMatrix.addDestination("DELAY_FEEDBACK");
-    ModDestination* dlyCutoffDest = modMatrix.addDestination("DELAY_CUTOFF");
-    ModDestination* dlyDryDest = modMatrix.addDestination("DELAY_DRY_LEVEL");
-    ModDestination* dlyWetDest = modMatrix.addDestination("DELAY_WET_LEVEL");
-
-    dlyTimeMsDest->setBasePtr(parameters.getRawParameterValue("DELAY_TIME_MS"));
-    dlyTimeMsDest->setMaxRange(2000);
-    dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
-    dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));
-    dlyCutoffDest->setMinRange(20.0f);
-    dlyCutoffDest->setMaxRange(20000.0f);
-    dlyDryDest->setBasePtr(parameters.getRawParameterValue("DELAY_DRY_LEVEL"));
-    dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
+    createModDestination("DELAY_TIME_MS", 0, 2000);
+    createModDestination("DELAY_FEEDBACK");
+    createModDestination("DELAY_CUTOFF", 20.0f, 20000.0f);
+    createModDestination("DELAY_DRY_LEVEL");
+    createModDestination("DELAY_WET_LEVEL");
 
     //=== Chorus
-    ModDestination* chsRateDest = modMatrix.addDestination("CHORUS_RATE");
-    ModDestination* chsDepthDest = modMatrix.addDestination("CHORUS_DEPTH");
-    ModDestination* chsWidthDest = modMatrix.addDestination("CHORUS_WIDTH");
-    ModDestination* chsDryDest = modMatrix.addDestination("CHORUS_DRY_LEVEL");
-    ModDestination* chsWetDest = modMatrix.addDestination("CHORUS_WET_LEVEL");
-
-    chsRateDest->setBasePtr(parameters.getRawParameterValue("CHORUS_RATE"));
-    chsRateDest->setMinRange(0.05f);
-    chsRateDest->setMaxRange(5.0f);
-    chsDepthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DEPTH"));
-    chsDepthDest->setMinRange(0.5f);
-    chsDepthDest->setMaxRange(8.0f);
-    chsWidthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WIDTH"));
-    chsDryDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DRY_LEVEL"));
-    chsWetDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WET_LEVEL"));
+    createModDestination("CHORUS_RATE", 0.05f, 5.0f);
+    createModDestination("CHORUS_DEPTH", 0.5f, 8.0f);
+    createModDestination("CHORUS_WIDTH");
+    createModDestination("CHORUS_DRY_LEVEL");
+    createModDestination("CHORUS_WET_LEVEL");
 
     //=== Equalizer
-    ModDestination* eqBand1FreqDest = createFloatDest("EQBAND1_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand2FreqDest = createFloatDest("EQBAND2_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand3FreqDest = createFloatDest("EQBAND3_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand4FreqDest = createFloatDest("EQBAND4_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand5FreqDest = createFloatDest("EQBAND5_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand6FreqDest = createFloatDest("EQBAND6_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand7FreqDest = createFloatDest("EQBAND7_FREQUENCY", 20.0f, 20000.0f);
-    ModDestination* eqBand8FreqDest = createFloatDest("EQBAND8_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND1_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND2_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND3_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND4_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND5_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND6_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND7_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND8_FREQUENCY", 20.0f, 20000.0f);
 
-    ModDestination* eqBand1GainDest = createFloatDest("EQBAND1_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand2GainDest = createFloatDest("EQBAND2_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand3GainDest = createFloatDest("EQBAND3_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand4GainDest = createFloatDest("EQBAND4_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand5GainDest = createFloatDest("EQBAND5_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand6GainDest = createFloatDest("EQBAND6_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand7GainDest = createFloatDest("EQBAND7_GAIN", -18.0f, 18.0f);
-    ModDestination* eqBand8GainDest = createFloatDest("EQBAND8_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND1_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND2_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND3_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND4_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND5_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND6_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND7_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND8_GAIN", -18.0f, 18.0f);
 
-    ModDestination* eqBand1QDest = createFloatDest("EQBAND1_Q", 0.2f, 12.0f);
-    ModDestination* eqBand2QDest = createFloatDest("EQBAND2_Q", 0.2f, 12.0f);
-    ModDestination* eqBand3QDest = createFloatDest("EQBAND3_Q", 0.2f, 12.0f);
-    ModDestination* eqBand4QDest = createFloatDest("EQBAND4_Q", 0.2f, 12.0f);
-    ModDestination* eqBand5QDest = createFloatDest("EQBAND5_Q", 0.2f, 12.0f);
-    ModDestination* eqBand6QDest = createFloatDest("EQBAND6_Q", 0.2f, 12.0f);
-    ModDestination* eqBand7QDest = createFloatDest("EQBAND7_Q", 0.2f, 12.0f);
-    ModDestination* eqBand8QDest = createFloatDest("EQBAND8_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND1_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND2_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND3_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND4_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND5_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND6_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND7_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND8_Q", 0.2f, 12.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -957,6 +852,14 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
         DBG(prop.name.toString() << ": " << obj->getProperty(prop.name).toString());
     }
+}
+
+ModDestination* IntuitionAudioProcessor::createModDestination(const juce::String& destName, float minRange, float maxRange) {
+    ModDestination* dest = modMatrix.addDestination(destName);
+    dest->setBasePtr(parameters.getRawParameterValue(destName));
+    dest->setMinRange(minRange);
+    dest->setMaxRange(maxRange);
+    return dest;
 }
 
 void IntuitionAudioProcessor::initializeUserDirectory() {

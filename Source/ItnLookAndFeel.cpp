@@ -320,7 +320,7 @@ void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float
     MinimalStyle::drawRadiantPoint(g, posX, posY, 24.0f);
 }
 
-void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float>& bounds, std::vector<std::vector<float>> bandCoeffs) {
+void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs) {
     float width = bounds.getWidth();
     float height = bounds.getHeight();
     juce::Path path;

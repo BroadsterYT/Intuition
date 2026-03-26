@@ -13,7 +13,7 @@
 
 EqualizerModule::EqualizerModule(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix) : parameters(vts), modMatrix(modMatrix) {
     for (int i = 0; i < 8; ++i) {
-        bands.push_back(EQBand());
+        bands.push_back(EQBand(i));
     }
 }
 
