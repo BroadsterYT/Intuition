@@ -33,6 +33,12 @@ public:
         setExitKeyLambdas();
     }
 
+    /// <summary>
+    /// Links a specific component to the value entry and assigns a function to change that component's value
+    /// </summary>
+    /// <typeparam name="ComponentType">The type of component being linked to</typeparam>
+    /// <param name="component">Pointer to the specific component instance to link to</param>
+    /// <param name="setter">The function to use to change the linked component's value</param>
     template<typename ComponentType>
     void linkToComponent(ComponentType* component, std::function<void(ComponentType*, T)> setter) {
         if (component) {

@@ -10,6 +10,8 @@
 
 #include "EqualizerGraph.h"
 #include "BiquadResponse.h"
+#include "InlineValueEntry.h"
+
 
 EqualizerGraph::EqualizerGraph(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix, EqualizerModule& equalizer
 ) : parameters(vts), modMatrix(modMatrix), equalizer(equalizer) {
@@ -25,6 +27,50 @@ EqualizerGraph::~EqualizerGraph() {
 void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
     auto band = getNearestEQBand(e);
     currentDraggedBand = band;
+
+    if (e.mods.isRightButtonDown() && band) {
+        const int callOutW = 75;  // CallOut width
+        const int callOutH = 25;  // CallOut height
+
+        juce::PopupMenu menu;
+        menu.addItem("Set Frequency...",
+            [this, band, callOutW, callOutH] {
+                auto entry = std::make_unique<InlineValueEntry<float>>(band->getFrequency());
+                entry->linkToComponent<const EQBand>(band,
+                    [this](const EQBand* b, float newFreq) {
+                        updateBandParameter(b->getId(), "FREQUENCY", newFreq);
+                    }
+                );
+                entry->setSize(callOutW, callOutH);
+                juce::CallOutBox::launchAsynchronously(std::move(entry), getScreenBounds(), nullptr);
+            }
+        );
+        menu.addItem("Set Gain...",
+            [this, band, callOutW, callOutH] {
+                auto entry = std::make_unique<InlineValueEntry<float>>(band->getGain());
+                entry->linkToComponent<const EQBand>(band,
+                    [this](const EQBand* b, float newGain) {
+                        updateBandParameter(b->getId(), "GAIN", newGain);
+                    }
+                );
+                entry->setSize(callOutW, callOutH);
+                juce::CallOutBox::launchAsynchronously(std::move(entry), getScreenBounds(), nullptr);
+            }
+        );
+        menu.addItem("Set Q...",
+            [this, band, callOutW, callOutH] {
+                auto entry = std::make_unique<InlineValueEntry<float>>(band->getQuality());
+                entry->linkToComponent<const EQBand>(band,
+                    [this](const EQBand* b, float newQ) {
+                        updateBandParameter(b->getId(), "Q", newQ);
+                    }
+                );
+                entry->setSize(callOutW, callOutH);
+                juce::CallOutBox::launchAsynchronously(std::move(entry), getScreenBounds(), nullptr);
+            }
+        );
+        menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
+    }
 }
 
 void EqualizerGraph::mouseUp(const juce::MouseEvent& /*e*/) {
@@ -34,57 +80,18 @@ void EqualizerGraph::mouseUp(const juce::MouseEvent& /*e*/) {
 void EqualizerGraph::mouseDrag(const juce::MouseEvent& e) {
     auto band = currentDraggedBand;
     if (!band) return;
+    const int bandIndex = band->getId();
 
-    juce::RangedAudioParameter* freqParam = parameters.getParameter("EQBAND1_FREQUENCY");
-    juce::RangedAudioParameter* gainParam = parameters.getParameter("EQBAND1_GAIN");
+    auto freqParam = getBandParameter(bandIndex, juce::String("FREQUENCY"));
+    auto gainParam = getBandParameter(bandIndex, juce::String("GAIN"));
 
-    // Getting new unnormed frequency
+    // Normalizing frequency parameter
     float newFreq = BiquadResponse::getLinearValueAsFreq(e.position.x, (float)getWidth());
     auto& freqRange = freqParam->getNormalisableRange();
     newFreq = std::clamp(newFreq, freqRange.start, freqRange.end);
-    
-    // Getting new unnormed gain
-    float yPos = 1.0f - e.position.y / (float)getHeight();
-    float newGain = juce::jmap(yPos, -18.0f, 18.0f);
-    auto& gainRange = gainParam->getNormalisableRange();
-    newGain = std::clamp(newGain, -18.0f, 18.0f);
-    
-    int bandIndex = band->getId();
-    switch (bandIndex) {
-    case 0:
-        break;
-    case 1:
-        freqParam = parameters.getParameter("EQBAND2_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND2_GAIN");
-        break;
-    case 2:
-        freqParam = parameters.getParameter("EQBAND3_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND3_GAIN");
-        break;
-    case 3:
-        freqParam = parameters.getParameter("EQBAND4_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND4_GAIN");
-        break;
-    case 4:
-        freqParam = parameters.getParameter("EQBAND5_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND5_GAIN");
-        break;
-    case 5:
-        freqParam = parameters.getParameter("EQBAND6_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND6_GAIN");
-        break;
-    case 6:
-        freqParam = parameters.getParameter("EQBAND7_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND7_GAIN");
-        break;
-    case 7:
-        freqParam = parameters.getParameter("EQBAND8_FREQUENCY");
-        gainParam = parameters.getParameter("EQBAND8_GAIN");
-        break;
-    }
-
     float normFreq = freqRange.convertTo0to1(newFreq);
-    float normGain = gainRange.convertTo0to1(newGain);
+    
+    float normGain = 1.0f - e.position.y / (float)getHeight();
 
     freqParam->setValueNotifyingHost(normFreq);
     gainParam->setValueNotifyingHost(normGain);
@@ -159,11 +166,26 @@ const EQBand* EqualizerGraph::getNearestEQBand(const juce::MouseEvent& e) {
     }
 
     if (nearest && minDist < 10.0f) {
-        DBG("Nearest band with freq " << nearest->getFrequency() << ".");
         return nearest;
     }
-    DBG("No bands near...");
     return nullptr;
+}
+
+juce::RangedAudioParameter* EqualizerGraph::getBandParameter(const int index, const juce::String& paramSuffix) {
+    jassert(index >= 0 && index <= 7);
+    juce::String paramName;
+    paramName << "EQBAND" << index + 1 << "_" << paramSuffix;
+    return parameters.getParameter(paramName);
+}
+
+void EqualizerGraph::updateBandParameter(const int index, const juce::String& paramSuffix, float newValue) {
+    jassert(index >= 0 && index <= 7);
+    auto bandParam = getBandParameter(index, paramSuffix);
+    auto paramRange = bandParam->getNormalisableRange();
+
+    newValue = std::clamp(newValue, paramRange.start, paramRange.end);
+    float normValue = bandParam->convertTo0to1(newValue);
+    bandParam->setValueNotifyingHost(normValue);
 }
 
 void EqualizerGraph::paint(juce::Graphics& g) {
