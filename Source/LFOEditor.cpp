@@ -54,7 +54,7 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
     if (e.mods.isRightButtonDown() && p) {
         juce::PopupMenu menu;
         menu.addItem("Set Time...", [this, p] {
-            auto entry = std::make_unique<InlineValueEntry<float>>(p->getTime());
+            auto entry = std::make_unique<InlineValueEntry>(p->getTime());
             entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
                 p->setTime(val);
                 repaint();
@@ -68,7 +68,7 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
             );
         });
         menu.addItem("Set Value...", [this, p] {
-            auto entry = std::make_unique<InlineValueEntry<float>>(p->getValue());
+            auto entry = std::make_unique<InlineValueEntry>(p->getValue());
             entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
                 p->setValue(val);
                 shape.sortPoints();
@@ -82,7 +82,7 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
             );
         });
         menu.addItem("Set Curve...", [this, p] {
-            auto entry = std::make_unique<InlineValueEntry<float>>(p->getCurve());
+            auto entry = std::make_unique<InlineValueEntry>(p->getCurve());
             entry->linkToComponent<LFOPoint>(p, [this](LFOPoint* p, float val) {
                 p->setCurve(val);
 
@@ -102,7 +102,7 @@ void LFOEditor::mouseDown(const juce::MouseEvent& e) {
     }
 }
 
-void LFOEditor::mouseUp(const juce::MouseEvent& e) {
+void LFOEditor::mouseUp(const juce::MouseEvent& /*e*/) {
     currentDraggedPoint = nullptr;
     shape.sortPoints();
 }

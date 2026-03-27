@@ -35,7 +35,7 @@ void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
         juce::PopupMenu menu;
         menu.addItem("Set Frequency...",
             [this, band, callOutW, callOutH] {
-                auto entry = std::make_unique<InlineValueEntry<float>>(band->getFrequency());
+                auto entry = std::make_unique<InlineValueEntry>(band->getFrequency());
                 entry->linkToComponent<const EQBand>(band,
                     [this](const EQBand* b, float newFreq) {
                         updateBandParameter(b->getId(), "FREQUENCY", newFreq);
@@ -47,7 +47,7 @@ void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
         );
         menu.addItem("Set Gain...",
             [this, band, callOutW, callOutH] {
-                auto entry = std::make_unique<InlineValueEntry<float>>(band->getGain());
+                auto entry = std::make_unique<InlineValueEntry>(band->getGain());
                 entry->linkToComponent<const EQBand>(band,
                     [this](const EQBand* b, float newGain) {
                         updateBandParameter(b->getId(), "GAIN", newGain);
@@ -59,7 +59,7 @@ void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
         );
         menu.addItem("Set Q...",
             [this, band, callOutW, callOutH] {
-                auto entry = std::make_unique<InlineValueEntry<float>>(band->getQuality());
+                auto entry = std::make_unique<InlineValueEntry>(band->getQuality());
                 entry->linkToComponent<const EQBand>(band,
                     [this](const EQBand* b, float newQ) {
                         updateBandParameter(b->getId(), "Q", newQ);
