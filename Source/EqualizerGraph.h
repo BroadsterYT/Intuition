@@ -55,5 +55,11 @@ private:
 
     const EQBand* currentDraggedBand = nullptr;
 
+    /// <summary>
+    /// Creates the filter selection submenu and adds it as an item to another menu
+    /// </summary>
+    /// <param name="menu">The menu to add the filter submenu to</param>
+    void addFilterSelectionSubmenu(const EQBand* band, juce::PopupMenu& menu);
+
     void timerCallback() override;
 };

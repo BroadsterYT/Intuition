@@ -69,6 +69,7 @@ void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
                 juce::CallOutBox::launchAsynchronously(std::move(entry), getScreenBounds(), nullptr);
             }
         );
+        addFilterSelectionSubmenu(band, menu);
         menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this).withMousePosition());
     }
 }
@@ -203,6 +204,49 @@ void EqualizerGraph::paint(juce::Graphics& g) {
     for (int i = 0; i < 8; ++i) {
         ItnLookAndFeel::drawEqualizerPoint(g, getLocalBounds().toFloat(), equalizer.getBand(i));
     }
+}
+
+void EqualizerGraph::addFilterSelectionSubmenu(const EQBand* band, juce::PopupMenu& menu) {
+    juce::PopupMenu sub;
+
+    auto type = band->getFilterType();
+    auto checkType = [type](const FilterType comp) {
+        if (type == comp) return true;
+        return false;
+    };
+    
+    sub.addSectionHeader("High-Passes");
+    sub.addItem("High-Pass", true, checkType(FilterType::HighPass),
+        [this, band] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::HighPass);
+        }
+    );
+    sub.addItem("High Shelf", true, checkType(FilterType::HighShelf),
+        [this, band] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::HighShelf);
+        }
+    );
+
+    sub.addSectionHeader("Peaks");
+    sub.addItem("Peaking", true, checkType(FilterType::Peaking),
+        [this, band] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::Peaking);
+        }
+    );
+
+    sub.addSectionHeader("Low-Passes");
+    sub.addItem("Low-Pass", true, checkType(FilterType::LowPass),
+        [this, band] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::LowPass);
+        }
+    );
+    sub.addItem("Low Shelf", true, checkType(FilterType::LowShelf),
+        [this, band] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::LowShelf);
+        }
+    );
+    
+    menu.addSubMenu("Set Filter Type...", sub);
 }
 
 void EqualizerGraph::timerCallback() {

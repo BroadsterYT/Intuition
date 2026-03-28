@@ -79,19 +79,19 @@ const EQBand& EqualizerModule::getBand(int bandIndex) {
 void EqualizerModule::setBandFilterType(int bandIndex, const juce::String& filterParamName) {
     int choice = (int)parameters.getRawParameterValue(filterParamName)->load();
     switch (choice) {
-    case 0:
+    case (int)FilterType::HighPass:
         bands[bandIndex].setFilterType(FilterType::HighPass);
         break;
-    case 1:
+    case (int)FilterType::HighShelf:
         bands[bandIndex].setFilterType(FilterType::HighShelf);
         break;
-    case 2:
+    case (int)FilterType::Peaking:
         bands[bandIndex].setFilterType(FilterType::Peaking);
         break;
-    case 3:
+    case (int)FilterType::LowShelf:
         bands[bandIndex].setFilterType(FilterType::LowShelf);
         break;
-    case 4:
+    case (int)FilterType::LowPass:
         bands[bandIndex].setFilterType(FilterType::LowPass);
         break;
     default:
