@@ -73,6 +73,10 @@ juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
     return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
 }
 
+juce::Font ItnLookAndFeel::getGraphFont(float height) {
+    return juce::Font(interTypeFaceRegular).withHeight(height);
+}
+
 juce::Font ItnLookAndFeel::getTooltipHeaderFont(float height) {
     return juce::Font(exo2TypeFaceBold).withHeight(height);
 }

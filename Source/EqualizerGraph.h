@@ -55,6 +55,8 @@ private:
 
     const EQBand* currentDraggedBand = nullptr;
 
+    void drawGridlines(juce::Graphics& g);
+
     /// <summary>
     /// Creates the filter selection submenu and adds it as an item to another menu
     /// </summary>

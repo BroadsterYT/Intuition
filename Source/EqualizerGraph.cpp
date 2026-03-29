@@ -190,6 +190,11 @@ void EqualizerGraph::updateBandParameter(const int index, const juce::String& pa
 }
 
 void EqualizerGraph::paint(juce::Graphics& g) {
+    // Drawing Gridlines
+    g.fillAll(MinimalStyle::bgDarkest);
+    drawGridlines(g);
+
+    // Drawing frequency curve
     std::vector<std::vector<float>> bandCoeffs;
     for (int i = 0; i < 8; ++i) {
         auto& band = equalizer.getBand(i);
@@ -204,6 +209,53 @@ void EqualizerGraph::paint(juce::Graphics& g) {
     for (int i = 0; i < 8; ++i) {
         ItnLookAndFeel::drawEqualizerPoint(g, getLocalBounds().toFloat(), equalizer.getBand(i));
     }
+}
+
+void EqualizerGraph::drawGridlines(juce::Graphics& g) {
+    juce::Path path;
+
+    auto getNthToneFreq = [&](int n, int offset) {
+        return 440.0f * std::pow(2.0f, n - 4.0f - (offset / 12.0f));
+    };
+
+    // Gridline references for each C
+    /*g.setFont(ItnLookAndFeel::getInstance().getGraphFont());
+    g.setColour(MinimalStyle::textSecondary);
+    for (int i = 1; i < 11; ++i) {
+        float freq = getNthToneFreq(i, 9);
+        float normFreq = BiquadResponse::getFreqInLinearRange(freq, (float)getWidth());
+
+        path.startNewSubPath(normFreq, 14.0f);
+        path.lineTo(normFreq, (float)getHeight());
+
+        // Making labels for each C
+        juce::Rectangle<float> textArea(normFreq - 10.0f, 0.0f, 20.0f, 12.0f);
+        juce::String cText;
+        cText << "C" << i;
+        g.drawText(cText, textArea, juce::Justification::centred, false);
+    }*/
+
+    // Additional log lines
+    auto drawEquidistantLines = [&](int startFreq, int endFreq, int inc) {
+        for (int i = startFreq; i < endFreq; i += inc) {
+            float normFreq = BiquadResponse::getFreqInLinearRange((float)i, (float)getWidth());
+            path.startNewSubPath(normFreq, 0.0f);
+            path.lineTo(normFreq, (float)getHeight());
+        }
+    };
+
+    drawEquidistantLines(25, 100, 5);
+    drawEquidistantLines(100, 1000, 50);
+    drawEquidistantLines(1000, 20000, 1000);
+
+    for (int i = -12; i < 18; i = i + 6) {
+        float realGain = juce::jmap(i, -18, 18, 0, getHeight());
+        path.startNewSubPath(0.0f, realGain);
+        path.lineTo(getWidth(), realGain);
+    }
+
+    g.setColour(MinimalStyle::textSecondary.withAlpha(0.6f));
+    g.strokePath(path, juce::PathStrokeType(1.0f));
 }
 
 void EqualizerGraph::addFilterSelectionSubmenu(const EQBand* band, juce::PopupMenu& menu) {

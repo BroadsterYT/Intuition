@@ -31,6 +31,13 @@ public:
     juce::Font getLabelFont(juce::Label& label) override;
 
     /// <summary>
+    /// Returns the font to be used as line markers in graphs/editors
+    /// </summary>
+    /// <param name="height">The height of the text in pixels</param>
+    /// <returns></returns>
+    juce::Font getGraphFont(float height = 12.0f);
+
+    /// <summary>
     /// Returns the font used for the headers of tooltips
     /// </summary>
     /// <param name="height">The height of the text</param>
