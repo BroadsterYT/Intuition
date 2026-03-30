@@ -16,6 +16,13 @@ class BiquadResponse {
 public:
     static float magnitudeToDecibels(float mag);
     static float getDecibelsAtFrequency(float freq, float sampleRate, float b0, float b1, float b2, float a1, float a2);
+    /// <summary>
+    /// Finds the frequency for the nth octave of a note, relative to A4 (440Hz)
+    /// </summary>
+    /// <param name="n">The nth octave</param>
+    /// <param name="offset">The semitone offset relative to A4. (an offset of 9 yields frequencies for C)</param>
+    /// <returns>The frequency of the note at octave n</returns>
+    static float getNthOctaveFreq(int n, int offset);
 
     // Visual
     

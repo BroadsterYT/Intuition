@@ -77,6 +77,10 @@
                   file="Source/EqualizerDisplay.cpp"/>
             <FILE id="bNqUvm" name="EqualizerDisplay.h" compile="0" resource="0"
                   file="Source/EqualizerDisplay.h"/>
+            <FILE id="Sqhw05" name="EqualizerFreqLabels.cpp" compile="1" resource="0"
+                  file="Source/EqualizerFreqLabels.cpp"/>
+            <FILE id="xhVzvc" name="EqualizerFreqLabels.h" compile="0" resource="0"
+                  file="Source/EqualizerFreqLabels.h"/>
             <FILE id="c7ZkIJ" name="EqualizerGraph.cpp" compile="1" resource="0"
                   file="Source/EqualizerGraph.cpp"/>
             <FILE id="Vd4XHt" name="EqualizerGraph.h" compile="0" resource="0"

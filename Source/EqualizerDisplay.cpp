@@ -13,6 +13,7 @@
 EqualizerDisplay::EqualizerDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix* modMatrix, EqualizerModule& equalizer) : parameters(vts), modMatrix(modMatrix), graph(vts, modMatrix, equalizer) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     addAndMakeVisible(graph);
+    addAndMakeVisible(freqLabels);
 }
 
 EqualizerDisplay::~EqualizerDisplay() {
@@ -24,5 +25,9 @@ void EqualizerDisplay::paint(juce::Graphics& g) {
 }
 
 void EqualizerDisplay::resized() {
-    graph.setBounds(getLocalBounds());
+    auto area = getLocalBounds();
+    auto freqLabelArea = area.removeFromTop(26);
+
+    freqLabels.setBounds(freqLabelArea);
+    graph.setBounds(area);
 }

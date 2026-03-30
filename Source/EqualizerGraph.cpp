@@ -214,27 +214,6 @@ void EqualizerGraph::paint(juce::Graphics& g) {
 void EqualizerGraph::drawGridlines(juce::Graphics& g) {
     juce::Path path;
 
-    auto getNthToneFreq = [&](int n, int offset) {
-        return 440.0f * std::pow(2.0f, n - 4.0f - (offset / 12.0f));
-    };
-
-    // Gridline references for each C
-    /*g.setFont(ItnLookAndFeel::getInstance().getGraphFont());
-    g.setColour(MinimalStyle::textSecondary);
-    for (int i = 1; i < 11; ++i) {
-        float freq = getNthToneFreq(i, 9);
-        float normFreq = BiquadResponse::getFreqInLinearRange(freq, (float)getWidth());
-
-        path.startNewSubPath(normFreq, 14.0f);
-        path.lineTo(normFreq, (float)getHeight());
-
-        // Making labels for each C
-        juce::Rectangle<float> textArea(normFreq - 10.0f, 0.0f, 20.0f, 12.0f);
-        juce::String cText;
-        cText << "C" << i;
-        g.drawText(cText, textArea, juce::Justification::centred, false);
-    }*/
-
     // Additional log lines
     auto drawEquidistantLines = [&](int startFreq, int endFreq, int inc) {
         for (int i = startFreq; i < endFreq; i += inc) {
@@ -249,12 +228,12 @@ void EqualizerGraph::drawGridlines(juce::Graphics& g) {
     drawEquidistantLines(1000, 20000, 1000);
 
     for (int i = -12; i < 18; i = i + 6) {
-        float realGain = juce::jmap(i, -18, 18, 0, getHeight());
+        float realGain = (float)juce::jmap(i, -18, 18, 0, getHeight());
         path.startNewSubPath(0.0f, realGain);
-        path.lineTo(getWidth(), realGain);
+        path.lineTo((float)getWidth(), realGain);
     }
 
-    g.setColour(MinimalStyle::textSecondary.withAlpha(0.6f));
+    g.setColour(MinimalStyle::textSecondary.withAlpha(0.25f));
     g.strokePath(path, juce::PathStrokeType(1.0f));
 }
 

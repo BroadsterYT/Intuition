@@ -10,9 +10,9 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "EqualizerModule.h"
 #include "ItnLookAndFeel.h"
 #include "ModMatrix.h"
-#include "EqualizerModule.h"
 
 
 class EqualizerGraph : public juce::Component, private juce::Timer {

@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
 #include "ModMatrix.h"
+#include "EqualizerFreqLabels.h"
 #include "EqualizerGraph.h"
 #include "EqualizerModule.h"
 
@@ -29,4 +30,5 @@ private:
     ModMatrix* modMatrix = nullptr;
 
     EqualizerGraph graph;
+    EqualizerFreqLabels freqLabels;
 };
