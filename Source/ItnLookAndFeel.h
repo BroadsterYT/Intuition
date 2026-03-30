@@ -73,7 +73,8 @@ public:
     static void drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType);
     
     static void drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const EQBand& band);
-    static void drawEqualizer(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs);
+    static void drawEqualizerCurve(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs);
+    static void drawEqualizerOutput(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<float>& fftData);
 
 private:
     // ----- Fonts ----- //

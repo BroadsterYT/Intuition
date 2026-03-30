@@ -24,6 +24,8 @@ void FFTProcessor::reset() {
     writePos = 0;
     std::fill(inputFifo.begin(), inputFifo.end(), 0.0f);
     std::fill(outputFifo.begin(), outputFifo.end(), 0.0f);
+    fftDecibelBuffer.resize(numBins);
+    fftDecibelBufferBack.resize(numBins);
 }
 
 void FFTProcessor::processBlock(juce::AudioBuffer<float>& buffer) {
@@ -31,9 +33,17 @@ void FFTProcessor::processBlock(juce::AudioBuffer<float>& buffer) {
     float* channelPtr = buffer.getWritePointer(channel);
 
     for (int i = 0; i < numSamples; ++i) {
-        float sample = processSample(channelPtr[i]);
-        channelPtr[i] = sample;
+        processSample(channelPtr[i]);
     }
+}
+
+bool FFTProcessor::getFFTData(std::vector<float>& output) {
+    if (newDataAvailable.load(std::memory_order_acquire)) {
+        output = fftDecibelBuffer;
+        newDataAvailable.store(false);
+        return true;
+    }
+    return false;
 }
 
 float FFTProcessor::processSample(float& sample) {
@@ -64,37 +74,30 @@ void FFTProcessor::processFrame() {
     if (writePos > 0) {
         std::memcpy(fftPtr + fftSize - writePos, inputPtr, writePos * sizeof(float));
     }
-
     window.multiplyWithWindowingTable(fftPtr, fftSize);
 
     // if (!bypassed) {
     fft.performRealOnlyForwardTransform(fftPtr, true);
-    processSpectrum(fftPtr);
-    fft.performRealOnlyInverseTransform(fftPtr);
 
-    window.multiplyWithWindowingTable(fftPtr, fftSize);
-    for (int i = 0; i < fftSize; ++i) {
-        fftPtr[i] *= windowCorrection;
+    auto* cdata = reinterpret_cast<std::complex<float>*>(fftPtr);
+    for (int i = 0; i < numBins; ++i) {
+        float normMag = (std::abs(cdata[i]) / fftSize) * (1.0f / 0.5f) / std::sqrt(2.0f);
+
+
+        float decibels = juce::Decibels::gainToDecibels(normMag);
+        fftDecibelBufferBack[i] = decibels;
     }
 
-    for (int i = 0; i < writePos; ++i) {
-        outputFifo[i] += fftData[i + fftSize - writePos];
-    }
-    for (int i = 0; i < fftSize - writePos; ++i) {
-        outputFifo[i + writePos] += fftData[i];
-    }
+    fftDecibelBuffer.swap(fftDecibelBufferBack);
+    newDataAvailable.store(true, std::memory_order_release);
 }
 
 void FFTProcessor::processSpectrum(float* data) {
     auto* cdata = reinterpret_cast<std::complex<float>*>(data);
-    //int cutoffBin = static_cast<int>(2000.0f / sampleRate * fftSize);
 
     for (int i = 0; i < numBins; ++i) {
         float magnitude = std::abs(cdata[i]);
         float phase = std::arg(cdata[i]);
-
-        // Spectrum manipulation goes here
-        //if (i > cutoffBin) magnitude = 0.0f;
 
         cdata[i] = std::polar(magnitude, phase);
     }

@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "EQBand.h"
+#include "FFTProcessor.h"
 #include "ModMatrix.h"
 
 
@@ -23,6 +24,7 @@ public:
     void processBlock(juce::AudioBuffer<float>& buffer);
 
     const EQBand& getBand(int bandIndex);
+    bool getFFTData(std::vector<float>& output, int channelNum);
 
 private:
     juce::AudioProcessorValueTreeState& parameters;
@@ -30,6 +32,8 @@ private:
 
     std::vector<EQBand> bands;
     double sampleRate = 44100.0;
+
+    FFTProcessor fft[2];
 
     /// <summary>
     /// Sets the filter type of a band to the type specified by a filter type parameter. This handles the conversion

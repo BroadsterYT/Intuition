@@ -53,6 +53,9 @@ private:
     ModMatrix* modMatrix = nullptr;
     EqualizerModule& equalizer;
 
+    std::vector<float> fftBuffer1;
+    std::vector<float> fftBuffer2;
+
     const EQBand* currentDraggedBand = nullptr;
 
     void drawGridlines(juce::Graphics& g);

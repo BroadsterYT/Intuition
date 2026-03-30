@@ -22,6 +22,9 @@ void EqualizerModule::prepare(double sr, int samplesPerBlock, int numChannels) {
     for (auto& band : bands) {
         band.prepare(sr, samplesPerBlock, numChannels);
     }
+
+    fft[0].prepare(sampleRate, 0);
+    fft[1].prepare(sampleRate, 1);
 }
 
 void EqualizerModule::updateParameters() {
@@ -70,10 +73,16 @@ void EqualizerModule::processBlock(juce::AudioBuffer<float>& buffer) {
         band.updateCoefficients();
         band.process(context);
     }
+    fft[0].processBlock(buffer);
+    fft[1].processBlock(buffer);
 }
 
 const EQBand& EqualizerModule::getBand(int bandIndex) {
     return bands[bandIndex];
+}
+
+bool EqualizerModule::getFFTData(std::vector<float>& output, int channelNum) {
+    return fft[channelNum].getFFTData(output);
 }
 
 void EqualizerModule::setBandFilterType(int bandIndex, const juce::String& filterParamName) {

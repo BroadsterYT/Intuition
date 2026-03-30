@@ -324,7 +324,7 @@ void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float
     MinimalStyle::drawRadiantPoint(g, posX, posY, 24.0f);
 }
 
-void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs) {
+void ItnLookAndFeel::drawEqualizerCurve(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs) {
     float width = bounds.getWidth();
     float height = bounds.getHeight();
     juce::Path path;
@@ -358,6 +358,30 @@ void ItnLookAndFeel::drawEqualizer(juce::Graphics& g, juce::Rectangle<float> bou
         }
     }
 
+    MinimalStyle::drawLineWaveform(g, path);
+}
+
+void ItnLookAndFeel::drawEqualizerOutput(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<float>& fftData) {
+    float width = bounds.getWidth();
+    float height = bounds.getHeight();
+    juce::Path path;
+
+    for (int i = 0; i < fftData.size(); ++i) {
+        float binFreq = i * 44100.0f / (2.0f * fftData.size());
+        float xPos = BiquadResponse::getFreqInLinearRange(binFreq, width);
+        if (i == 0) xPos = 0.0f;
+
+        //float yPos = std::clamp(fftData[i], -18.0f, 18.0f);
+        float yPos = juce::jmap(fftData[i] + 30.0f, -18.0f, 18.0f, height, 0.0f);
+        //DBG("Freq" << xPos << " yPos: " << yPos);
+
+        if (i == 0) {
+            path.startNewSubPath(xPos, yPos);
+        }
+        else {
+            path.lineTo(xPos, yPos);
+        }
+    }
     MinimalStyle::drawLineWaveform(g, path);
 }
 

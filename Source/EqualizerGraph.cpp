@@ -193,6 +193,18 @@ void EqualizerGraph::paint(juce::Graphics& g) {
     // Drawing Gridlines
     g.fillAll(MinimalStyle::bgDarkest);
     drawGridlines(g);
+    
+    bool fftCheck1 = equalizer.getFFTData(fftBuffer1, 0);
+    bool fftCheck2 = equalizer.getFFTData(fftBuffer2, 1);
+    if (fftCheck1 && fftCheck2) {
+        for (int i = 0; i < fftBuffer1.size(); ++i) {
+            fftBuffer1[i] += fftBuffer2[i];
+        }
+        ItnLookAndFeel::drawEqualizerOutput(g, getLocalBounds().toFloat(), fftBuffer1);
+    }
+    else {
+        DBG("NO FFT DATA");
+    }
 
     // Drawing frequency curve
     std::vector<std::vector<float>> bandCoeffs;
@@ -203,7 +215,7 @@ void EqualizerGraph::paint(juce::Graphics& g) {
         bandCoeffs.push_back(coeffs);
     }
     jassert(bandCoeffs.size() > 0);
-    ItnLookAndFeel::drawEqualizer(g, getLocalBounds().toFloat(), bandCoeffs);
+    ItnLookAndFeel::drawEqualizerCurve(g, getLocalBounds().toFloat(), bandCoeffs);
 
     // Drawing band locations
     for (int i = 0; i < 8; ++i) {
