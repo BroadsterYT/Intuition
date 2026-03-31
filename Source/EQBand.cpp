@@ -53,6 +53,9 @@ void EQBand::updateCoefficients() {
     case FilterType::LowPass:
         coeffs = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, frequency, quality);
         break;
+    case FilterType::Notch:
+        coeffs = juce::dsp::IIR::Coefficients<float>::makeNotch(sampleRate, frequency, quality);
+        break;
     }
 
     *filter.state = *coeffs;

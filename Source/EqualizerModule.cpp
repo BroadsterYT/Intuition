@@ -103,6 +103,9 @@ void EqualizerModule::setBandFilterType(int bandIndex, const juce::String& filte
     case (int)FilterType::LowPass:
         bands[bandIndex].setFilterType(FilterType::LowPass);
         break;
+    case (int)FilterType::Notch:
+        bands[bandIndex].setFilterType(FilterType::Notch);
+        break;
     default:
         break;
     }

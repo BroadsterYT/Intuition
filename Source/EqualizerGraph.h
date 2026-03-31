@@ -66,6 +66,14 @@ private:
     /// </summary>
     /// <param name="menu">The menu to add the filter submenu to</param>
     void addFilterSelectionSubmenu(const EQBand* band, juce::PopupMenu& menu);
+    /// <summary>
+    /// Adds an item to a menu that changes the given band's filter type
+    /// </summary>
+    /// <param name="band">The band being changed</param>
+    /// <param name="itemType">The type of filter this selection is for</param>
+    /// <param name="displayName">The text to display in the menu option</param>
+    /// <param name="menu">The menu to add the item to</param>
+    void addFilterSelectionItem(const EQBand* band, const FilterType& itemType, const juce::String& displayName, juce::PopupMenu& menu);
 
     void timerCallback() override;
 };

@@ -257,38 +257,31 @@ void EqualizerGraph::addFilterSelectionSubmenu(const EQBand* band, juce::PopupMe
         return false;
     };
     
-    sub.addSectionHeader("High-Passes");
-    sub.addItem("High-Pass", true, checkType(FilterType::HighPass),
-        [this, band] {
-            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::HighPass);
-        }
-    );
-    sub.addItem("High Shelf", true, checkType(FilterType::HighShelf),
-        [this, band] {
-            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::HighShelf);
-        }
-    );
+    //sub.addSectionHeader("High-Passes");
+    addFilterSelectionItem(band, FilterType::HighPass, "High-Pass", sub);
+    addFilterSelectionItem(band, FilterType::HighShelf, "High Shelf", sub);
 
-    sub.addSectionHeader("Peaks");
-    sub.addItem("Peaking", true, checkType(FilterType::Peaking),
-        [this, band] {
-            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::Peaking);
-        }
-    );
+    //sub.addSectionHeader("Peaks");
+    addFilterSelectionItem(band, FilterType::Peaking, "Peaking", sub);
+    addFilterSelectionItem(band, FilterType::Notch, "Notch", sub);
 
-    sub.addSectionHeader("Low-Passes");
-    sub.addItem("Low-Pass", true, checkType(FilterType::LowPass),
-        [this, band] {
-            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::LowPass);
-        }
-    );
-    sub.addItem("Low Shelf", true, checkType(FilterType::LowShelf),
-        [this, band] {
-            updateBandParameter(band->getId(), "FILTER_TYPE", (int)FilterType::LowShelf);
-        }
-    );
+    //sub.addSectionHeader("Low-Passes");
+    addFilterSelectionItem(band, FilterType::LowPass, "Low-Pass", sub);
+    addFilterSelectionItem(band, FilterType::LowShelf, "Low Shelf", sub);
     
     menu.addSubMenu("Set Filter Type...", sub);
+}
+
+void EqualizerGraph::addFilterSelectionItem(const EQBand* band, const FilterType& itemType, const juce::String& displayName, juce::PopupMenu& menu) {
+    bool markActiveSelection = false;
+    auto type = band->getFilterType();
+    if (type == itemType) markActiveSelection = true;
+
+    menu.addItem(displayName, true, markActiveSelection,
+        [this, band, itemType] {
+            updateBandParameter(band->getId(), "FILTER_TYPE", (int)itemType);
+        }
+    );
 }
 
 void EqualizerGraph::timerCallback() {
