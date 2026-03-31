@@ -371,9 +371,7 @@ void ItnLookAndFeel::drawEqualizerOutput(juce::Graphics& g, juce::Rectangle<floa
         float xPos = BiquadResponse::getFreqInLinearRange(binFreq, width);
         if (i == 0) xPos = 0.0f;
 
-        //float yPos = std::clamp(fftData[i], -18.0f, 18.0f);
-        float yPos = juce::jmap(fftData[i] + 30.0f, -18.0f, 18.0f, height, 0.0f);
-        //DBG("Freq" << xPos << " yPos: " << yPos);
+        float yPos = juce::jmap(fftData[i], -120.0f, 18.0f, height, 0.0f);
 
         if (i == 0) {
             path.startNewSubPath(xPos, yPos);

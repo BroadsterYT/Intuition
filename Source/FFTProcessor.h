@@ -24,7 +24,7 @@ public:
     bool getFFTData(std::vector<float>& output);
 
 private:
-    static constexpr int fftOrder = 11;
+    static constexpr int fftOrder = 12;
     static constexpr int fftSize = 1 << fftOrder;
     static constexpr int numBins = fftSize / 2 + 1;
     static constexpr int overlap = 4;

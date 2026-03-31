@@ -20,7 +20,7 @@ IntuitionAudioProcessorEditor::IntuitionAudioProcessorEditor(IntuitionAudioProce
     // =================================================
     addAndMakeVisible(mainTabs);
     addAndMakeVisible(midiKeyboard);
-    midiKeyboard.setAvailableRange(48, 108);
+    midiKeyboard.setAvailableRange(36, 96);
     midiKeyboard.setScrollButtonsVisible(false);
     midiKeyboard.clearKeyMappings();
 

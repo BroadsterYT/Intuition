@@ -55,6 +55,7 @@ private:
 
     std::vector<float> fftBuffer1;
     std::vector<float> fftBuffer2;
+    std::vector<float> fftSumBuffer;
 
     const EQBand* currentDraggedBand = nullptr;
 
