@@ -29,7 +29,7 @@ EffectsTab::~EffectsTab() {
 }
 
 void EffectsTab::paint(juce::Graphics& g) {
-    g.fillAll(MinimalStyle::shadow);
+    g.fillAll(MinimalStyle::bgDark);
 }
 
 void EffectsTab::resized() {

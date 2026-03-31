@@ -31,7 +31,7 @@ EnvelopeGraph::~EnvelopeGraph() {
 }
 
 void EnvelopeGraph::paint(juce::Graphics& g) {
-    g.fillAll(MinimalStyle::roomDark);
+    g.fillAll(MinimalStyle::bgDarkest);
 
     float attack = *parameters.getRawParameterValue(attackParamName);
     float decay = *parameters.getRawParameterValue(decayParamName);

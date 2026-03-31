@@ -16,32 +16,19 @@ ItnMidiKeyboard::ItnMidiKeyboard(juce::MidiKeyboardState& state, Orientation ori
 }
 
 void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce::Rectangle<float> area, bool isDown, bool isOver, juce::Colour lineColour, juce::Colour textColour) {
-    /*auto lineColor = juce::ColourGradient::vertical(
-        MinimalStyle::shadow.withAlpha(0.5f),
-        0.0f,
-        MinimalStyle::warmHighlight.withAlpha(0.5f),
-        getHeight()
-    );*/
-    auto lineColor = MinimalStyle::shadow;
+    auto lineColor = MinimalStyle::bgDark;
     
     float darkRange = 0.5f * std::sin(phase + midiNoteNumber / 12.0f) + 0.5f;
     float darkMult = juce::jmap(darkRange, 0.2f, 1.3f);
-    auto baseColor = MinimalStyle::warmHighlight.darker(darkMult);
+    auto baseColor = MinimalStyle::accentPeach.darker(darkMult);
 
     auto hoverColor = juce::ColourGradient::vertical(
-        MinimalStyle::warmHighlight,
+        MinimalStyle::accentGlow,
         0.0f,
-        MinimalStyle::bulbGlow,
+        MinimalStyle::accentOrange,
         getHeight()
     );
-
-    /*auto downColor = juce::ColourGradient::vertical(
-        MinimalStyle::bulbGlow,
-        0.0f,
-        MinimalStyle::warmHighlight,
-        getHeight()
-    );*/
-    auto downColor = MinimalStyle::bulbGlow;
+    auto downColor = juce::Colours::white;
     
     if (isDown) {
         g.setColour(downColor);
@@ -52,18 +39,18 @@ void ItnMidiKeyboard::drawWhiteNote(int midiNoteNumber, juce::Graphics& g, juce:
     else {
         g.setColour(baseColor);
     }
-    g.fillRect(area);
+    g.fillRect(area.expanded(1.0f));
 }
 
 void ItnMidiKeyboard::drawBlackNote(int midiNoteNumber, juce::Graphics& g, juce::Rectangle<float> area, bool isDown, bool isOver, juce::Colour noteFillColour) {
-    auto baseColor = MinimalStyle::roomDark;
+    auto baseColor = MinimalStyle::bgDark;
     auto hoverColor = juce::ColourGradient::vertical(
-        MinimalStyle::warmHighlight,
+        MinimalStyle::accentGlow.withAlpha(1.0f),
         0.0f,
-        MinimalStyle::bulbGlow,
+        MinimalStyle::accentOrange,
         getHeight()
     );
-    auto downColor = MinimalStyle::bulbGlow;
+    auto downColor = juce::Colours::white;
 
     if (isDown) {
         g.setColour(downColor);

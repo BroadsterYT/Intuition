@@ -26,7 +26,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     // ----- API Key Box ----- //
     juce::File keyFile = getSavedKeyFile();
     if (!keyFile.existsAsFile()) {
-        apiKeyBox.setTextToShowWhenEmpty("Enter Groq API key...", MinimalStyle::warmHighlight);
+        apiKeyBox.setTextToShowWhenEmpty("Enter Groq API key...", MinimalStyle::accentOrange);
     }
     else {
         apiKeyBox.setTextToShowWhenEmpty("API key set successfully.", juce::Colours::green);
@@ -38,7 +38,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     };
     
     // ----- Prompt Box ----- //
-    promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::warmHighlight);
+    promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::accentOrange);
     promptBox.onReturnKey = [this]() {
 
         // Retrieving messages array
@@ -85,7 +85,7 @@ IntumiTab::~IntumiTab() {
 }
 
 void IntumiTab::paint(juce::Graphics& g) {
-    g.fillAll(MinimalStyle::roomDark);
+    g.fillAll(MinimalStyle::bgDark);
 }
 
 void IntumiTab::resized() {

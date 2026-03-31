@@ -131,7 +131,7 @@ OscillatorTab::~OscillatorTab() {
 }
 
 void OscillatorTab::paint(juce::Graphics& g) {
-    g.fillAll(MinimalStyle::shadow);
+    g.fillAll(MinimalStyle::bgDark);
 }
 
 void OscillatorTab::resized() {

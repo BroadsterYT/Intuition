@@ -12,13 +12,6 @@
 #include <JuceHeader.h>
 
 namespace MinimalStyle {
-    const auto roomDark = juce::Colour::fromRGB(18, 14, 10);
-    const auto warmHighlight = juce::Colour::fromRGB(255, 204, 102);
-    const auto bulbGlow = juce::Colour::fromRGB(255, 248, 225);
-    const auto shadow = juce::Colour::fromRGB(28, 24, 22);
-    const auto charcoal = juce::Colour::fromRGB(32, 26, 22);
-    const auto gray = juce::Colour::fromRGB(176, 167, 157);
-
     // Background Colors
     const auto bgDarkest = juce::Colour::fromRGB(13, 13, 15);
     const auto bgDark = juce::Colour::fromRGB(20, 20, 24);
@@ -126,14 +119,14 @@ namespace MinimalStyle {
         float xPos) {
 
         juce::ColourGradient gradient = juce::ColourGradient::horizontal(
-            MinimalStyle::bulbGlow.withAlpha(0.0f),
+            MinimalStyle::accentOrange.withAlpha(0.0f),
             xPos - 6.0f,
-            MinimalStyle::bulbGlow.withAlpha(0.0f),
+            MinimalStyle::accentOrange.withAlpha(0.0f),
             xPos + 6.0f
         );
-        gradient.addColour(0.35f, MinimalStyle::bulbGlow.withAlpha(0.25f));
-        gradient.addColour(0.5f, MinimalStyle::bulbGlow);
-        gradient.addColour(0.65f, MinimalStyle::bulbGlow.withAlpha(0.25f));
+        gradient.addColour(0.35f, MinimalStyle::accentOrange.withAlpha(0.25f));
+        gradient.addColour(0.5f, MinimalStyle::accentOrange);
+        gradient.addColour(0.65f, MinimalStyle::accentOrange.withAlpha(0.25f));
         g.setGradientFill(gradient);
         g.strokePath(indicatorPath, juce::PathStrokeType(12.0f));
     }
@@ -146,7 +139,7 @@ namespace MinimalStyle {
 
     inline void drawRadiantRing(
         juce::Graphics& g, float posX, float posY, float radius, float brightness) {
-        g.setColour(MinimalStyle::warmHighlight.withAlpha(brightness));
+        g.setColour(MinimalStyle::accentPeach.withAlpha(brightness));
         g.drawEllipse(posX, posY, radius * 2.0f, radius * 2.0f, 2.0f);
     }
 }

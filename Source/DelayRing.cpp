@@ -32,9 +32,7 @@ float DelayRing::getBrightness() {
 }
 
 void DelayRing::paint(juce::Graphics& g) {
-    float w = getWidth();
-    float h = getHeight();
-
+    float h = (float)getHeight();
     float realRad = radius + 50.0f;
     MinimalStyle::drawRadiantRing(g, 0.0f - realRad - 50.0f, h / 2 - realRad, realRad, brightness);
 }

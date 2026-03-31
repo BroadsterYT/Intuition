@@ -32,7 +32,8 @@ ChorusDisplay::ChorusDisplay(juce::AudioProcessorValueTreeState& vts, ModMatrix*
     wet.setModMatrix(modMatrix);
 }
 
-void ChorusDisplay::paint(juce::Graphics& g) {
+void ChorusDisplay::paint(juce::Graphics& /*g*/) {
+
 }
 
 void ChorusDisplay::resized() {
