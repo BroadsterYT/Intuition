@@ -14,12 +14,14 @@ EffectsTab::EffectsTab(ItnContext& context
 ) : context(context),
     reverb(context.parameters, context.modMatrix),
     delay(context.parameters, context.modMatrix),
-    chorus(context.parameters, context.modMatrix) {
+    chorus(context.parameters, context.modMatrix),
+    equalizer(context.parameters, context.modMatrix, context.equalizer) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
 
     addAndMakeVisible(reverb);
     addAndMakeVisible(delay);
     addAndMakeVisible(chorus);
+    addAndMakeVisible(equalizer);
 }
 
 EffectsTab::~EffectsTab() {
@@ -37,4 +39,5 @@ void EffectsTab::resized() {
     reverb.setBounds(padding, 15, width, 150);
     delay.setBounds(padding, 15 + reverb.getBottom(), width, 150);
     chorus.setBounds(padding, 15 + delay.getBottom(), width, 150);
+    equalizer.setBounds(padding, 15 + chorus.getBottom(), width, 150);
 }

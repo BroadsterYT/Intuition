@@ -20,14 +20,11 @@ public:
     void prepare(double sr, int channelNum);
     void reset();
 
-    /// <summary>
-    /// Performs the FFT/inverse FFT along with any frequency modifications and places the results back into buffer
-    /// </summary>
-    /// <param name="buffer">The audio data to pass through the FFT</param>
     void processBlock(juce::AudioBuffer<float>& buffer);
+    bool getFFTData(std::vector<float>& output);
 
 private:
-    static constexpr int fftOrder = 10;
+    static constexpr int fftOrder = 12;
     static constexpr int fftSize = 1 << fftOrder;
     static constexpr int numBins = fftSize / 2 + 1;
     static constexpr int overlap = 4;
@@ -46,7 +43,11 @@ private:
     std::array<float, fftSize> outputFifo;
     std::array<float, fftSize * 2> fftData; // Holds real, imag pairs so need double size
 
+    std::vector<float> fftDecibelBuffer;
+    std::vector<float> fftDecibelBufferBack;
+    std::atomic<bool> newDataAvailable{ false };
+
     float processSample(float& sample);
     void processFrame();
-    virtual void processSpectrum(float* data, int numBins);
+    virtual void processSpectrum(float* data);
 };

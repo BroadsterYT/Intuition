@@ -11,59 +11,33 @@
 #pragma once
 #include <JuceHeader.h>
 
-template<typename T>
+
 class InlineValueEntry : public juce::Component {
 public:
-    InlineValueEntry(T currentValue) {
-        addAndMakeVisible(editor);
+    InlineValueEntry(float currentValue);
 
-        editor.setText(juce::String(currentValue));
-        editor.setSelectAllWhenFocused(true);
-        editor.setInputRestrictions(0, "0123456789.-"); // only numbers
-        editor.setJustification(juce::Justification::centred);
-        editor.setColour(juce::TextEditor::backgroundColourId, juce::Colours::black);
-        editor.setColour(juce::TextEditor::outlineColourId, juce::Colours::grey);
-        editor.setColour(juce::TextEditor::textColourId, juce::Colours::white);
+    void setValueChangeCallback(std::function<void(float)> callback);
 
-        setExitKeyLambdas();
-    }
-
-    void setValueChangeCallback(std::function<void(T)> callback) {
-        valueChangeCallback = callback;
-        setExitKeyLambdas();
-    }
-
+    /// <summary>
+    /// Links a specific component to the value entry and assigns a function to change that component's value
+    /// </summary>
+    /// <typeparam name="ComponentType">The type of component being linked to</typeparam>
+    /// <param name="component">Pointer to the specific component instance to link to</param>
+    /// <param name="setter">The function to use to change the linked component's value</param>
     template<typename ComponentType>
-    void linkToComponent(ComponentType* component, std::function<void(ComponentType*, T)> setter) {
+    void linkToComponent(ComponentType* component, std::function<void(ComponentType*, float)> setter) {
         if (component) {
-            setValueChangeCallback([component, setter](T value) {
+            setValueChangeCallback([component, setter](float value) {
                 setter(component, value);
             });
         }
     }
 
-    void resized() override {
-        editor.setBounds(getLocalBounds().reduced(4));
-    }
+    void resized() override;
 
 private:
     juce::TextEditor editor;
-    std::function<void(T)> valueChangeCallback;
+    std::function<void(float)> valueChangeCallback;
 
-    void setExitKeyLambdas() {
-        editor.onReturnKey = [this] {
-            if (valueChangeCallback) {
-                valueChangeCallback(editor.getText().getDoubleValue());
-            }
-            if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-                cb->exitModalState(1);  // Close popup
-            };
-        };
-
-        editor.onEscapeKey = [this] {
-            if (auto* cb = findParentComponentOfClass<juce::CallOutBox>()) {
-                cb->exitModalState(0);  // Cancel
-            };
-        };
-    }
+    void setExitKeyLambdas();
 };

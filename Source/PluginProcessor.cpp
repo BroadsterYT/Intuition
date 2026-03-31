@@ -135,6 +135,43 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WIDTH", "Chorus Width", 0.0f, 1.0f, 7.0f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_DRY_LEVEL", "Chorus Dry Level", 0.0f, 1.0f, 0.7f),
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
+
+        //============= Equalizer ============//
+        std::make_unique<juce::AudioParameterChoice>("EQBAND1_FILTER_TYPE", "EQ Band 1 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch"}, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND2_FILTER_TYPE", "EQ Band 2 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND3_FILTER_TYPE", "EQ Band 3 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND4_FILTER_TYPE", "EQ Band 4 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND5_FILTER_TYPE", "EQ Band 5 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND6_FILTER_TYPE", "EQ Band 6 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND7_FILTER_TYPE", "EQ Band 7 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+        std::make_unique<juce::AudioParameterChoice>("EQBAND8_FILTER_TYPE", "EQ Band 8 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
+
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_FREQUENCY", "EQ Band 1 Frequency", 20.0f, 20000.0f, 63.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_FREQUENCY", "EQ Band 2 Frequency", 20.0f, 20000.0f, 122.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_FREQUENCY", "EQ Band 3 Frequency", 20.0f, 20000.0f, 235.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_FREQUENCY", "EQ Band 4 Frequency", 20.0f, 20000.0f, 454.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_FREQUENCY", "EQ Band 5 Frequency", 20.0f, 20000.0f, 877.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_FREQUENCY", "EQ Band 6 Frequency", 20.0f, 20000.0f, 1693.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_FREQUENCY", "EQ Band 7 Frequency", 20.0f, 20000.0f, 3269.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_FREQUENCY", "EQ Band 8 Frequency", 20.0f, 20000.0f, 6324.0f),
+        
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_GAIN", "EQ Band 1 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_GAIN", "EQ Band 2 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_GAIN", "EQ Band 3 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_GAIN", "EQ Band 4 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_GAIN", "EQ Band 5 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_GAIN", "EQ Band 6 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_GAIN", "EQ Band 7 Gain", -18.0f, 18.0f, 0.0f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_GAIN", "EQ Band 8 Gain", -18.0f, 18.0f, 0.0f),
+        
+        std::make_unique<juce::AudioParameterFloat>("EQBAND1_Q", "EQ Band 1 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND2_Q", "EQ Band 2 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND3_Q", "EQ Band 3 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND4_Q", "EQ Band 4 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND5_Q", "EQ Band 5 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND6_Q", "EQ Band 6 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND7_Q", "EQ Band 7 Quality Factor", 0.2f, 12.0f, 0.707f),
+        std::make_unique<juce::AudioParameterFloat>("EQBAND8_Q", "EQ Band 8 Quality Factor", 0.2f, 12.0f, 0.707f),
     }),
     context(
         this,
@@ -152,12 +189,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         lfoShape3,
         &lfoPhase1,
         &lfoPhase2,
-        &lfoPhase3
+        &lfoPhase3,
+
+        equalizerModule
     ),
     envManager(parameters),
     reverbModule(parameters, &modMatrix),
     delayModule(parameters, &modMatrix),
-    chorusModule(parameters, &modMatrix)
+    chorusModule(parameters, &modMatrix),
+    equalizerModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
     initializeUserDirectory();
@@ -199,157 +239,90 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     envSource3->setValuePtr(&envValue3);
 
     //===== Destinations
-    ModDestination* aOctDest = modMatrix.addDestination("A_OCTAVE");
-    ModDestination* aCoarseDest = modMatrix.addDestination("A_COARSE");
-    ModDestination* aFineDest = modMatrix.addDestination("A_FINE");
-    ModDestination* aMorphDest = modMatrix.addDestination("A_MORPH");
-    ModDestination* aDetuneDest = modMatrix.addDestination("A_DETUNE");
-    ModDestination* aVolumeDest = modMatrix.addDestination("A_VOLUME");
-    ModDestination* aPanDest = modMatrix.addDestination("A_PAN");
-    
-    aOctDest->setBasePtr(parameters.getRawParameterValue("A_OCTAVE"));
-    aOctDest->setMinRange(-4);
-    aOctDest->setMaxRange(4);
-    aCoarseDest->setBasePtr(parameters.getRawParameterValue("A_COARSE"));
-    aCoarseDest->setMinRange(-12);
-    aCoarseDest->setMaxRange(12);
-    aFineDest->setBasePtr(parameters.getRawParameterValue("A_FINE"));
-    aFineDest->setMinRange(-100);
-    aFineDest->setMaxRange(100);
-    aMorphDest->setBasePtr(parameters.getRawParameterValue("A_MORPH"));
-    aDetuneDest->setBasePtr(parameters.getRawParameterValue("A_DETUNE"));
-    aDetuneDest->setMinRange(0.0f);
-    aDetuneDest->setMaxRange(100.0f);
-    aVolumeDest->setBasePtr(parameters.getRawParameterValue("A_VOLUME"));
-    aPanDest->setBasePtr(parameters.getRawParameterValue("A_PAN"));
 
-    ModDestination* bOctDest = modMatrix.addDestination("B_OCTAVE");
-    ModDestination* bCoarseDest = modMatrix.addDestination("B_COARSE");
-    ModDestination* bFineDest = modMatrix.addDestination("B_FINE");
-    ModDestination* bMorphDest = modMatrix.addDestination("B_MORPH");
-    ModDestination* bDetuneDest = modMatrix.addDestination("B_DETUNE");
-    ModDestination* bVolumeDest = modMatrix.addDestination("B_VOLUME");
-    ModDestination* bPanDest = modMatrix.addDestination("B_PAN");
+    createModDestination("A_OCTAVE", -4, 4);
+    createModDestination("A_COARSE", -12, 12);
+    createModDestination("A_FINE", -100, 100);
+    createModDestination("A_MORPH", 0.0f, 1.0f);
+    createModDestination("A_DETUNE", 0.0f, 1.0f);
+    createModDestination("A_VOLUME", 0.0f, 1.0f);
+    createModDestination("A_PAN", 0.0f, 1.0f);
 
-    bOctDest->setBasePtr(parameters.getRawParameterValue("B_OCTAVE"));
-    bOctDest->setMinRange(-4);
-    bOctDest->setMaxRange(4);
-    bCoarseDest->setBasePtr(parameters.getRawParameterValue("B_COARSE"));
-    bCoarseDest->setMinRange(-12);
-    bCoarseDest->setMaxRange(12);
-    bFineDest->setBasePtr(parameters.getRawParameterValue("B_FINE"));
-    bFineDest->setMinRange(-100);
-    bFineDest->setMaxRange(100);
-    bMorphDest->setBasePtr(parameters.getRawParameterValue("B_MORPH"));
-    bDetuneDest->setBasePtr(parameters.getRawParameterValue("B_DETUNE"));
-    bDetuneDest->setMinRange(0.0f);
-    bDetuneDest->setMaxRange(100.0f);
-    bVolumeDest->setBasePtr(parameters.getRawParameterValue("B_VOLUME"));
-    bPanDest->setBasePtr(parameters.getRawParameterValue("B_PAN"));
+    createModDestination("B_OCTAVE", -4, 4);
+    createModDestination("B_COARSE", -12, 12);
+    createModDestination("B_FINE", -100, 100);
+    createModDestination("B_MORPH", 0.0f, 1.0f);
+    createModDestination("B_DETUNE", 0.0f, 1.0f);
+    createModDestination("B_VOLUME", 0.0f, 1.0f);
+    createModDestination("B_PAN", 0.0f, 1.0f);
 
-    ModDestination* cOctDest = modMatrix.addDestination("C_OCTAVE");
-    ModDestination* cCoarseDest = modMatrix.addDestination("C_COARSE");
-    ModDestination* cFineDest = modMatrix.addDestination("C_FINE");
-    ModDestination* cMorphDest = modMatrix.addDestination("C_MORPH");
-    ModDestination* cDetuneDest = modMatrix.addDestination("C_DETUNE");
-    ModDestination* cVolumeDest = modMatrix.addDestination("C_VOLUME");
-    ModDestination* cPanDest = modMatrix.addDestination("C_PAN");
+    createModDestination("C_OCTAVE", -4, 4);
+    createModDestination("C_COARSE", -12, 12);
+    createModDestination("C_FINE", -100, 100);
+    createModDestination("C_MORPH", 0.0f, 1.0f);
+    createModDestination("C_DETUNE", 0.0f, 1.0f);
+    createModDestination("C_VOLUME", 0.0f, 1.0f);
+    createModDestination("C_PAN", 0.0f, 1.0f);
 
-    cOctDest->setBasePtr(parameters.getRawParameterValue("C_OCTAVE"));
-    cOctDest->setMinRange(-4);
-    cOctDest->setMaxRange(4);
-    cCoarseDest->setBasePtr(parameters.getRawParameterValue("C_COARSE"));
-    cCoarseDest->setMinRange(-12);
-    cCoarseDest->setMaxRange(12);
-    cFineDest->setBasePtr(parameters.getRawParameterValue("C_FINE"));
-    cFineDest->setMinRange(-100);
-    cFineDest->setMaxRange(100);
-    cMorphDest->setBasePtr(parameters.getRawParameterValue("C_MORPH"));
-    cDetuneDest->setBasePtr(parameters.getRawParameterValue("C_DETUNE"));
-    cDetuneDest->setMinRange(0.0f);
-    cDetuneDest->setMaxRange(100.0f);
-    cVolumeDest->setBasePtr(parameters.getRawParameterValue("C_VOLUME"));
-    cPanDest->setBasePtr(parameters.getRawParameterValue("C_PAN"));
+    createModDestination("D_OCTAVE", -4, 4);
+    createModDestination("D_COARSE", -12, 12);
+    createModDestination("D_FINE", -100, 100);
+    createModDestination("D_MORPH", 0.0f, 1.0f);
+    createModDestination("D_DETUNE", 0.0f, 1.0f);
+    createModDestination("D_VOLUME", 0.0f, 1.0f);
+    createModDestination("D_PAN", 0.0f, 1.0f);
 
-    ModDestination* dOctDest = modMatrix.addDestination("D_OCTAVE");
-    ModDestination* dCoarseDest = modMatrix.addDestination("D_COARSE");
-    ModDestination* dFineDest = modMatrix.addDestination("D_FINE");
-    ModDestination* dMorphDest = modMatrix.addDestination("D_MORPH");
-    ModDestination* dDetuneDest = modMatrix.addDestination("D_DETUNE");
-    ModDestination* dVolumeDest = modMatrix.addDestination("D_VOLUME");
-    ModDestination* dPanDest = modMatrix.addDestination("D_PAN");
-
-    dOctDest->setBasePtr(parameters.getRawParameterValue("D_OCTAVE"));
-    dOctDest->setMinRange(-4);
-    dOctDest->setMaxRange(4);
-    dCoarseDest->setBasePtr(parameters.getRawParameterValue("D_COARSE"));
-    dCoarseDest->setMinRange(-12);
-    dCoarseDest->setMaxRange(12);
-    dFineDest->setBasePtr(parameters.getRawParameterValue("D_FINE"));
-    dFineDest->setMinRange(-100);
-    dFineDest->setMaxRange(100);
-    dMorphDest->setBasePtr(parameters.getRawParameterValue("D_MORPH"));
-    dDetuneDest->setBasePtr(parameters.getRawParameterValue("D_DETUNE"));
-    dDetuneDest->setMinRange(0.0f);
-    dDetuneDest->setMaxRange(100.0f);
-    dVolumeDest->setBasePtr(parameters.getRawParameterValue("D_VOLUME"));
-    dPanDest->setBasePtr(parameters.getRawParameterValue("D_PAN"));
-
-    ModDestination* filterCutoffDest = modMatrix.addDestination("FILTER_CUTOFF");
-    ModDestination* filterResonanceDest = modMatrix.addDestination("FILTER_RESONANCE");
-
-    filterCutoffDest->setBasePtr(parameters.getRawParameterValue("FILTER_CUTOFF"));
-    filterCutoffDest->setMinRange(20.0f);
-    filterCutoffDest->setMaxRange(20000.0f);
-    filterResonanceDest->setBasePtr(parameters.getRawParameterValue("FILTER_RESONANCE"));
-    filterResonanceDest->setMinRange(0.01f);
-    filterResonanceDest->setMaxRange(1.0f);
+    createModDestination("FILTER_CUTOFF", 20.0f, 20000.0f);
+    createModDestination("FILTER_RESONANCE", 0.01f, 1.0f);
 
     //=== Reverb
-    ModDestination* rvbDampingDest = modMatrix.addDestination("REVERB_DAMPING");
-    ModDestination* rvbRoomSizeDest = modMatrix.addDestination("REVERB_ROOM_SIZE");
-    ModDestination* rvbWidthDest = modMatrix.addDestination("REVERB_WIDTH");
-    ModDestination* rvbDryLevelDest = modMatrix.addDestination("REVERB_DRY_LEVEL");
-    ModDestination* rvbWetLevelDest = modMatrix.addDestination("REVERB_WET_LEVEL");
-
-    rvbDampingDest->setBasePtr(parameters.getRawParameterValue("REVERB_DAMPING"));
-    rvbRoomSizeDest->setBasePtr(parameters.getRawParameterValue("REVERB_ROOM_SIZE"));
-    rvbWidthDest->setBasePtr(parameters.getRawParameterValue("REVERB_WIDTH"));
-    rvbDryLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_DRY_LEVEL"));
-    rvbWetLevelDest->setBasePtr(parameters.getRawParameterValue("REVERB_WET_LEVEL"));
+    createModDestination("REVERB_DAMPING");
+    createModDestination("REVERB_ROOM_SIZE");
+    createModDestination("REVERB_WIDTH");
+    createModDestination("REVERB_DRY_LEVEL");
+    createModDestination("REVERB_WET_LEVEL");
 
     //=== Delay
-    ModDestination* dlyTimeMsDest = modMatrix.addDestination("DELAY_TIME_MS");
-    ModDestination* dlyFeedbackDest = modMatrix.addDestination("DELAY_FEEDBACK");
-    ModDestination* dlyCutoffDest = modMatrix.addDestination("DELAY_CUTOFF");
-    ModDestination* dlyDryDest = modMatrix.addDestination("DELAY_DRY_LEVEL");
-    ModDestination* dlyWetDest = modMatrix.addDestination("DELAY_WET_LEVEL");
-
-    dlyTimeMsDest->setBasePtr(parameters.getRawParameterValue("DELAY_TIME_MS"));
-    dlyTimeMsDest->setMaxRange(2000);
-    dlyFeedbackDest->setBasePtr(parameters.getRawParameterValue("DELAY_FEEDBACK"));
-    dlyCutoffDest->setBasePtr(parameters.getRawParameterValue("DELAY_CUTOFF"));
-    dlyCutoffDest->setMinRange(20.0f);
-    dlyCutoffDest->setMaxRange(20000.0f);
-    dlyDryDest->setBasePtr(parameters.getRawParameterValue("DELAY_DRY_LEVEL"));
-    dlyWetDest->setBasePtr(parameters.getRawParameterValue("DELAY_WET_LEVEL"));
+    createModDestination("DELAY_TIME_MS", 0, 2000);
+    createModDestination("DELAY_FEEDBACK");
+    createModDestination("DELAY_CUTOFF", 20.0f, 20000.0f);
+    createModDestination("DELAY_DRY_LEVEL");
+    createModDestination("DELAY_WET_LEVEL");
 
     //=== Chorus
-    ModDestination* chsRateDest = modMatrix.addDestination("CHORUS_RATE");
-    ModDestination* chsDepthDest = modMatrix.addDestination("CHORUS_DEPTH");
-    ModDestination* chsWidthDest = modMatrix.addDestination("CHORUS_WIDTH");
-    ModDestination* chsDryDest = modMatrix.addDestination("CHORUS_DRY_LEVEL");
-    ModDestination* chsWetDest = modMatrix.addDestination("CHORUS_WET_LEVEL");
+    createModDestination("CHORUS_RATE", 0.05f, 5.0f);
+    createModDestination("CHORUS_DEPTH", 0.5f, 8.0f);
+    createModDestination("CHORUS_WIDTH");
+    createModDestination("CHORUS_DRY_LEVEL");
+    createModDestination("CHORUS_WET_LEVEL");
 
-    chsRateDest->setBasePtr(parameters.getRawParameterValue("CHORUS_RATE"));
-    chsRateDest->setMinRange(0.05f);
-    chsRateDest->setMaxRange(5.0f);
-    chsDepthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DEPTH"));
-    chsDepthDest->setMinRange(0.5f);
-    chsDepthDest->setMaxRange(8.0f);
-    chsWidthDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WIDTH"));
-    chsDryDest->setBasePtr(parameters.getRawParameterValue("CHORUS_DRY_LEVEL"));
-    chsWetDest->setBasePtr(parameters.getRawParameterValue("CHORUS_WET_LEVEL"));
+    //=== Equalizer
+    createModDestination("EQBAND1_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND2_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND3_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND4_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND5_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND6_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND7_FREQUENCY", 20.0f, 20000.0f);
+    createModDestination("EQBAND8_FREQUENCY", 20.0f, 20000.0f);
+
+    createModDestination("EQBAND1_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND2_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND3_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND4_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND5_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND6_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND7_GAIN", -18.0f, 18.0f);
+    createModDestination("EQBAND8_GAIN", -18.0f, 18.0f);
+
+    createModDestination("EQBAND1_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND2_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND3_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND4_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND5_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND6_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND7_Q", 0.2f, 12.0f);
+    createModDestination("EQBAND8_Q", 0.2f, 12.0f);
 }
 
 IntuitionAudioProcessor::~IntuitionAudioProcessor() {}
@@ -435,9 +408,6 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
-    //setLatencySamples(1024);  // For FFT
-    fftL.prepare(sampleRate, 0);
-    fftR.prepare(sampleRate, 1);
 
     resetSynths();
     synth.clearSounds();
@@ -450,7 +420,6 @@ void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     }
 
     envManager.prepare(sampleRate);
-
     delayModule.prepare(getSampleRate(), 2000, getNumOutputChannels());
 }
 
@@ -592,10 +561,6 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    //============= FFT TESTING ============//
-    fftL.processBlock(buffer);
-    fftR.processBlock(buffer);
-
     //======================================//
     
     if (*parameters.getRawParameterValue("REVERB_TOGGLE")) {
@@ -612,8 +577,10 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         chorusModule.updateParameters();
         chorusModule.processBlock(buffer);
     }
+    equalizerModule.prepare(getSampleRate(), buffer.getNumSamples(), buffer.getNumChannels());
+    equalizerModule.updateParameters();
+    equalizerModule.processBlock(buffer);
 
-    //========== FFT TESTING ===============//
     
     float masterVol = *parameters.getRawParameterValue("MASTER");
     buffer.applyGain(masterVol);
@@ -885,6 +852,14 @@ void IntuitionAudioProcessor::applyJsonParameterTweaks(juce::var& jsonTweaks) {
 
         DBG(prop.name.toString() << ": " << obj->getProperty(prop.name).toString());
     }
+}
+
+ModDestination* IntuitionAudioProcessor::createModDestination(const juce::String& destName, float minRange, float maxRange) {
+    ModDestination* dest = modMatrix.addDestination(destName);
+    dest->setBasePtr(parameters.getRawParameterValue(destName));
+    dest->setMinRange(minRange);
+    dest->setMaxRange(maxRange);
+    return dest;
 }
 
 void IntuitionAudioProcessor::initializeUserDirectory() {

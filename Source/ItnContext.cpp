@@ -24,7 +24,8 @@ ItnContext::ItnContext(
     LFOShape& shape3,
     float* phase1,
     float* phase2,
-    float* phase3
+    float* phase3,
+    EqualizerModule& equalizer
 ) : ap(ap),
     parameters(vts),
     modMatrix(modMatrix),
@@ -40,4 +41,6 @@ ItnContext::ItnContext(
     shape3(shape3),
     phase1(phase1),
     phase2(phase2),
-    phase3(phase3) {}
+    phase3(phase3),
+
+    equalizer(equalizer) {}

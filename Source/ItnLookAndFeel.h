@@ -11,6 +11,8 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnLookAndFeelHelpers.h"
+#include "LFOShape.h"
+#include "EQBand.h"
 
 
 class ItnLookAndFeel : public juce::LookAndFeel_V4 {
@@ -27,6 +29,13 @@ public:
 
     // ----- Fonts ----- //
     juce::Font getLabelFont(juce::Label& label) override;
+
+    /// <summary>
+    /// Returns the font to be used as line markers in graphs/editors
+    /// </summary>
+    /// <param name="height">The height of the text in pixels</param>
+    /// <returns></returns>
+    juce::Font getGraphFont(float height = 12.0f);
 
     /// <summary>
     /// Returns the font used for the headers of tooltips
@@ -57,9 +66,15 @@ public:
 
     static void drawWaveform(juce::Graphics& g, juce::Rectangle<float> bounds, const juce::Array<float> waveform);
     static void drawEnvelope(juce::Graphics& g, juce::Rectangle<float> bounds, float attack, float decay, float sustain, float release, float envTime);
+    
     static void drawLFO(juce::Graphics& g, juce::Rectangle<float> bounds, LFOShape& shape, float phase);
     static void drawLFOPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const LFOPoint& point);
+    
     static void drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds, float cutoff, float resonance, int filterType);
+    
+    static void drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const EQBand& band);
+    static void drawEqualizerCurve(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs);
+    static void drawEqualizerOutput(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<float>& fftData);
 
 private:
     // ----- Fonts ----- //

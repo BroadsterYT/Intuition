@@ -9,6 +9,7 @@
 */
 
 #include "ItnLookAndFeel.h"
+#include "BiquadResponse.h"
 
 
 ItnLookAndFeel::ItnLookAndFeel() {
@@ -70,6 +71,10 @@ juce::Font ItnLookAndFeel::getLabelFont(juce::Label& label) {
         return juce::Font(interTypeFaceRegular).withHeight(12.0f);
     }
     return juce::Font(outfitTypeFaceRegular).withHeight(14.0f);
+}
+
+juce::Font ItnLookAndFeel::getGraphFont(float height) {
+    return juce::Font(interTypeFaceRegular).withHeight(height);
 }
 
 juce::Font ItnLookAndFeel::getTooltipHeaderFont(float height) {
@@ -246,10 +251,6 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     float height = bounds.getHeight();
     juce::Path path;
 
-    auto magToDecibels = [&](float magnitude) {
-        return 20.0f * std::log10(magnitude + 1e-6f);
-    };
-
     for (int i = 0; i < width; ++i) {
         float freq = 20.0f * std::pow(20000.0f / 20.0f, (float)i / (float)width);
         float mag = 1.0f;
@@ -264,43 +265,30 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
         float a1 = (2.0f * (gSq - 1.0f)) / a0;
         float a2 = (1.0f - 2 * R * g + gSq) / a0;
 
-        auto biquadGeneralSol = [omega, a1, a2](float b0, float b1, float b2) {
-            float num1 = b0 + b1 * std::cosf(omega) + b2 * std::cosf(2.0f * omega);
-            float num2 = b1 * std::sinf(omega) + b2 * std::sinf(2.0f * omega);
-            float num = std::sqrtf(num1 * num1 + num2 * num2);
-
-            float den1 = 1.0f + a1 * std::cosf(omega) + a2 * std::cosf(2.0f * omega);
-            float den2 = a1 * std::sinf(omega) + a2 * std::sinf(2.0f * omega);
-            float den = std::sqrtf(den1 * den1 + den2 * den2);
-
-            return num / den;
-        };
-
         switch (filterType) {
         case 0: {  // Lowpass
             float b0 = gSq / a0;
             float b1 = 2.0f * gSq / a0;
             float b2 = gSq / a0;
-            mag = biquadGeneralSol(b0, b1, b2);
+            mag = BiquadResponse::getDecibelsAtFrequency(freq, 44100.0f, b0, b1, b2, a1, a2);
             break;
         }
         case 1: {  // Highpass
             float b0 = 1.0f / a0;
             float b1 = -2.0f / a0;
             float b2 = 1.0f / a0;
-            mag = biquadGeneralSol(b0, b1, b2);
+            mag = BiquadResponse::getDecibelsAtFrequency(freq, 44100.0f, b0, b1, b2, a1, a2);
             break;
         }
         case 2: {  // Bandpass
             float b0 = g / a0;
             float b1 = 0 / a0;
             float b2 = -g / a0;
-            mag = biquadGeneralSol(b0, b1, b2);
+            mag = BiquadResponse::getDecibelsAtFrequency(freq, 44100.0f, b0, b1, b2, a1, a2);
             break;
         }
         }
 
-        mag = magToDecibels(mag);
         float minDb = -24.0f;
         float maxDb = 24.0f;
         float y = (1.0f - (mag - minDb) / (maxDb - minDb)) * height;
@@ -320,6 +308,79 @@ void ItnLookAndFeel::drawFilter(juce::Graphics& g, juce::Rectangle<float> bounds
     path.closeSubPath();
     MinimalStyle::drawGradientWaveform(g, path, bounds);
     MinimalStyle::drawLineWaveform(g, linePath);
+}
+
+void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float> bounds, const EQBand& band) {
+    // TODO: Display Q somehow
+    float gainMin = -18.0f;
+    float gainMax = 18.0f;
+
+    float freq = band.getFrequency();
+    float gain = band.getGain();
+
+    float posX = BiquadResponse::getFreqInLinearRange(freq, bounds.getWidth());
+    float posY = juce::jmap(gain, gainMin, gainMax, bounds.getHeight(), 0.0f);
+    g.setColour(MinimalStyle::accentPeach);
+    MinimalStyle::drawRadiantPoint(g, posX, posY, 24.0f);
+}
+
+void ItnLookAndFeel::drawEqualizerCurve(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<std::vector<float>> bandCoeffs) {
+    float width = bounds.getWidth();
+    float height = bounds.getHeight();
+    juce::Path path;
+
+    float minFreq = 20.0f;
+    float maxFreq = 20000.0f;
+
+    auto linearToLog = [width, minFreq, maxFreq](float val) {
+        return 20.0f * std::pow(maxFreq / minFreq, val / (float)width);
+    };
+
+    // Drawing frequency response
+    for (int i = 0; i < width; ++i) {
+        float freq = linearToLog((float)i);
+
+        float totalDb = 0.0f;
+        for (auto& band : bandCoeffs) {
+            float bandDb = BiquadResponse::getDecibelsAtFrequency(freq, 44100.0f, band[0], band[1], band[2], band[3], band[4]);
+            totalDb += bandDb;
+        }
+
+        float minDb = -18.0f;
+        float maxDb = 18.0f;
+        float y = (1.0f - (totalDb - minDb) / (maxDb - minDb)) * height;
+
+        if (i == 0) {
+            path.startNewSubPath((float)i, y);
+        }
+        else {
+            path.lineTo((float)i, y);
+        }
+    }
+
+    MinimalStyle::drawLineWaveform(g, path);
+}
+
+void ItnLookAndFeel::drawEqualizerOutput(juce::Graphics& g, juce::Rectangle<float> bounds, std::vector<float>& fftData) {
+    float width = bounds.getWidth();
+    float height = bounds.getHeight();
+    juce::Path path;
+
+    for (int i = 0; i < fftData.size(); ++i) {
+        float binFreq = i * 44100.0f / (2.0f * fftData.size());
+        float xPos = BiquadResponse::getFreqInLinearRange(binFreq, width);
+        if (i == 0) xPos = 0.0f;
+
+        float yPos = juce::jmap(fftData[i], -120.0f, 18.0f, height, 0.0f);
+
+        if (i == 0) {
+            path.startNewSubPath(xPos, yPos);
+        }
+        else {
+            path.lineTo(xPos, yPos);
+        }
+    }
+    MinimalStyle::drawLineWaveform(g, path);
 }
 
 void ItnLookAndFeel::drawSliderNameLabel(juce::Graphics& g, juce::Label& label) {

@@ -26,7 +26,7 @@ void ItnSlider::mouseDown(const juce::MouseEvent& e) {
     if (e.mods.isRightButtonDown()) {
         juce::PopupMenu menu;
         menu.addItem("Set Value Manually...", [this] {
-            auto entry = std::make_unique<InlineValueEntry<double>>(getValue());
+            auto entry = std::make_unique<InlineValueEntry>((float)getValue());
             entry->linkToComponent<ItnSlider>(this, [](ItnSlider* s, double val) {
                 s->setValue(val, juce::sendNotification);
             });
@@ -148,7 +148,7 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
         else conn->setBipolar(true);
     });
     sub.addItem("Set mod opacity...", [this, conn] {
-        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getOpacity());
+        auto entry = std::make_unique<InlineValueEntry>(conn->getOpacity());
         entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
             conn->setOpacity(val);
         });
@@ -161,7 +161,7 @@ void ItnSlider::addModLinkPropertiesSubmenu(juce::PopupMenu& menu, const juce::S
         );
     });
     sub.addItem("Set mod depth...", [this, conn] {
-        auto entry = std::make_unique<InlineValueEntry<double>>(conn->getDepth());
+        auto entry = std::make_unique<InlineValueEntry>(conn->getDepth());
         entry->linkToComponent<ItnSlider>(this, [conn](ItnSlider*, double val) {
             conn->setDepth(val);
         });

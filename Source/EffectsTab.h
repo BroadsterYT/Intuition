@@ -10,11 +10,12 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ChorusDisplay.h"
+#include "DelayDisplay.h"
+#include "EqualizerDisplay.h"
+#include "ItnContext.h"
 #include "ItnLookAndFeel.h"
 #include "ReverbDisplay.h"
-#include "DelayDisplay.h"
-#include "ChorusDisplay.h"
-#include "ItnContext.h"
 
 
 class EffectsTab : public juce::Component {
@@ -31,4 +32,5 @@ private:
     ReverbDisplay reverb;
     DelayDisplay delay;
     ChorusDisplay chorus;
+    EqualizerDisplay equalizer;
 };

@@ -10,8 +10,6 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "LFOShape.h"
-
 
 namespace MinimalStyle {
     const auto roomDark = juce::Colour::fromRGB(18, 14, 10);

@@ -19,6 +19,7 @@
 #include "ReverbModule.h"
 #include "DelayModule.h"
 #include "ChorusModule.h"
+#include "EqualizerModule.h"
 #include "AIManager.h"
 #include "FFTProcessor.h"
 
@@ -112,10 +113,16 @@ private:
     ReverbModule reverbModule;
     DelayModule delayModule;
     ChorusModule chorusModule;
+    EqualizerModule equalizerModule;
 
-    // FFT
-    FFTProcessor fftL;
-    FFTProcessor fftR;
+    /// <summary>
+    /// Creates a ModDestination configured with the specified name and value range. A shortcut helper method.
+    /// </summary>
+    /// <param name="destName">The name that identifies the modulation destination (juce::String).</param>
+    /// <param name="minRange">The minimum allowed value for the destination's range.</param>
+    /// <param name="maxRange">The maximum allowed value for the destination's range.</param>
+    /// <returns>A pointer to a ModDestination configured with the given name and range.</returns>
+    ModDestination* createModDestination(const juce::String& destName, float minRange = 0.0f, float maxRange = 1.0f);
 
     /// <summary>
     /// If not already initialized, will organize the Intuition directory in the user's Documents folder.
