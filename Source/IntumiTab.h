@@ -11,7 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
-#include "AIManager.h"
+#include "IntumiManager.h"
 #include "PluginProcessor.h"
 #include "ConvoMessageComponent.h"
 #include "ConvoView.h"
@@ -19,18 +19,17 @@
 
 class IntumiTab : public juce::Component {
 public:
-    IntumiTab(juce::AudioProcessor* ap);
+    IntumiTab(IntumiManager& intumiManager);
     ~IntumiTab() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
-    IntuitionAudioProcessor* processor = nullptr;
+    IntumiManager& intumiManager;
 
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
-    //juce::TextEditor outputBox;
 
     juce::Viewport convoViewport;
     ConvoView convoView;

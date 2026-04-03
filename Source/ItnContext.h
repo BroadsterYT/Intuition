@@ -14,6 +14,7 @@
 #include "WavetableBank.h"
 #include "EnvelopeManager.h"
 #include "EqualizerModule.h"
+#include "IntumiManager.h"
 
 
 /// <summary>
@@ -27,6 +28,7 @@ public:
         juce::AudioProcessorValueTreeState& vts,
         ModMatrix* modMatrix,
         EnvelopeManager& envManager,
+        IntumiManager& intumiManager,
 
         WavetableBank& bank1,
         WavetableBank& bank2,
@@ -47,6 +49,7 @@ public:
     juce::AudioProcessorValueTreeState& parameters;
     ModMatrix* modMatrix;
     EnvelopeManager& envManager;
+    IntumiManager& intumiManager;
 
     WavetableBank& bank1;
     WavetableBank& bank2;

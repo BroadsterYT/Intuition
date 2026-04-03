@@ -178,6 +178,7 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         parameters,
         &modMatrix,
         envManager,
+        intumiManager,
 
         bank1,
         bank2,

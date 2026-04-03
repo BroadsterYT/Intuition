@@ -12,9 +12,8 @@
 #include "JsonHelper.h"
 
 
-IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
+IntumiTab::IntumiTab(IntumiManager& intumiManager) : intumiManager(intumiManager) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
-    processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 
     juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
     if (!convoFile.existsAsFile()) {
@@ -40,9 +39,8 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     // ----- Prompt Box ----- //
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::accentOrange);
     promptBox.onReturnKey = [this]() {
-
         // Retrieving messages array
-        juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
+        /*juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
         if (!convoFile.existsAsFile()) {
             convoFile.create();
             convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
@@ -51,7 +49,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         convoView.addMessage("user", promptBox.getText());
 
         // API query
-        juce::String intumiResponse = AIManager::queryAI(
+        juce::String intumiResponse = IntumiManager::queryAI(
             getApiKey(),
             promptBox.getText(),
             processor->getParametersAsJsonString()
@@ -69,7 +67,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         convoView.addMessage("intumi", message);
 
         juce::var jsonParams = obj->getProperty("parameters");
-        processor->applyJsonParameterTweaks(jsonParams);
+        processor->applyJsonParameterTweaks(jsonParams);*/
     };
 
     convoViewport.setViewedComponent(&convoView);

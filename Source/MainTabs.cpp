@@ -16,7 +16,7 @@ MainTabs::MainTabs(ItnContext& context
     context(context),
     oscTab(context),
     fxTab(context),
-    intumiTab(context.ap) {
+    intumiTab(context.intumiManager) {
     startTimerHz(60);
 
     addAndMakeVisible(tabs);

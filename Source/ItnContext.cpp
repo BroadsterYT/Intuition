@@ -15,6 +15,7 @@ ItnContext::ItnContext(
     juce::AudioProcessorValueTreeState& vts,
     ModMatrix* modMatrix,
     EnvelopeManager& envManager,
+    IntumiManager& intumiManager,
     WavetableBank& bank1, 
     WavetableBank& bank2,
     WavetableBank& bank3,
@@ -30,6 +31,7 @@ ItnContext::ItnContext(
     parameters(vts),
     modMatrix(modMatrix),
     envManager(envManager),
+    intumiManager(intumiManager),
     
     bank1(bank1),
     bank2(bank2),

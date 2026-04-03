@@ -1,24 +1,40 @@
 /*
   ==============================================================================
 
-    AIManager.cpp
+    IntumiManager.cpp
     Created: 4 Nov 2025 10:38:02pm
     Author:  BroDe
 
   ==============================================================================
 */
 
-#include "AIManager.h"
+#include "IntumiManager.h"
 
-AIManager::AIManager() {
+
+IntumiManager::IntumiManager() {
 
 }
 
-juce::String AIManager::queryAI(
-    const juce::String apiKey,
-    const juce::String prompt,
-    const juce::String params
-) {
+IntumiManager::~IntumiManager() {
+    auto convoFile = getSessionConvoFile();
+    convoFile.deleteFile();
+}
+
+juce::File IntumiManager::getSessionConvoFile() {
+    juce::File location = juce::File::getSpecialLocation(juce::File::tempDirectory);
+    juce::String filePath = uuid.toString();
+    filePath << ".json";
+    juce::File convoFile = location.getChildFile(filePath);
+
+    if (!convoFile.existsAsFile()) {
+        convoFile.create();
+        convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
+    }
+    DBG("Session conversation file: " << convoFile.getFullPathName());
+    return convoFile;
+}
+
+juce::String IntumiManager::queryAI(const juce::String& apiKey, const juce::String& prompt, const juce::String& params) {
     const char* exeData;
     int exeSize;
 

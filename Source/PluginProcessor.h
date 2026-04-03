@@ -20,7 +20,7 @@
 #include "DelayModule.h"
 #include "ChorusModule.h"
 #include "EqualizerModule.h"
-#include "AIManager.h"
+#include "IntumiManager.h"
 #include "FFTProcessor.h"
 
 
@@ -93,6 +93,8 @@ public:
     void applyJsonParameterTweaks(juce::var& jsonTweaks);
 
 private:
+    IntumiManager intumiManager;
+
     float currentBPM = 60.0;
 
     float lfoRate1 = 1.0f;

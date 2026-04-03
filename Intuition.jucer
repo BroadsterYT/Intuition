@@ -247,8 +247,9 @@
         <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
               file="Source/WavetableOsc.cpp" skipPCH="1"/>
       </GROUP>
-      <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
-      <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
+      <FILE id="jnHedN" name="IntumiManager.cpp" compile="1" resource="0"
+            file="Source/IntumiManager.cpp"/>
+      <FILE id="a7ohro" name="IntumiManager.h" compile="0" resource="0" file="Source/IntumiManager.h"/>
       <FILE id="PSXvdb" name="BiquadResponse.cpp" compile="1" resource="0"
             file="Source/BiquadResponse.cpp"/>
       <FILE id="z7rjyk" name="BiquadResponse.h" compile="0" resource="0"
