@@ -22,8 +22,9 @@ public:
     void updateLFOFrequency(float bpm);
     void updateLFOPhase(float bpm, double ppq, int numSamples);
 
-    LFOShape* getShapePtr();
+    LFOShape& getShapeRef();
     float* getPhasePtr();
+    float* getValuePtr();
 
 private:
     juce::AudioProcessorValueTreeState& parameters;

@@ -39,8 +39,18 @@ void LFOModule::updateLFOPhase(float bpm, double ppq, int numSamples) {
         TempoDivision division = static_cast<TempoDivision>(tempoIndex);
         float beatsPerCycle = divisionToBeats(division);
 
-        phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
-        lastValue = shape.getValue(phase);
+        if (ppq > 0.0) {
+            phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
+            lastValue = shape.getValue(phase);
+        }
+        else {  // DAW is considered idle or the playhead doesn't exist
+            float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
+            for (int sample = 0; sample < numSamples; ++sample) {
+                phase += phaseInc;
+                while (phase > 1.0f) phase -= 1.0f;
+                lastValue = shape.getValue(phase);
+            }
+        }
     }
     else if (mode == 0) {
         float tempRate = *parameters.getRawParameterValue(rateName);
@@ -53,10 +63,14 @@ void LFOModule::updateLFOPhase(float bpm, double ppq, int numSamples) {
     }
 }
 
-LFOShape* LFOModule::getShapePtr() {
-    return &shape;
+LFOShape& LFOModule::getShapeRef() {
+    return shape;
 }
 
 float* LFOModule::getPhasePtr() {
     return &phase;
+}
+
+float* LFOModule::getValuePtr() {
+    return &lastValue;
 }

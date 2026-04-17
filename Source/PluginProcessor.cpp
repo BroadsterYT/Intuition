@@ -173,6 +173,9 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("EQBAND7_Q", "EQ Band 7 Quality Factor", 0.2f, 12.0f, 0.707f),
         std::make_unique<juce::AudioParameterFloat>("EQBAND8_Q", "EQ Band 8 Quality Factor", 0.2f, 12.0f, 0.707f),
     }),
+    lfo1(parameters, "LFO1_MODE", "LFO1_SYNC_DIV", "LFO1_RATE"),
+    lfo2(parameters, "LFO2_MODE", "LFO2_SYNC_DIV", "LFO2_RATE"),
+    lfo3(parameters, "LFO3_MODE", "LFO3_SYNC_DIV", "LFO3_RATE"),
     context(
         this,
         parameters,
@@ -184,12 +187,12 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         bank3,
         bank4,
 
-        lfoShape1,
-        lfoShape2,
-        lfoShape3,
-        &lfoPhase1,
-        &lfoPhase2,
-        &lfoPhase3,
+        lfo1.getShapeRef(),
+        lfo2.getShapeRef(),
+        lfo3.getShapeRef(),
+        lfo1.getPhasePtr(),
+        lfo2.getPhasePtr(),
+        lfo3.getPhasePtr(),
 
         equalizerModule
     ),
@@ -222,11 +225,11 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     //========== ModMatrix Setup ==========//
     //===== Sources
     ModSource* lfoSource1 = modMatrix.addSource("LFO1");
-    lfoSource1->setValuePtr(&lfoValue1);
+    lfoSource1->setValuePtr(lfo1.getValuePtr());
     ModSource* lfoSource2 = modMatrix.addSource("LFO2");
-    lfoSource2->setValuePtr(&lfoValue2);
+    lfoSource2->setValuePtr(lfo2.getValuePtr());
     ModSource* lfoSource3 = modMatrix.addSource("LFO3");
-    lfoSource3->setValuePtr(&lfoValue3);
+    lfoSource3->setValuePtr(lfo3.getValuePtr());
 
     ModSource* envSourceA = modMatrix.addSource("ENV_Osc");
     envSourceA->setValuePtr(&envValueOsc);
@@ -409,6 +412,10 @@ void IntuitionAudioProcessor::changeProgramName (int index, const juce::String& 
 void IntuitionAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
+    lfo1.prepare(sampleRate);
+    lfo2.prepare(sampleRate);
+    lfo3.prepare(sampleRate);
+
     resetSynths();
     synth.clearSounds();
     synth.addSound(new SineWaveSound());
@@ -479,19 +486,36 @@ void IntuitionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
     //========== LFO Modulation ==========//
     setCurrentBPM();
-    float sampleRate = getSampleRate();
+
+    lfo1.updateLFOFrequency(currentBPM);
+    lfo2.updateLFOFrequency(currentBPM);
+    lfo3.updateLFOFrequency(currentBPM);
+
+    auto updateAllLFOPhases = [&](double ppq) {
+        int numSamples = buffer.getNumSamples();
+        lfo1.updateLFOPhase(currentBPM, ppq, numSamples);
+        lfo2.updateLFOPhase(currentBPM, ppq, numSamples);
+        lfo3.updateLFOPhase(currentBPM, ppq, numSamples);
+    };
     
-    calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate1);
-    float phaseInc1 = lfoRate1 / sampleRate;
-    calculateLFOPhase(lfoShape1,lfoPhase1, "LFO1_MODE", "LFO1_SYNC_DIV", "LFO1_RATE", lfoValue1, sampleRate, buffer.getNumSamples());
+    auto* playHead = getPlayHead();
+    if (playHead) {
+        auto position = playHead->getPosition();
+        bool isPlaying = position->getIsPlaying();
+        auto bpmOpt = position->getBpm();
+        auto ppqOpt = position->getPpqPosition();
 
-    calculateLFOFrequency("LFO1_MODE", "LFO1_RATE", "LFO1_SYNC_DIV", lfoRate2);
-    float phaseInc2 = lfoRate2 / sampleRate;
-    calculateLFOPhase(lfoShape2, lfoPhase2, "LFO2_MODE", "LFO2_SYNC_DIV", "LFO2_RATE", lfoValue2, sampleRate, buffer.getNumSamples());
-
-    calculateLFOFrequency("LFO3_MODE", "LFO3_RATE", "LFO3_SYNC_DIV", lfoRate3);
-    float phaseInc3 = lfoRate3 / sampleRate;
-    calculateLFOPhase(lfoShape3, lfoPhase3, "LFO3_MODE", "LFO3_SYNC_DIV", "LFO3_RATE", lfoValue3, sampleRate, buffer.getNumSamples());
+        if (isPlaying && ppqOpt) {
+            double ppq = *ppqOpt;
+            updateAllLFOPhases(ppq);
+        }
+        else {
+            updateAllLFOPhases(0.0);
+        }
+    }
+    else {
+        updateAllLFOPhases(0.0);
+    }
 
     //======= Envelope Modulation ========//
     modMatrix.applyMods();
@@ -878,93 +902,6 @@ void IntuitionAudioProcessor::initializeUserDirectory() {
     presets.createDirectory();
     skins.createDirectory();
     logs.createDirectory();
-}
-
-float IntuitionAudioProcessor::getDivisionFloat(int syncDiv) {
-    float div = 1.0f;
-    
-    if (syncDiv <= 7) {
-        div = 4.0f * pow(0.5f, syncDiv);
-    }
-
-    return div;
-}
-
-void IntuitionAudioProcessor::calculateLFOFrequency(
-    const juce::String modeName,
-    const juce::String rateName,
-    const juce::String syncDivName,
-    float& rateVal
-) {
-    int mode = (int)*parameters.getRawParameterValue(modeName);
-
-    if (mode == 0) {
-        rateVal = *parameters.getRawParameterValue(rateName);
-    }
-    else if (mode == 1) {
-        float division = getDivisionFloat((int)*parameters.getRawParameterValue(syncDivName));
-        rateVal = (currentBPM / 60.0f) * division;
-    }
-}
-
-void IntuitionAudioProcessor::calculateLFOPhase(
-    LFOShape& shape,
-    float& phase,
-    const juce::String modeName,
-    const juce::String syncDivName,
-    const juce::String rateName,
-    float& lfoValue,
-    float sampleRate,
-    int numSamples
-) {
-    int mode = (int)*parameters.getRawParameterValue(modeName);
-    
-    if (mode == 1) {  // BPM Sync
-        // Getting tempo multiplier
-        int tempoIndex = static_cast<int>(*parameters.getRawParameterValue(syncDivName));
-        TempoDivision division = static_cast<TempoDivision>(tempoIndex);
-        float beatsPerCycle = divisionToBeats(division);
-
-        if (auto* playHead = getPlayHead()) {
-            if (auto position = playHead->getPosition()) {
-                bool isPlaying = position->getIsPlaying();
-                auto bpmOpt = position->getBpm();
-                auto ppqOpt = position->getPpqPosition();
-
-                if (isPlaying && ppqOpt) {  // DAW is actively playing/in playback
-                    double ppq = *ppqOpt;
-                    phase = static_cast<float>(fmod(ppq / beatsPerCycle, 1.0));
-                    lfoValue = shape.getValue(phase);
-                    return;
-                }
-                else {  // DAW is idle/no trace
-                    double bpm = bpmOpt && (*bpmOpt > 0.0) ? *bpmOpt : 120.0;
-                    float phaseInc = bpm / (60.0f * beatsPerCycle * sampleRate);
-                    for (int sample = 0; sample < numSamples; ++sample) {
-                        phase += phaseInc;
-                        while (phase > 1.0f) {
-                            phase -= 1.0f;
-                        }
-                        lfoValue = shape.getValue(phase);
-                    }
-                    return;
-                }
-            }
-        }
-        DBG("Error retrieving PlayHead info");
-    }
-    else if (mode == 0) {  // Free Run (No tempo sync)
-        float rate = *parameters.getRawParameterValue(rateName);
-        float phaseInc = rate / sampleRate;
-        for (int sample = 0; sample < numSamples; ++sample) {
-            phase += phaseInc;
-            while (phase > 1.0f) {
-                phase -= 1.0f;
-            }
-
-            lfoValue = shape.getValue(phase);
-        }
-    }
 }
 
 void IntuitionAudioProcessor::setCurrentBPM() {
