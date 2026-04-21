@@ -12,6 +12,7 @@
 #include "SineWaveSound.h"
 #include "UnisonVoice.h"
 #include "LFOShape.h"
+#include "LFOModule.h"
 #include "WavetableBank.h"
 #include "ModMatrix.h"
 #include "ItnContext.h"
@@ -95,6 +96,10 @@ public:
 private:
     float currentBPM = 60.0;
 
+    LFOModule lfo1;
+    LFOModule lfo2;
+    LFOModule lfo3;
+
     float lfoRate1 = 1.0f;
     float lfoRate2 = 1.0f;
     float lfoRate3 = 1.0f;
@@ -128,23 +133,6 @@ private:
     /// If not already initialized, will organize the Intuition directory in the user's Documents folder.
     /// </summary>
     void initializeUserDirectory();
-
-    float getDivisionFloat(int syncDiv);
-    void calculateLFOFrequency(
-        const juce::String modeName,
-        const juce::String rateName,
-        const juce::String syncDivName,
-        float& rateVal
-    );
-    void calculateLFOPhase(LFOShape& shape, float& phase,
-        const juce::String modeName,
-        const juce::String syncDivName,
-        const juce::String rateName,
-        float& lfoValue,
-        float sampleRate,
-        int numSamples
-    );
-
     void setCurrentBPM();
 
     //==============================================================================

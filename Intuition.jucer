@@ -219,6 +219,8 @@
               file="Source/WaveformDisplay.h"/>
       </GROUP>
       <GROUP id="{85E551C5-6659-167B-444B-C9F34F7A7269}" name="LFO">
+        <FILE id="LBd1Qd" name="LFOModule.cpp" compile="1" resource="0" file="Source/LFOModule.cpp"/>
+        <FILE id="SHGG5L" name="LFOModule.h" compile="0" resource="0" file="Source/LFOModule.h"/>
         <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
         <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
         <FILE id="qxtoc5" name="LFOPoint.h" compile="0" resource="0" file="Source/LFOPoint.h"/>
