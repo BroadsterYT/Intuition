@@ -28,6 +28,15 @@ void EqualizerModule::prepare(double sr, int samplesPerBlock, int numChannels) {
 }
 
 void EqualizerModule::updateParameters() {
+    bands[0].enable((bool)*parameters.getRawParameterValue("EQBAND1_ENABLED"));
+    bands[1].enable((bool)*parameters.getRawParameterValue("EQBAND2_ENABLED"));
+    bands[2].enable((bool)*parameters.getRawParameterValue("EQBAND3_ENABLED"));
+    bands[3].enable((bool)*parameters.getRawParameterValue("EQBAND4_ENABLED"));
+    bands[4].enable((bool)*parameters.getRawParameterValue("EQBAND5_ENABLED"));
+    bands[5].enable((bool)*parameters.getRawParameterValue("EQBAND6_ENABLED"));
+    bands[6].enable((bool)*parameters.getRawParameterValue("EQBAND7_ENABLED"));
+    bands[7].enable((bool)*parameters.getRawParameterValue("EQBAND8_ENABLED"));
+
     setBandFilterType(0, "EQBAND1_FILTER_TYPE");
     setBandFilterType(1, "EQBAND2_FILTER_TYPE");
     setBandFilterType(2, "EQBAND3_FILTER_TYPE");

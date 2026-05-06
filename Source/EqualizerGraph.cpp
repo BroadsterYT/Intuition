@@ -33,6 +33,10 @@ void EqualizerGraph::mouseDown(const juce::MouseEvent& e) {
         const int callOutH = 25;  // CallOut height
 
         juce::PopupMenu menu;
+        menu.addItem("Active", true, band->isEnabled(), [this, band] {
+            if (band->isEnabled()) updateBandParameter(band->getId(), "ENABLED", false);
+            else updateBandParameter(band->getId(), "ENABLED", true);
+        });
         menu.addItem("Set Frequency...",
             [this, band, callOutW, callOutH] {
                 auto entry = std::make_unique<InlineValueEntry>(band->getFrequency());
@@ -209,11 +213,12 @@ void EqualizerGraph::paint(juce::Graphics& g) {
     std::vector<std::vector<float>> bandCoeffs;
     for (int i = 0; i < 8; ++i) {
         auto& band = equalizer.getBand(i);
+        if (!band.isEnabled()) continue;
+
         std::vector<float> coeffs;
         band.getBiquadCoefficients(coeffs);
         bandCoeffs.push_back(coeffs);
     }
-    jassert(bandCoeffs.size() > 0);
     ItnLookAndFeel::drawEqualizerCurve(g, getLocalBounds().toFloat(), bandCoeffs);
 
     // Drawing band locations

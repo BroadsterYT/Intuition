@@ -23,6 +23,7 @@ public:
     void updateCoefficients();
     void process(juce::dsp::ProcessContextReplacing<float>& context);
 
+    void enable(bool newState);
     void setFilterType(FilterType newType);
     /// <summary>
     /// Returns the biquad coefficients of the filter in order of b0, b1, b2, a1, a2
@@ -46,6 +47,7 @@ public:
     /// <param name="newQuality">The new Q factor to assign to the EQ band</param>
     void setQuality(float newQuality);
 
+    bool isEnabled() const;
     FilterType getFilterType() const;
     float getFrequency() const;
     float getGain() const;
@@ -63,6 +65,7 @@ private:
     FilterType type = FilterType::Peaking;  // The type of filter this band uses
     bool updateFilter = true;  // Should the filter be updated in the next updateCoefficients call?
 
+    bool enabled = true;  // Determines if the band should be used in processing
     float frequency = 1000.0f;
     float gain = 1.0f;  // dB
     float quality = 0.707f;

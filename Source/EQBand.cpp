@@ -66,7 +66,11 @@ void EQBand::updateCoefficients() {
 }
 
 void EQBand::process(juce::dsp::ProcessContextReplacing<float>& context) {
-    filter.process(context);
+    if (enabled) filter.process(context);
+}
+
+void EQBand::enable(bool newState) {
+    enabled = newState;
 }
 
 void EQBand::setFilterType(FilterType newType) {
@@ -95,6 +99,10 @@ void EQBand::setGain(float newGain) {
 
 void EQBand::setQuality(float newQuality) {
     quality = newQuality;
+}
+
+bool EQBand::isEnabled() const {
+    return enabled;
 }
 
 FilterType EQBand::getFilterType() const {

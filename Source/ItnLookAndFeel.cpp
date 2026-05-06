@@ -320,7 +320,10 @@ void ItnLookAndFeel::drawEqualizerPoint(juce::Graphics& g, juce::Rectangle<float
 
     float posX = BiquadResponse::getFreqInLinearRange(freq, bounds.getWidth());
     float posY = juce::jmap(gain, gainMin, gainMax, bounds.getHeight(), 0.0f);
-    g.setColour(MinimalStyle::accentPeach);
+    
+    float alpha = 1.0f;
+    if (!band.isEnabled()) alpha = 0.4f;
+    g.setColour(MinimalStyle::accentOrange.withAlpha(alpha));
     MinimalStyle::drawRadiantPoint(g, posX, posY, 24.0f);
 }
 

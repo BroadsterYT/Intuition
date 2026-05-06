@@ -133,7 +133,7 @@ namespace MinimalStyle {
 
     inline void drawRadiantPoint(juce::Graphics& g, float posX, float posY, float radius) {
         juce::Rectangle<float> bounds = { posX - radius / 2.0f, posY - radius / 2.0f, radius, radius };
-        g.setColour(accentOrange);
+        //g.setColour(accentOrange);
         g.fillEllipse(bounds);
     }
 

@@ -29,6 +29,7 @@ void LFOEditor::paint(juce::Graphics& g) {
     ItnLookAndFeel::drawLFO(g, getBounds().toFloat(), shape, *phase);
     for (int i = 0; i < shape.getNumPoints(); ++i) {
         const LFOPoint& point = shape.getPoint(i);
+        g.setColour(MinimalStyle::accentOrange);
         ItnLookAndFeel::drawLFOPoint(g, getBounds().toFloat(), point);
     }
 }

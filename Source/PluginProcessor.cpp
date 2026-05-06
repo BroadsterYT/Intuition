@@ -137,6 +137,15 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
         std::make_unique<juce::AudioParameterFloat>("CHORUS_WET_LEVEL", "Chorus Wet Level", 0.0f, 1.0f, 0.3f),
 
         //============= Equalizer ============//
+        std::make_unique<juce::AudioParameterBool>("EQBAND1_ENABLED", "EQ Band 1 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND2_ENABLED", "EQ Band 2 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND3_ENABLED", "EQ Band 3 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND4_ENABLED", "EQ Band 4 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND5_ENABLED", "EQ Band 5 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND6_ENABLED", "EQ Band 6 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND7_ENABLED", "EQ Band 7 Enabled", true),
+        std::make_unique<juce::AudioParameterBool>("EQBAND8_ENABLED", "EQ Band 8 Enabled", true),
+
         std::make_unique<juce::AudioParameterChoice>("EQBAND1_FILTER_TYPE", "EQ Band 1 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch"}, 2),
         std::make_unique<juce::AudioParameterChoice>("EQBAND2_FILTER_TYPE", "EQ Band 2 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
         std::make_unique<juce::AudioParameterChoice>("EQBAND3_FILTER_TYPE", "EQ Band 3 Filter Type", juce::StringArray{ "HighPass", "HighShelf", "Peaking", "LowShelf", "LowPass", "Notch" }, 2),
