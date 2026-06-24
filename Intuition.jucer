@@ -73,6 +73,8 @@
         <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
       </GROUP>
       <GROUP id="{70EF917A-6FF8-B320-F154-08A9D5F0182C}" name="ComponentsMainTabs">
+        <FILE id="dEZWQ2" name="IntumiTab.cpp" compile="1" resource="0" file="Source/IntumiTab.cpp"/>
+        <FILE id="UYrUQG" name="IntumiTab.h" compile="0" resource="0" file="Source/IntumiTab.h"/>
         <FILE id="mDGKA7" name="EffectsTab.cpp" compile="1" resource="0" file="Source/EffectsTab.cpp"/>
         <FILE id="eaazcD" name="EffectsTab.h" compile="0" resource="0" file="Source/EffectsTab.h"/>
         <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
@@ -179,8 +181,6 @@
       </GROUP>
       <GROUP id="{DECC4546-01B0-2CFE-87F2-70D0A83B3295}" name="Intumi">
         <GROUP id="{68DEFB51-DE4C-8FEE-3077-063009492F99}" name="GUI">
-          <FILE id="dEZWQ2" name="IntumiTab.cpp" compile="1" resource="0" file="Source/IntumiTab.cpp"/>
-          <FILE id="UYrUQG" name="IntumiTab.h" compile="0" resource="0" file="Source/IntumiTab.h"/>
           <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
                 file="Source/ConvoMessageComponent.cpp"/>
           <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
