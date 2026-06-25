@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    ConvoView.h
+    ConvoDisplay.h
     Created: 9 Jan 2026 10:30:15am
     Author:  BroDe
 
@@ -14,9 +14,13 @@
 #include "ItnLookAndFeel.h"
 
 
-class ConvoView : public juce::Component {
+/// <summary>
+/// An interface displaying text bubbles with the conversation between the
+/// user and Intumi
+/// </summary>
+class ConvoDisplay : public juce::Component {
 public:
-    ConvoView();
+    ConvoDisplay();
 
     void addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed = false);
     void clear();

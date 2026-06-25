@@ -11,10 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 #include "ItnLookAndFeel.h"
-#include "AIManager.h"
+#include "IntumiManager.h"
 #include "PluginProcessor.h"
 #include "ConvoMessageComponent.h"
-#include "ConvoView.h"
+#include "ConvoDisplay.h"
 
 
 class IntumiTab : public juce::Component {
@@ -27,13 +27,13 @@ public:
 
 private:
     IntuitionAudioProcessor* processor = nullptr;
+    IntumiManager intumi;
 
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
-    //juce::TextEditor outputBox;
 
     juce::Viewport convoViewport;
-    ConvoView convoView;
+    ConvoDisplay convoDisplay;
 
     /// <summary>
     /// Retrieves the file where the API key is saved. If no key has been saved, the

@@ -185,11 +185,13 @@
                 file="Source/ConvoMessageComponent.cpp"/>
           <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
                 file="Source/ConvoMessageComponent.h"/>
-          <FILE id="EiVzxo" name="ConvoView.cpp" compile="1" resource="0" file="Source/ConvoView.cpp"/>
-          <FILE id="s6GfYO" name="ConvoView.h" compile="0" resource="0" file="Source/ConvoView.h"/>
+          <FILE id="EiVzxo" name="ConvoDisplay.cpp" compile="1" resource="0"
+                file="Source/ConvoDisplay.cpp"/>
+          <FILE id="s6GfYO" name="ConvoDisplay.h" compile="0" resource="0" file="Source/ConvoDisplay.h"/>
         </GROUP>
-        <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
-        <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
+        <FILE id="jnHedN" name="IntumiManager.cpp" compile="1" resource="0"
+              file="Source/IntumiManager.cpp"/>
+        <FILE id="a7ohro" name="IntumiManager.h" compile="0" resource="0" file="Source/IntumiManager.h"/>
       </GROUP>
       <GROUP id="{304AA9EA-B4DF-C160-32BD-49E0280D0986}" name="LFO">
         <GROUP id="{B5EC2F83-04CD-4921-5B8E-A531B8ECA734}" name="GUI">

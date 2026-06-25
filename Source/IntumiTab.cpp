@@ -40,7 +40,6 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     // ----- Prompt Box ----- //
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::accentOrange);
     promptBox.onReturnKey = [this]() {
-
         // Retrieving messages array
         juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
         if (!convoFile.existsAsFile()) {
@@ -48,10 +47,10 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
             convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
         }
         appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
-        convoView.addMessage("user", promptBox.getText());
+        convoDisplay.addMessage("user", promptBox.getText());
 
         // API query
-        juce::String intumiResponse = AIManager::queryAI(
+        juce::String intumiResponse = intumi.queryAI(
             getApiKey(),
             promptBox.getText(),
             processor->getParametersAsJsonString()
@@ -66,13 +65,13 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         }
         
         juce::String message = obj->getProperty("message");
-        convoView.addMessage("intumi", message);
+        convoDisplay.addMessage("intumi", message);
 
         juce::var jsonParams = obj->getProperty("parameters");
         processor->applyJsonParameterTweaks(jsonParams);
     };
 
-    convoViewport.setViewedComponent(&convoView);
+    convoViewport.setViewedComponent(&convoDisplay);
     convoViewport.setScrollBarsShown(true, false);
 
     addAndMakeVisible(apiKeyBox);
@@ -96,6 +95,7 @@ void IntumiTab::resized() {
 }
 
 juce::File IntumiTab::getSavedKeyFile() {
+    // TODO: Make the directory creation its own method
     juce::File docsDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
     juce::File projDocsDir = docsDir.getChildFile("Intuition");
     projDocsDir.createDirectory();
@@ -140,7 +140,7 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
         juce::String msgText = contentObj->getProperty("message");
         DBG("Message: " << msgText);
 
-        convoView.addMessage(role, msgText, true);
+        convoDisplay.addMessage(role, msgText, true);
     }
 }
 

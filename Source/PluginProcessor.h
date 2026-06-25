@@ -21,7 +21,6 @@
 #include "DelayModule.h"
 #include "ChorusModule.h"
 #include "EqualizerModule.h"
-#include "AIManager.h"
 #include "FFTProcessor.h"
 
 
