@@ -12,7 +12,7 @@
 
 juce::var JsonHelper::getJsonFileAsVar(const juce::File& jsonFile) {
     if (!jsonFile.existsAsFile()) {
-        DBG("JSON file not found " << jsonFile.getFullPathName());
+        DBG("ERROR: JSON file not found " << jsonFile.getFullPathName());
         return juce::var();
     }
 

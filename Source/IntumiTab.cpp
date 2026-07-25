@@ -16,12 +16,12 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 
-    juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
-    if (!convoFile.existsAsFile()) {
-        convoFile.create();
-        convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
+    juce::Array<juce::File> allConvoFiles = intumi.getAllConvoFiles();
+    if (!allConvoFiles.size()) {
+        juce::File newConvoFile = intumi.createNewConvoFile();
     }
-    renderAllPreviousMessages(convoFile);
+    juce::File testFile = allConvoFiles.getFirst();
+    renderAllPreviousMessages(testFile);
 
     // ----- API Key Box ----- //
     juce::File keyFile = getSavedKeyFile();
@@ -41,11 +41,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::accentOrange);
     promptBox.onReturnKey = [this]() {
         // Retrieving messages array
-        juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
-        if (!convoFile.existsAsFile()) {
-            convoFile.create();
-            convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
-        }
+        juce::File convoFile = intumi.getAllConvoFiles().getFirst();
         appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
         convoDisplay.addMessage("user", promptBox.getText());
 
@@ -122,6 +118,10 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
     juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
     juce::var messagesVar = getConversationArray(jsonConvo);
     auto* messages = messagesVar.getArray();
+    if (!messages) {
+        DBG("ERROR: Could not retrieve messages array from " << jsonFile.getFullPathName());
+        return;
+    }
 
     for (int i = 0; i < messages->size(); ++i) {
         juce::var msgVar = messages->getUnchecked(i);
@@ -133,7 +133,7 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
         juce::var contentVar = obj->getProperty("content");
         auto* contentObj = contentVar.getDynamicObject();
         if (!contentObj) {
-            DBG("Error: Could not get DynamicObject from message content.");
+            DBG("ERROR: Could not get DynamicObject from message content.");
             continue;
         }
 
@@ -147,13 +147,13 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
 juce::var IntumiTab::getConversationArray(juce::var& jsonVar) {
     auto* root = jsonVar.getDynamicObject();
     if (!root) {
-        DBG("Error: DynamicObject could not be retrieved from JSON file.");
+        DBG("ERROR: DynamicObject could not be retrieved from JSON file.");
         return juce::var();
     }
 
     juce::var messagesVar = root->getProperty("messages");
     if (!messagesVar.isArray()) {
-        DBG("Error: The value of \"messages\" is not of type array.");
+        DBG("ERROR: The value of \"messages\" is not of type array.");
         return juce::var();
     }
     return messagesVar;

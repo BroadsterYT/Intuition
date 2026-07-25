@@ -47,6 +47,17 @@ juce::String IntumiManager::queryAI(
     return output;
 }
 
+juce::File IntumiManager::createNewConvoFile() {
+    juce::Uuid newId;
+    juce::File convoDir = getConvoDirectory();
+    juce::File newConvoFile = convoDir.getChildFile(newId.toString() + ".json");
+    if (newConvoFile.create().wasOk()) {
+        DBG("New conversation file was created with UUID " << newId.toString());
+        newConvoFile.replaceWithText("{\"messages\": []}");
+    }
+    return newConvoFile;
+}
+
 juce::File IntumiManager::getConvoFileByUuid(juce::Uuid& convoId) {
     juce::File logDir = getConvoDirectory();
     juce::File convoFile = logDir.getChildFile(convoId.toString() + ".json");
@@ -55,6 +66,12 @@ juce::File IntumiManager::getConvoFileByUuid(juce::Uuid& convoId) {
         convoFile.create();
     }
     return convoFile;
+}
+
+juce::Array<juce::File> IntumiManager::getAllConvoFiles() {
+    juce::File convoDir = getConvoDirectory();
+    juce::Array<juce::File> childFiles = convoDir.findChildFiles(juce::File::findFiles, false, "*");
+    return childFiles;
 }
 
 juce::File IntumiManager::getConvoDirectory() {
