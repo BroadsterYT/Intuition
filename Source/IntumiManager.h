@@ -48,8 +48,7 @@ public:
     /// <returns>juce::File The newly created file</returns>
     juce::File createNewConvoFile();
     /// <summary>
-    /// Given a UUID, returns the conversation file with that ID. If the file does not exist, the
-    /// file will be created.
+    /// Given a UUID, returns the conversation file with that ID.
     /// </summary>
     /// <param name="convoId">The UUID of the conversation to retrieve</param>
     /// <returns>juce::File containing the conversation with the given UUID</returns>

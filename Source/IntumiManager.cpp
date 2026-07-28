@@ -77,8 +77,8 @@ juce::File IntumiManager::getConvoFileByUuid(juce::Uuid& convoId) {
     juce::File logDir = getConvoDirectory();
     juce::File convoFile = logDir.getChildFile(convoId.toString() + ".json");
     if (!convoFile.existsAsFile()) {
-        DBG("WARN: File " << convoFile.getFullPathName() << " does not exist or is not a file. Creating now...");
-        convoFile.create();
+        DBG("WARN: File " << convoFile.getFullPathName() << " does not exist or is not a file.");
+        return juce::File();
     }
     return convoFile;
 }
@@ -90,11 +90,8 @@ juce::Array<juce::File> IntumiManager::getAllConvoFiles() {
 }
 
 juce::File IntumiManager::getApiKeyFile() {
-    // TODO: Replace with global project directory path finder
-    juce::File intnDir = getConvoDirectory()
-        .getParentDirectory()
-        .getParentDirectory();
-    juce::File keyFile = intnDir.getChildFile("key.env");
+    juce::File homeDir = ItnFileHelper::getItnHomeDirectory();
+    juce::File keyFile = homeDir.getChildFile("key.env");
     if (!keyFile.existsAsFile()) {
         DBG("ERROR: key.env file does not exist. Creating file...");
         keyFile.create();
@@ -106,7 +103,6 @@ juce::File IntumiManager::getApiKeyFile() {
 juce::File IntumiManager::getConvoDirectory() {
     juce::File homeDir = ItnFileHelper::getItnHomeDirectory();
     juce::File logDir = homeDir.getChildFile("Logs").getChildFile("Intumi");
-
     if (!logDir.exists()) {
         DBG("ERROR: Directory " << logDir.getFullPathName() << " does not exist. Make sure the user Intuition directory was created and configured.");
         return juce::File();
