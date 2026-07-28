@@ -24,8 +24,8 @@ void ItnFileHelper::configureItnHomeDirectory() {
 
     juce::File logs = home.getChildFile("Logs");
     juce::File presets = home.getChildFile("Presets");
-    juce::File wavetables = home.getChildFile("Wavetables");
+    juce::File waveforms = home.getChildFile("Waveforms");
     logs.createDirectory();
     presets.createDirectory();
-    wavetables.createDirectory();
+    waveforms.createDirectory();
 }

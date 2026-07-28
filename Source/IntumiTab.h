@@ -49,6 +49,15 @@ private:
     /// <param name="jsonVar">A juce::var containing a JSON conversation</param>
     /// <returns>A juce::var containing an array of all the messages sent and received in a specific conversation</returns>
     juce::var getConversationArray(juce::var& jsonVar);
+
+    /// <summary>
+    /// Append a message from the user or Intumi AI to a conversation file
+    /// </summary>
+    /// <param name="jsonFile">File to append to</param>
+    /// <param name="role">Role of sender, either "user" or "intumi"</param>
+    /// <param name="message">Message body sent</param>
+    void appendMessageToConvoFile(const juce::File& jsonFile, const juce::String& role, const juce::String& message);
+
     /// <summary>
     /// Adds a user's message to the json file containing the current Intumi conversation after formatting it.
     /// </summary>
