@@ -57,14 +57,4 @@ private:
     /// <param name="role">Role of sender, either "user" or "intumi"</param>
     /// <param name="message">Message body sent</param>
     void appendMessageToConvoFile(const juce::File& jsonFile, const juce::String& role, const juce::String& message);
-
-    /// <summary>
-    /// Adds a user's message to the json file containing the current Intumi conversation after formatting it.
-    /// </summary>
-    /// <param name="jsonFile">The file containing the conversation</param>
-    /// <param name="role">The role of the sender of the message</param>
-    /// <param name="message">The prompt the user netered into the prompt box</param>
-    /// <param name="parametersJsonString">A string containing all current parameter values</param>
-    void appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& message, const juce::String& parametersJsonString);
-    void appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& jsonResponse);
 };
