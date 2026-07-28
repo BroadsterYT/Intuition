@@ -25,17 +25,28 @@ public:
     /// <param name="params">The current plugin parameters as a JSON string</param>
     /// <returns>(juce::String) The JSON response sent back from the microservice</returns>
     juce::String queryAI(
-        const juce::String apiKey,
-        const juce::String prompt,
-        const juce::String params
+        const juce::String& apiKey,
+        const juce::String& prompt,
+        const juce::String& params
     );
+
+    /// <summary>
+    /// Returns the API key to use in Intumi queries.
+    /// </summary>
+    /// <returns>juce::String API key</returns>
+    juce::String getApiKey();
+    /// <summary>
+    /// Sets the API key to use for all Intumi API calls.
+    /// </summary>
+    /// <param name="newApiKey">The key to use for all subsequent API calls</param>
+    /// <returns>True if the new key was set successfully, false otherwise</returns>
+    bool setApiKey(const juce::String& newApiKey);
 
     /// <summary>
     /// Creates a new conversation file with a unique UUID.
     /// </summary>
     /// <returns>juce::File The newly created file</returns>
     juce::File createNewConvoFile();
-
     /// <summary>
     /// Given a UUID, returns the conversation file with that ID. If the file does not exist, the
     /// file will be created.
@@ -43,7 +54,6 @@ public:
     /// <param name="convoId">The UUID of the conversation to retrieve</param>
     /// <returns>juce::File containing the conversation with the given UUID</returns>
     juce::File getConvoFileByUuid(juce::Uuid& convoId);
-
     /// <summary>
     /// Retrieves all files in the conversation file directory.
     /// </summary>
@@ -51,6 +61,12 @@ public:
     juce::Array<juce::File> getAllConvoFiles();
 
 private:
+    /// <summary>
+    /// Returns the file containing the Intumi API key.
+    /// </summary>
+    /// <returns>juce::File File containing the API key</returns>
+    juce::File getApiKeyFile();
+
     /// <summary>
     /// Returns the directory holding the conversation files
     /// </summary>

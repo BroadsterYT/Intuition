@@ -128,10 +128,6 @@ private:
     /// <returns>A pointer to a ModDestination configured with the given name and range.</returns>
     ModDestination* createModDestination(const juce::String& destName, float minRange = 0.0f, float maxRange = 1.0f);
 
-    /// <summary>
-    /// If not already initialized, will organize the Intuition directory in the user's Documents folder.
-    /// </summary>
-    void initializeUserDirectory();
     void setCurrentBPM();
 
     //==============================================================================

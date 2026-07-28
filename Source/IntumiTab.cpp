@@ -24,15 +24,14 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     renderAllPreviousMessages(testFile);
 
     // ----- API Key Box ----- //
-    juce::File keyFile = getSavedKeyFile();
-    if (!keyFile.existsAsFile()) {
+    if (intumi.getApiKey().isEmpty()) {
         apiKeyBox.setTextToShowWhenEmpty("Enter Groq API key...", MinimalStyle::accentOrange);
     }
     else {
         apiKeyBox.setTextToShowWhenEmpty("API key set successfully.", juce::Colours::green);
     }
     apiKeyBox.onReturnKey = [this]() {
-        setApiKey(apiKeyBox.getText());
+        intumi.setApiKey(apiKeyBox.getText());
         apiKeyBox.clear();
         apiKeyBox.setTextToShowWhenEmpty("API key set successfully.", juce::Colours::green);
     };
@@ -47,7 +46,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
 
         // API query
         juce::String intumiResponse = intumi.queryAI(
-            getApiKey(),
+            intumi.getApiKey(),
             promptBox.getText(),
             processor->getParametersAsJsonString()
         );
@@ -88,30 +87,6 @@ void IntumiTab::resized() {
     apiKeyBox.setBounds(50, 50, 1000, 40);
     promptBox.setBounds(50, 100, 1000, 40);
     convoViewport.setBounds(50, 250, 1000, 360);
-}
-
-juce::File IntumiTab::getSavedKeyFile() {
-    // TODO: Make the directory creation its own method
-    juce::File docsDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-    juce::File projDocsDir = docsDir.getChildFile("Intuition");
-    projDocsDir.createDirectory();
-
-    juce::File keySaveFile = projDocsDir.getChildFile("key.env");
-    keySaveFile.create();
-    return keySaveFile;
-}
-
-void IntumiTab::setApiKey(const juce::String newKey) {
-    juce::File keySaveFile = getSavedKeyFile();
-    keySaveFile.replaceWithText(newKey);
-    DBG("API key set as: " << newKey);
-}
-
-juce::String IntumiTab::getApiKey() {
-    juce::File keySaveFile = getSavedKeyFile();
-    juce::String key = keySaveFile.loadFileAsString();
-    DBG("API key returned: " << key);
-    return key;
 }
 
 void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {

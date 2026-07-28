@@ -176,6 +176,9 @@
               file="Source/BiquadResponse.cpp"/>
         <FILE id="z7rjyk" name="BiquadResponse.h" compile="0" resource="0"
               file="Source/BiquadResponse.h"/>
+        <FILE id="I4l21i" name="ItnFileHelper.cpp" compile="1" resource="0"
+              file="Source/ItnFileHelper.cpp"/>
+        <FILE id="bbeQI7" name="ItnFileHelper.h" compile="0" resource="0" file="Source/ItnFileHelper.h"/>
         <FILE id="BwBcRt" name="JsonHelper.cpp" compile="1" resource="0" file="Source/JsonHelper.cpp"/>
         <FILE id="f6siak" name="JsonHelper.h" compile="0" resource="0" file="Source/JsonHelper.h"/>
       </GROUP>

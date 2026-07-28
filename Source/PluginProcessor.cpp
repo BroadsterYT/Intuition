@@ -7,6 +7,7 @@
 */
 
 #include "PluginProcessor.h"
+#include "ItnFileHelper.h"
 #include "PluginEditor.h"
 #include "WavetableHelper.h"
 
@@ -203,7 +204,8 @@ IntuitionAudioProcessor::IntuitionAudioProcessor()
     equalizerModule(parameters, &modMatrix)
 {
     parameters.state = juce::ValueTree("PARAMETERS");
-    initializeUserDirectory();
+    //initializeUserDirectory();
+    ItnFileHelper::configureItnHomeDirectory();
 
     const char* wav = BinaryData::AKWF_sin_wav;
     int wavSize = BinaryData::AKWF_sin_wavSize;
@@ -884,24 +886,6 @@ ModDestination* IntuitionAudioProcessor::createModDestination(const juce::String
     dest->setMinRange(minRange);
     dest->setMaxRange(maxRange);
     return dest;
-}
-
-void IntuitionAudioProcessor::initializeUserDirectory() {
-    juce::File documents = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-    juce::File home = documents.getChildFile("Intuition");
-
-    if (!home.exists()) home.createDirectory();
-
-    // Organizing subfolders
-    auto wavetables = home.getChildFile("Waveforms");  // Users can organize this folder however they please
-    auto presets = home.getChildFile("Presets");
-    auto skins = home.getChildFile("Skins");
-    auto logs = home.getChildFile("Logs");
-
-    wavetables.createDirectory();
-    presets.createDirectory();
-    skins.createDirectory();
-    logs.createDirectory();
 }
 
 void IntuitionAudioProcessor::setCurrentBPM() {

@@ -9,13 +9,14 @@
 */
 
 #include "IntumiManager.h"
+#include "ItnFileHelper.h"
 
 IntumiManager::IntumiManager() {}
 
 juce::String IntumiManager::queryAI(
-    const juce::String apiKey,
-    const juce::String prompt,
-    const juce::String params
+    const juce::String& apiKey,
+    const juce::String& prompt,
+    const juce::String& params
 ) {
     const char* exeData;
     int exeSize;
@@ -47,6 +48,20 @@ juce::String IntumiManager::queryAI(
     return output;
 }
 
+juce::String IntumiManager::getApiKey() {
+    juce::File keyFile = getApiKeyFile();
+    juce::String apiKey = keyFile.loadFileAsString();
+    if (apiKey.isEmpty()) {
+        DBG("WARN: API key retrieved from key file is empty.");
+    }
+    return apiKey;
+}
+
+bool IntumiManager::setApiKey(const juce::String& newApiKey) {
+    juce::File keyFile = getApiKeyFile();
+    return keyFile.replaceWithText(newApiKey);
+}
+
 juce::File IntumiManager::createNewConvoFile() {
     juce::Uuid newId;
     juce::File convoDir = getConvoDirectory();
@@ -74,11 +89,23 @@ juce::Array<juce::File> IntumiManager::getAllConvoFiles() {
     return childFiles;
 }
 
+juce::File IntumiManager::getApiKeyFile() {
+    // TODO: Replace with global project directory path finder
+    juce::File intnDir = getConvoDirectory()
+        .getParentDirectory()
+        .getParentDirectory();
+    juce::File keyFile = intnDir.getChildFile("key.env");
+    if (!keyFile.existsAsFile()) {
+        DBG("ERROR: key.env file does not exist. Creating file...");
+        keyFile.create();
+    }
+
+    return keyFile;
+}
+
 juce::File IntumiManager::getConvoDirectory() {
-    juce::File logDir = juce::File(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory))
-        .getChildFile("Intuition")
-        .getChildFile("Logs")
-        .getChildFile("Intumi");
+    juce::File homeDir = ItnFileHelper::getItnHomeDirectory();
+    juce::File logDir = homeDir.getChildFile("Logs").getChildFile("Intumi");
 
     if (!logDir.exists()) {
         DBG("ERROR: Directory " << logDir.getFullPathName() << " does not exist. Make sure the user Intuition directory was created and configured.");
