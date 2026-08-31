@@ -107,27 +107,27 @@ data = {
             "content": args.prompt + args.params
         }
     ],
-    "model": "llama-3.3-70b-versatile",
+    "model": "openai/gpt-oss-120b",
+    "reasoning_format": "hidden",
 }
+
+
+def build_error_response(message: str) -> str:
+    output = "{\"parameters\": {}, \"message\": \"" + message + "\"}"
+    return output
+
 
 try:
     response = requests.post(url, headers=headers, data=json.dumps(data))
 except requests.exceptions.ConnectionError:
-    exception_json = """
-    {
-        "parameters": {
-        },
-        "message": "Oops! The query couldn't be processed! Try connecting to the internet, dummy! >///<"
-    }
-    """
+    exception_json = build_error_response("Oops! The query couldn't be processed! Try connecting to the internet, dummy! >///<")
     print(exception_json)
     sys.exit()
 
-
 if response.status_code == 200:
     returned_data = response.json()
-    message = returned_data['choices'][0]['message']['content']
-    print(message)
+    intumi_content = returned_data['choices'][0]['message']['content']
+    print(intumi_content)  # Contains params and message
 else:
-    print(f"Request failed with status {response.status_code}")
-    print(response.text)
+    intumi_content = build_error_response(f"Oh no! An error {response.status_code} occured!")
+    print(intumi_content)

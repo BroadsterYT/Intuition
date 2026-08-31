@@ -33,6 +33,7 @@ juce::var JsonHelper::getJsonFileAsVar(const juce::File& jsonFile) {
 
 juce::var JsonHelper::getJsonStringAsVar(const juce::String& jsonString) {
     juce::var parsedJson;
+    DBG("JSON STRING: " << jsonString);
     juce::Result result = juce::JSON::parse(jsonString, parsedJson);
     jassert(result.wasOk());
     return parsedJson;

@@ -53,7 +53,6 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
         juce::DynamicObject::Ptr obj = response.getDynamicObject();
         if (!obj) {
-            // TODO: Find way to display errors with updated Intumi UI
             return;
         }
         juce::String message = obj->getProperty("message");
@@ -98,19 +97,11 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
 
     for (int i = 0; i < messages->size(); ++i) {
         juce::var msgVar = messages->getUnchecked(i);
-        
         auto* obj = msgVar.getDynamicObject();
         if (!obj) continue;
 
         juce::String role = obj->getProperty("role");
-        juce::var contentVar = obj->getProperty("content");
-        auto* contentObj = contentVar.getDynamicObject();
-        if (!contentObj) {
-            DBG("ERROR: Could not get DynamicObject from message content.");
-            continue;
-        }
-
-        juce::String msgText = contentObj->getProperty("message");
+        juce::String msgText = obj->getProperty("message");
         DBG("Message: " << msgText);
 
         convoDisplay.addMessage(role, msgText, true);
