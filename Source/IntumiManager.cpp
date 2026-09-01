@@ -13,39 +13,79 @@
 
 IntumiManager::IntumiManager() {}
 
+juce::String IntumiManager::getPayload(const juce::String& prompt, const juce::String& params) {
+    juce::var payload(new juce::DynamicObject());
+    juce::DynamicObject::Ptr payloadDynObj = payload.getDynamicObject();
+
+    payloadDynObj->setProperty("model", "openai/gpt-oss-120b");
+    payloadDynObj->setProperty("reasoning_format", "hidden");
+
+    // Defining system behavior
+    juce::var systemObj(new juce::DynamicObject());
+    juce::DynamicObject::Ptr systemDynObj = systemObj.getDynamicObject();
+    systemDynObj->setProperty("role", "system");
+    juce::String systemRole = juce::String::fromUTF8(
+        BinaryData::system_role_dat,
+        BinaryData::system_role_datSize);
+    systemDynObj->setProperty("content", systemRole);
+
+    // User input
+    juce::var userObj(new juce::DynamicObject());
+    juce::DynamicObject::Ptr userDynObj = userObj.getDynamicObject();
+    userDynObj->setProperty("role", "user");
+    userDynObj->setProperty("content", prompt + params);
+
+    juce::Array<juce::var> messagesArray;
+    messagesArray.add(systemObj);
+    messagesArray.add(userObj);
+
+    payloadDynObj->setProperty("messages", messagesArray);
+
+    juce::String jsonOutput = juce::JSON::toString(payload);
+    return jsonOutput;
+}
+
+juce::String IntumiManager::getHeaders(const juce::String& apiKey) {
+    juce::var headers(new juce::DynamicObject());
+    juce::DynamicObject::Ptr headersDynObj = headers.getDynamicObject();
+
+    headersDynObj->setProperty("Authorization", apiKey);
+    headersDynObj->setProperty("Content-Type", "application/json");
+
+    juce::String jsonOutput = juce::JSON::toString(headers);
+    return jsonOutput;
+}
+
 juce::String IntumiManager::queryAI(
     const juce::String& apiKey,
     const juce::String& prompt,
     const juce::String& params
 ) {
-    const char* exeData;
-    int exeSize;
+    juce::URL endpoint("https://api.groq.com/openai/v1/chat/completions");
+    juce::String payload = getPayload(prompt, params);
 
-#if defined(JUCE_WINDOWS) && JUCE_WINDOWS
-    exeData = BinaryData::intumi_exe;
-    exeSize = BinaryData::intumi_exeSize;
-#elif defined(JUCE_MAC) && JUCE_MAC
-    exeData = BinaryData::intumi;
-    exeSize = BinaryData::intumiSize;
-#endif
+    endpoint = endpoint.withPOSTData(payload);
 
-    juce::File tempExe = juce::File::getSpecialLocation(juce::File::tempDirectory).getChildFile("intumi.exe");
-    tempExe.replaceWithData(exeData, exeSize);
-    tempExe.setExecutePermission(true);
-    DBG(tempExe.getFullPathName());
+    int statusCode = 0;
+    auto options = juce::URL::InputStreamOptions(juce::URL::ParameterHandling::inPostData)
+        .withHttpRequestCmd("POST")
+        .withStatusCode(&statusCode)
+        .withExtraHeaders("Authorization: Bearer " + apiKey + "\r\nContent-Type: application/json");
 
-    juce::ChildProcess intumi;
-    intumi.start(tempExe.getFullPathName() 
-        + " --api-key " + apiKey 
-        + " --prompt \"" + prompt + "\""
-        + " --params \"" + params
-    );
-
-    intumi.waitForProcessToFinish(-1);
-    juce::String output = intumi.readAllProcessOutput();
-
-    //DBG("Intumi says: " << output);
-    return output;
+    if (auto stream = endpoint.createInputStream(options)) {
+        juce::String response = stream->readEntireStreamAsString();
+        juce::var responseJson = JsonHelper::getJsonStringAsVar(response);
+        juce::DynamicObject::Ptr jsonObj = responseJson.getDynamicObject();
+        
+        // response["choices"][0]["message"]["content"]
+        jassert(jsonObj->getProperty("choices").isArray());
+        juce::Array<juce::var> choicesArray = *jsonObj->getProperty("choices").getArray();
+        juce::String intumiMsg = choicesArray[0]
+            .getDynamicObject()->getProperty("message")
+            .getDynamicObject()->getProperty("content");
+        return intumiMsg;
+    }
+    return "Error occured.";
 }
 
 juce::String IntumiManager::getApiKey() {

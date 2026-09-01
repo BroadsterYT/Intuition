@@ -10,11 +10,16 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "JsonHelper.h"
 
 
 class IntumiManager {
 public:
     IntumiManager();
+
+    juce::String getPayload(const juce::String& prompt, const juce::String& params);
+
+    juce::String getHeaders(const juce::String& apiKey);
     
     /// <summary>
     /// Sends a query through the Intumi microservice and returns the AI message
