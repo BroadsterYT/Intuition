@@ -31,86 +31,53 @@
         <FILE id="wReOI7" name="AKWF_tri.wav" compile="0" resource="1" file="Assets/DefaultWaveforms/AKWF_tri.wav"/>
       </GROUP>
     </GROUP>
-    <GROUP id="{13A50E93-AAC6-03D3-12F4-A6683D5B6C92}" name="IntumiExes">
-      <FILE id="w7JRjy" name="intumi" compile="0" resource="1" file="IntumiExes/intumi"/>
-      <FILE id="Ds6S66" name="intumi.exe" compile="0" resource="1" file="IntumiExes/intumi.exe"/>
-    </GROUP>
     <GROUP id="{C37ABC05-E00C-92F0-6684-C5202241405B}" name="Source">
-      <GROUP id="{33E353CF-A0C3-24ED-6FC4-25EC86F3A4C9}" name="Effects">
-        <GROUP id="{2A509522-4F32-74F7-B5E3-F848E80360B2}" name="Equalizer">
-          <FILE id="cLKv57" name="EQBand.cpp" compile="1" resource="0" file="Source/EQBand.cpp"/>
-          <FILE id="HpzqDW" name="EQBand.h" compile="0" resource="0" file="Source/EQBand.h"/>
-          <FILE id="ih7nas" name="EqualizerModule.cpp" compile="1" resource="0"
-                file="Source/EqualizerModule.cpp"/>
-          <FILE id="Sv2NYo" name="EqualizerModule.h" compile="0" resource="0"
-                file="Source/EqualizerModule.h"/>
-        </GROUP>
-        <GROUP id="{204BDE00-6CAE-DDD2-7347-0CB7A42D7E73}" name="Reverb">
-          <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
-          <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
-                file="Source/ReverbModule.cpp"/>
-        </GROUP>
-        <GROUP id="{12B7013C-D415-91ED-6E95-342B31BCB85D}" name="Delay">
-          <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
-          <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
-        </GROUP>
-        <GROUP id="{DD4132D4-4A1B-A33A-44EF-884EACD16DE0}" name="Chorus">
-          <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
-          <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
-                file="Source/ChorusModule.cpp"/>
-        </GROUP>
+      <GROUP id="{E84E8FE1-9020-E0F4-A329-F4A7417F0263}" name="ComponentsGeneral">
+        <FILE id="BmIdha" name="SliderComponent.cpp" compile="1" resource="0"
+              file="Source/SliderComponent.cpp"/>
+        <FILE id="KiCMib" name="SliderComponent.h" compile="0" resource="0"
+              file="Source/SliderComponent.h"/>
+        <FILE id="Y89n8U" name="ItnTabbedComponent.cpp" compile="1" resource="0"
+              file="Source/ItnTabbedComponent.cpp"/>
+        <FILE id="WSzIY5" name="ItnTabbedComponent.h" compile="0" resource="0"
+              file="Source/ItnTabbedComponent.h"/>
+        <FILE id="CTuMic" name="PanelTitleComponent.cpp" compile="1" resource="0"
+              file="Source/PanelTitleComponent.cpp"/>
+        <FILE id="tIrjbB" name="PanelTitleComponent.h" compile="0" resource="0"
+              file="Source/PanelTitleComponent.h"/>
+        <FILE id="xETEqV" name="TempoSelect.cpp" compile="1" resource="0" file="Source/TempoSelect.cpp"/>
+        <FILE id="krJCCk" name="TempoSelect.h" compile="0" resource="0" file="Source/TempoSelect.h"/>
+        <FILE id="lUHnAe" name="ButtonComponent.cpp" compile="1" resource="0"
+              file="Source/ButtonComponent.cpp"/>
+        <FILE id="BVind5" name="ButtonComponent.h" compile="0" resource="0"
+              file="Source/ButtonComponent.h"/>
+        <FILE id="En9vkG" name="InlineValueEntry.cpp" compile="1" resource="0"
+              file="Source/InlineValueEntry.cpp"/>
+        <FILE id="r67dFC" name="InlineValueEntry.h" compile="0" resource="0"
+              file="Source/InlineValueEntry.h"/>
+        <FILE id="Esa4Ji" name="TooltipController.cpp" compile="1" resource="0"
+              file="Source/TooltipController.cpp"/>
+        <FILE id="dNo4cW" name="TooltipController.h" compile="0" resource="0"
+              file="Source/TooltipController.h"/>
+        <FILE id="OGT9cE" name="TypewriterText.cpp" compile="1" resource="0"
+              file="Source/TypewriterText.cpp"/>
+        <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
+              file="Source/TypewriterText.h"/>
+        <FILE id="ZHqCzh" name="ItnTooltip.cpp" compile="1" resource="0" file="Source/ItnTooltip.cpp"/>
+        <FILE id="oBE4jj" name="ItnTooltip.h" compile="0" resource="0" file="Source/ItnTooltip.h"/>
+        <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
+        <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
+      </GROUP>
+      <GROUP id="{70EF917A-6FF8-B320-F154-08A9D5F0182C}" name="ComponentsMainTabs">
+        <FILE id="dEZWQ2" name="IntumiTab.cpp" compile="1" resource="0" file="Source/IntumiTab.cpp"/>
+        <FILE id="UYrUQG" name="IntumiTab.h" compile="0" resource="0" file="Source/IntumiTab.h"/>
+        <FILE id="mDGKA7" name="EffectsTab.cpp" compile="1" resource="0" file="Source/EffectsTab.cpp"/>
+        <FILE id="eaazcD" name="EffectsTab.h" compile="0" resource="0" file="Source/EffectsTab.h"/>
+        <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
+        <FILE id="w7NoC7" name="MainTabs.h" compile="0" resource="0" file="Source/MainTabs.h"/>
       </GROUP>
       <GROUP id="{5916C2C8-F668-3723-F198-FB24A81F89CA}" name="Envelope">
-        <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"
-              file="Source/GlobalEnvelope.cpp"/>
-        <FILE id="o9bGcE" name="GlobalEnvelope.h" compile="0" resource="0"
-              file="Source/GlobalEnvelope.h"/>
-        <FILE id="waBNZI" name="EnvelopeManager.h" compile="0" resource="0"
-              file="Source/EnvelopeManager.h"/>
-        <FILE id="cISkP5" name="EnvelopeManager.cpp" compile="1" resource="0"
-              file="Source/EnvelopeManager.cpp"/>
-      </GROUP>
-      <GROUP id="{813D8E85-CED3-74D5-486C-949785396D76}" name="GUI">
-        <GROUP id="{E019BB6A-E65A-AE54-B443-0E663FE544E7}" name="EffectsGUI">
-          <GROUP id="{6F0F0326-201F-300B-3594-3971040E5774}" name="Equalizer">
-            <FILE id="ZpN083" name="EqualizerDisplay.cpp" compile="1" resource="0"
-                  file="Source/EqualizerDisplay.cpp"/>
-            <FILE id="bNqUvm" name="EqualizerDisplay.h" compile="0" resource="0"
-                  file="Source/EqualizerDisplay.h"/>
-            <FILE id="Sqhw05" name="EqualizerFreqLabels.cpp" compile="1" resource="0"
-                  file="Source/EqualizerFreqLabels.cpp"/>
-            <FILE id="xhVzvc" name="EqualizerFreqLabels.h" compile="0" resource="0"
-                  file="Source/EqualizerFreqLabels.h"/>
-            <FILE id="c7ZkIJ" name="EqualizerGraph.cpp" compile="1" resource="0"
-                  file="Source/EqualizerGraph.cpp"/>
-            <FILE id="Vd4XHt" name="EqualizerGraph.h" compile="0" resource="0"
-                  file="Source/EqualizerGraph.h"/>
-          </GROUP>
-          <GROUP id="{49B58A15-6FA6-BA6B-C910-6B5DC33AB48F}" name="Chorus">
-            <FILE id="jihxKI" name="ChorusDisplay.cpp" compile="1" resource="0"
-                  file="Source/ChorusDisplay.cpp"/>
-            <FILE id="w3KGG2" name="ChorusDisplay.h" compile="0" resource="0" file="Source/ChorusDisplay.h"/>
-          </GROUP>
-          <GROUP id="{632735F1-161D-F802-74D9-C1FE57C8A2A2}" name="Reverb">
-            <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>
-            <FILE id="xBBfGM" name="ReverbRing.h" compile="0" resource="0" file="Source/ReverbRing.h"/>
-            <FILE id="wn3dVX" name="ReverbGraph.cpp" compile="1" resource="0" file="Source/ReverbGraph.cpp"/>
-            <FILE id="MGcA9L" name="ReverbGraph.h" compile="0" resource="0" file="Source/ReverbGraph.h"/>
-            <FILE id="TcNlYv" name="ReverbDisplay.h" compile="0" resource="0" file="Source/ReverbDisplay.h"/>
-            <FILE id="WKEZi6" name="ReverbDisplay.cpp" compile="1" resource="0"
-                  file="Source/ReverbDisplay.cpp"/>
-          </GROUP>
-          <GROUP id="{11BBC90E-08D8-AAC0-0A5C-9EFFB8F95E26}" name="Delay">
-            <FILE id="B5pKvb" name="DelayRing.cpp" compile="1" resource="0" file="Source/DelayRing.cpp"/>
-            <FILE id="e7xmM4" name="DelayRing.h" compile="0" resource="0" file="Source/DelayRing.h"/>
-            <FILE id="wHTg9p" name="DelayGraph.cpp" compile="1" resource="0" file="Source/DelayGraph.cpp"/>
-            <FILE id="llC2YA" name="DelayGraph.h" compile="0" resource="0" file="Source/DelayGraph.h"/>
-            <FILE id="e42HvA" name="DelayDisplay.h" compile="0" resource="0" file="Source/DelayDisplay.h"/>
-            <FILE id="YxJslY" name="DelayDisplay.cpp" compile="1" resource="0"
-                  file="Source/DelayDisplay.cpp"/>
-          </GROUP>
-        </GROUP>
-        <GROUP id="{5818B172-2BCE-FD08-9516-7832C04C6434}" name="EnvelopeGUI">
+        <GROUP id="{BB723CAF-D4FD-B283-EAFE-CFFFD7404A89}" name="GUI">
           <FILE id="z25pg2" name="EnvelopeTabs.h" compile="0" resource="0" file="Source/EnvelopeTabs.h"/>
           <FILE id="EAtqlW" name="EnvelopeTabs.cpp" compile="1" resource="0"
                 file="Source/EnvelopeTabs.cpp"/>
@@ -122,147 +89,193 @@
                 file="Source/EnvelopeGraph.cpp"/>
           <FILE id="bWK92q" name="EnvelopeGraph.h" compile="0" resource="0" file="Source/EnvelopeGraph.h"/>
         </GROUP>
-        <GROUP id="{ADB09F31-2B26-3262-7DCF-97284C9B799A}" name="FilterGUI">
+        <FILE id="cISkP5" name="EnvelopeManager.cpp" compile="1" resource="0"
+              file="Source/EnvelopeManager.cpp"/>
+        <FILE id="waBNZI" name="EnvelopeManager.h" compile="0" resource="0"
+              file="Source/EnvelopeManager.h"/>
+        <FILE id="O1W6in" name="GlobalEnvelope.cpp" compile="1" resource="0"
+              file="Source/GlobalEnvelope.cpp"/>
+        <FILE id="o9bGcE" name="GlobalEnvelope.h" compile="0" resource="0"
+              file="Source/GlobalEnvelope.h"/>
+      </GROUP>
+      <GROUP id="{4A60CFC5-D01D-F13F-71A3-1544EDE2A8EC}" name="Filter">
+        <GROUP id="{C0F2372A-91D1-BE03-5040-83772C91F96F}" name="GUI">
           <FILE id="vQ6RPg" name="FilterDisplay.cpp" compile="1" resource="0"
                 file="Source/FilterDisplay.cpp"/>
           <FILE id="fKbsTI" name="FilterDisplay.h" compile="0" resource="0" file="Source/FilterDisplay.h"/>
           <FILE id="XL7yq1" name="FilterGraph.cpp" compile="1" resource="0" file="Source/FilterGraph.cpp"/>
           <FILE id="vrYOqn" name="FilterGraph.h" compile="0" resource="0" file="Source/FilterGraph.h"/>
         </GROUP>
-        <GROUP id="{AE9B7297-A11D-780D-47E6-8F6E92DC7B83}" name="IntumiGUI">
+      </GROUP>
+      <GROUP id="{DD4132D4-4A1B-A33A-44EF-884EACD16DE0}" name="FxChorus">
+        <GROUP id="{6EC5DE83-B019-585F-7B74-077DE882EBBA}" name="GUI">
+          <FILE id="jihxKI" name="ChorusDisplay.cpp" compile="1" resource="0"
+                file="Source/ChorusDisplay.cpp"/>
+          <FILE id="w3KGG2" name="ChorusDisplay.h" compile="0" resource="0" file="Source/ChorusDisplay.h"/>
+        </GROUP>
+        <FILE id="VsdJqV" name="ChorusModule.h" compile="0" resource="0" file="Source/ChorusModule.h"/>
+        <FILE id="aYDGQ3" name="ChorusModule.cpp" compile="1" resource="0"
+              file="Source/ChorusModule.cpp"/>
+      </GROUP>
+      <GROUP id="{12B7013C-D415-91ED-6E95-342B31BCB85D}" name="FxDelay">
+        <GROUP id="{B680D96D-FCBA-20B3-E9FA-C340901AD85D}" name="GUI">
+          <FILE id="B5pKvb" name="DelayRing.cpp" compile="1" resource="0" file="Source/DelayRing.cpp"/>
+          <FILE id="e7xmM4" name="DelayRing.h" compile="0" resource="0" file="Source/DelayRing.h"/>
+          <FILE id="wHTg9p" name="DelayGraph.cpp" compile="1" resource="0" file="Source/DelayGraph.cpp"/>
+          <FILE id="llC2YA" name="DelayGraph.h" compile="0" resource="0" file="Source/DelayGraph.h"/>
+          <FILE id="e42HvA" name="DelayDisplay.h" compile="0" resource="0" file="Source/DelayDisplay.h"/>
+          <FILE id="YxJslY" name="DelayDisplay.cpp" compile="1" resource="0"
+                file="Source/DelayDisplay.cpp"/>
+        </GROUP>
+        <FILE id="WR4NXA" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
+        <FILE id="KNzW49" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
+      </GROUP>
+      <GROUP id="{2A509522-4F32-74F7-B5E3-F848E80360B2}" name="FxEqualizer">
+        <GROUP id="{529508FA-22B7-BD42-DD85-DE4057D72C23}" name="GUI">
+          <FILE id="ouGekY" name="FilterType.h" compile="0" resource="0" file="Source/FilterType.h"/>
+          <FILE id="ZpN083" name="EqualizerDisplay.cpp" compile="1" resource="0"
+                file="Source/EqualizerDisplay.cpp"/>
+          <FILE id="bNqUvm" name="EqualizerDisplay.h" compile="0" resource="0"
+                file="Source/EqualizerDisplay.h"/>
+          <FILE id="Sqhw05" name="EqualizerFreqLabels.cpp" compile="1" resource="0"
+                file="Source/EqualizerFreqLabels.cpp"/>
+          <FILE id="xhVzvc" name="EqualizerFreqLabels.h" compile="0" resource="0"
+                file="Source/EqualizerFreqLabels.h"/>
+          <FILE id="c7ZkIJ" name="EqualizerGraph.cpp" compile="1" resource="0"
+                file="Source/EqualizerGraph.cpp"/>
+          <FILE id="Vd4XHt" name="EqualizerGraph.h" compile="0" resource="0"
+                file="Source/EqualizerGraph.h"/>
+        </GROUP>
+        <FILE id="cLKv57" name="EQBand.cpp" compile="1" resource="0" file="Source/EQBand.cpp"/>
+        <FILE id="HpzqDW" name="EQBand.h" compile="0" resource="0" file="Source/EQBand.h"/>
+        <FILE id="ih7nas" name="EqualizerModule.cpp" compile="1" resource="0"
+              file="Source/EqualizerModule.cpp"/>
+        <FILE id="Sv2NYo" name="EqualizerModule.h" compile="0" resource="0"
+              file="Source/EqualizerModule.h"/>
+      </GROUP>
+      <GROUP id="{204BDE00-6CAE-DDD2-7347-0CB7A42D7E73}" name="FxReverb">
+        <GROUP id="{9026F1B5-63F6-2496-DFA3-6F41E6147DB2}" name="GUI">
+          <FILE id="ACQ7ev" name="ReverbRing.cpp" compile="1" resource="0" file="Source/ReverbRing.cpp"/>
+          <FILE id="xBBfGM" name="ReverbRing.h" compile="0" resource="0" file="Source/ReverbRing.h"/>
+          <FILE id="wn3dVX" name="ReverbGraph.cpp" compile="1" resource="0" file="Source/ReverbGraph.cpp"/>
+          <FILE id="MGcA9L" name="ReverbGraph.h" compile="0" resource="0" file="Source/ReverbGraph.h"/>
+          <FILE id="TcNlYv" name="ReverbDisplay.h" compile="0" resource="0" file="Source/ReverbDisplay.h"/>
+          <FILE id="WKEZi6" name="ReverbDisplay.cpp" compile="1" resource="0"
+                file="Source/ReverbDisplay.cpp"/>
+        </GROUP>
+        <FILE id="kFCVgK" name="ReverbModule.h" compile="0" resource="0" file="Source/ReverbModule.h"/>
+        <FILE id="UxEaPZ" name="ReverbModule.cpp" compile="1" resource="0"
+              file="Source/ReverbModule.cpp"/>
+      </GROUP>
+      <GROUP id="{3EAC28A9-279B-DAC2-CCC2-4B346E79EE3D}" name="Helpers">
+        <FILE id="PSXvdb" name="BiquadResponse.cpp" compile="1" resource="0"
+              file="Source/BiquadResponse.cpp"/>
+        <FILE id="z7rjyk" name="BiquadResponse.h" compile="0" resource="0"
+              file="Source/BiquadResponse.h"/>
+        <FILE id="I4l21i" name="ItnFileHelper.cpp" compile="1" resource="0"
+              file="Source/ItnFileHelper.cpp"/>
+        <FILE id="bbeQI7" name="ItnFileHelper.h" compile="0" resource="0" file="Source/ItnFileHelper.h"/>
+        <FILE id="BwBcRt" name="JsonHelper.cpp" compile="1" resource="0" file="Source/JsonHelper.cpp"/>
+        <FILE id="f6siak" name="JsonHelper.h" compile="0" resource="0" file="Source/JsonHelper.h"/>
+      </GROUP>
+      <GROUP id="{DECC4546-01B0-2CFE-87F2-70D0A83B3295}" name="Intumi">
+        <GROUP id="{68DEFB51-DE4C-8FEE-3077-063009492F99}" name="GUI">
           <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
                 file="Source/ConvoMessageComponent.cpp"/>
           <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
                 file="Source/ConvoMessageComponent.h"/>
-          <FILE id="EiVzxo" name="ConvoView.cpp" compile="1" resource="0" file="Source/ConvoView.cpp"/>
-          <FILE id="s6GfYO" name="ConvoView.h" compile="0" resource="0" file="Source/ConvoView.h"/>
+          <FILE id="EiVzxo" name="ConvoDisplay.cpp" compile="1" resource="0"
+                file="Source/ConvoDisplay.cpp"/>
+          <FILE id="s6GfYO" name="ConvoDisplay.h" compile="0" resource="0" file="Source/ConvoDisplay.h"/>
         </GROUP>
-        <GROUP id="{325B170C-E332-07E2-3473-1438CEF954DF}" name="LFO_GUI">
-          <FILE id="vNnHaR" name="LFODisplay.cpp" compile="1" resource="0" file="Source/LFODisplay.cpp"/>
+        <FILE id="jnHedN" name="IntumiManager.cpp" compile="1" resource="0"
+              file="Source/IntumiManager.cpp"/>
+        <FILE id="a7ohro" name="IntumiManager.h" compile="0" resource="0" file="Source/IntumiManager.h"/>
+        <FILE id="RnSvcK" name="system_role.dat" compile="0" resource="1" file="Intumi/system_role.dat"/>
+      </GROUP>
+      <GROUP id="{304AA9EA-B4DF-C160-32BD-49E0280D0986}" name="LFO">
+        <GROUP id="{B5EC2F83-04CD-4921-5B8E-A531B8ECA734}" name="GUI">
           <FILE id="eIK3NE" name="LFODisplay.h" compile="0" resource="0" file="Source/LFODisplay.h"/>
           <FILE id="ZX0zdk" name="LFOTabs.cpp" compile="1" resource="0" file="Source/LFOTabs.cpp"/>
           <FILE id="xOhCPD" name="LFOTabs.h" compile="0" resource="0" file="Source/LFOTabs.h"/>
           <FILE id="cc39KK" name="LFOEditor.h" compile="0" resource="0" file="Source/LFOEditor.h"/>
           <FILE id="PKk1Cc" name="LFOEditor.cpp" compile="1" resource="0" file="Source/LFOEditor.cpp"/>
+          <FILE id="vNnHaR" name="LFODisplay.cpp" compile="1" resource="0" file="Source/LFODisplay.cpp"/>
         </GROUP>
-        <GROUP id="{4CB7E476-19B4-BB58-CBFE-A771BC8AE1AA}" name="MainTabsGUI">
-          <FILE id="dEZWQ2" name="IntumiTab.cpp" compile="1" resource="0" file="Source/IntumiTab.cpp"/>
-          <FILE id="UYrUQG" name="IntumiTab.h" compile="0" resource="0" file="Source/IntumiTab.h"/>
-          <FILE id="mDGKA7" name="EffectsTab.cpp" compile="1" resource="0" file="Source/EffectsTab.cpp"/>
-          <FILE id="eaazcD" name="EffectsTab.h" compile="0" resource="0" file="Source/EffectsTab.h"/>
-          <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"
-                file="Source/OscillatorTab.cpp"/>
-          <FILE id="SVgjzo" name="OscillatorTab.h" compile="0" resource="0" file="Source/OscillatorTab.h"/>
-          <FILE id="w7NoC7" name="MainTabs.h" compile="0" resource="0" file="Source/MainTabs.h"/>
-          <FILE id="ITeNNZ" name="MainTabs.cpp" compile="1" resource="0" file="Source/MainTabs.cpp"/>
-        </GROUP>
-        <GROUP id="{7AF833AE-6AF3-6744-A10C-AC71BD084E2D}" name="WaveBankGUI">
-          <FILE id="Axl9DX" name="WaveThumbnail.cpp" compile="1" resource="0"
-                file="Source/WaveThumbnail.cpp"/>
-          <FILE id="VHGt2w" name="WaveThumbnail.h" compile="0" resource="0" file="Source/WaveThumbnail.h"/>
-          <FILE id="t1rzXX" name="WaveBankComponent.h" compile="0" resource="0"
-                file="Source/WaveBankComponent.h"/>
-          <FILE id="ODdX3E" name="WaveBankComponent.cpp" compile="1" resource="0"
-                file="Source/WaveBankComponent.cpp"/>
-        </GROUP>
-        <FILE id="lUHnAe" name="ButtonComponent.cpp" compile="1" resource="0"
-              file="Source/ButtonComponent.cpp"/>
-        <FILE id="BVind5" name="ButtonComponent.h" compile="0" resource="0"
-              file="Source/ButtonComponent.h"/>
-        <FILE id="En9vkG" name="InlineValueEntry.cpp" compile="1" resource="0"
-              file="Source/InlineValueEntry.cpp"/>
-        <FILE id="r67dFC" name="InlineValueEntry.h" compile="0" resource="0"
-              file="Source/InlineValueEntry.h"/>
+        <FILE id="LBd1Qd" name="LFOModule.cpp" compile="1" resource="0" file="Source/LFOModule.cpp"/>
+        <FILE id="SHGG5L" name="LFOModule.h" compile="0" resource="0" file="Source/LFOModule.h"/>
+        <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
+        <FILE id="qxtoc5" name="LFOPoint.h" compile="0" resource="0" file="Source/LFOPoint.h"/>
+        <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
+        <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
+      </GROUP>
+      <GROUP id="{037BCD49-90BB-CC33-3CA1-26D8D2BE30E0}" name="LookAndFeel">
         <FILE id="MbZ3O5" name="ItnLookAndFeel.cpp" compile="1" resource="0"
               file="Source/ItnLookAndFeel.cpp"/>
         <FILE id="KSIxF6" name="ItnLookAndFeel.h" compile="0" resource="0"
               file="Source/ItnLookAndFeel.h"/>
         <FILE id="iU7uvx" name="ItnLookAndFeelHelpers.h" compile="0" resource="0"
               file="Source/ItnLookAndFeelHelpers.h"/>
-        <FILE id="RPytXF" name="ItnMidiKeyboard.cpp" compile="1" resource="0"
-              file="Source/ItnMidiKeyboard.cpp"/>
-        <FILE id="U8FiqK" name="ItnMidiKeyboard.h" compile="0" resource="0"
-              file="Source/ItnMidiKeyboard.h"/>
-        <FILE id="zD7bWX" name="ItnSlider.cpp" compile="1" resource="0" file="Source/ItnSlider.cpp"/>
-        <FILE id="QwQNiD" name="ItnSlider.h" compile="0" resource="0" file="Source/ItnSlider.h"/>
-        <FILE id="Y89n8U" name="ItnTabbedComponent.cpp" compile="1" resource="0"
-              file="Source/ItnTabbedComponent.cpp"/>
-        <FILE id="WSzIY5" name="ItnTabbedComponent.h" compile="0" resource="0"
-              file="Source/ItnTabbedComponent.h"/>
-        <FILE id="ZHqCzh" name="ItnTooltip.cpp" compile="1" resource="0" file="Source/ItnTooltip.cpp"/>
-        <FILE id="oBE4jj" name="ItnTooltip.h" compile="0" resource="0" file="Source/ItnTooltip.h"/>
-        <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
-              file="Source/OscillatorDisplay.cpp"/>
-        <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
-              file="Source/OscillatorDisplay.h"/>
-        <FILE id="CTuMic" name="PanelTitleComponent.cpp" compile="1" resource="0"
-              file="Source/PanelTitleComponent.cpp"/>
-        <FILE id="tIrjbB" name="PanelTitleComponent.h" compile="0" resource="0"
-              file="Source/PanelTitleComponent.h"/>
-        <FILE id="BmIdha" name="SliderComponent.cpp" compile="1" resource="0"
-              file="Source/SliderComponent.cpp"/>
-        <FILE id="KiCMib" name="SliderComponent.h" compile="0" resource="0"
-              file="Source/SliderComponent.h"/>
-        <FILE id="xETEqV" name="TempoSelect.cpp" compile="1" resource="0" file="Source/TempoSelect.cpp"/>
-        <FILE id="krJCCk" name="TempoSelect.h" compile="0" resource="0" file="Source/TempoSelect.h"/>
-        <FILE id="Esa4Ji" name="TooltipController.cpp" compile="1" resource="0"
-              file="Source/TooltipController.cpp"/>
-        <FILE id="dNo4cW" name="TooltipController.h" compile="0" resource="0"
-              file="Source/TooltipController.h"/>
-        <FILE id="OGT9cE" name="TypewriterText.cpp" compile="1" resource="0"
-              file="Source/TypewriterText.cpp"/>
-        <FILE id="a2HioU" name="TypewriterText.h" compile="0" resource="0"
-              file="Source/TypewriterText.h"/>
-        <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
-              file="Source/WaveformDisplay.cpp"/>
-        <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"
-              file="Source/WaveformDisplay.h"/>
       </GROUP>
-      <GROUP id="{85E551C5-6659-167B-444B-C9F34F7A7269}" name="LFO">
-        <FILE id="LBd1Qd" name="LFOModule.cpp" compile="1" resource="0" file="Source/LFOModule.cpp"/>
-        <FILE id="SHGG5L" name="LFOModule.h" compile="0" resource="0" file="Source/LFOModule.h"/>
-        <FILE id="haySCl" name="LFOShape.cpp" compile="1" resource="0" file="Source/LFOShape.cpp"/>
-        <FILE id="xHl52q" name="LFOShape.h" compile="0" resource="0" file="Source/LFOShape.h"/>
-        <FILE id="qxtoc5" name="LFOPoint.h" compile="0" resource="0" file="Source/LFOPoint.h"/>
-        <FILE id="l2AWiE" name="LFOPoint.cpp" compile="1" resource="0" file="Source/LFOPoint.cpp"/>
-      </GROUP>
-      <GROUP id="{3E0F82AE-D403-7E84-0D8C-847A166797AC}" name="Modulation">
-        <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
-        <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
-        <FILE id="yob1b7" name="ModDestination.h" compile="0" resource="0"
-              file="Source/ModDestination.h"/>
-        <FILE id="adDt3s" name="ModDestination.cpp" compile="1" resource="0"
-              file="Source/ModDestination.cpp"/>
-        <FILE id="vU0OON" name="ModConnection.h" compile="0" resource="0" file="Source/ModConnection.h"/>
+      <GROUP id="{ABB197F5-E08F-ED3C-AECA-A7CCD2D55526}" name="ModMatrix">
         <FILE id="o125Of" name="ModConnection.cpp" compile="1" resource="0"
               file="Source/ModConnection.cpp"/>
-        <FILE id="i8ofm1" name="ModMatrix.h" compile="0" resource="0" file="Source/ModMatrix.h"/>
+        <FILE id="vU0OON" name="ModConnection.h" compile="0" resource="0" file="Source/ModConnection.h"/>
+        <FILE id="adDt3s" name="ModDestination.cpp" compile="1" resource="0"
+              file="Source/ModDestination.cpp"/>
+        <FILE id="yob1b7" name="ModDestination.h" compile="0" resource="0"
+              file="Source/ModDestination.h"/>
         <FILE id="yxogXf" name="ModMatrix.cpp" compile="1" resource="0" file="Source/ModMatrix.cpp"/>
+        <FILE id="i8ofm1" name="ModMatrix.h" compile="0" resource="0" file="Source/ModMatrix.h"/>
+        <FILE id="e6KaRP" name="ModSource.cpp" compile="1" resource="0" file="Source/ModSource.cpp"/>
+        <FILE id="T6ZJcx" name="ModSource.h" compile="0" resource="0" file="Source/ModSource.h"/>
       </GROUP>
-      <GROUP id="{FB50DE9E-DB31-2296-B72F-6E22C0F8348B}" name="Oscs">
-        <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
-        <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
-        <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
+      <GROUP id="{F90BA9ED-3EEB-D1B2-D53A-F1C74EE0AB37}" name="Osc">
+        <GROUP id="{EE063068-1895-EA85-4F67-9E8546AC7953}" name="GUI">
+          <FILE id="OuKJxu" name="WaveformDisplay.cpp" compile="1" resource="0"
+                file="Source/WaveformDisplay.cpp"/>
+          <FILE id="XD6ELz" name="WaveformDisplay.h" compile="0" resource="0"
+                file="Source/WaveformDisplay.h"/>
+          <FILE id="Axl9DX" name="WaveThumbnail.cpp" compile="1" resource="0"
+                file="Source/WaveThumbnail.cpp"/>
+          <FILE id="VHGt2w" name="WaveThumbnail.h" compile="0" resource="0" file="Source/WaveThumbnail.h"/>
+          <FILE id="oVVXAX" name="SineWaveSound.h" compile="0" resource="0" file="Source/SineWaveSound.h"/>
+          <FILE id="qn6yjz" name="OscillatorDisplay.cpp" compile="1" resource="0"
+                file="Source/OscillatorDisplay.cpp"/>
+          <FILE id="lHLi6C" name="OscillatorDisplay.h" compile="0" resource="0"
+                file="Source/OscillatorDisplay.h"/>
+          <FILE id="BLfWu4" name="OscillatorTab.cpp" compile="1" resource="0"
+                file="Source/OscillatorTab.cpp"/>
+          <FILE id="SVgjzo" name="OscillatorTab.h" compile="0" resource="0" file="Source/OscillatorTab.h"/>
+        </GROUP>
         <FILE id="lQI2Ww" name="UnisonOsc.cpp" compile="1" resource="0" file="Source/UnisonOsc.cpp"/>
         <FILE id="iNjSSw" name="UnisonOsc.h" compile="0" resource="0" file="Source/UnisonOsc.h"/>
-        <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
+        <FILE id="UVPiFe" name="UnisonVoice.cpp" compile="1" resource="0" file="Source/UnisonVoice.cpp"/>
+        <FILE id="L1f5Rn" name="UnisonVoice.h" compile="0" resource="0" file="Source/UnisonVoice.h"/>
+        <FILE id="ODdX3E" name="WaveBankComponent.cpp" compile="1" resource="0"
+              file="Source/WaveBankComponent.cpp"/>
+        <FILE id="t1rzXX" name="WaveBankComponent.h" compile="0" resource="0"
+              file="Source/WaveBankComponent.h"/>
+        <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
+              file="Source/WavetableBank.cpp"/>
+        <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
+        <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
+              file="Source/WavetableHelper.cpp"/>
+        <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
+              file="Source/WavetableHelper.h"/>
         <FILE id="qYHsZA" name="WavetableOsc.cpp" compile="1" resource="0"
               file="Source/WavetableOsc.cpp" skipPCH="1"/>
+        <FILE id="N4fJpU" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       </GROUP>
-      <FILE id="jnHedN" name="AIManager.cpp" compile="1" resource="0" file="Source/AIManager.cpp"/>
-      <FILE id="a7ohro" name="AIManager.h" compile="0" resource="0" file="Source/AIManager.h"/>
-      <FILE id="PSXvdb" name="BiquadResponse.cpp" compile="1" resource="0"
-            file="Source/BiquadResponse.cpp"/>
-      <FILE id="z7rjyk" name="BiquadResponse.h" compile="0" resource="0"
-            file="Source/BiquadResponse.h"/>
       <FILE id="y53mkE" name="FFTProcessor.cpp" compile="1" resource="0"
             file="Source/FFTProcessor.cpp"/>
       <FILE id="biQLIU" name="FFTProcessor.h" compile="0" resource="0" file="Source/FFTProcessor.h"/>
-      <FILE id="ouGekY" name="FilterType.h" compile="0" resource="0" file="Source/FilterType.h"/>
       <FILE id="HcdPFA" name="ItnContext.cpp" compile="1" resource="0" file="Source/ItnContext.cpp"/>
       <FILE id="GerpsB" name="ItnContext.h" compile="0" resource="0" file="Source/ItnContext.h"/>
-      <FILE id="BwBcRt" name="JsonHelper.cpp" compile="1" resource="0" file="Source/JsonHelper.cpp"/>
-      <FILE id="f6siak" name="JsonHelper.h" compile="0" resource="0" file="Source/JsonHelper.h"/>
+      <FILE id="RPytXF" name="ItnMidiKeyboard.cpp" compile="1" resource="0"
+            file="Source/ItnMidiKeyboard.cpp"/>
+      <FILE id="U8FiqK" name="ItnMidiKeyboard.h" compile="0" resource="0"
+            file="Source/ItnMidiKeyboard.h"/>
       <FILE id="VWUKSX" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="RybH4J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
@@ -271,13 +284,6 @@
       <FILE id="feZLPy" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
       <FILE id="bxV01F" name="TempoDivision.h" compile="0" resource="0" file="Source/TempoDivision.h"/>
-      <FILE id="l3PVKl" name="WavetableBank.cpp" compile="1" resource="0"
-            file="Source/WavetableBank.cpp"/>
-      <FILE id="qOzpM2" name="WavetableBank.h" compile="0" resource="0" file="Source/WavetableBank.h"/>
-      <FILE id="vUw2YF" name="WavetableHelper.cpp" compile="1" resource="0"
-            file="Source/WavetableHelper.cpp"/>
-      <FILE id="zo97jz" name="WavetableHelper.h" compile="0" resource="0"
-            file="Source/WavetableHelper.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

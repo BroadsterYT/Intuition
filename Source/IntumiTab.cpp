@@ -16,23 +16,22 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     processor = dynamic_cast<IntuitionAudioProcessor*>(ap);
 
-    juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
-    if (!convoFile.existsAsFile()) {
-        convoFile.create();
-        convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
+    juce::Array<juce::File> allConvoFiles = intumi.getAllConvoFiles();
+    if (!allConvoFiles.size()) {
+        juce::File newConvoFile = intumi.createNewConvoFile();
     }
-    renderAllPreviousMessages(convoFile);
+    juce::File testFile = allConvoFiles.getFirst();
+    renderAllPreviousMessages(testFile);
 
     // ----- API Key Box ----- //
-    juce::File keyFile = getSavedKeyFile();
-    if (!keyFile.existsAsFile()) {
+    if (intumi.getApiKey().isEmpty()) {
         apiKeyBox.setTextToShowWhenEmpty("Enter Groq API key...", MinimalStyle::accentOrange);
     }
     else {
         apiKeyBox.setTextToShowWhenEmpty("API key set successfully.", juce::Colours::green);
     }
     apiKeyBox.onReturnKey = [this]() {
-        setApiKey(apiKeyBox.getText());
+        intumi.setApiKey(apiKeyBox.getText());
         apiKeyBox.clear();
         apiKeyBox.setTextToShowWhenEmpty("API key set successfully.", juce::Colours::green);
     };
@@ -40,39 +39,31 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
     // ----- Prompt Box ----- //
     promptBox.setTextToShowWhenEmpty("Ask Intumi...", MinimalStyle::accentOrange);
     promptBox.onReturnKey = [this]() {
-
         // Retrieving messages array
-        juce::File convoFile(juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("Intuition/Logs/Intumi/convo.json"));
-        if (!convoFile.existsAsFile()) {
-            convoFile.create();
-            convoFile.replaceWithText("{\"conversationId\": \"default\", \"messages\": []}");
-        }
-        appendUserMessageToConversation(convoFile, promptBox.getText(), processor->getParametersAsJsonString());
-        convoView.addMessage("user", promptBox.getText());
+        juce::File convoFile = intumi.getAllConvoFiles().getFirst();
+        appendMessageToConvoFile(convoFile, "user", promptBox.getText());
+        convoDisplay.addMessage("user", promptBox.getText());
 
         // API query
-        juce::String intumiResponse = AIManager::queryAI(
-            getApiKey(),
+        juce::String intumiResponse = intumi.queryAI(
+            intumi.getApiKey(),
             promptBox.getText(),
             processor->getParametersAsJsonString()
         );
-        appendIntumiMessageToConversation(convoFile, intumiResponse);
-
         juce::var response = JsonHelper::getJsonStringAsVar(intumiResponse);
         juce::DynamicObject::Ptr obj = response.getDynamicObject();
         if (!obj) {
-            // TODO: Find way to display errors with updated Intumi UI
             return;
         }
-        
         juce::String message = obj->getProperty("message");
-        convoView.addMessage("intumi", message);
+        appendMessageToConvoFile(convoFile, "intumi", message);
+        convoDisplay.addMessage("intumi", message);
 
         juce::var jsonParams = obj->getProperty("parameters");
         processor->applyJsonParameterTweaks(jsonParams);
     };
 
-    convoViewport.setViewedComponent(&convoView);
+    convoViewport.setViewedComponent(&convoDisplay);
     convoViewport.setScrollBarsShown(true, false);
 
     addAndMakeVisible(apiKeyBox);
@@ -95,105 +86,56 @@ void IntumiTab::resized() {
     convoViewport.setBounds(50, 250, 1000, 360);
 }
 
-juce::File IntumiTab::getSavedKeyFile() {
-    juce::File docsDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-    juce::File projDocsDir = docsDir.getChildFile("Intuition");
-    projDocsDir.createDirectory();
-
-    juce::File keySaveFile = projDocsDir.getChildFile("key.env");
-    keySaveFile.create();
-    return keySaveFile;
-}
-
-void IntumiTab::setApiKey(const juce::String newKey) {
-    juce::File keySaveFile = getSavedKeyFile();
-    keySaveFile.replaceWithText(newKey);
-    DBG("API key set as: " << newKey);
-}
-
-juce::String IntumiTab::getApiKey() {
-    juce::File keySaveFile = getSavedKeyFile();
-    juce::String key = keySaveFile.loadFileAsString();
-    DBG("API key returned: " << key);
-    return key;
-}
-
 void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
     juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
     juce::var messagesVar = getConversationArray(jsonConvo);
     auto* messages = messagesVar.getArray();
+    if (!messages) {
+        DBG("ERROR: Could not retrieve messages array from " << jsonFile.getFullPathName());
+        return;
+    }
 
     for (int i = 0; i < messages->size(); ++i) {
         juce::var msgVar = messages->getUnchecked(i);
-        
         auto* obj = msgVar.getDynamicObject();
         if (!obj) continue;
 
         juce::String role = obj->getProperty("role");
-        juce::var contentVar = obj->getProperty("content");
-        auto* contentObj = contentVar.getDynamicObject();
-        if (!contentObj) {
-            DBG("Error: Could not get DynamicObject from message content.");
-            continue;
-        }
-
-        juce::String msgText = contentObj->getProperty("message");
+        juce::String msgText = obj->getProperty("message");
         DBG("Message: " << msgText);
 
-        convoView.addMessage(role, msgText, true);
+        convoDisplay.addMessage(role, msgText, true);
     }
 }
 
 juce::var IntumiTab::getConversationArray(juce::var& jsonVar) {
     auto* root = jsonVar.getDynamicObject();
     if (!root) {
-        DBG("Error: DynamicObject could not be retrieved from JSON file.");
+        DBG("ERROR: DynamicObject could not be retrieved from JSON file.");
         return juce::var();
     }
 
     juce::var messagesVar = root->getProperty("messages");
     if (!messagesVar.isArray()) {
-        DBG("Error: The value of \"messages\" is not of type array.");
+        DBG("ERROR: The value of \"messages\" is not of type array.");
         return juce::var();
     }
     return messagesVar;
 }
 
-void IntumiTab::appendUserMessageToConversation(const juce::File& jsonFile, const juce::String& message, const juce::String& parametersJsonString) {
+void IntumiTab::appendMessageToConvoFile(const juce::File& jsonFile,
+    const juce::String& role, const juce::String& message) {
     juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
     juce::var messagesVar = getConversationArray(jsonConvo);
-    auto* messages = messagesVar.getArray();
+    auto* msgArray = messagesVar.getArray();
 
-    // Formatting user content as json
-    juce::var userContent(new juce::DynamicObject());
-    auto* contentRoot = userContent.getDynamicObject();
-    contentRoot->setProperty("parameters", JsonHelper::getJsonStringAsVar(parametersJsonString));
-    contentRoot->setProperty("message", message);
-
-    // Adding user query to messages json
-    juce::var userMsg(new juce::DynamicObject());
-    auto* userDyn = userMsg.getDynamicObject();
-    userDyn->setProperty("id", juce::Uuid().toString());
-    userDyn->setProperty("role", "user");
-    userDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
-    userDyn->setProperty("content", userContent);
-    messages->add(userMsg);
-    jsonFile.replaceWithText(juce::JSON::toString(jsonConvo));
-}
-
-void IntumiTab::appendIntumiMessageToConversation(const juce::File& jsonFile, const juce::String& jsonResponse) {
-    juce::var jsonConvo = JsonHelper::getJsonFileAsVar(jsonFile);
-    juce::var messagesVar = getConversationArray(jsonConvo);
-    auto* messages = messagesVar.getArray();
-
-    juce::var intumiContent = JsonHelper::getJsonStringAsVar(jsonResponse);
-
-    juce::var finalMsg(new juce::DynamicObject());
-    auto* finalDyn = finalMsg.getDynamicObject();
-    finalDyn->setProperty("id", juce::Uuid().toString());
-    finalDyn->setProperty("role", "intumi");
-    finalDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
-    finalDyn->setProperty("content", intumiContent);
-    messages->add(finalMsg);
+    // Adding formatted message to JSON file
+    juce::var jsonMsg(new juce::DynamicObject());
+    auto* msgDyn = jsonMsg.getDynamicObject();
+    msgDyn->setProperty("id", juce::Uuid().toString());
+    msgDyn->setProperty("role", role);
+    msgDyn->setProperty("timestamp", (juce::int64)juce::Time::getCurrentTime().toMilliseconds());
+    msgDyn->setProperty("message", message);
+    msgArray->add(jsonMsg);
     jsonFile.replaceWithText(juce::JSON::toString(jsonConvo));
 }
