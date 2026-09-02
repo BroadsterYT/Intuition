@@ -16,10 +16,6 @@
 class IntumiManager {
 public:
     IntumiManager();
-
-    juce::String getPayload(const juce::String& prompt, const juce::String& params);
-
-    juce::String getHeaders(const juce::String& apiKey);
     
     /// <summary>
     /// Sends a query through the Intumi microservice and returns the AI message
@@ -65,6 +61,42 @@ public:
     juce::Array<juce::File> getAllConvoFiles();
 
 private:
+    /// <summary>
+    /// Builds and returns the payload to be sent with the Intumi request.
+    /// </summary>
+    /// <param name="prompt">User prompt to send to AI</param>
+    /// <param name="params">JSON string containing all current plugin parameters</param>
+    /// <returns>Payload to send with HTTP request</returns>
+    juce::String getPayload(const juce::String& prompt, const juce::String& params);
+    /// <summary>
+    /// Builds and returns the headers to send with the Intumi HTTP request
+    /// </summary>
+    /// <param name="apiKey">API key to use for the request</param>
+    /// <returns>Headers to send with HTTP request</returns>
+    juce::String getHeaders(const juce::String& apiKey);
+
+    /// <summary>
+    /// Given the raw JSON-formatted string response from the AI model, 
+    /// returns only the AI content. This strips away all response metadata.
+    /// </summary>
+    /// <param name="response">String containing raw AI response</param>
+    /// <returns>String containing only the Intumi response</returns>
+    juce::String getIntumiResponseContent(const juce::String& response);
+
+    /// <summary>
+    /// Formats a string as an Intumi response to be parsed as if it were
+    /// returned directly by the AI model
+    /// </summary>
+    /// <param name="value">String value to format as an Intumi response</param>
+    /// <returns>JSON-formatted juce::String</returns>
+    juce::String formatStringAsIntumiResponse(const juce::String& value);
+    /// <summary>
+    /// Extracts the error message from an error returned by the AI model
+    /// </summary>
+    /// <param name="response">Raw Intumi response string</param>
+    /// <returns>Error message string sent from AI model</returns>
+    juce::String getErrorFromResponse(const juce::String& response);
+
     /// <summary>
     /// Returns the file containing the Intumi API key.
     /// </summary>
