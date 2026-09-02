@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    ConvoMessageComponent.h
+    ConvoTextBubble.h
     Created: 9 Jan 2026 10:01:10am
     Author:  BroDe
 
@@ -13,11 +13,13 @@
 #include "ItnLookAndFeel.h"
 #include "TypewriterText.h"
 
-
-class ConvoMessageComponent : public juce::Component, private juce::Timer {
+/// <summary>
+/// UI element representing a text bubble in an Intumi session
+/// </summary>
+class ConvoTextBubble : public juce::Component, private juce::Timer {
 public:
-    ConvoMessageComponent(const juce::String& role, const juce::String& messageText, bool revealAll = false);
-    ~ConvoMessageComponent();
+    ConvoTextBubble(const juce::String& role, const juce::String& messageText, bool revealAll = false);
+    ~ConvoTextBubble();
 
     float getMessageTextHeight() const;
     juce::String getRole() const;

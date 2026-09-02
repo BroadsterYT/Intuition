@@ -1,21 +1,22 @@
 /*
   ==============================================================================
 
-    ConvoDisplay.cpp
+    ConvoCanvas.cpp
     Created: 9 Jan 2026 10:30:15am
     Author:  BroDe
 
   ==============================================================================
 */
 
-#include "ConvoDisplay.h"
+#include "ConvoCanvas.h"
 
-ConvoDisplay::ConvoDisplay() {
+
+ConvoCanvas::ConvoCanvas() {
     setSize(1000, 1200);
 }
 
-void ConvoDisplay::addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed) {
-    auto* newMessage = new ConvoMessageComponent(role, messageText, createRevealed);
+void ConvoCanvas::addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed) {
+    auto* newMessage = new ConvoTextBubble(role, messageText, createRevealed);
     
     addAndMakeVisible(newMessage);
     messages.add(newMessage);
@@ -23,11 +24,11 @@ void ConvoDisplay::addMessage(const juce::String& role, const juce::String& mess
     resized();
 }
 
-void ConvoDisplay::paint(juce::Graphics& g) {
+void ConvoCanvas::paint(juce::Graphics& g) {
     g.fillAll(MinimalStyle::bgPanel);
 }
 
-void ConvoDisplay::resized() {
+void ConvoCanvas::resized() {
     int numMessages = messages.size();
 
     float lastY = 0.0f;

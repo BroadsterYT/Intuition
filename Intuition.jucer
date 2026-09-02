@@ -180,13 +180,12 @@
       </GROUP>
       <GROUP id="{DECC4546-01B0-2CFE-87F2-70D0A83B3295}" name="Intumi">
         <GROUP id="{68DEFB51-DE4C-8FEE-3077-063009492F99}" name="GUI">
-          <FILE id="Z8NKGr" name="ConvoMessageComponent.cpp" compile="1" resource="0"
-                file="Source/ConvoMessageComponent.cpp"/>
-          <FILE id="b0oSZR" name="ConvoMessageComponent.h" compile="0" resource="0"
-                file="Source/ConvoMessageComponent.h"/>
-          <FILE id="EiVzxo" name="ConvoDisplay.cpp" compile="1" resource="0"
-                file="Source/ConvoDisplay.cpp"/>
-          <FILE id="s6GfYO" name="ConvoDisplay.h" compile="0" resource="0" file="Source/ConvoDisplay.h"/>
+          <FILE id="Z8NKGr" name="ConvoTextBubble.cpp" compile="1" resource="0"
+                file="Source/ConvoTextBubble.cpp"/>
+          <FILE id="b0oSZR" name="ConvoTextBubble.h" compile="0" resource="0"
+                file="Source/ConvoTextBubble.h"/>
+          <FILE id="EiVzxo" name="ConvoCanvas.cpp" compile="1" resource="0" file="Source/ConvoCanvas.cpp"/>
+          <FILE id="s6GfYO" name="ConvoCanvas.h" compile="0" resource="0" file="Source/ConvoCanvas.h"/>
         </GROUP>
         <FILE id="jnHedN" name="IntumiManager.cpp" compile="1" resource="0"
               file="Source/IntumiManager.cpp"/>

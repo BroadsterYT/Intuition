@@ -1,16 +1,17 @@
 /*
   ==============================================================================
 
-    ConvoMessageComponent.cpp
+    ConvoTextBubble.cpp
     Created: 9 Jan 2026 10:01:10am
     Author:  BroDe
 
   ==============================================================================
 */
 
-#include "ConvoMessageComponent.h"
+#include "ConvoTextBubble.h"
 
-ConvoMessageComponent::ConvoMessageComponent(const juce::String& role, const juce::String& messageText, bool revealAll) : role(role) {
+
+ConvoTextBubble::ConvoTextBubble(const juce::String& role, const juce::String& messageText, bool revealAll) : role(role) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
     startTimerHz(60);
 
@@ -18,29 +19,29 @@ ConvoMessageComponent::ConvoMessageComponent(const juce::String& role, const juc
     message.setText(messageText, revealAll);
 }
 
-ConvoMessageComponent::~ConvoMessageComponent() {
+ConvoTextBubble::~ConvoTextBubble() {
     setLookAndFeel(nullptr);
     stopTimer();
 }
 
-float ConvoMessageComponent::getMessageTextHeight() const {
+float ConvoTextBubble::getMessageTextHeight() const {
     return message.getFullTextHeight();
 }
 
-juce::String ConvoMessageComponent::getRole() const {
+juce::String ConvoTextBubble::getRole() const {
     return role;
 }
 
-void ConvoMessageComponent::paint(juce::Graphics& g) {
+void ConvoTextBubble::paint(juce::Graphics& g) {
     MinimalStyle::drawCustomRoundedPanel(g, getLocalBounds().toFloat(), MinimalStyle::bgPanel);
 }
 
-void ConvoMessageComponent::resized() {
+void ConvoTextBubble::resized() {
     auto area = getLocalBounds();
     message.setBounds(area.reduced(10));
 }
 
-void ConvoMessageComponent::timerCallback() {
+void ConvoTextBubble::timerCallback() {
     if (!message.iterateTypewriterEffect()) {
         stopTimer();
     }

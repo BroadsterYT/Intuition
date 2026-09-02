@@ -13,8 +13,8 @@
 #include "ItnLookAndFeel.h"
 #include "IntumiManager.h"
 #include "PluginProcessor.h"
-#include "ConvoMessageComponent.h"
-#include "ConvoDisplay.h"
+#include "ConvoTextBubble.h"
+#include "ConvoCanvas.h"
 
 
 class IntumiTab : public juce::Component {
@@ -33,7 +33,7 @@ private:
     juce::TextEditor promptBox;
 
     juce::Viewport convoViewport;
-    ConvoDisplay convoDisplay;
+    ConvoCanvas convoDisplay;
 
     // ----- Conversation ----- //
 
