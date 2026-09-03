@@ -180,6 +180,9 @@
       </GROUP>
       <GROUP id="{DECC4546-01B0-2CFE-87F2-70D0A83B3295}" name="Intumi">
         <GROUP id="{68DEFB51-DE4C-8FEE-3077-063009492F99}" name="GUI">
+          <FILE id="wCdN8X" name="ConvoViewport.cpp" compile="1" resource="0"
+                file="Source/ConvoViewport.cpp"/>
+          <FILE id="AcNThm" name="ConvoViewport.h" compile="0" resource="0" file="Source/ConvoViewport.h"/>
           <FILE id="Z8NKGr" name="ConvoTextBubble.cpp" compile="1" resource="0"
                 file="Source/ConvoTextBubble.cpp"/>
           <FILE id="b0oSZR" name="ConvoTextBubble.h" compile="0" resource="0"

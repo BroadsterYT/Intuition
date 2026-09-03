@@ -11,9 +11,7 @@
 #include "ConvoCanvas.h"
 
 
-ConvoCanvas::ConvoCanvas() {
-    setSize(1000, 1200);
-}
+ConvoCanvas::ConvoCanvas() {}
 
 void ConvoCanvas::addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed) {
     auto* newMessage = new ConvoTextBubble(role, messageText, createRevealed);
@@ -50,4 +48,6 @@ void ConvoCanvas::resized() {
 
         msg->setBounds(msgBounds.toNearestInt());
     }
+
+    setSize(getWidth(), lastY);
 }

@@ -42,7 +42,7 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         // Retrieving messages array
         juce::File convoFile = intumi.getAllConvoFiles().getFirst();
         appendMessageToConvoFile(convoFile, "user", promptBox.getText());
-        convoDisplay.addMessage("user", promptBox.getText());
+        convoViewport.addMessage("user", promptBox.getText());
 
         // API query
         juce::String intumiResponse = intumi.queryAI(
@@ -57,14 +57,11 @@ IntumiTab::IntumiTab(juce::AudioProcessor* ap) {
         }
         juce::String message = obj->getProperty("message");
         appendMessageToConvoFile(convoFile, "intumi", message);
-        convoDisplay.addMessage("intumi", message);
+        convoViewport.addMessage("intumi", message);
 
         juce::var jsonParams = obj->getProperty("parameters");
         processor->applyJsonParameterTweaks(jsonParams);
     };
-
-    convoViewport.setViewedComponent(&convoDisplay);
-    convoViewport.setScrollBarsShown(true, false);
 
     addAndMakeVisible(apiKeyBox);
     addAndMakeVisible(promptBox);
@@ -83,7 +80,7 @@ void IntumiTab::resized() {
     auto area = getLocalBounds();
     apiKeyBox.setBounds(50, 50, 1000, 40);
     promptBox.setBounds(50, 100, 1000, 40);
-    convoViewport.setBounds(50, 250, 1000, 360);
+    convoViewport.setBounds(50, 250, 500, 360);
 }
 
 void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
@@ -98,13 +95,13 @@ void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
     for (int i = 0; i < messages->size(); ++i) {
         juce::var msgVar = messages->getUnchecked(i);
         auto* obj = msgVar.getDynamicObject();
-        if (!obj) continue;
+        if (!obj) continue; 
 
         juce::String role = obj->getProperty("role");
         juce::String msgText = obj->getProperty("message");
         DBG("Message: " << msgText);
 
-        convoDisplay.addMessage(role, msgText, true);
+        convoViewport.addMessage(role, msgText, true);
     }
 }
 
