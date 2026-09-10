@@ -25,9 +25,7 @@ void ConvoViewport::addMessage(
     canvas.addMessage(role, messageText, createRevealed);
 }
 
-void ConvoViewport::resized() {
-    //viewport.setBounds(0, 0, 1000, 360);
-}
+void ConvoViewport::resized() {}
 
 void ConvoViewport::setBounds(int x, int y, int width, int height) {
     Component::setBounds(x, y, width, height);

@@ -9,11 +9,12 @@
 */
 
 #pragma once
-#include <JuceHeader.h>
-#include "ItnLookAndFeel.h"
-#include "IntumiManager.h"
-#include "PluginProcessor.h"
+#include "ConvoTabs.h"
 #include "ConvoViewport.h"
+#include "IntumiManager.h"
+#include "ItnLookAndFeel.h"
+#include <JuceHeader.h>
+#include "PluginProcessor.h"
 
 
 class IntumiTab : public juce::Component {
@@ -32,6 +33,7 @@ private:
     juce::TextEditor promptBox;
 
     ConvoViewport convoViewport;
+    ConvoTabs convoTabs;
 
     // ----- Conversation ----- //
 

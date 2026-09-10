@@ -80,7 +80,7 @@ void IntumiTab::resized() {
     auto area = getLocalBounds();
     apiKeyBox.setBounds(50, 50, 1000, 40);
     promptBox.setBounds(50, 100, 1000, 40);
-    convoViewport.setBounds(50, 250, 500, 360);
+    convoViewport.setBounds(50, 250, 1000, 360);
 }
 
 void IntumiTab::renderAllPreviousMessages(const juce::File& jsonFile) {
