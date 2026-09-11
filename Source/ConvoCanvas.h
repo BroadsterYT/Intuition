@@ -22,12 +22,17 @@ class ConvoCanvas : public juce::Component {
 public:
     ConvoCanvas();
 
+    /// <summary>
+    /// Sets the minimum height the canvas component can be resized to
+    /// </summary>
+    /// <param name="newMinHeight">New minimum height</param>
+    void setMinCanvasHeight(int newMinHeight);
     void addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed = false);
-    void clear();
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
     juce::OwnedArray<ConvoTextBubble> messages;
+    int minCanvasHeight = 360;
 };

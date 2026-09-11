@@ -30,5 +30,7 @@ void ConvoViewport::resized() {}
 void ConvoViewport::setBounds(int x, int y, int width, int height) {
     Component::setBounds(x, y, width, height);
     viewport.setBounds(0, 0, width, height);
-    canvas.setBounds(0, 0, width, canvas.getHeight());
+
+    canvas.setMinCanvasHeight(height);
+    canvas.setBounds(0, 0, width, height);
 }
