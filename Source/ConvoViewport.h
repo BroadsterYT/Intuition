@@ -28,7 +28,6 @@ public:
     );
 
     void resized() override;
-    void setBounds(int x, int y, int width, int height);
 
 private:
     juce::Viewport viewport;

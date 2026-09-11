@@ -32,7 +32,6 @@ private:
     juce::TextEditor apiKeyBox;
     juce::TextEditor promptBox;
 
-    ConvoViewport convoViewport;
     ConvoTabs convoTabs;
 
     // ----- Conversation ----- //

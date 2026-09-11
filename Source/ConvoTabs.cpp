@@ -11,10 +11,12 @@
 #include "ConvoTabs.h"
 
 
-ConvoTabs::ConvoTabs() : tabbedComponent(juce::TabbedButtonBar::TabsAtTop) {
+ConvoTabs::ConvoTabs() : tabbedComp(juce::TabbedButtonBar::TabsAtTop) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
-
     viewports.add(new ConvoViewport());
+    tabbedComp.addTab("Test", juce::Colours::transparentBlack, viewports[0], false);
+
+    addAndMakeVisible(tabbedComp);
 }
 
 ConvoTabs::~ConvoTabs() {
@@ -22,7 +24,7 @@ ConvoTabs::~ConvoTabs() {
 }
 
 ConvoViewport* ConvoTabs::getViewport(int tabIndex) {
-    int numTabs = tabbedComponent.getNumTabs();
+    int numTabs = tabbedComp.getNumTabs();
     if (tabIndex < 0 || tabIndex >= numTabs) {
         DBG("ERROR: Tab index out of bounds for selecting viewport.");
         return nullptr;
@@ -30,17 +32,19 @@ ConvoViewport* ConvoTabs::getViewport(int tabIndex) {
     return viewports[tabIndex];
 }
 
+ConvoViewport* ConvoTabs::getCurrentViewport() {
+    int tabIndex = tabbedComp.getCurrentTabIndex();
+    return viewports[tabIndex];
+}
+
 void ConvoTabs::addMessage(
-    int tabIndex, const juce::String& role,
+    const juce::String& role,
     const juce::String& message, bool createRevealed
 ) {
-    ConvoViewport* viewport = getViewport(tabIndex);
+    ConvoViewport* viewport = getCurrentViewport();
     viewport->addMessage(role, message, createRevealed);
 }
 
-void ConvoTabs::setBounds(int x, int y, int width, int height) {
-    Component::setBounds(x, y, width, height);
-    for (ConvoViewport* viewport : viewports) {
-        viewport->setBounds(x, y, width, height);
-    }
+void ConvoTabs::resized() {
+    tabbedComp.setBounds(getLocalBounds());
 }

@@ -11,6 +11,7 @@
 #pragma once
 #include "ConvoViewport.h"
 #include "ItnLookAndFeel.h"
+#include "ItnTabbedComponent.h"
 #include <JuceHeader.h>
 
 
@@ -20,17 +21,17 @@ public:
     ~ConvoTabs();
 
     ConvoViewport* getViewport(int tabIndex);
+    ConvoViewport* getCurrentViewport();
     
     void addMessage(
-        int tabIndex,
         const juce::String& role,
         const juce::String& message,
         bool createRevealed = false
     );
 
-    void setBounds(int x, int y, int width, int height);
+    void resized() override;
 
 private:
-    juce::TabbedComponent tabbedComponent;
+    ItnTabbedComponent tabbedComp;
     juce::OwnedArray<ConvoViewport> viewports;
 };

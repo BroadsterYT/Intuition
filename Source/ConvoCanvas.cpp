@@ -19,7 +19,6 @@ void ConvoCanvas::setMinCanvasHeight(int newMinHeight) {
 
 void ConvoCanvas::addMessage(const juce::String& role, const juce::String& messageText, bool createRevealed) {
     auto* newMessage = new ConvoTextBubble(role, messageText, createRevealed);
-    
     addAndMakeVisible(newMessage);
     messages.add(newMessage);
 
