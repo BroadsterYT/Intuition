@@ -70,7 +70,8 @@ bool IntumiManager::setApiKey(const juce::String& newApiKey) {
 
 juce::File IntumiManager::createNewConvoFile() {
     juce::Uuid newId;
-    juce::File convoDir = getConvoDirectory();
+    //juce::File convoDir = getConvoDirectory();
+    juce::File convoDir = ItnFileHelper::getIntumiConvoFileDirectory();
     juce::File newConvoFile = convoDir.getChildFile(newId.toString() + ".json");
     if (newConvoFile.create().wasOk()) {
         DBG("New conversation file was created with UUID " << newId.toString());
@@ -80,7 +81,8 @@ juce::File IntumiManager::createNewConvoFile() {
 }
 
 juce::File IntumiManager::getConvoFileByUuid(juce::Uuid& convoId) {
-    juce::File logDir = getConvoDirectory();
+    //juce::File logDir = getConvoDirectory();
+    juce::File logDir = ItnFileHelper::getIntumiConvoFileDirectory();
     juce::File convoFile = logDir.getChildFile(convoId.toString() + ".json");
     if (!convoFile.existsAsFile()) {
         DBG("WARN: File " << convoFile.getFullPathName() << " does not exist or is not a file.");
@@ -90,7 +92,8 @@ juce::File IntumiManager::getConvoFileByUuid(juce::Uuid& convoId) {
 }
 
 juce::Array<juce::File> IntumiManager::getAllConvoFiles() {
-    juce::File convoDir = getConvoDirectory();
+    //juce::File convoDir = getConvoDirectory();
+    juce::File convoDir = ItnFileHelper::getIntumiConvoFileDirectory();
     juce::Array<juce::File> childFiles = convoDir.findChildFiles(juce::File::findFiles, false, "*");
     return childFiles;
 }
@@ -174,14 +177,4 @@ juce::File IntumiManager::getApiKeyFile() {
         keyFile.create();
     }
     return keyFile;
-}
-
-juce::File IntumiManager::getConvoDirectory() {
-    juce::File homeDir = ItnFileHelper::getItnHomeDirectory();
-    juce::File logDir = homeDir.getChildFile("Logs").getChildFile("Intumi");
-    if (!logDir.exists()) {
-        DBG("ERROR: Directory " << logDir.getFullPathName() << " does not exist. Make sure the user Intuition directory was created and configured.");
-        return juce::File();
-    }
-    return logDir;
 }

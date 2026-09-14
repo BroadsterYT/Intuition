@@ -9,13 +9,12 @@
 */
 
 #include "ConvoTabs.h"
+#include "ItnFileHelper.h"
 
 
 ConvoTabs::ConvoTabs() : tabbedComp(juce::TabbedButtonBar::TabsAtTop) {
     setLookAndFeel(&ItnLookAndFeel::getInstance());
-    viewports.add(new ConvoViewport());
-    tabbedComp.addTab("Test", juce::Colours::transparentBlack, viewports[0], false);
-
+    createTabsForConvoFiles();
     addAndMakeVisible(tabbedComp);
 }
 
@@ -37,6 +36,11 @@ ConvoViewport* ConvoTabs::getCurrentViewport() {
     return viewports[tabIndex];
 }
 
+void ConvoTabs::addViewport(const juce::String& convoId) {
+    auto* viewport = viewports.add(new ConvoViewport(convoId));
+    tabbedComp.addTab("Test", juce::Colours::transparentBlack, viewport, false);
+}
+
 void ConvoTabs::addMessage(
     const juce::String& role,
     const juce::String& message, bool createRevealed
@@ -47,4 +51,14 @@ void ConvoTabs::addMessage(
 
 void ConvoTabs::resized() {
     tabbedComp.setBounds(getLocalBounds());
+}
+
+void ConvoTabs::createTabsForConvoFiles() {
+    juce::File convoDir = ItnFileHelper::getIntumiConvoFileDirectory();
+    juce::Array<juce::File> convoFiles = convoDir.findChildFiles(juce::File::findFiles, false, "*");
+
+    for (auto& file : convoFiles) {
+        juce::String convoId = file.getFileNameWithoutExtension();
+        addViewport(convoId);
+    }
 }

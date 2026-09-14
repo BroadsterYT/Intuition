@@ -102,10 +102,4 @@ private:
     /// </summary>
     /// <returns>juce::File File containing the API key</returns>
     juce::File getApiKeyFile();
-
-    /// <summary>
-    /// Returns the directory holding the conversation files
-    /// </summary>
-    /// <returns>The juce::File directory holding the conversation files</returns>
-    juce::File getConvoDirectory();
 };

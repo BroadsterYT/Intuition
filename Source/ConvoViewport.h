@@ -19,8 +19,9 @@
 /// </summary>
 class ConvoViewport : public juce::Component {
 public:
-    ConvoViewport();
+    ConvoViewport(const juce::String& convoId);
 
+    juce::String getAssignedConvoId();
     void addMessage(
         const juce::String& role,
         const juce::String& messageText,
@@ -30,6 +31,7 @@ public:
     void resized() override;
 
 private:
+    juce::String convoId;
     juce::Viewport viewport;
     ConvoCanvas canvas;
 };

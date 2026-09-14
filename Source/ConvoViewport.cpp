@@ -11,10 +11,14 @@
 #include "ConvoViewport.h"
 
 
-ConvoViewport::ConvoViewport() {
+ConvoViewport::ConvoViewport(const juce::String& convoId) : convoId(convoId) {
     viewport.setViewedComponent(&canvas);
     viewport.setScrollBarsShown(true, false);
     addAndMakeVisible(viewport);
+}
+
+juce::String ConvoViewport::getAssignedConvoId() {
+    return convoId;
 }
 
 void ConvoViewport::addMessage(
